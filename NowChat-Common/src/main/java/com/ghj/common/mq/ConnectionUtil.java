@@ -9,17 +9,16 @@ import java.io.IOException;
  * @date 2019-06-24
  */
 public class ConnectionUtil {
-    public static Connection getConnect() throws IOException {
+    public static Connection getConnect(String host, int port, String userName,String virtualHost, String password) throws IOException {
         //定义连接工厂
         ConnectionFactory factory = new ConnectionFactory();
         //设置服务地址
-        factory.setHost("localhost");
+        factory.setHost(host);
         //端口
-        factory.setPort(5672);
-        //设置账号信息，用户名、密码、vhost
-        factory.setVirtualHost("testhost");
-        factory.setUsername("admin");
-        factory.setPassword("admin");
+        factory.setPort(port);
+        factory.setVirtualHost(virtualHost);
+        factory.setUsername(userName);
+        factory.setPassword(password);
         // 通过工程获取连接
         Connection connection = factory.newConnection();
         return connection;

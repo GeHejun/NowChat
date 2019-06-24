@@ -11,28 +11,32 @@ public class MessageSender implements Runnable {
 
     public MessageProto messageProto;
 
+    Integer sessionKey;
+
+    Session session;
+
     public MessageSender(MessageProto messageProto) {
         this.messageProto = messageProto;
     }
 
     @Override
     public void run() {
-        switch (messageProto.getClientBehavior()) {
-            case MESSAGE:
-                Integer toUserId = messageProto.getToUserId();
-                Session toSession = SessionManager.getSession(toUserId);
-                if (toSession == null) {
+        switch (messageProto.getMessageDirect()) {
+            case PERSONAL:
+                sessionKey = messageProto.getToUserId();
+                session = SessionManager.getSession(sessionKey);
+                if (session == null) {
                     throw new ChatException();
                 }
-                toSession.getChannel().writeAndFlush(messageProto);
+                session.getChannel().writeAndFlush(messageProto);
                 break;
-            case PING:
-                Integer fromUserId = messageProto.getFromUserId();
-                Session fromSession = SessionManager.getSession(fromUserId);
-                if (fromSession == null) {
+            case GROUP:
+                sessionKey = messageProto.getToGroupId();
+                session = SessionManager.getSession(sessionKey);
+                if (session == null) {
                     throw new ChatException();
                 }
-                fromSession.getChannel().writeAndFlush(messageProto);
+                session.getChannel().writeAndFlush(messageProto);
                 break;
                 default:
         }

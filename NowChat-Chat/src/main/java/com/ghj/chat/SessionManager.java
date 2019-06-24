@@ -9,11 +9,11 @@ public class SessionManager {
 
     private static ConcurrentHashMap SESSION_MAP = new ConcurrentHashMap(16);
 
-    public static void putSession(Integer userId, Session session) {
-        SESSION_MAP.put(userId, session);
+    public static void putSession(Integer id, Session session) {
+        SESSION_MAP.put(id, session);
     }
 
-    public static Session getSession(Integer userId) {
-        return (Session) SESSION_MAP.get(userId);
+    public static Session getSession(Integer id) {
+        return (Session) SESSION_MAP.get(id);
     }
 }

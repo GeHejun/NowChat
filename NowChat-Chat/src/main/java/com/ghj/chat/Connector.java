@@ -18,11 +18,13 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public class Connector {
 
+    NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+    NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+    ServerBootstrap serverBootstrap;
+
     public void start() {
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
-        NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap serverBootstrap = new ServerBootstrap()
+            serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 100)
@@ -39,6 +41,10 @@ public class Connector {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
 
+    public void stop() {
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
     }
 }
