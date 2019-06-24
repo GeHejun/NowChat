@@ -5,4 +5,6 @@ package com.ghj.common.base;
  */
 public class Constant {
     public static String EncryptDecryptKEY = "";
+
+    public static String USER_TOKEN_KEY = "";
 }

@@ -23,7 +23,7 @@ public class SendUtil {
                 // 声明（创建）队列
                 channel.queueDeclare("", false, false, false, null);
 
-                channel.basicPublish("", "", null, JSONUtil.getBeanToJson(message).getBytes());
+                channel.basicPublish("", "", null, JSONUtil.beanToJson(message).getBytes());
                 //关闭通道和连接
                 channel.close();
                 connection.close();

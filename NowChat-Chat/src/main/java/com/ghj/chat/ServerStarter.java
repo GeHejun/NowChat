@@ -10,6 +10,7 @@ public class ServerStarter {
         try {
             connector.start();
         } catch (Exception e) {
+            e.printStackTrace();
             connector.stop();
         }
 

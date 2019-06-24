@@ -25,14 +25,17 @@ message message {
 
   string content = 8;
 
-  ClientBehavior clientBehavior = 9;
+  string token = 9;
 
-  MessageDirect messageDirect = 10;
+  ClientBehavior clientBehavior = 10;
+
+  MessageDirect messageDirect = 11;
 
   enum ClientBehavior {
     LOGIN = 0;
     PING = 1;
     MESSAGE = 2;
+    LOGIN_OUT = 3;
   }
 
   enum MessageDirect {

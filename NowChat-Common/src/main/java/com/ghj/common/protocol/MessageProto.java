@@ -82,20 +82,30 @@ public final class MessageProto {
         getContentBytes();
 
     /**
-     * <code>.message.ClientBehavior clientBehavior = 9;</code>
+     * <code>string token = 9;</code>
+     */
+    java.lang.String getToken();
+    /**
+     * <code>string token = 9;</code>
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+
+    /**
+     * <code>.message.ClientBehavior clientBehavior = 10;</code>
      */
     int getClientBehaviorValue();
     /**
-     * <code>.message.ClientBehavior clientBehavior = 9;</code>
+     * <code>.message.ClientBehavior clientBehavior = 10;</code>
      */
     com.ghj.common.protocol.MessageProto.message.ClientBehavior getClientBehavior();
 
     /**
-     * <code>.message.MessageDirect messageDirect = 10;</code>
+     * <code>.message.MessageDirect messageDirect = 11;</code>
      */
     int getMessageDirectValue();
     /**
-     * <code>.message.MessageDirect messageDirect = 10;</code>
+     * <code>.message.MessageDirect messageDirect = 11;</code>
      */
     com.ghj.common.protocol.MessageProto.message.MessageDirect getMessageDirect();
   }
@@ -119,6 +129,7 @@ public final class MessageProto {
       loginName_ = "";
       nickName_ = "";
       content_ = "";
+      token_ = "";
       clientBehavior_ = 0;
       messageDirect_ = 0;
     }
@@ -196,13 +207,19 @@ public final class MessageProto {
               content_ = s;
               break;
             }
-            case 72: {
+            case 74: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+            case 80: {
               int rawValue = input.readEnum();
 
               clientBehavior_ = rawValue;
               break;
             }
-            case 80: {
+            case 88: {
               int rawValue = input.readEnum();
 
               messageDirect_ = rawValue;
@@ -241,7 +258,7 @@ public final class MessageProto {
     }
 
     /**
-     * Protobuf enums {@code message.ClientBehavior}
+     * Protobuf enum {@code message.ClientBehavior}
      */
     public enum ClientBehavior
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -257,6 +274,10 @@ public final class MessageProto {
        * <code>MESSAGE = 2;</code>
        */
       MESSAGE(2),
+      /**
+       * <code>LOGIN_OUT = 3;</code>
+       */
+      LOGIN_OUT(3),
       UNRECOGNIZED(-1),
       ;
 
@@ -272,12 +293,16 @@ public final class MessageProto {
        * <code>MESSAGE = 2;</code>
        */
       public static final int MESSAGE_VALUE = 2;
+      /**
+       * <code>LOGIN_OUT = 3;</code>
+       */
+      public static final int LOGIN_OUT_VALUE = 3;
 
 
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enums value.");
+              "Can't get the number of an unknown enum value.");
         }
         return value;
       }
@@ -295,6 +320,7 @@ public final class MessageProto {
           case 0: return LOGIN;
           case 1: return PING;
           case 2: return MESSAGE;
+          case 3: return LOGIN_OUT;
           default: return null;
         }
       }
@@ -348,7 +374,7 @@ public final class MessageProto {
     }
 
     /**
-     * Protobuf enums {@code message.MessageDirect}
+     * Protobuf enum {@code message.MessageDirect}
      */
     public enum MessageDirect
         implements com.google.protobuf.ProtocolMessageEnum {
@@ -384,7 +410,7 @@ public final class MessageProto {
       public final int getNumber() {
         if (this == UNRECOGNIZED) {
           throw new java.lang.IllegalArgumentException(
-              "Can't get the number of an unknown enums value.");
+              "Can't get the number of an unknown enum value.");
         }
         return value;
       }
@@ -609,16 +635,50 @@ public final class MessageProto {
       }
     }
 
-    public static final int CLIENTBEHAVIOR_FIELD_NUMBER = 9;
+    public static final int TOKEN_FIELD_NUMBER = 9;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>string token = 9;</code>
+     */
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string token = 9;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CLIENTBEHAVIOR_FIELD_NUMBER = 10;
     private int clientBehavior_;
     /**
-     * <code>.message.ClientBehavior clientBehavior = 9;</code>
+     * <code>.message.ClientBehavior clientBehavior = 10;</code>
      */
     public int getClientBehaviorValue() {
       return clientBehavior_;
     }
     /**
-     * <code>.message.ClientBehavior clientBehavior = 9;</code>
+     * <code>.message.ClientBehavior clientBehavior = 10;</code>
      */
     public com.ghj.common.protocol.MessageProto.message.ClientBehavior getClientBehavior() {
       @SuppressWarnings("deprecation")
@@ -626,16 +686,16 @@ public final class MessageProto {
       return result == null ? com.ghj.common.protocol.MessageProto.message.ClientBehavior.UNRECOGNIZED : result;
     }
 
-    public static final int MESSAGEDIRECT_FIELD_NUMBER = 10;
+    public static final int MESSAGEDIRECT_FIELD_NUMBER = 11;
     private int messageDirect_;
     /**
-     * <code>.message.MessageDirect messageDirect = 10;</code>
+     * <code>.message.MessageDirect messageDirect = 11;</code>
      */
     public int getMessageDirectValue() {
       return messageDirect_;
     }
     /**
-     * <code>.message.MessageDirect messageDirect = 10;</code>
+     * <code>.message.MessageDirect messageDirect = 11;</code>
      */
     public com.ghj.common.protocol.MessageProto.message.MessageDirect getMessageDirect() {
       @SuppressWarnings("deprecation")
@@ -681,11 +741,14 @@ public final class MessageProto {
       if (!getContentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, content_);
       }
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 9, token_);
+      }
       if (clientBehavior_ != com.ghj.common.protocol.MessageProto.message.ClientBehavior.LOGIN.getNumber()) {
-        output.writeEnum(9, clientBehavior_);
+        output.writeEnum(10, clientBehavior_);
       }
       if (messageDirect_ != com.ghj.common.protocol.MessageProto.message.MessageDirect.PERSONAL.getNumber()) {
-        output.writeEnum(10, messageDirect_);
+        output.writeEnum(11, messageDirect_);
       }
       unknownFields.writeTo(output);
     }
@@ -725,13 +788,16 @@ public final class MessageProto {
       if (!getContentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, content_);
       }
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(9, token_);
+      }
       if (clientBehavior_ != com.ghj.common.protocol.MessageProto.message.ClientBehavior.LOGIN.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(9, clientBehavior_);
+          .computeEnumSize(10, clientBehavior_);
       }
       if (messageDirect_ != com.ghj.common.protocol.MessageProto.message.MessageDirect.PERSONAL.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(10, messageDirect_);
+          .computeEnumSize(11, messageDirect_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -764,6 +830,8 @@ public final class MessageProto {
           != other.getMessageTypeId()) return false;
       if (!getContent()
           .equals(other.getContent())) return false;
+      if (!getToken()
+          .equals(other.getToken())) return false;
       if (clientBehavior_ != other.clientBehavior_) return false;
       if (messageDirect_ != other.messageDirect_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -793,6 +861,8 @@ public final class MessageProto {
       hash = (53 * hash) + getMessageTypeId();
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
       hash = (37 * hash) + CLIENTBEHAVIOR_FIELD_NUMBER;
       hash = (53 * hash) + clientBehavior_;
       hash = (37 * hash) + MESSAGEDIRECT_FIELD_NUMBER;
@@ -950,6 +1020,8 @@ public final class MessageProto {
 
         content_ = "";
 
+        token_ = "";
+
         clientBehavior_ = 0;
 
         messageDirect_ = 0;
@@ -988,6 +1060,7 @@ public final class MessageProto {
         result.toGroupId_ = toGroupId_;
         result.messageTypeId_ = messageTypeId_;
         result.content_ = content_;
+        result.token_ = token_;
         result.clientBehavior_ = clientBehavior_;
         result.messageDirect_ = messageDirect_;
         onBuilt();
@@ -1063,6 +1136,10 @@ public final class MessageProto {
         }
         if (!other.getContent().isEmpty()) {
           content_ = other.content_;
+          onChanged();
+        }
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
           onChanged();
         }
         if (other.clientBehavior_ != 0) {
@@ -1461,15 +1538,84 @@ public final class MessageProto {
         return this;
       }
 
+      private java.lang.Object token_ = "";
+      /**
+       * <code>string token = 9;</code>
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string token = 9;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string token = 9;</code>
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 9;</code>
+       */
+      public Builder clearToken() {
+        
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string token = 9;</code>
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        token_ = value;
+        onChanged();
+        return this;
+      }
+
       private int clientBehavior_ = 0;
       /**
-       * <code>.message.ClientBehavior clientBehavior = 9;</code>
+       * <code>.message.ClientBehavior clientBehavior = 10;</code>
        */
       public int getClientBehaviorValue() {
         return clientBehavior_;
       }
       /**
-       * <code>.message.ClientBehavior clientBehavior = 9;</code>
+       * <code>.message.ClientBehavior clientBehavior = 10;</code>
        */
       public Builder setClientBehaviorValue(int value) {
         clientBehavior_ = value;
@@ -1477,7 +1623,7 @@ public final class MessageProto {
         return this;
       }
       /**
-       * <code>.message.ClientBehavior clientBehavior = 9;</code>
+       * <code>.message.ClientBehavior clientBehavior = 10;</code>
        */
       public com.ghj.common.protocol.MessageProto.message.ClientBehavior getClientBehavior() {
         @SuppressWarnings("deprecation")
@@ -1485,7 +1631,7 @@ public final class MessageProto {
         return result == null ? com.ghj.common.protocol.MessageProto.message.ClientBehavior.UNRECOGNIZED : result;
       }
       /**
-       * <code>.message.ClientBehavior clientBehavior = 9;</code>
+       * <code>.message.ClientBehavior clientBehavior = 10;</code>
        */
       public Builder setClientBehavior(com.ghj.common.protocol.MessageProto.message.ClientBehavior value) {
         if (value == null) {
@@ -1497,7 +1643,7 @@ public final class MessageProto {
         return this;
       }
       /**
-       * <code>.message.ClientBehavior clientBehavior = 9;</code>
+       * <code>.message.ClientBehavior clientBehavior = 10;</code>
        */
       public Builder clearClientBehavior() {
         
@@ -1508,13 +1654,13 @@ public final class MessageProto {
 
       private int messageDirect_ = 0;
       /**
-       * <code>.message.MessageDirect messageDirect = 10;</code>
+       * <code>.message.MessageDirect messageDirect = 11;</code>
        */
       public int getMessageDirectValue() {
         return messageDirect_;
       }
       /**
-       * <code>.message.MessageDirect messageDirect = 10;</code>
+       * <code>.message.MessageDirect messageDirect = 11;</code>
        */
       public Builder setMessageDirectValue(int value) {
         messageDirect_ = value;
@@ -1522,7 +1668,7 @@ public final class MessageProto {
         return this;
       }
       /**
-       * <code>.message.MessageDirect messageDirect = 10;</code>
+       * <code>.message.MessageDirect messageDirect = 11;</code>
        */
       public com.ghj.common.protocol.MessageProto.message.MessageDirect getMessageDirect() {
         @SuppressWarnings("deprecation")
@@ -1530,7 +1676,7 @@ public final class MessageProto {
         return result == null ? com.ghj.common.protocol.MessageProto.message.MessageDirect.UNRECOGNIZED : result;
       }
       /**
-       * <code>.message.MessageDirect messageDirect = 10;</code>
+       * <code>.message.MessageDirect messageDirect = 11;</code>
        */
       public Builder setMessageDirect(com.ghj.common.protocol.MessageProto.message.MessageDirect value) {
         if (value == null) {
@@ -1542,7 +1688,7 @@ public final class MessageProto {
         return this;
       }
       /**
-       * <code>.message.MessageDirect messageDirect = 10;</code>
+       * <code>.message.MessageDirect messageDirect = 11;</code>
        */
       public Builder clearMessageDirect() {
         
@@ -1618,17 +1764,18 @@ public final class MessageProto {
   static {
     java.lang.String[] descriptorData = {
       "\nBNowChat-Common/src/main/java/com/ghj/c" +
-      "ommon/protocol/message.proto\"\345\002\n\007message" +
+      "ommon/protocol/message.proto\"\203\003\n\007message" +
       "\022\n\n\002id\030\001 \001(\005\022\021\n\tloginName\030\002 \001(\t\022\020\n\010nickN" +
       "ame\030\003 \001(\t\022\022\n\nfromUserId\030\004 \001(\005\022\020\n\010toUserI" +
       "d\030\005 \001(\005\022\021\n\ttoGroupId\030\006 \001(\005\022\025\n\rmessageTyp" +
-      "eId\030\007 \001(\005\022\017\n\007content\030\010 \001(\t\022/\n\016clientBeha" +
-      "vior\030\t \001(\0162\027.message.ClientBehavior\022-\n\rm" +
-      "essageDirect\030\n \001(\0162\026.message.MessageDire" +
-      "ct\"2\n\016ClientBehavior\022\t\n\005LOGIN\020\000\022\010\n\004PING\020" +
-      "\001\022\013\n\007MESSAGE\020\002\"4\n\rMessageDirect\022\014\n\010PERSO" +
-      "NAL\020\000\022\t\n\005GROUP\020\001\022\n\n\006SERVER\020\002B\'\n\027com.ghj." +
-      "common.protocolB\014MessageProtob\006proto3"
+      "eId\030\007 \001(\005\022\017\n\007content\030\010 \001(\t\022\r\n\005token\030\t \001(" +
+      "\t\022/\n\016clientBehavior\030\n \001(\0162\027.message.Clie" +
+      "ntBehavior\022-\n\rmessageDirect\030\013 \001(\0162\026.mess" +
+      "age.MessageDirect\"A\n\016ClientBehavior\022\t\n\005L" +
+      "OGIN\020\000\022\010\n\004PING\020\001\022\013\n\007MESSAGE\020\002\022\r\n\tLOGIN_O" +
+      "UT\020\003\"4\n\rMessageDirect\022\014\n\010PERSONAL\020\000\022\t\n\005G" +
+      "ROUP\020\001\022\n\n\006SERVER\020\002B\'\n\027com.ghj.common.pro" +
+      "tocolB\014MessageProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1639,7 +1786,7 @@ public final class MessageProto {
     internal_static_message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_message_descriptor,
-        new java.lang.String[] { "Id", "LoginName", "NickName", "FromUserId", "ToUserId", "ToGroupId", "MessageTypeId", "Content", "ClientBehavior", "MessageDirect", });
+        new java.lang.String[] { "Id", "LoginName", "NickName", "FromUserId", "ToUserId", "ToGroupId", "MessageTypeId", "Content", "Token", "ClientBehavior", "MessageDirect", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
