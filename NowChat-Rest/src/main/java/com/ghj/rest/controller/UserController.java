@@ -16,6 +16,7 @@ import javax.validation.Valid;
  * @date 2019-06-24
  */
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Resource

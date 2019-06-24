@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 import java.util.UUID;
 /**
  * @author GeHejun
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse validateUser(UserRequest userRequest) {
         User user = userMapper.selectUserByLoginName(userRequest.getLoginName());
-        if (user == null) {
+        if (Objects.isNull(user)) {
             throw new UserException();
         }
         String encrypt = DesEncryptDecrypt.getInstance().encrypt(userRequest.getPassWord());
