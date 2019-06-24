@@ -7,10 +7,10 @@ import java.util.List;
  * @date 2019-06-24
  */
 public class ProtoGenerateClass {
-    private static final String PROTOC_FILE = "D:/tool/protoc/protoc-3.0.0-win32/bin/protoc.exe";
+    private static final String PROTOC_FILE = "C:\\Users\\gehj\\Downloads\\protoc-3.8.0-win64\\bin\\protoc.exe";
     private static final String IMPOR_TPROTO = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat";
-    private static final String JAVA_OUT = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat\\NowChat-Common\\src\\main\\java\\com\\ghj\\common\\protocol";
-    private static final String protos = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat\\NowChat-Common\\src\\main\\java\\com\\ghj\\common\\protocol\\*.proto";
+    private static final String JAVA_OUT = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat\\NowChat-Common\\src\\main\\java\\";
+    private static final String protos = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat\\NowChat-Common\\src\\main\\java\\com\\ghj\\common\\protocol\\message.proto";
 
     public static void main(String[] args) {
         List<String> lCommand = new ArrayList<>();

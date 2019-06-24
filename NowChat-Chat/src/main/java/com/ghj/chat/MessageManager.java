@@ -31,13 +31,13 @@ public class MessageManager {
 
     private ConcurrentLinkedQueue concurrentLinkedQueue = new ConcurrentLinkedQueue();
 
-    public void putMessage(MessageProto messageProto) {
-        concurrentLinkedQueue.add(messageProto);
+    public void putMessage(MessageProto.message message) {
+        concurrentLinkedQueue.add(message);
     }
 
     public void takeMessage() {
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new MessageSender((MessageProto) concurrentLinkedQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new MessageSender((MessageProto.message) concurrentLinkedQueue.poll()));
         }
 
     }

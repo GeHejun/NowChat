@@ -13,7 +13,7 @@ import java.io.IOException;
  * @date 2019-06-24
  */
 public class SendUtil {
-        public static void sendForQueue(MessageProto message) {
+        public static void sendForQueue(MessageProto.message message) {
             try {
                 PropertiesUtil.getInstance().getValue(null, null, null);
                 // 获取到连接以及mq通道

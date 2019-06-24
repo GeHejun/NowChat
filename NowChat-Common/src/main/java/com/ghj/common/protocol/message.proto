@@ -1,5 +1,5 @@
 //指定protobuf语法版本
-syntax = "proto2";
+syntax = "proto3";
 
 //包名
 option java_package = "com.ghj.common.protocol";
@@ -7,24 +7,36 @@ option java_package = "com.ghj.common.protocol";
 option java_outer_classname = "MessageProto";
 
 // class Person
-message MessageProto {
+message message {
 
-  required string code = 1;
+  string code = 1;
   //required 必须设置（不能为null）
-  required string name = 2;
+  string loginName = 2;
+
+  string nickName = 3;
   //int32 对应java中的int
-  required int32 fromUserId = 3;
+  int32 fromUserId = 4;
   //optional 可以为空
-  optional string toUserId = 4;
+  int32 toUserId = 5;
 
-  required int32 messageTypeId = 5;
+  int32 toGroupId = 6;
 
-  required ClientBehavior clientBehavior = 6;
+  int32 messageTypeId = 7;
+
+  ClientBehavior clientBehavior = 8;
+
+  MessageDirect messageDirect = 9;
 
   enum ClientBehavior {
     LOGIN = 0;
     PING = 1;
     MESSAGE = 2;
+  }
+
+  enum MessageDirect {
+    PERSONAL = 0;
+    GROUP = 1;
+    SERVER = 2;
   }
 
 }

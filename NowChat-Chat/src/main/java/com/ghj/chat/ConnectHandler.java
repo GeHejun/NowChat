@@ -7,6 +7,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import static com.ghj.common.ClientBehavior.LOGIN;
+import static com.ghj.common.ClientBehavior.PING;
+import static com.ghj.common.protocol.MessageProto.message.ClientBehavior.MESSAGE;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -14,20 +18,20 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class ConnectHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-        MessageProto messageProto = (MessageProto)o;
+        MessageProto.message message = (MessageProto.message)o;
         Channel channel = channelHandlerContext.channel();
-        switch (messageProto.getClientBehavior()) {
+        switch (message.getClientBehavior()) {
             case LOGIN:
                 Session session = Session.builder().channel(channel).build();
-                SessionManager.putSession(messageProto.getFromUserId(), session);
+                SessionManager.putSession(message.getFromUserId(), session);
                 break;
             case PING:
                 NettyAttrUtil.updateReaderTime(channel, 10000L);
-                MessageManager.getInstance().putMessage(messageProto);
+                MessageManager.getInstance().putMessage(message);
                 break;
             case MESSAGE:
-                MessageManager.getInstance().putMessage(messageProto);
-                SendUtil.sendForQueue(messageProto);
+                MessageManager.getInstance().putMessage(message);
+                SendUtil.sendForQueue(message);
                 break;
                 default:
         }
