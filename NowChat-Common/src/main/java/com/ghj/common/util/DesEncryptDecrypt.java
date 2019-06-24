@@ -1,5 +1,7 @@
-package com.ghj.common;
+package com.ghj.common.util;
 
+
+import com.ghj.common.base.Constant;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESKeySpec;

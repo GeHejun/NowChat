@@ -1,6 +1,7 @@
 package com.ghj.chat;
 
 
+import com.ghj.common.protocol.MessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -34,7 +35,7 @@ public class Connector {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-//                            pipeline.addLast(new ProtobufDecoder());
+                            pipeline.addLast(new ProtobufDecoder(MessageProto.message.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ConnectHandler());
                         }

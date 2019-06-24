@@ -1,7 +1,7 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.common.DesEncryptDecrypt;
-import com.ghj.common.UserException;
+import com.ghj.common.util.DesEncryptDecrypt;
+import com.ghj.common.exception.UserException;
 import com.ghj.rest.dao.UserMapper;
 import com.ghj.rest.dto.UserRequest;
 import com.ghj.rest.dto.UserResponse;
@@ -9,7 +9,6 @@ import com.ghj.rest.model.User;
 import com.ghj.rest.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

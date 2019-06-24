@@ -1,4 +1,4 @@
-package com.ghj.common;
+package com.ghj.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;

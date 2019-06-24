@@ -1,6 +1,6 @@
 package com.ghj.rest.controller;
 
-import com.ghj.common.Result;
+import com.ghj.common.base.Result;
 import com.ghj.rest.dto.UserRequest;
 import com.ghj.rest.dto.UserResponse;
 import com.ghj.rest.service.UserService;

@@ -1,4 +1,4 @@
-package com.ghj.common;
+package com.ghj.common.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

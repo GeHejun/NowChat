@@ -9,8 +9,8 @@ option java_outer_classname = "MessageProto";
 // class Person
 message message {
 
-  string code = 1;
-  //required 必须设置（不能为null）
+  int32 id = 1;
+
   string loginName = 2;
 
   string nickName = 3;
@@ -23,9 +23,11 @@ message message {
 
   int32 messageTypeId = 7;
 
-  ClientBehavior clientBehavior = 8;
+  string content = 8;
 
-  MessageDirect messageDirect = 9;
+  ClientBehavior clientBehavior = 9;
+
+  MessageDirect messageDirect = 10;
 
   enum ClientBehavior {
     LOGIN = 0;

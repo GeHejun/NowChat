@@ -1,4 +1,4 @@
-package com.ghj.common;
+package com.ghj.common.util;
 
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;

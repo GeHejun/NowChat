@@ -1,10 +1,7 @@
 package com.ghj.chat;
 
-import com.ghj.common.ChatException;
+import com.ghj.common.exception.ChatException;
 import com.ghj.common.protocol.MessageProto;
-
-import static com.ghj.common.MessageDirect.GROUP;
-import static com.ghj.common.MessageDirect.PERSONAL;
 
 /**
  * @author GeHejun

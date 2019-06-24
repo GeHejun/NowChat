@@ -1,4 +1,4 @@
-package com.ghj.common;
+package com.ghj.common.base;
 /**
  * @author GeHejun
  * @date 2019-06-24

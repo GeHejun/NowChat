@@ -1,4 +1,4 @@
-package com.ghj.common;
+package com.ghj.common.enums;
 
 /**
  * @author gehj

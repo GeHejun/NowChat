@@ -1,7 +1,7 @@
 package com.ghj.common.mq;
 
-import com.ghj.common.JSONUtil;
-import com.ghj.common.PropertiesUtil;
+import com.ghj.common.util.JSONUtil;
+import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.protocol.MessageProto;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
