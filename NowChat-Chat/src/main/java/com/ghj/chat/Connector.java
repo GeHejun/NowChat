@@ -25,7 +25,7 @@ public class Connector {
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     ServerBootstrap serverBootstrap;
 
-    public void start() {
+    public void start(int port) {
         try {
             serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
@@ -40,9 +40,10 @@ public class Connector {
                             pipeline.addLast(new ConnectHandler());
                         }
                     });
-            ChannelFuture channelFuture = serverBootstrap.bind().sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
+            e.printStackTrace();
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

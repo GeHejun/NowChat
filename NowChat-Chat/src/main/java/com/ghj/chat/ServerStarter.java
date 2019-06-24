@@ -8,7 +8,7 @@ public class ServerStarter {
     public static void main(String[] args) {
         Connector connector = new Connector();
         try {
-            connector.start();
+            connector.start(8888);
         } catch (Exception e) {
             e.printStackTrace();
             connector.stop();
