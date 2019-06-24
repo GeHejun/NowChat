@@ -8,11 +8,11 @@ public class SessionManager {
 
     private static ConcurrentHashMap SESSION_MAP = new ConcurrentHashMap(16);
 
-    public static void putSession(String requestId, Channel channel) {
-        SESSION_MAP.put(requestId, channel);
+    public static void putSession(Integer userId, Session session) {
+        SESSION_MAP.put(userId, session);
     }
 
-    public static Channel getSession(String requestId) {
-        return (Channel) SESSION_MAP.get(requestId);
+    public static Session getSession(Integer userId) {
+        return (Session) SESSION_MAP.get(userId);
     }
 }
