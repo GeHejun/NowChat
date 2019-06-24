@@ -2,7 +2,10 @@ package com.ghj.common.protocol;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class ProtoGenerateClass {
     private static final String PROTOC_FILE = "D:/tool/protoc/protoc-3.0.0-win32/bin/protoc.exe";
     private static final String IMPOR_TPROTO = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat";

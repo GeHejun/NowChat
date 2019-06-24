@@ -8,7 +8,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class DesEncryptDecrypt {
     private static DesEncryptDecrypt ourInstance = new DesEncryptDecrypt();
 

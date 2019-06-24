@@ -1,9 +1,11 @@
 package com.ghj.common.protocol;
 
 import com.ghj.common.ClientBehavior;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class MessageProto {
 
     private Integer fromUserId;

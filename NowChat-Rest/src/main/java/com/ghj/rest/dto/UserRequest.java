@@ -4,7 +4,10 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 @Data
 public class UserRequest {
     /**

@@ -4,7 +4,10 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class ConnectionUtil {
     public static Connection getConnect() throws IOException {
         //定义连接工厂

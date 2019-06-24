@@ -4,7 +4,10 @@ import org.springframework.util.Assert;
 
 import java.io.*;
 import java.util.List;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class Cmd {
 
     private void writeInputStream2OutputStream(InputStream in, OutputStream out) throws IOException {

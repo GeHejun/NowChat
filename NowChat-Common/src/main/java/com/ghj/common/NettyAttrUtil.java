@@ -5,11 +5,8 @@ import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
 /**
- * Function:
- *
- * @author crossoverJie
- *         Date: 2019/1/9 00:57
- * @since JDK 1.8
+ * @author GeHejun
+ * @date 2019-06-24
  */
 public class NettyAttrUtil {
 

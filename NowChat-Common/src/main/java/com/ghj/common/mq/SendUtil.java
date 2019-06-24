@@ -6,10 +6,11 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
 import java.io.IOException;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class SendUtil {
-
-
         public static void sendForQueue(MessageProto message) {
             try {
                 // 获取到连接以及mq通道

@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 @Controller
 public class UserController {
 

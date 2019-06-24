@@ -1,9 +1,10 @@
 package com.ghj.chat;
 
-import io.netty.channel.Channel;
-
 import java.util.concurrent.ConcurrentHashMap;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class SessionManager {
 
     private static ConcurrentHashMap SESSION_MAP = new ConcurrentHashMap(16);

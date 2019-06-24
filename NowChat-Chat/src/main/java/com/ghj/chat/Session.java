@@ -4,6 +4,10 @@ import io.netty.channel.Channel;
 import lombok.Builder;
 
 import java.util.Date;
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 @Builder
 public class Session {
 

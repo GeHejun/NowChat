@@ -9,7 +9,10 @@ import javax.validation.Validator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class BeanValidator {
 
     /**

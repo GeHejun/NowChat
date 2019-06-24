@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 @Data
 @Builder
 @AllArgsConstructor

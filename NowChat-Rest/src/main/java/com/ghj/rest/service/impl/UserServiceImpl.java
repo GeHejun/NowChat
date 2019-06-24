@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.UUID;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

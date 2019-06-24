@@ -5,7 +5,10 @@ import com.alibaba.fastjson.TypeReference;
 
 import java.util.List;
 import java.util.Map;
-
+/**
+ * @author GeHejun
+ * @date 2019-06-24
+ */
 public class JSONUtil {
     /**
      * 功能描述：把JSON数据转换成指定的java对象
