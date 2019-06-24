@@ -1,0 +1,33 @@
+package com.ghj.common.mq;
+
+import com.ghj.common.JSONUtil;
+import com.ghj.common.protocol.MessageProto;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+
+import java.io.IOException;
+
+public class SendUtil {
+
+
+        public static void sendForQueue(MessageProto message) {
+            try {
+                // 获取到连接以及mq通道
+                Connection connection = ConnectionUtil.getConnect();
+                // 从连接中创建通道
+                Channel channel = connection.createChannel();
+
+                // 声明（创建）队列
+                channel.queueDeclare("", false, false, false, null);
+
+                channel.basicPublish("", "", null, JSONUtil.getBeanToJson(message).getBytes());
+                //关闭通道和连接
+                channel.close();
+                connection.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+}

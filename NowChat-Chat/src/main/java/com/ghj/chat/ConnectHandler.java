@@ -2,6 +2,7 @@ package com.ghj.chat;
 
 import com.ghj.common.ChatException;
 import com.ghj.common.NettyAttrUtil;
+import com.ghj.common.mq.SendUtil;
 import com.ghj.common.protocol.MessageProto;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,6 +28,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     throw new ChatException();
                 }
                 toSession.getChannel().writeAndFlush(o);
+                SendUtil.sendForQueue(messageProto);
                 break;
                 default:
         }

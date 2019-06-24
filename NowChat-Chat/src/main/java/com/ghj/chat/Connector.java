@@ -28,7 +28,7 @@ public class Connector {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast(new ConnectorHandler());
+                        pipeline.addLast(new ConnectHandler());
                     }
                 });
     }
