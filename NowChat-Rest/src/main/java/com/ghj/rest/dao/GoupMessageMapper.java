@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 /**
  * GoupMessageMapper继承基类
  */
-@Repository
 public interface GoupMessageMapper extends MyBatisBaseDao<GoupMessage, Integer> {
 }

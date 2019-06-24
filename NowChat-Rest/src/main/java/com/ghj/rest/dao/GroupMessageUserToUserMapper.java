@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 /**
  * GroupMessageUserToUserMapper继承基类
  */
-@Repository
 public interface GroupMessageUserToUserMapper extends MyBatisBaseDao<GroupMessageUserToUser, Integer> {
 }

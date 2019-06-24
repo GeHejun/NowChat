@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019/6/24 19:05
  */
 @SpringBootApplication
-@MapperScan(basePackages = {"com.ghj.rest.mapper"})
+@MapperScan(basePackages = {"com.ghj.rest.dao"})
 public class NowChatRestApplication {
     public static void main(String[] args) {
         SpringApplication.run(NowChatRestApplication.class, args);

@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 /**
  * FriendGroupMapper继承基类
  */
-@Repository
 public interface FriendGroupMapper extends MyBatisBaseDao<FriendGroup, Integer> {
 }

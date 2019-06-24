@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 /**
  * MessageTypeMapper继承基类
  */
-@Repository
 public interface MessageTypeMapper extends MyBatisBaseDao<MessageType, Integer> {
 }
