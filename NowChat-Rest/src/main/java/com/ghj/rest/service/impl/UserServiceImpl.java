@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException();
         }
         String token = user.getId()+"_"+ UUID.randomUUID().toString().replace("-","");
-        redisTemplate.opsForValue().set(user.getId(), token);
+        redisTemplate.opsForValue().set(user.getId() + Constant.USER_TOKEN_KEY, token);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
         userResponse.setToken(token);
