@@ -9,4 +9,6 @@ import com.ghj.rest.dto.UserResponse;
 public interface UserService {
 
     UserResponse validateUser(UserRequest userRequest);
+
+    UserResponse getUserById(Integer id);
 }

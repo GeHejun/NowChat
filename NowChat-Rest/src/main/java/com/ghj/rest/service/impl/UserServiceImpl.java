@@ -46,4 +46,12 @@ public class UserServiceImpl implements UserService {
         userResponse.setToken(token);
         return userResponse;
     }
+
+    @Override
+    public UserResponse getUserById(Integer id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
 }

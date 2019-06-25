@@ -1,5 +1,6 @@
 package com.ghj.chat;
 
+import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.mq.SendUtil;
 import com.ghj.common.protocol.MessageProto;
@@ -41,7 +42,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     }
 
     public void validateUser(MessageProto.message message) {
-        String token = RedisPoolUtil.get(message.getFromUserId());
+        String token = RedisPoolUtil.get(message.getFromUserId()+"_"+Constant.USER_TOKEN_KEY);
         if (StringUtils.isEmpty(token)) {
             throw new UserException();
         }

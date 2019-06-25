@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -27,6 +29,13 @@ public class UserController {
     @ResponseBody
     public Result<UserResponse> login(@RequestParam @Valid UserRequest userRequest) {
         UserResponse userResponse = userService.validateUser(userRequest);
+        return Result.defaultSuccess(userResponse);
+    }
+
+    @RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+    @ResponseBody
+    public Result<UserResponse> queryUser(@NotNull Integer id) {
+        UserResponse userResponse = userService.getUserById(id);
         return Result.defaultSuccess(userResponse);
     }
 }
