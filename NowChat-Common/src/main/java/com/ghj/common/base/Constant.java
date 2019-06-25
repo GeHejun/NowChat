@@ -9,7 +9,6 @@ public class Constant {
 
     public static final String USER_TOKEN_KEY = "";
 
-
     public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
 
     public static final String QUEUE_A = "QUEUE_SAVE_MESSAGE";
