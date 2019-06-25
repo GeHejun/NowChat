@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="NowChat-Back" />
         <module name="NowChat-Chat" />
         <module name="NowChat-Common" />
         <module name="NowChat-Rest" />

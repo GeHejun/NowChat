@@ -12,6 +12,7 @@
         <module>NowChat-Common</module>
         <module>NowChat-Rest</module>
         <module>NowChat-Chat</module>
+        <module>NowChat-Back</module>
     </modules>
 
     <parent>
