@@ -24,7 +24,11 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         switch (message.getClientBehavior()) {
             case LOGIN:
                 validateUser(message);
-                Session session = Session.builder().channel(channel).build();
+                Session session = Session.builder().channel(channel)
+                        .userId(message.getFromUserId())
+                        .loginName(message.getLoginName())
+                        .nickName(message.getNickName())
+                        .build();
                 SessionManager.putSession(message.getFromUserId(), session);
                 break;
             case PING:
@@ -36,6 +40,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 SendUtil.sendForQueue(message);
                 break;
             case LOGIN_OUT:
+                SessionManager.removeSession(message.getFromUserId());
                 break;
             case UNRECOGNIZED:
                 default:
