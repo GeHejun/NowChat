@@ -1,5 +1,7 @@
 package com.ghj.common.util;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,7 +26,9 @@ public class PropertiesUtil {
         return instance;
     }
 
-
+    public String getValue(String key, String defaultValue) {
+        return getValue("application.properties", key, defaultValue);
+    }
 
     public String getValue(String fileName,String key,String defaultValue){
         String val = null;
@@ -52,4 +56,6 @@ public class PropertiesUtil {
         }
         return val;
     }
+
+
 }

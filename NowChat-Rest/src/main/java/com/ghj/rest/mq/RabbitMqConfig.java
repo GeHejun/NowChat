@@ -1,5 +1,6 @@
 package com.ghj.rest.mq;
 
+import com.ghj.common.base.Constant;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -13,6 +14,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import static com.ghj.common.base.Constant.EXCHANGE_A;
+import static com.ghj.common.base.Constant.QUEUE_A;
+
+/**
+ * @author GeHejun
+ * @date 2019-06-25
+ */
 @Configuration
 public class RabbitMqConfig {
 
@@ -29,19 +37,6 @@ public class RabbitMqConfig {
     @Value("${spring.rabbitmq.password}")
     private String password;
 
-
-    public static final String EXCHANGE_A = "my-mq-exchange_A";
-    public static final String EXCHANGE_B = "my-mq-exchange_B";
-    public static final String EXCHANGE_C = "my-mq-exchange_C";
-
-
-    public static final String QUEUE_A = "QUEUE_A";
-    public static final String QUEUE_B = "QUEUE_B";
-    public static final String QUEUE_C = "QUEUE_C";
-
-    public static final String ROUTINGKEY_A = "spring-boot-routingKey_A";
-    public static final String ROUTINGKEY_B = "spring-boot-routingKey_B";
-    public static final String ROUTINGKEY_C = "spring-boot-routingKey_C";
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -81,11 +76,11 @@ public class RabbitMqConfig {
      */
     @Bean
     public Queue queueA() {
-        return new Queue(QUEUE_A, true); //队列持久
+        return new Queue(QUEUE_A, true);
     }
     @Bean
     public Binding binding() {
-        return BindingBuilder.bind(queueA()).to(defaultExchange()).with(RabbitMqConfig.ROUTINGKEY_A);
+        return BindingBuilder.bind(queueA()).to(defaultExchange()).with(Constant.ROUTING_KEY_A);
     }
 
 

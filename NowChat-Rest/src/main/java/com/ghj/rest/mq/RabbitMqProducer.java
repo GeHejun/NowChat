@@ -1,5 +1,7 @@
 package com.ghj.rest.mq;
 
+import com.ghj.common.base.Constant;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import java.util.UUID;
 @Component
 public class RabbitMqProducer  implements RabbitTemplate.ConfirmCallback {
 
-    //由于rabbitTemplate的scope属性设置为ConfigurableBeanFactory.SCOPE_PROTOTYPE，所以不能自动注入
+    /**
+     * 由于rabbitTemplate的scope属性设置为ConfigurableBeanFactory.SCOPE_PROTOTYPE，所以不能自动注入
+     */
     private RabbitTemplate rabbitTemplate;
     /**
      * 构造方法注入rabbitTemplate
@@ -18,13 +22,14 @@ public class RabbitMqProducer  implements RabbitTemplate.ConfirmCallback {
     @Autowired
     public RabbitMqProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
-        rabbitTemplate.setConfirmCallback(this); //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
+        //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
+        rabbitTemplate.setConfirmCallback(this);
     }
 
     public void sendMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
-        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_A, RabbitMqConfig.ROUTINGKEY_A, content, correlationId);
+        rabbitTemplate.convertAndSend(Constant.EXCHANGE_A, Constant.ROUTING_KEY_A, content, correlationId);
     }
     /**
      * 回调
