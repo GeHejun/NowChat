@@ -99,14 +99,33 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //调用测试
-    public static void main(String[] args) {
-        String result =  RedisPoolUtil.set("mark","25");
-        result = RedisPoolUtil.get("mark");
-        result = RedisPoolUtil.setEx("mark2","23",20);
-        Long resultL = RedisPoolUtil.expire("mark",20);
-        resultL = RedisPoolUtil.del("mark");
-        resultL = RedisPoolUtil.del("marks");
-        System.out.println("补充：使用redis缓存数据时候，最好加上过期时间，因为redis缓存需要占用内存空间");
+    //设置一个key
+    public static Long increment(String key){
+        Jedis jedis = null;
+        Long result = null;
+        try {
+            jedis = RedisPool.getJedis();
+            result = jedis.incr(key);
+        } catch (Exception e) {
+            RedisPool.returnBrokenResource(jedis);
+            return result;
+        }
+        RedisPool.returnResource(jedis);
+        return result;
+    }
+
+    //获取一个key
+    public static Long lpush(String key, String value){
+        Jedis jedis = null;
+        Long result = null;
+        try {
+            jedis = RedisPool.getJedis();
+            result = jedis.lpush(key,value);
+        } catch (Exception e) {
+            RedisPool.returnBrokenResource(jedis);
+            return result;
+        }
+        RedisPool.returnResource(jedis);
+        return result;
     }
 }

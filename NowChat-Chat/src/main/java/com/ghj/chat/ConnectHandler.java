@@ -5,6 +5,7 @@ import com.ghj.common.exception.UserException;
 import com.ghj.common.mq.SendUtil;
 import com.ghj.common.protocol.MessageProto;
 import com.ghj.common.util.NettyAttrUtil;
+import com.ghj.common.util.RedisPool;
 import com.ghj.common.util.RedisPoolUtil;
 import com.ghj.common.util.StringUtils;
 import io.netty.channel.Channel;
@@ -49,6 +50,11 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         if (!token.equals(message.getToken())) {
             throw new UserException();
         }
+        incrementOnLineUser(message);
+    }
 
+    public synchronized void incrementOnLineUser(MessageProto.message message) {
+        RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
+        RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
     }
 }

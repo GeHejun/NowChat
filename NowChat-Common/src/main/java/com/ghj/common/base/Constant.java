@@ -5,14 +5,18 @@ package com.ghj.common.base;
  */
 public class Constant {
 
-    public static final String EncryptDecryptKEY = "";
+    public static final String ENCRYPT_DECRYPT_KEY = "";
 
     public static final String USER_TOKEN_KEY = "";
 
 
-    public static final String EXCHANGE_A = "my-mq-exchange_SAVE_MESSAGE";
+    public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
 
     public static final String QUEUE_A = "QUEUE_SAVE_MESSAGE";
 
-    public static final String ROUTING_KEY_A = "spring-boot-routingKey_SAVE_MESSAGE";
+    public static final String ROUTING_KEY_A = "SPRING-BOOT-ROUTING_KEY_SAVE_MESSAGE";
+
+    public static final String ON_LINE_USER_COUNT = "ON_LINE_USER_COUNT";
+
+    public static final String ON_LINE_USER_LIST = "ON_LINE_USER_COUNT";
 }

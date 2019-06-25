@@ -26,7 +26,7 @@ public class DesEncryptDecrypt {
     private DesEncryptDecrypt(){
         DESKeySpec dks;
         try {
-            dks = new DESKeySpec(Constant.EncryptDecryptKEY.getBytes());
+            dks = new DESKeySpec(Constant.ENCRYPT_DECRYPT_KEY.getBytes());
             SecretKeyFactory skf = SecretKeyFactory.getInstance("DES");
             SecretKey desKey = skf.generateSecret(dks);
             ecipher = Cipher.getInstance("DES");
