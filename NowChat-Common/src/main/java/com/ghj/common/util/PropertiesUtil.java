@@ -1,7 +1,5 @@
 package com.ghj.common.util;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
