@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author gehj
  * @date 2019/6/24 19:05
  */
+
 @SpringBootApplication
 @MapperScan(basePackages = {"com.ghj.rest.dao"})
 public class NowChatRestApplication {

@@ -13,6 +13,7 @@
         <module>NowChat-Rest</module>
         <module>NowChat-Chat</module>
         <module>NowChat-Back</module>
+        <module>NowChat-Eureka</module>
     </modules>
 
     <parent>
@@ -20,6 +21,8 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.4.RELEASE</version>
     </parent>
+
+
 
 
 </project>
