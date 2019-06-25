@@ -5,7 +5,6 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author gehj
@@ -16,6 +15,8 @@ public class OKHttpUtil {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType MEDIA_TYPE_TEXT = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
+    static OkHttpClient client = new OkHttpClient();
+
     /**
      * @param url getUrl
      * @return java.lang.String
@@ -24,23 +25,14 @@ public class OKHttpUtil {
      * @descprition
      * @version 1.0
      */
-    public static String sendByGetUrl(String url) {
-        String result;
-        OkHttpClient client = new OkHttpClient();
+    public static String get(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        Response response;
-        try {
-            response = client.newCall(request).execute();
-            assert response.body() != null;
-            result = response.body().string();
-            return result;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return deal(request);
     }
+
+
 
     /**
      * @param url , json
@@ -50,22 +42,13 @@ public class OKHttpUtil {
      * @descprition
      * @version 1.0 post+json方式
      */
-    public static String sendByPostJson(String url, String json) {
-        OkHttpClient client = new OkHttpClient();
+    public static String postJson(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        Response response;
-        try {
-            response = client.newCall(request).execute();
-            assert response.body() != null;
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return deal(request);
     }
 
 
@@ -78,9 +61,7 @@ public class OKHttpUtil {
      * @descprition  post方式请求
      * @version 1.0
      */
-    public static String sendByPostMap(String url, Map<String, String> params) {
-        String result;
-        OkHttpClient client = new OkHttpClient();
+    public static String postMap(String url, Map<String, String> params) {
         StringBuilder content = new StringBuilder();
         Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -90,19 +71,20 @@ public class OKHttpUtil {
                 content.append("&");
             }
         }
-
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_TEXT, content.toString());
         Request request = new Request.Builder().url(url).post(requestBody).build();
-        Response response;
+        return deal(request);
+    }
+
+    public static String deal(Request request) {
+        String result = null;
         try {
-            response = client.newCall(request).execute();
+            Response response = client.newCall(request).execute();
             assert response.body() != null;
             result = response.body().string();
-            System.out.println("result = " + result);
-            return result;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 }
