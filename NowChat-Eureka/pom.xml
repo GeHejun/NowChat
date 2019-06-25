@@ -11,5 +11,12 @@
 
     <artifactId>NowChat-Eureka</artifactId>
 
+    <dependencies>
 
+        <!--Netflix Eureka依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -9,6 +9,7 @@
         <module name="NowChat-Back" />
         <module name="NowChat-Chat" />
         <module name="NowChat-Common" />
+        <module name="NowChat-Eureka" />
         <module name="NowChat-Rest" />
       </profile>
     </annotationProcessing>
@@ -18,8 +19,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="NowChat-Back" options="-parameters" />
       <module name="NowChat-Chat" options="-parameters" />
       <module name="NowChat-Common" options="-parameters" />
+      <module name="NowChat-Eureka" options="-parameters" />
       <module name="NowChat-Rest" options="-parameters" />
     </option>
   </component>
