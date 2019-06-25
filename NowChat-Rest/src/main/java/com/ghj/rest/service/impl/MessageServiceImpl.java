@@ -1,5 +1,6 @@
 package com.ghj.rest.service.impl;
 
+import com.ghj.common.protocol.MessageProto;
 import com.ghj.rest.dao.MessageMapper;
 import com.ghj.rest.dto.MessageResponse;
 import com.ghj.rest.model.Message;
@@ -43,5 +44,10 @@ public class MessageServiceImpl implements MessageService {
         MessageResponse messageResponse = new MessageResponse();
         BeanUtils.copyProperties(message, messageResponse);
         return messageResponse;
+    }
+
+    @Override
+    public void insertMessage(Message message) {
+        messageMapper.insert(message);
     }
 }
