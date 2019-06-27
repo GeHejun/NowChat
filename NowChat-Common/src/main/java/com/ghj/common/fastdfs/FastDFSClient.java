@@ -6,3 +6,4 @@ package com.ghj.common.fastdfs;
  */
 public class FastDFSClient {
 }
+
