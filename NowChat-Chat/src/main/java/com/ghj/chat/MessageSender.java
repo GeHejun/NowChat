@@ -8,7 +8,11 @@ import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.OKHttpUtil;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -44,17 +48,28 @@ public class MessageSender implements Runnable {
                 break;
             case GROUP:
                 Integer toGroupId= message.getToGroupId();
-                String result = OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId);
-                List<Integer> toIds = (List<Integer>)JSONUtil.jsonToList(result);
-                toIds.remove(message.getFromUserId());
-                toIds.forEach(id -> {
-                    session = SessionManager.getSession(id);
-                    if (session == null) {
-                        throw new ChatException();
+                OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
                     }
-                    session.getChannel().writeAndFlush(message);
+
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        String result = response.body().toString();
+                        List<Integer> toIds = (List<Integer>)JSONUtil.jsonToList(result);
+                        toIds.remove(message.getFromUserId());
+                        toIds.forEach(id -> {
+                            session = SessionManager.getSession(id);
+                            if (session == null) {
+                                throw new ChatException();
+                            }
+                            session.getChannel().writeAndFlush(message);
+                        });
+                        abstractMessage = MessageToGroup.builder().build();
+                    }
                 });
-                abstractMessage = MessageToGroup.builder().build();
+
                 break;
                 default:
         }

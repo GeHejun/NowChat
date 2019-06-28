@@ -29,6 +29,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                         .build();
                 SessionManager.putSession(message.getFromUserId(), session);
                 incrementOnLineUser(message);
+
                 break;
             case PING:
                 NettyAttrUtil.updateReaderTime(channel, 10000L);

@@ -1,6 +1,7 @@
 package com.ghj.common.util;
 
 import okhttp3.*;
+import sun.plugin2.jvm.RemoteJVMLauncher;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -15,7 +16,7 @@ public class OKHttpUtil {
     private static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
     private static final MediaType MEDIA_TYPE_TEXT = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
-    static OkHttpClient client = new OkHttpClient();
+    static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new RetryIntercepter(3)).build();
 
     /**
      * @param url getUrl
@@ -25,11 +26,11 @@ public class OKHttpUtil {
      * @descprition
      * @version 1.0
      */
-    public static String get(String url) {
+    public static void get(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        return deal(request);
+        deal(request, callback);
     }
 
 
@@ -42,13 +43,13 @@ public class OKHttpUtil {
      * @descprition
      * @version 1.0 post+json方式
      */
-    public static String postJson(String url, String json) throws IOException {
+    public static void postJson(String url, String json, Callback callback) throws IOException {
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        return deal(request);
+        deal(request, callback);
     }
 
 
@@ -61,7 +62,7 @@ public class OKHttpUtil {
      * @descprition  post方式请求
      * @version 1.0
      */
-    public static String postMap(String url, Map<String, String> params) {
+    public static void postMap(String url, Map<String, String> params, Callback callback) {
         StringBuilder content = new StringBuilder();
         Iterator<Map.Entry<String, String>> iterator = params.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -73,18 +74,10 @@ public class OKHttpUtil {
         }
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_TEXT, content.toString());
         Request request = new Request.Builder().url(url).post(requestBody).build();
-        return deal(request);
+        deal(request, callback);
     }
 
-    private static String deal(Request request) {
-        String result = null;
-        try {
-            Response response = client.newCall(request).execute();
-            assert response.body() != null;
-            result = response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+    private static void deal(Request request, Callback callback) {
+        client.newCall(request).enqueue(callback);
     }
 }

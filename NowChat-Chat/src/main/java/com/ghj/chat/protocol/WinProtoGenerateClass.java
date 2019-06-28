@@ -7,7 +7,7 @@ import java.util.List;
  * @author GeHejun
  * @date 2019-06-24
  */
-public class ProtoGenerateClass {
+public class WinProtoGenerateClass {
     private static final String PROTOC_FILE = "C:\\Users\\gehj\\Downloads\\protoc-3.8.0-win64\\bin\\protoc.exe";
     private static final String IMPOR_TPROTO = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat";
     private static final String JAVA_OUT = "C:\\Users\\gehj\\IdeaProjects\\qr\\2\\NowChat\\NowChat-Chat\\src\\main\\java\\com\\ghj\\chat\\protocol\\";
