@@ -1,7 +1,7 @@
 package com.ghj.chat;
 
+import com.ghj.chat.protocol.MessageProto;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.common.protocol.MessageProto;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

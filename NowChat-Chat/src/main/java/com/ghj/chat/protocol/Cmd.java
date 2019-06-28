@@ -1,9 +1,10 @@
-package com.ghj.common.protocol;
+package com.ghj.chat.protocol;
 
 import org.springframework.util.Assert;
 
 import java.io.*;
 import java.util.List;
+
 /**
  * @author GeHejun
  * @date 2019-06-24

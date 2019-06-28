@@ -1,9 +1,9 @@
 package com.ghj.common.mq;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.PropertiesUtil;
-import com.ghj.common.protocol.MessageProto;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class SendUtil {
 
-        public static void sendForQueue(MessageProto.message message) {
+        public static void sendForQueue(AbstractMessage message) {
             try {
                 String rabbitIP = PropertiesUtil.getInstance().getValue( "rabbit.ip", "127.0.0.1");
                 String rabbitPort = PropertiesUtil.getInstance().getValue("rabbit.port", "5672");

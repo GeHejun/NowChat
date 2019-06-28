@@ -1,14 +1,16 @@
 package com.ghj.rest.mq;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.protocol.MessageProto;
+import com.ghj.common.dto.AbstractMessage;
+import com.ghj.common.dto.MessageToGroup;
+import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.util.JSONUtil;
+import com.ghj.rest.model.GoupMessage;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.service.MessageService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -23,15 +25,23 @@ public class RabbitMqReceiver {
     @RabbitHandler
     public void process(String content) {
         try {
-            MessageProto.message message = (MessageProto.message) JSONUtil.jsonToBean(content, MessageProto.message.class);
-            Message nativeMessage = new Message();
-            nativeMessage.setFromUserId(message.getFromUserId());
-            nativeMessage.setId(message.getId());
-            nativeMessage.setMessageTypeId(nativeMessage.getMessageTypeId());
-            nativeMessage.setPostMessage(message.getContent());
-            nativeMessage.setToUserId(message.getToUserId());
-            nativeMessage.setSendTime(new Date());
-            messageService.insertMessage(nativeMessage);
+            AbstractMessage message = (AbstractMessage) JSONUtil.jsonToBean(content, Message.class);
+            if (message instanceof MessageToUser) {
+                Message nativeMessage = new Message();
+                nativeMessage.setFromUserId(message.getFromUserId());
+                nativeMessage.setId(message.getId());
+                nativeMessage.setMessageTypeId(nativeMessage.getMessageTypeId());
+                nativeMessage.setPostMessage(message.getPostMessage());
+                nativeMessage.setSendTime(new Date());
+                nativeMessage.setToUserId(((MessageToUser) message).getToUserId());
+                messageService.insertMessage(nativeMessage);
+            }
+            if (message instanceof MessageToGroup) {
+//                GoupMessage goupMessage = new GoupMessage();
+//                goupMessage.set(((MessageToGroup) message).getToGroupId());
+
+            }
+
         } catch (Exception e) {
 
         }

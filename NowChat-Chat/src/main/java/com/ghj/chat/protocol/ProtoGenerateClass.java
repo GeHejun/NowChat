@@ -1,7 +1,8 @@
-package com.ghj.common.protocol;
+package com.ghj.chat.protocol;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
