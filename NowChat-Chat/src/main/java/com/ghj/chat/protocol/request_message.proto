@@ -32,6 +32,7 @@ message RequestMessage {
   MessageDirect messageDirect = 11;
 
 
+
   enum ClientBehavior {
     LOGIN = 0;
     PING = 1;

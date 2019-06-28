@@ -29,17 +29,30 @@ public class MessageManager {
         return messageManager;
     }
 
-    private ConcurrentLinkedQueue concurrentLinkedQueue = new ConcurrentLinkedQueue();
+    private ConcurrentLinkedQueue waitSendMessageQueue = new ConcurrentLinkedQueue();
 
     public void putMessage(RequestMessageProto.RequestMessage message) {
-        concurrentLinkedQueue.add(message);
+        waitSendMessageQueue.add(message);
     }
 
     public void takeMessage() {
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new MessageSender((RequestMessageProto.RequestMessage) concurrentLinkedQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new MessageSender((RequestMessageProto.RequestMessage) waitSendMessageQueue.poll()));
         }
 
     }
+
+    private ConcurrentLinkedQueue sendFailureMessageQueue = new ConcurrentLinkedQueue();
+
+    public void pubSendFailureMessage(RequestMessageProto.RequestMessage message) {
+
+        sendFailureMessageQueue.add(message);
+
+        ThreadPoolManager.getsInstance().execute(() -> {
+            waitSendMessageQueue.add(sendFailureMessageQueue.poll());
+        });
+    }
+
+
 
 }

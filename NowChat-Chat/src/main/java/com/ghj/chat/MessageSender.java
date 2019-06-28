@@ -52,8 +52,8 @@ public class MessageSender implements Runnable {
                     @Override
                     public void onFailure(Call call, IOException e) {
 
+                        MessageManager.getInstance().pubSendFailureMessage(message);
                     }
-
                     @Override
                     public void onResponse(Call call, Response response) {
                         String result = response.body().toString();
@@ -69,7 +69,6 @@ public class MessageSender implements Runnable {
                         abstractMessage = MessageToGroup.builder().build();
                     }
                 });
-
                 break;
                 default:
         }
