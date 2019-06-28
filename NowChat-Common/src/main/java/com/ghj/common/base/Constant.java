@@ -18,4 +18,18 @@ public class Constant {
     public static final String ON_LINE_USER_COUNT = "ON_LINE_USER_COUNT";
 
     public static final String ON_LINE_USER_LIST = "ON_LINE_USER_COUNT";
+
+    public static final String SUCCESS = "成功";
+
+    public static final String FAILURE = "失败";
+
+    public static final String LOGIN_SUCCESS = "登录成功";
+
+    public static final String PING_SUCCESS = "心跳包发送成功";
+
+    public static final String MESSAGE_SEND_SUCCESS = "消息发送成功";
+
+    public static final String ACK_SEND_SUCCESS = "回执消息发送成功";
+
+    public static final Long PING_ADD_TIME = 1000L;
 }

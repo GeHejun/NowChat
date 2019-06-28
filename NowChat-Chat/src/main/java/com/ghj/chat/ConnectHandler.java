@@ -29,10 +29,10 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                         .build();
                 SessionManager.putSession(message.getFromUserId(), session);
                 incrementOnLineUser(message);
-
+//                channel.writeAndFlush()
                 break;
             case PING:
-                NettyAttrUtil.updateReaderTime(channel, 10000L);
+                NettyAttrUtil.updateReaderTime(channel, Constant.PING_ADD_TIME);
                 MessageManager.getInstance().putMessage(message);
                 break;
             case MESSAGE:
@@ -61,4 +61,5 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
         RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
     }
+
 }
