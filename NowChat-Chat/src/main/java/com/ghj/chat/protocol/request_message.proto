@@ -4,10 +4,10 @@ syntax = "proto3";
 //包名
 option java_package = "com.ghj.common.protocol";
 //源文件类名
-option java_outer_classname = "MessageProto";
+option java_outer_classname = "RequestMessageProto";
 
 // class Person
-message message {
+message RequestMessage {
 
   int32 id = 1;
 
@@ -31,7 +31,6 @@ message message {
 
   MessageDirect messageDirect = 11;
 
-  repeated int32 group2userId = 12;
 
   enum ClientBehavior {
     LOGIN = 0;

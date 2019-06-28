@@ -1,5 +1,6 @@
 package com.ghj.chat;
 
+import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.NettyAttrUtil;
@@ -16,7 +17,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class ConnectHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-        MessageProto.message message = (MessageProto.message)o;
+        RequestMessageProto.RequestMessage message = (RequestMessageProto.RequestMessage)o;
         Channel channel = channelHandlerContext.channel();
         switch (message.getClientBehavior()) {
             case LOGIN:
@@ -44,7 +45,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         }
     }
 
-    public void validateUser(MessageProto.message message) {
+    public void validateUser(RequestMessageProto.RequestMessage message) {
         String token = RedisPoolUtil.get(message.getFromUserId()+"_"+Constant.USER_TOKEN_KEY);
         if (StringUtils.isEmpty(token)) {
             throw new UserException();
@@ -55,7 +56,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     }
 
-    public synchronized void incrementOnLineUser(MessageProto.message message) {
+    public synchronized void incrementOnLineUser(RequestMessageProto.RequestMessage message) {
         RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
         RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
     }

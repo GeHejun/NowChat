@@ -1,5 +1,6 @@
 package com.ghj.chat;
 
+import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.util.ThreadPoolManager;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -30,13 +31,13 @@ public class MessageManager {
 
     private ConcurrentLinkedQueue concurrentLinkedQueue = new ConcurrentLinkedQueue();
 
-    public void putMessage(MessageProto.message message) {
+    public void putMessage(RequestMessageProto.RequestMessage message) {
         concurrentLinkedQueue.add(message);
     }
 
     public void takeMessage() {
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new MessageSender((MessageProto.message) concurrentLinkedQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new MessageSender((RequestMessageProto.RequestMessage) concurrentLinkedQueue.poll()));
         }
 
     }

@@ -76,7 +76,7 @@ public class OKHttpUtil {
         return deal(request);
     }
 
-    public static String deal(Request request) {
+    private static String deal(Request request) {
         String result = null;
         try {
             Response response = client.newCall(request).execute();

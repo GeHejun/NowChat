@@ -1,6 +1,7 @@
 package com.ghj.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
@@ -67,6 +68,16 @@ public class JSONUtil {
             return null;
         }
         return JSON.parseObject(json, clazz.getClass());
+    }
+
+    /**
+     * 将json字符串转换成对象
+     *
+     * @param json
+     * @return
+     */
+    public static Object jsonToList(String json) {
+        return JSONArray.parseArray(json);
     }
     /**
      * json字符串转map
