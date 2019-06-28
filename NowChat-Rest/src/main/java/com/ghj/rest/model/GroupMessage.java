@@ -7,7 +7,8 @@ import java.util.Date;
  * goup_message
  * @author 
  */
-public class GoupMessage implements Serializable {
+public class GroupMessage implements Serializable {
+
     private Integer id;
 
     private Integer fromUserId;
@@ -61,7 +62,7 @@ public class GoupMessage implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        GoupMessage other = (GoupMessage) that;
+        GroupMessage other = (GroupMessage) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getFromUserId() == null ? other.getFromUserId() == null : this.getFromUserId().equals(other.getFromUserId()))
             && (this.getSendTime() == null ? other.getSendTime() == null : this.getSendTime().equals(other.getSendTime()))

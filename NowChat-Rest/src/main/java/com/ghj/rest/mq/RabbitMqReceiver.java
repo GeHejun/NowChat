@@ -5,7 +5,7 @@ import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToGroup;
 import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.util.JSONUtil;
-import com.ghj.rest.model.GoupMessage;
+import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.service.MessageService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -28,6 +28,7 @@ public class RabbitMqReceiver {
             AbstractMessage message = (AbstractMessage) JSONUtil.jsonToBean(content, Message.class);
             if (message instanceof MessageToUser) {
                 Message nativeMessage = new Message();
+                nativeMessage.setId(message.getId());
                 nativeMessage.setFromUserId(message.getFromUserId());
                 nativeMessage.setId(message.getId());
                 nativeMessage.setMessageTypeId(nativeMessage.getMessageTypeId());
@@ -37,8 +38,10 @@ public class RabbitMqReceiver {
                 messageService.insertMessage(nativeMessage);
             }
             if (message instanceof MessageToGroup) {
-//                GoupMessage goupMessage = new GoupMessage();
-//                goupMessage.set(((MessageToGroup) message).getToGroupId());
+                GroupMessage groupMessage = new GroupMessage();
+                groupMessage.setFromUserId( message.getFromUserId());
+                groupMessage.setContent(message.getPostMessage());
+                groupMessage.setSendTime(new Date());
 
             }
 

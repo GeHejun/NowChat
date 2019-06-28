@@ -31,6 +31,8 @@ message message {
 
   MessageDirect messageDirect = 11;
 
+  repeated int32 group2userId = 12;
+
   enum ClientBehavior {
     LOGIN = 0;
     PING = 1;

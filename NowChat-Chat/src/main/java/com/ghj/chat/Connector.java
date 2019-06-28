@@ -1,7 +1,6 @@
 package com.ghj.chat;
 
 
-import com.ghj.common.protocol.MessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

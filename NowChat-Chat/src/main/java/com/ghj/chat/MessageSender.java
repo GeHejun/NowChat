@@ -1,6 +1,5 @@
 package com.ghj.chat;
 
-import com.ghj.chat.protocol.MessageProto;
 import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToGroup;
 import com.ghj.common.dto.MessageToUser;

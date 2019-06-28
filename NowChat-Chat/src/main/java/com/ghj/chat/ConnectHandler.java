@@ -1,9 +1,7 @@
 package com.ghj.chat;
 
-import com.ghj.chat.protocol.MessageProto;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
-import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.RedisPoolUtil;
 import com.ghj.common.util.StringUtils;
