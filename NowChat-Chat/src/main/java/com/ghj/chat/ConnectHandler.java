@@ -30,6 +30,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                         .nickName(message.getNickName())
                         .build();
                 SessionManager.putSession(message.getFromUserId(), session);
+                incrementOnLineUser(message);
                 break;
             case PING:
                 NettyAttrUtil.updateReaderTime(channel, 10000L);
@@ -55,7 +56,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         if (!token.equals(message.getToken())) {
             throw new UserException();
         }
-        incrementOnLineUser(message);
+
     }
 
     public synchronized void incrementOnLineUser(MessageProto.message message) {

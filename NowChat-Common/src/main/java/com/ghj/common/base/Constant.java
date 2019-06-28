@@ -5,9 +5,9 @@ package com.ghj.common.base;
  */
 public class Constant {
 
-    public static final String ENCRYPT_DECRYPT_KEY = "";
+    public static final String ENCRYPT_DECRYPT_KEY = "ENCRYPT_DECRYPT_KEY";
 
-    public static final String USER_TOKEN_KEY = "";
+    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
 
     public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
 
