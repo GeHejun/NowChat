@@ -5,6 +5,8 @@ package com.ghj.common.base;
  */
 public class Constant {
 
+    public static final Long PING_ADD_TIME = 1000L;
+
     public static final String ENCRYPT_DECRYPT_KEY = "ENCRYPT_DECRYPT_KEY";
 
     public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
@@ -21,8 +23,6 @@ public class Constant {
 
     public static final String SUCCESS = "成功";
 
-    public static final String FAILURE = "失败";
-
     public static final String LOGIN_SUCCESS = "登录成功";
 
     public static final String PING_SUCCESS = "心跳包发送成功";
@@ -31,5 +31,13 @@ public class Constant {
 
     public static final String ACK_SEND_SUCCESS = "回执消息发送成功";
 
-    public static final Long PING_ADD_TIME = 1000L;
+    public static final String FAILURE = "失败";
+
+    public static final String LOGIN_FAILURE = "登录失败";
+
+    public static final String PING_FAILURE = "心跳包发送失败";
+
+    public static final String MESSAGE_SEND_FAILURE = "信息发送失败";
+
+    public static final String ACK_SEND_FAILURE = "回执消息发送失败";
 }
