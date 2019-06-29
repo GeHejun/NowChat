@@ -97,6 +97,7 @@ public class RequestMessageSender implements Runnable {
                 .setContent(code.getMessage())
                 .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
                 .setToUserId(isAckSender ? message.getFromUserId() : message.getToUserId())
+                .setAssociatedGroupId(message.getAssociatedGroupId())
                 .setMatchMessageId(message.getId())
                 .build();
     }

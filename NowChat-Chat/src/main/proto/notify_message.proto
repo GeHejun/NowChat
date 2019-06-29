@@ -4,7 +4,7 @@ syntax = "proto3";
 //包名
 option java_package = "";
 //源文件类名
-option java_outer_classname = "NotifyMessageProto";
+option java_outer_classname = "com.ghj.chat.protocol.NotifyMessageProto";
 
 // class Person
 message NotifyMessage {

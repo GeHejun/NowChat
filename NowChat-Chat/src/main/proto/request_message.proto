@@ -4,7 +4,7 @@ syntax = "proto3";
 //包名
 option java_package = "";
 //源文件类名
-option java_outer_classname = "RequestMessageProto";
+option java_outer_classname = "com.ghj.chat.protocol.RequestMessageProto";
 
 // class Person
 message RequestMessage {
@@ -32,6 +32,8 @@ message RequestMessage {
   MessageDirect messageDirect = 11;
 
   int64 deviceId = 12;
+
+  int32 associatedGroupId = 14;
 
 
   enum ClientBehavior {
