@@ -3,14 +3,18 @@ package com.ghj.chat.message;
 import com.ghj.chat.constant.Route;
 import com.ghj.chat.Session;
 import com.ghj.chat.SessionManager;
+import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.chat.protocol.RequestMessageProto;
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToGroup;
 import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.JSONUtil;
+import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.OKHttpUtil;
+import com.ghj.common.util.SnowFlakeIdGenerator;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -54,8 +58,13 @@ public class RequestMessageSender implements Runnable {
                 OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        //重试三次如果不成功那么返回失败（还未实现）
-                        MessageManager.getInstance().failureRequestMessage(message);
+                        AckMessageProto.AckMessage ackMessage = AckMessageProto.AckMessage.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
+                                .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
+                                .setMatchMessageId(message.getId())
+                                .setToUserId(message.getFromUserId())
+                                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId())
+                                .build();
+                        MessageManager.getInstance().ackMessageQueue(ackMessage);
                     }
                     @Override
                     public void onResponse(Call call, Response response) {
@@ -73,9 +82,22 @@ public class RequestMessageSender implements Runnable {
                     }
                 });
                 break;
+            case SERVER:
+                MessageManager.getInstance().ackMessageQueue(buildAckMessage(Code.ACK_SEND_SUCCESS, true, message));
+                MessageManager.getInstance().ackMessageQueue(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
                 default:
         }
         SendUtil.sendForQueue(abstractMessage);
 
+    }
+
+    public AckMessageProto.AckMessage buildAckMessage(Code code, boolean isAckSender, RequestMessageProto.RequestMessage message) {
+        return AckMessageProto.AckMessage.newBuilder()
+                .setCode(code.getCode())
+                .setContent(code.getMessage())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
+                .setToUserId(isAckSender ? message.getFromUserId() : message.getToUserId())
+                .setMatchMessageId(message.getId())
+                .build();
     }
 }

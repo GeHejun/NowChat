@@ -16,6 +16,7 @@ public class SessionManager {
     public static Session getSession(Integer id) {
         return (Session) SESSION_MAP.get(id);
     }
+
     public static Session removeSession(Integer id) {
         return (Session) SESSION_MAP.remove(id);
     }

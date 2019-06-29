@@ -6,10 +6,7 @@ import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
-import com.ghj.common.util.NettyAttrUtil;
-import com.ghj.common.util.RedisPoolUtil;
-import com.ghj.common.util.SnowFlakeIdGenerator;
-import com.ghj.common.util.StringUtils;
+import com.ghj.common.util.*;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -35,15 +32,9 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                             .build();
                     SessionManager.putSession(message.getFromUserId(), session);
                     incrementOnLineUser(message);
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.LOGIN_SUCCESS.getCode())
-                            .setContent(Code.LOGIN_SUCCESS.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
                 } catch (Exception e) {
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.LOGIN_FAILURE.getCode())
-                            .setContent(Code.LOGIN_FAILURE.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
                 }
                 MessageManager.getInstance().ackMessageQueue(ackMessage);
                 break;
@@ -51,47 +42,29 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 try {
                     NettyAttrUtil.updateReaderTime(channel, Constant.PING_ADD_TIME);
                     MessageManager.getInstance().putMessage(message);
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.PING_SUCCESS.getCode())
-                            .setContent(Code.PING_SUCCESS.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.PING_SUCCESS, message);
                 } catch (Exception e) {
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.PING_FAILURE.getCode())
-                            .setContent(Code.PING_FAILURE.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.PING_FAILURE, message);
                 }
-                channel.writeAndFlush(ackMessage);
+                MessageManager.getInstance().ackMessageQueue(ackMessage);
                 break;
             case MESSAGE:
                 try {
                     MessageManager.getInstance().putMessage(message);
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.MESSAGE_SEND_SUCCESS.getCode())
-                            .setContent(Code.MESSAGE_SEND_SUCCESS.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.MESSAGE_SEND_SUCCESS, message);
                 } catch (Exception e) {
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.MESSAGE_SEND_FAILURE.getCode())
-                            .setContent(Code.MESSAGE_SEND_FAILURE.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.MESSAGE_SEND_FAILURE, message);
                 }
-                channel.writeAndFlush(ackMessage);
+                MessageManager.getInstance().ackMessageQueue(ackMessage);
                 break;
             case LOGIN_OUT:
                 try {
                     SessionManager.removeSession(message.getFromUserId());
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.LOGIN_OUT_SUCCESS.getCode())
-                            .setContent(Code.LOGIN_OUT_SUCCESS.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.LOGIN_OUT_SUCCESS, message);
                 } catch (Exception e) {
-                    ackMessage = AckMessageProto.AckMessage.newBuilder()
-                            .setCode(Code.LOGIN_OUT_FAILURE.getCode())
-                            .setContent(Code.LOGIN_OUT_FAILURE.getMessage())
-                            .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId()).build();
+                    ackMessage = buildAckMessage(Code.LOGIN_OUT_FAILURE, message);
                 }
-                channel.writeAndFlush(ackMessage);
+                MessageManager.getInstance().ackMessageQueue(ackMessage);
                 break;
             case UNRECOGNIZED:
                 default:
@@ -112,6 +85,16 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     public synchronized void incrementOnLineUser(RequestMessageProto.RequestMessage message) {
         RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
         RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
+    }
+
+    public AckMessageProto.AckMessage buildAckMessage(Code code, RequestMessageProto.RequestMessage message) {
+        return AckMessageProto.AckMessage.newBuilder()
+                .setCode(code.getCode())
+                .setContent(code.getMessage())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
+                .setToUserId(message.getFromUserId())
+                .setMatchMessageId(message.getId())
+                .build();
     }
 
 }

@@ -40,4 +40,8 @@ public class Constant {
     public static final String MESSAGE_SEND_FAILURE = "信息发送失败";
 
     public static final String ACK_SEND_FAILURE = "回执消息发送失败";
+
+    public static final String GROUP_MEMBER_REQUEST_FAILURE = "组成员请求失败";
+
+    public static final String MESSAGE_RECEIVER_SUCCESS = "消息已经成功接收";
 }

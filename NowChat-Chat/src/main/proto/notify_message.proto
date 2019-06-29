@@ -19,4 +19,5 @@ message NotifyMessage {
 
     repeated int32 toUserIds = 5;
 
+
 }

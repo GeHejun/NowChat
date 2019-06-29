@@ -34,11 +34,9 @@ public class MessageManager {
 
     private ConcurrentLinkedQueue waitSendMessageQueue = new ConcurrentLinkedQueue();
 
-    private ConcurrentLinkedQueue failureRequestMessageQueue = new ConcurrentLinkedQueue();
 
     private ConcurrentLinkedQueue ackMessageQueue = new ConcurrentLinkedQueue();
 
-    private ConcurrentLinkedQueue failureAckMessageQueue = new ConcurrentLinkedQueue();
 
     public void putMessage(RequestMessageProto.RequestMessage message) {
         if (Objects.isNull(message)) {
@@ -53,25 +51,6 @@ public class MessageManager {
         }
     }
 
-
-
-    public void failureRequestMessage(RequestMessageProto.RequestMessage message) {
-
-        failureRequestMessageQueue.add(message);
-
-        ThreadPoolManager.getsInstance().execute(() -> {
-            waitSendMessageQueue.add(failureRequestMessageQueue.poll());
-        });
-    }
-
-    public void failureAckMessage(RequestMessageProto.RequestMessage message) {
-
-        failureAckMessageQueue.add(message);
-
-        ThreadPoolManager.getsInstance().execute(() -> {
-            ackMessageQueue.add(failureAckMessageQueue.poll());
-        });
-    }
 
     public void ackMessageQueue(AckMessageProto.AckMessage message) {
 
