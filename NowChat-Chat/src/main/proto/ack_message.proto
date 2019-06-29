@@ -2,7 +2,7 @@
 syntax = "proto3";
 
 //包名
-option java_package = "com.ghj.chat.protocol";
+option java_package = "";
 //源文件类名
 option java_outer_classname = "AckMessageProto";
 
@@ -22,5 +22,13 @@ message AckMessage {
     int32 fromUserId = 6;
 
     int32 groupId = 7;
+
+    MessageDirect messageDirect = 8;
+
+    enum MessageDirect {
+        PERSONAL = 0;
+        GROUP = 1;
+        SERVER = 2;
+    }
 
 }

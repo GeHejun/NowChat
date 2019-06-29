@@ -1,5 +1,6 @@
 package com.ghj.chat;
 
+import com.ghj.chat.message.MessageManager;
 import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.base.Code;

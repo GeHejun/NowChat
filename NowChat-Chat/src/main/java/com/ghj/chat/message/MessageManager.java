@@ -1,4 +1,4 @@
-package com.ghj.chat;
+package com.ghj.chat.message;
 
 import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.chat.protocol.RequestMessageProto;

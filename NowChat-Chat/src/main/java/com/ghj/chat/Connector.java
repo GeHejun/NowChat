@@ -1,6 +1,9 @@
 package com.ghj.chat;
 
 
+import com.ghj.chat.protocol.AckMessageProto;
+import com.ghj.chat.protocol.NotifyMessageProto;
+import com.ghj.chat.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -35,6 +38,8 @@ public class Connector {
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ConnectHandler());
                         }

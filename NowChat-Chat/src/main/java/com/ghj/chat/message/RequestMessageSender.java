@@ -1,5 +1,8 @@
-package com.ghj.chat;
+package com.ghj.chat.message;
 
+import com.ghj.chat.constant.Route;
+import com.ghj.chat.Session;
+import com.ghj.chat.SessionManager;
 import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToGroup;

@@ -1,4 +1,4 @@
-package com.ghj.chat;
+package com.ghj.chat.constant;
 
 /**
  * @author gehj

@@ -47,6 +47,25 @@ public final class AckMessageProto {
      * <code>int32 toUserId = 5;</code>
      */
     int getToUserId();
+
+    /**
+     * <code>int32 fromUserId = 6;</code>
+     */
+    int getFromUserId();
+
+    /**
+     * <code>int32 groupId = 7;</code>
+     */
+    int getGroupId();
+
+    /**
+     * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+     */
+    int getMessageDirectValue();
+    /**
+     * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+     */
+    AckMessageProto.AckMessage.MessageDirect getMessageDirect();
   }
   /**
    * <pre>
@@ -66,6 +85,7 @@ public final class AckMessageProto {
     }
     private AckMessage() {
       content_ = "";
+      messageDirect_ = 0;
     }
 
     @Override
@@ -124,6 +144,22 @@ public final class AckMessageProto {
               toUserId_ = input.readInt32();
               break;
             }
+            case 48: {
+
+              fromUserId_ = input.readInt32();
+              break;
+            }
+            case 56: {
+
+              groupId_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              int rawValue = input.readEnum();
+
+              messageDirect_ = rawValue;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -154,6 +190,113 @@ public final class AckMessageProto {
       return AckMessageProto.internal_static_AckMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               AckMessageProto.AckMessage.class, AckMessageProto.AckMessage.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code AckMessage.MessageDirect}
+     */
+    public enum MessageDirect
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>PERSONAL = 0;</code>
+       */
+      PERSONAL(0),
+      /**
+       * <code>GROUP = 1;</code>
+       */
+      GROUP(1),
+      /**
+       * <code>SERVER = 2;</code>
+       */
+      SERVER(2),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>PERSONAL = 0;</code>
+       */
+      public static final int PERSONAL_VALUE = 0;
+      /**
+       * <code>GROUP = 1;</code>
+       */
+      public static final int GROUP_VALUE = 1;
+      /**
+       * <code>SERVER = 2;</code>
+       */
+      public static final int SERVER_VALUE = 2;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @Deprecated
+      public static MessageDirect valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageDirect forNumber(int value) {
+        switch (value) {
+          case 0: return PERSONAL;
+          case 1: return GROUP;
+          case 2: return SERVER;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<MessageDirect>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          MessageDirect> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<MessageDirect>() {
+              public MessageDirect findValueByNumber(int number) {
+                return MessageDirect.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return AckMessageProto.AckMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final MessageDirect[] VALUES = values();
+
+      public static MessageDirect valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private MessageDirect(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:AckMessage.MessageDirect)
     }
 
     public static final int ID_FIELD_NUMBER = 1;
@@ -226,6 +369,41 @@ public final class AckMessageProto {
       return toUserId_;
     }
 
+    public static final int FROMUSERID_FIELD_NUMBER = 6;
+    private int fromUserId_;
+    /**
+     * <code>int32 fromUserId = 6;</code>
+     */
+    public int getFromUserId() {
+      return fromUserId_;
+    }
+
+    public static final int GROUPID_FIELD_NUMBER = 7;
+    private int groupId_;
+    /**
+     * <code>int32 groupId = 7;</code>
+     */
+    public int getGroupId() {
+      return groupId_;
+    }
+
+    public static final int MESSAGEDIRECT_FIELD_NUMBER = 8;
+    private int messageDirect_;
+    /**
+     * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+     */
+    public int getMessageDirectValue() {
+      return messageDirect_;
+    }
+    /**
+     * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+     */
+    public AckMessageProto.AckMessage.MessageDirect getMessageDirect() {
+      @SuppressWarnings("deprecation")
+      AckMessageProto.AckMessage.MessageDirect result = AckMessageProto.AckMessage.MessageDirect.valueOf(messageDirect_);
+      return result == null ? AckMessageProto.AckMessage.MessageDirect.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -255,6 +433,15 @@ public final class AckMessageProto {
       if (toUserId_ != 0) {
         output.writeInt32(5, toUserId_);
       }
+      if (fromUserId_ != 0) {
+        output.writeInt32(6, fromUserId_);
+      }
+      if (groupId_ != 0) {
+        output.writeInt32(7, groupId_);
+      }
+      if (messageDirect_ != AckMessageProto.AckMessage.MessageDirect.PERSONAL.getNumber()) {
+        output.writeEnum(8, messageDirect_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -283,6 +470,18 @@ public final class AckMessageProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, toUserId_);
       }
+      if (fromUserId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, fromUserId_);
+      }
+      if (groupId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, groupId_);
+      }
+      if (messageDirect_ != AckMessageProto.AckMessage.MessageDirect.PERSONAL.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(8, messageDirect_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -308,6 +507,11 @@ public final class AckMessageProto {
           != other.getMatchMessageId()) return false;
       if (getToUserId()
           != other.getToUserId()) return false;
+      if (getFromUserId()
+          != other.getFromUserId()) return false;
+      if (getGroupId()
+          != other.getGroupId()) return false;
+      if (messageDirect_ != other.messageDirect_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -331,6 +535,12 @@ public final class AckMessageProto {
           getMatchMessageId());
       hash = (37 * hash) + TOUSERID_FIELD_NUMBER;
       hash = (53 * hash) + getToUserId();
+      hash = (37 * hash) + FROMUSERID_FIELD_NUMBER;
+      hash = (53 * hash) + getFromUserId();
+      hash = (37 * hash) + GROUPID_FIELD_NUMBER;
+      hash = (53 * hash) + getGroupId();
+      hash = (37 * hash) + MESSAGEDIRECT_FIELD_NUMBER;
+      hash = (53 * hash) + messageDirect_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -478,6 +688,12 @@ public final class AckMessageProto {
 
         toUserId_ = 0;
 
+        fromUserId_ = 0;
+
+        groupId_ = 0;
+
+        messageDirect_ = 0;
+
         return this;
       }
 
@@ -509,6 +725,9 @@ public final class AckMessageProto {
         result.content_ = content_;
         result.matchMessageId_ = matchMessageId_;
         result.toUserId_ = toUserId_;
+        result.fromUserId_ = fromUserId_;
+        result.groupId_ = groupId_;
+        result.messageDirect_ = messageDirect_;
         onBuilt();
         return result;
       }
@@ -572,6 +791,15 @@ public final class AckMessageProto {
         }
         if (other.getToUserId() != 0) {
           setToUserId(other.getToUserId());
+        }
+        if (other.getFromUserId() != 0) {
+          setFromUserId(other.getFromUserId());
+        }
+        if (other.getGroupId() != 0) {
+          setGroupId(other.getGroupId());
+        }
+        if (other.messageDirect_ != 0) {
+          setMessageDirectValue(other.getMessageDirectValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -774,6 +1002,103 @@ public final class AckMessageProto {
         onChanged();
         return this;
       }
+
+      private int fromUserId_ ;
+      /**
+       * <code>int32 fromUserId = 6;</code>
+       */
+      public int getFromUserId() {
+        return fromUserId_;
+      }
+      /**
+       * <code>int32 fromUserId = 6;</code>
+       */
+      public Builder setFromUserId(int value) {
+
+        fromUserId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 fromUserId = 6;</code>
+       */
+      public Builder clearFromUserId() {
+
+        fromUserId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int groupId_ ;
+      /**
+       * <code>int32 groupId = 7;</code>
+       */
+      public int getGroupId() {
+        return groupId_;
+      }
+      /**
+       * <code>int32 groupId = 7;</code>
+       */
+      public Builder setGroupId(int value) {
+
+        groupId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 groupId = 7;</code>
+       */
+      public Builder clearGroupId() {
+
+        groupId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int messageDirect_ = 0;
+      /**
+       * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+       */
+      public int getMessageDirectValue() {
+        return messageDirect_;
+      }
+      /**
+       * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+       */
+      public Builder setMessageDirectValue(int value) {
+        messageDirect_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+       */
+      public AckMessageProto.AckMessage.MessageDirect getMessageDirect() {
+        @SuppressWarnings("deprecation")
+        AckMessageProto.AckMessage.MessageDirect result = AckMessageProto.AckMessage.MessageDirect.valueOf(messageDirect_);
+        return result == null ? AckMessageProto.AckMessage.MessageDirect.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+       */
+      public Builder setMessageDirect(AckMessageProto.AckMessage.MessageDirect value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+
+        messageDirect_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.AckMessage.MessageDirect messageDirect = 8;</code>
+       */
+      public Builder clearMessageDirect() {
+
+        messageDirect_ = 0;
+        onChanged();
+        return this;
+      }
       @Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -841,11 +1166,14 @@ public final class AckMessageProto {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\021ack_message.proto\"a\n\nAckMessage\022\n\n\002id\030" +
-      "\001 \001(\003\022\014\n\004code\030\002 \001(\005\022\017\n\007content\030\003 \001(\t\022\026\n\016" +
-      "matchMessageId\030\004 \001(\003\022\020\n\010toUserId\030\005 \001(\005B(" +
-      "\n\025com.ghj.chat.protocolB\017AckMessageProto" +
-      "b\006proto3"
+      "\n\021ack_message.proto\"\356\001\n\nAckMessage\022\n\n\002id" +
+      "\030\001 \001(\003\022\014\n\004code\030\002 \001(\005\022\017\n\007content\030\003 \001(\t\022\026\n" +
+      "\016matchMessageId\030\004 \001(\003\022\020\n\010toUserId\030\005 \001(\005\022" +
+      "\022\n\nfromUserId\030\006 \001(\005\022\017\n\007groupId\030\007 \001(\005\0220\n\r" +
+      "messageDirect\030\010 \001(\0162\031.AckMessage.Message" +
+      "Direct\"4\n\rMessageDirect\022\014\n\010PERSONAL\020\000\022\t\n" +
+      "\005GROUP\020\001\022\n\n\006SERVER\020\002B(\n\025com.ghj.chat.pro" +
+      "tocolB\017AckMessageProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -856,7 +1184,7 @@ public final class AckMessageProto {
     internal_static_AckMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AckMessage_descriptor,
-        new String[] { "Id", "Code", "Content", "MatchMessageId", "ToUserId", });
+        new String[] { "Id", "Code", "Content", "MatchMessageId", "ToUserId", "FromUserId", "GroupId", "MessageDirect", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
