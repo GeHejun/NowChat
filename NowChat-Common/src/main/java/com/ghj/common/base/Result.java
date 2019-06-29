@@ -41,6 +41,13 @@ public class Result<T> {
     }
 
     /**
+     * 调用默认成功
+     */
+    public static  Result defaultSuccess(Code code){
+        return new Result(code.getMessage(), true, code.getCode(), "返回成功");
+    }
+
+    /**
      * 返回默认失败
      */
     public static <T> Result<T> defaultFailure(){

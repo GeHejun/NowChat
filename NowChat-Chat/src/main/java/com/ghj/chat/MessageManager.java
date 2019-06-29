@@ -1,8 +1,11 @@
 package com.ghj.chat;
 
+import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.chat.protocol.RequestMessageProto;
+import com.ghj.common.exception.MessageException;
 import com.ghj.common.util.ThreadPoolManager;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -31,26 +34,51 @@ public class MessageManager {
 
     private ConcurrentLinkedQueue waitSendMessageQueue = new ConcurrentLinkedQueue();
 
+    private ConcurrentLinkedQueue failureRequestMessageQueue = new ConcurrentLinkedQueue();
+
+    private ConcurrentLinkedQueue ackMessageQueue = new ConcurrentLinkedQueue();
+
+    private ConcurrentLinkedQueue failureAckMessageQueue = new ConcurrentLinkedQueue();
+
     public void putMessage(RequestMessageProto.RequestMessage message) {
+        if (Objects.isNull(message)) {
+            throw new MessageException();
+        }
         waitSendMessageQueue.add(message);
     }
 
     public void takeMessage() {
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new MessageSender((RequestMessageProto.RequestMessage) waitSendMessageQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new RequestMessageSender((RequestMessageProto.RequestMessage) waitSendMessageQueue.poll()));
         }
-
     }
 
-    private ConcurrentLinkedQueue sendFailureMessageQueue = new ConcurrentLinkedQueue();
 
-    public void pubSendFailureMessage(RequestMessageProto.RequestMessage message) {
 
-        sendFailureMessageQueue.add(message);
+    public void failureRequestMessage(RequestMessageProto.RequestMessage message) {
+
+        failureRequestMessageQueue.add(message);
 
         ThreadPoolManager.getsInstance().execute(() -> {
-            waitSendMessageQueue.add(sendFailureMessageQueue.poll());
+            waitSendMessageQueue.add(failureRequestMessageQueue.poll());
         });
+    }
+
+    public void failureAckMessage(RequestMessageProto.RequestMessage message) {
+
+        failureAckMessageQueue.add(message);
+
+        ThreadPoolManager.getsInstance().execute(() -> {
+            ackMessageQueue.add(failureAckMessageQueue.poll());
+        });
+    }
+
+    public void ackMessageQueue(AckMessageProto.AckMessage message) {
+
+        ackMessageQueue.add(message);
+        for (;;) {
+            ThreadPoolManager.getsInstance().execute(new AckMessageSender((AckMessageProto.AckMessage)ackMessageQueue.poll()));
+        }
     }
 
 

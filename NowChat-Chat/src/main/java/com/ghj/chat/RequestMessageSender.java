@@ -20,7 +20,7 @@ import java.util.List;
  * @author GeHejun
  * @date 2019/6/24 13:30
  */
-public class MessageSender implements Runnable {
+public class RequestMessageSender implements Runnable {
 
     public RequestMessageProto.RequestMessage message;
 
@@ -30,7 +30,7 @@ public class MessageSender implements Runnable {
 
     AbstractMessage abstractMessage;
 
-    public MessageSender(RequestMessageProto.RequestMessage message) {
+    public RequestMessageSender(RequestMessageProto.RequestMessage message) {
         this.message = message;
     }
 
@@ -51,8 +51,8 @@ public class MessageSender implements Runnable {
                 OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-
-                        MessageManager.getInstance().pubSendFailureMessage(message);
+                        //重试三次如果不成功那么返回失败（还未实现）
+                        MessageManager.getInstance().failureRequestMessage(message);
                     }
                     @Override
                     public void onResponse(Call call, Response response) {
