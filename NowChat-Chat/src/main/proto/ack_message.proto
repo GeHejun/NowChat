@@ -1,0 +1,19 @@
+//指定protobuf语法版本
+syntax = "proto3";
+
+//包名
+option java_package = "com.ghj.common.protocol";
+//源文件类名
+option java_outer_classname = "com.ghj.chat.protocol.AckMessageProto";
+
+// class Person
+message AckMessage {
+
+    int32 id = 1;
+
+    bool status = 2;
+
+    string content = 3;
+
+    int32 matchMessageId = 4;
+}

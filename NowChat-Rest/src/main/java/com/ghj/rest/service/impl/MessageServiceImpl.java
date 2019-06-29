@@ -1,6 +1,6 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.common.protocol.MessageProto;
+
 import com.ghj.rest.dao.MessageMapper;
 import com.ghj.rest.dto.MessageResponse;
 import com.ghj.rest.model.Message;

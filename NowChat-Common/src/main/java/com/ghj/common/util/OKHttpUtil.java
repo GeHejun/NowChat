@@ -1,7 +1,6 @@
 package com.ghj.common.util;
 
 import okhttp3.*;
-import sun.plugin2.jvm.RemoteJVMLauncher;
 
 import java.io.IOException;
 import java.util.Iterator;

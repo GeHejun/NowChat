@@ -2,16 +2,18 @@
 syntax = "proto3";
 
 //包名
-option java_package = "";
+option java_package = "com.ghj.common.protocol";
 //源文件类名
-option java_outer_classname = "AckMessageProto";
+option java_outer_classname = "NotifyMessageProto";
 
 // class Person
-message AckMessage {
+message NotifyMessage {
 
     int32 id = 1;
 
     bool status = 2;
 
     string content = 3;
+
+    int32 matchMessageId = 4;
 }
