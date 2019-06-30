@@ -42,7 +42,6 @@ public class RabbitMqReceiver {
                 groupMessage.setFromUserId( message.getFromUserId());
                 groupMessage.setContent(message.getPostMessage());
                 groupMessage.setSendTime(new Date());
-
             }
 
         } catch (Exception e) {

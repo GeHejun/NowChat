@@ -48,6 +48,7 @@ public class RequestMessageSender implements Runnable {
                 Integer sessionKey = message.getToUserId();
                 session = SessionManager.getSession(sessionKey);
                 if (session == null) {
+                    //保存离线消息
                     throw new ChatException();
                 }
                 session.getChannel().writeAndFlush(message);
