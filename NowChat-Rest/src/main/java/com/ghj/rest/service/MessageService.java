@@ -5,6 +5,8 @@ import com.ghj.rest.dto.MessageResponse;
 import com.ghj.rest.model.Message;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /**
  * @author gehj
  * @date 2019/6/2517:47
@@ -15,4 +17,6 @@ public interface MessageService {
     MessageResponse queryMessageById(Integer id);
 
     void insertMessage(Message message);
+
+    List<MessageResponse> queryMessageByToUserIdWithStatus(Integer toUserId, Boolean status);
 }

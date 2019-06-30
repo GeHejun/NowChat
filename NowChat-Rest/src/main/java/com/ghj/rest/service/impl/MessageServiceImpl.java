@@ -50,4 +50,16 @@ public class MessageServiceImpl implements MessageService {
     public void insertMessage(Message message) {
         messageMapper.insert(message);
     }
+
+    @Override
+    public List<MessageResponse> queryMessageByToUserIdWithStatus(Integer toUserId, Boolean status) {
+        List<Message> messageList = messageMapper.listMessageByToUserIdWithStatus(toUserId, status);
+        List<MessageResponse> messageResponseList = new ArrayList<>(messageList.size());
+        messageList.forEach(message -> {
+            MessageResponse messageResponse = new MessageResponse();
+            BeanUtils.copyProperties(message, messageResponse);
+            messageResponseList.add(messageResponse);
+        });
+        return messageResponseList;
+    }
 }

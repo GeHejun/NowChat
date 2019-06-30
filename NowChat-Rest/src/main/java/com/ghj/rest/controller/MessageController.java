@@ -5,12 +5,14 @@ import com.ghj.rest.dto.MessageResponse;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author gehj
@@ -32,11 +34,18 @@ public class MessageController {
         return Result.defaultSuccess(pageInfo);
     }
 
-    @RequestMapping("/queryMessage")
+    @RequestMapping("/queryMessage/{id}")
     @ResponseBody
-    public Result queryMessagePage(@NotNull Integer id) {
+    public Result queryMessagePage(@PathVariable Integer id) {
         MessageResponse messageResponse = messageService.queryMessageById(id);
         return Result.defaultSuccess(messageResponse);
     }
 
+
+    @RequestMapping("/queryMessage")
+    @ResponseBody
+    public Result queryMessagePage(@NotNull Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
+        List<MessageResponse> messageResponseList = messageService.queryMessageByToUserIdWithStatus(toUserId, status);
+        return Result.defaultSuccess(messageResponseList);
+    }
 }
