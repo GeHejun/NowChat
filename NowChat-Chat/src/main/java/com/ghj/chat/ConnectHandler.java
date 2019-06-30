@@ -11,6 +11,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import java.util.Date;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -40,7 +44,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 break;
             case PING:
                 try {
-                    NettyAttrUtil.updateReaderTime(channel, Constant.PING_ADD_TIME);
+                    NettyAttrUtil.updateReaderTime(channel, new Date().getTime() + Constant.PING_ADD_TIME);
                     MessageManager.getInstance().putMessage(message);
                     ackMessage = buildAckMessage(Code.PING_SUCCESS, message);
                 } catch (Exception e) {

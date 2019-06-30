@@ -9,6 +9,7 @@ public class ServerStarter {
         Connector connector = new Connector();
         try {
             connector.start(8888);
+            SessionManager.watchSessionStatus();
         } catch (Exception e) {
             e.printStackTrace();
             connector.stop();
