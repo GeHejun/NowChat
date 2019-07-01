@@ -1,5 +1,9 @@
 package com.ghj.common.base;
 
+import com.ghj.common.util.MachineSerialNumber;
+
+import java.security.acl.LastOwnerException;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -45,5 +49,7 @@ public class Constant {
     public static final String GROUP_MEMBER_REQUEST_FAILURE = "组成员请求失败";
 
     public static final String MESSAGE_RECEIVER_SUCCESS = "消息已经成功接收";
+
+    public static final Long MACHINE_SERIAL_NUMBER = MachineSerialNumber.get();
 
 }

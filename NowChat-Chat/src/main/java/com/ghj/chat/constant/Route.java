@@ -7,4 +7,6 @@ package com.ghj.chat.constant;
 public class Route {
 
     public static String GET_GROUP_MEMBER = "/friendGroup/getGroupMember/";
+
+
 }

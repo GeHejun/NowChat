@@ -5,4 +5,5 @@ package com.ghj.registry;
  * @date 2019/7/112:49
  */
 public class Registry {
+
 }
