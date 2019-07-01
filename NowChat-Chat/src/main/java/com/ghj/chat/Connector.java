@@ -1,10 +1,9 @@
 package com.ghj.chat;
 
 
-import com.ghj.chat.protocol.AckMessageProto;
-import com.ghj.chat.protocol.NotifyMessageProto;
-import com.ghj.chat.protocol.RequestMessageProto;
-import io.netty.bootstrap.Bootstrap;
+import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.NotifyMessageProto;
+import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -46,8 +45,6 @@ public class Connector {
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
             channel.closeFuture().sync();
-
-
         } catch (Exception e) {
             e.printStackTrace();
             bossGroup.shutdownGracefully();

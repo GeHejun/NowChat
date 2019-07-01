@@ -2,11 +2,11 @@ package com.ghj.chat.message;
 
 import com.ghj.chat.Session;
 import com.ghj.chat.SessionManager;
-import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
+import com.ghj.protocol.AckMessageProto;
 
 public class AckMessageSender implements Runnable{
 

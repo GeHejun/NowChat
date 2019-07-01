@@ -15,6 +15,7 @@
         <module>NowChat-Back</module>
         <module>NowChat-Eureka</module>
         <module>NowChat-Registry</module>
+        <module>NowChat-Protocol</module>
     </modules>
 
     <parent>

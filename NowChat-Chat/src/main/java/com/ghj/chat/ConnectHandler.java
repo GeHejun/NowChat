@@ -1,12 +1,12 @@
 package com.ghj.chat;
 
 import com.ghj.chat.message.MessageManager;
-import com.ghj.chat.protocol.AckMessageProto;
-import com.ghj.chat.protocol.RequestMessageProto;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.*;
+import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
