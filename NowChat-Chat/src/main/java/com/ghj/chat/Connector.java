@@ -5,10 +5,7 @@ import com.ghj.chat.protocol.AckMessageProto;
 import com.ghj.chat.protocol.NotifyMessageProto;
 import com.ghj.chat.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -45,7 +42,8 @@ public class Connector {
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            channelFuture.channel().closeFuture().sync();
+            Channel channel = channelFuture.channel();
+            channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
             bossGroup.shutdownGracefully();
