@@ -9,7 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
 
     }
 }

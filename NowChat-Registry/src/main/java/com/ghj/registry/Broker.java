@@ -14,8 +14,10 @@ import io.netty.handler.logging.LoggingHandler;
  * @date 2019/7/1 11:22
  */
 public class Broker {
+
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+
     ServerBootstrap serverBootstrap;
 
 
@@ -36,8 +38,6 @@ public class Broker {
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
             channel.closeFuture().sync();
-
-
         } catch (Exception e) {
             e.printStackTrace();
             bossGroup.shutdownGracefully();
