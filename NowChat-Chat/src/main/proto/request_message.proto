@@ -33,8 +33,9 @@ message RequestMessage {
 
   int64 deviceId = 12;
 
-  int32 associatedGroupId = 14;
+  int32 associatedGroupId = 13;
 
+  int32 machineSerialNumber = 14;
 
   enum ClientBehavior {
     LOGIN = 0;

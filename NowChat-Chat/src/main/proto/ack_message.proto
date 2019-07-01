@@ -25,6 +25,8 @@ message AckMessage {
 
     MessageDirect messageDirect = 8;
 
+    int32 machineSerialNumber = 9;
+
     enum MessageDirect {
         PERSONAL = 0;
         GROUP = 1;

@@ -11,8 +11,6 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.util.Date;
-
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -93,7 +91,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         return AckMessageProto.AckMessage.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
-                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())
                 .setToUserId(message.getFromUserId())
                 .setMatchMessageId(message.getId())
                 .build();

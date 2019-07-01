@@ -19,5 +19,5 @@ message NotifyMessage {
 
     repeated int32 toUserIds = 5;
 
-
+    int32 machineSerialNumber = 6;
 }
