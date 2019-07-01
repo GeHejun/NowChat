@@ -2,9 +2,9 @@
 syntax = "proto3";
 
 //包名
-option java_package = "";
+option java_package = "com.ghj.chat.protocol";
 //源文件类名
-option java_outer_classname = "com.ghj.chat.protocol.RequestMessageProto";
+option java_outer_classname = "RequestMessageProto";
 
 // class Person
 message RequestMessage {
@@ -48,6 +48,7 @@ message RequestMessage {
     PERSONAL = 0;
     GROUP = 1;
     SERVER = 2;
+    REGISTRY = 3;
   }
 
 }
