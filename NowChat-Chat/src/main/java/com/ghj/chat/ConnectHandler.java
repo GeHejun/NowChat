@@ -91,7 +91,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         return AckMessageProto.AckMessage.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
-                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), code == Code.LOGIN_SUCCESS ? MachineSerialNumber.get() : message.getMachineSerialNumber()).nextId())
                 .setToUserId(message.getFromUserId())
                 .setMatchMessageId(message.getId())
                 .build();
