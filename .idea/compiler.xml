@@ -10,6 +10,7 @@
         <module name="NowChat-Chat" />
         <module name="NowChat-Common" />
         <module name="NowChat-Eureka" />
+        <module name="NowChat-Registry" />
         <module name="NowChat-Rest" />
       </profile>
     </annotationProcessing>
@@ -23,6 +24,7 @@
       <module name="NowChat-Chat" options="-parameters" />
       <module name="NowChat-Common" options="-parameters" />
       <module name="NowChat-Eureka" options="-parameters" />
+      <module name="NowChat-Registry" options="-parameters" />
       <module name="NowChat-Rest" options="-parameters" />
     </option>
   </component>

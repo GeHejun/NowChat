@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/NowChat-Chat" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/NowChat-Common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/NowChat-Eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/NowChat-Registry" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/NowChat-Rest" charset="UTF-8" />
   </component>
 </project>
