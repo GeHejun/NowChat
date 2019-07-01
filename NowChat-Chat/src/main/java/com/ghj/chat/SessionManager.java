@@ -1,6 +1,8 @@
 package com.ghj.chat;
 
+import com.ghj.common.base.Constant;
 import com.ghj.common.util.NettyAttrUtil;
+import com.ghj.common.util.RedisPoolUtil;
 
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,13 +33,13 @@ public class SessionManager {
         new Thread(()->{
             for (;;) {
                 SESSION_MAP.forEach((k,v)->{
-                    if (NettyAttrUtil.getReaderTime(((Session)v).channel) < new Date().getTime()) {
+                    if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
                         removeSession((Integer) k);
                         Thread.yield();
                     }
                 });
             }
         }).start();
-
     }
+
 }
