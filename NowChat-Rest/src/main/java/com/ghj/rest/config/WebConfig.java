@@ -1,4 +1,4 @@
-package com.ghj.rest.webconfig;
+package com.ghj.rest.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
