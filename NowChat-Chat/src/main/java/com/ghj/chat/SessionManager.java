@@ -1,10 +1,7 @@
 package com.ghj.chat;
 
-import com.ghj.common.base.Constant;
 import com.ghj.common.util.NettyAttrUtil;
-import com.ghj.common.util.RedisPoolUtil;
 
-import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 
