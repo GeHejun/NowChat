@@ -35,7 +35,7 @@ message RequestMessage {
 
   int32 associatedGroupId = 13;
 
-  int32 machineSerialNumber = 14;
+  int64 machineSerialNumber = 14;
 
   enum ClientBehavior {
     LOGIN = 0;
