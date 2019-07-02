@@ -1,5 +1,8 @@
 package com.ghj.registry;
 
+
+import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
+import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -10,6 +13,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
+        if (o instanceof RegisterMessage) {
 
+        }
+        if (o instanceof RequestMessage) {
+
+        }
     }
 }

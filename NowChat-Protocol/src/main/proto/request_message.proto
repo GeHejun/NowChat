@@ -48,7 +48,6 @@ message RequestMessage {
     PERSONAL = 0;
     GROUP = 1;
     SERVER = 2;
-    REGISTRY = 3;
   }
 
 }
