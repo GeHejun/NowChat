@@ -33,6 +33,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                             .nickName(message.getNickName())
                             .build();
                     SessionManager.putSession(message.getFromUserId(), session);
+                    NettyAttrUtil.updateReaderTime(channel, System.currentTimeMillis() + Constant.PING_ADD_TIME);
                     incrementOnLineUser(message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
                 } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.ghj.registry;
 
+import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.RequestMessageProto;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -33,7 +34,7 @@ public class MessageDistributorCenter {
 
    public void takeMessage() {
         for (;;) {
-            requestMessageQueue.poll();
+            ThreadPoolManager.getsInstance().execute(new RequestMessageDistributor((RequestMessageProto.RequestMessage) requestMessageQueue.poll()));;
         }
    }
 

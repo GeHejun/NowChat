@@ -5,15 +5,12 @@ import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
 import com.ghj.common.util.JSONUtil;
+import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
-import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
 import com.ghj.protocol.RequestMessageProto.RequestMessage;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.Objects;
 
 /**
  * @author gehj
@@ -42,6 +39,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .channel(channelHandlerContext.channel())
                     .build();
             Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSession);
+            NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = RequestMessage.newBuilder()
                     .setClientBehavior(RequestMessage.ClientBehavior.REGISTRY_ACK)
                     .setMessageDirect(RequestMessage.MessageDirect.SERVER)
@@ -63,12 +61,6 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     }
 
     public void dealRequestMessage(RequestMessage requestMessage) {
-//        long machineSerialNumber = (requestMessage).getMachineSerialNumber();
-//        ServerSession serverSessionManager = Registry.getServerSession(machineSerialNumber);
-//        Channel serverChannel = serverSessionManager.getChannel();
-//        if (Objects.isNull(serverChannel)) {
-//            //一致性hash
-//        }
         MessageDistributorCenter.getInstance().putMessage(requestMessage);
     }
 }
