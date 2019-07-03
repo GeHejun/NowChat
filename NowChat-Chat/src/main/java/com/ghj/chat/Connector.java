@@ -6,7 +6,7 @@ import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.NotifyMessageProto;
-import com.ghj.protocol.RegistrationMessageProto;
+import com.ghj.protocol.RegistryMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -44,7 +44,7 @@ public class Connector {
                             pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(RegistrationMessageProto.RegistrationMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(RegistryMessageProto.RegistryMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ConnectHandler());
                         }
@@ -75,8 +75,8 @@ public class Connector {
                     if (!future.isSuccess()) {
                         throw new ServerException();
                     }
-                    RegistrationMessageProto.RegistrationMessage registerMessage =
-                            RegistrationMessageProto.RegistrationMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
+                    RegistryMessageProto.RegistryMessage registerMessage =
+                            RegistryMessageProto.RegistryMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
                     channel.writeAndFlush(registerMessage);
                 });
             } catch (Exception e) {

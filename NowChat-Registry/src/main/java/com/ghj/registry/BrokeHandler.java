@@ -1,7 +1,7 @@
 package com.ghj.registry;
 
 
-import com.ghj.protocol.RegistrationMessageProto.*;
+import com.ghj.protocol.RegistryMessageProto.*;
 import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,8 +14,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-        if (o instanceof RegistrationMessage) {
-            RegistrationMessage registerMessage = (RegistrationMessage) o;
+        if (o instanceof RegistryMessage) {
+            RegistryMessage registerMessage = (RegistryMessage) o;
             ServerSession serverSession = ServerSession.builder().machineSerialNumber(registerMessage.getMachineSerialNumber())
                     .ip(registerMessage.getIp()).port(registerMessage.getPort())
                     .channel(channelHandlerContext.channel()).build();
