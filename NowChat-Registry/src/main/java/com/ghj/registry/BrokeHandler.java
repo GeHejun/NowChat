@@ -7,14 +7,13 @@ import com.ghj.common.base.Result;
 import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.RegisterMessageProto.*;
+import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
 import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author gehj
@@ -24,28 +23,25 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         if (o instanceof RegisterMessage) {
-            ThreadPoolManager.getsInstance().execute(() -> {
-                RegisterMessage registerMessage = (RegisterMessage) o;
-                dealRegisterMessage(channelHandlerContext, registerMessage);
-            });
+            RegisterMessage registerMessage = (RegisterMessage) o;
+            dealRegisterMessage(channelHandlerContext, registerMessage);
         }
         if (o instanceof RequestMessage) {
-            ThreadPoolManager.getsInstance().execute(() -> {
-                RequestMessage requestMessage = (RequestMessage)o;
-                dealRequestMessage(requestMessage);
-            });
+            RequestMessage requestMessage = (RequestMessage)o;
+            dealRequestMessage(requestMessage);
+
         }
     }
 
     public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, RegisterMessage registerMessage) {
         RequestMessage requestMessage;
         try {
-            ServerSessionManager serverSessionManager = ServerSessionManager.builder()
+            ServerSession serverSession = ServerSession.builder()
                     .machineSerialNumber(registerMessage.getMachineSerialNumber())
                     .ip(registerMessage.getIp()).port(registerMessage.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
-            Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSessionManager);
+            Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSession);
             requestMessage = RequestMessage.newBuilder()
                     .setClientBehavior(RequestMessage.ClientBehavior.REGISTRY_ACK)
                     .setMessageDirect(RequestMessage.MessageDirect.SERVER)
@@ -63,16 +59,16 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .setId(new SnowFlakeIdGenerator(registerMessage.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
                     .build();
         }
-        channelHandlerContext.channel().writeAndFlush(requestMessage);
+        MessageDistributorCenter.getInstance().putMessage(requestMessage);
     }
 
     public void dealRequestMessage(RequestMessage requestMessage) {
-        long machineSerialNumber = (requestMessage).getMachineSerialNumber();
-        ServerSessionManager serverSessionManager = Registry.getServerSession(machineSerialNumber);
-        Channel serverChannel = serverSessionManager.getChannel();
-        if (Objects.isNull(serverChannel)) {
-            //一致性hash
-        }
-        serverChannel.writeAndFlush(requestMessage);
+//        long machineSerialNumber = (requestMessage).getMachineSerialNumber();
+//        ServerSession serverSessionManager = Registry.getServerSession(machineSerialNumber);
+//        Channel serverChannel = serverSessionManager.getChannel();
+//        if (Objects.isNull(serverChannel)) {
+//            //一致性hash
+//        }
+        MessageDistributorCenter.getInstance().putMessage(requestMessage);
     }
 }
