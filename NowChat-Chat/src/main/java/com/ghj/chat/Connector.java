@@ -6,7 +6,7 @@ import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.NotifyMessageProto;
-import com.ghj.protocol.RegisterMessageProto;
+import com.ghj.protocol.RegistrationMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -74,8 +74,8 @@ public class Connector {
                     if (!future.isSuccess()) {
                         throw new ServerException();
                     }
-                    RegisterMessageProto.RegisterMessage registerMessage =
-                            RegisterMessageProto.RegisterMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
+                    RegistrationMessageProto.RegistrationMessage registerMessage =
+                            RegistrationMessageProto.RegistrationMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
                     channel.writeAndFlush(registerMessage);
                 });
             } catch (Exception e) {
