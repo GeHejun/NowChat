@@ -1,11 +1,14 @@
 package com.ghj.registry;
 
 
+import com.ghj.common.util.ConsistentHash;
 import com.ghj.protocol.RegistryMessageProto.*;
 import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.util.Objects;
 
 /**
  * @author gehj
@@ -22,11 +25,12 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
             Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSession);
         }
         if (o instanceof RequestMessage) {
-            ServerSession serverSession = Registry.getServerSession(((RequestMessage) o).getMachineSerialNumber());
+            long machineSerialNumber = ((RequestMessage) o).getMachineSerialNumber();
+            ServerSession serverSession = Registry.getServerSession(machineSerialNumber);
             Channel serverChannel = serverSession.getChannel();
-//            if (Objects.isNull(serverChannel)) {
-//
-//            }
+            if (Objects.isNull(serverChannel)) {
+                //一致性hash
+            }
             serverChannel.writeAndFlush(o);
         }
     }
