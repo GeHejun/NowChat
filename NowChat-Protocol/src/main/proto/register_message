@@ -1,4 +1,3 @@
-//指定protobuf语法版本
 syntax = "proto3";
 
 //包名
