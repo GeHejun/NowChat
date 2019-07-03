@@ -44,6 +44,7 @@ public class Connector {
                             pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(RegistrationMessageProto.RegistrationMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ConnectHandler());
                         }
