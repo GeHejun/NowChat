@@ -52,4 +52,8 @@ public class Constant {
 
     public static final Long MACHINE_SERIAL_NUMBER = MachineSerialNumber.get();
 
+    public static final String REGISTER_IP = "register.ip";
+
+    public static final String REGISTER_PORT = "register.port";
+
 }

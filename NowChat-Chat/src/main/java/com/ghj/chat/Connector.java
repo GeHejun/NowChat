@@ -1,8 +1,12 @@
 package com.ghj.chat;
 
 
+import com.ghj.common.base.Constant;
+import com.ghj.common.exception.ServerException;
+import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.NotifyMessageProto;
+import com.ghj.protocol.RegisterMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -13,6 +17,8 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+
+import java.net.InetSocketAddress;
 
 /**
  * @author GeHejun
@@ -44,6 +50,7 @@ public class Connector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
+            register(channel);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,5 +62,26 @@ public class Connector {
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
+    }
+
+    public void register(Channel channel) {
+        new Thread(() -> {
+            try {
+                String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTER_IP, "");
+                Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTER_PORT, ""));
+                ChannelFuture channelFuture = channel.connect(new InetSocketAddress(registerIp, registerPort));
+                channelFuture.addListener(future -> {
+                    if (!future.isSuccess()) {
+                        throw new ServerException();
+                    }
+                    RegisterMessageProto.RegisterMessage registerMessage =
+                            RegisterMessageProto.RegisterMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
+                    channel.writeAndFlush(registerMessage);
+                });
+            } catch (Exception e) {
+
+            }
+
+        }).start();
     }
 }

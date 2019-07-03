@@ -42,6 +42,7 @@ message RequestMessage {
         PING = 1;
         MESSAGE = 2;
         LOGIN_OUT = 3;
+        REGISTRY_ACK = 4;
     }
 
     enum MessageDirect {

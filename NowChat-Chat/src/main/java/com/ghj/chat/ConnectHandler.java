@@ -16,6 +16,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @date 2019-06-24
  */
 public class ConnectHandler extends SimpleChannelInboundHandler {
+
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         RequestMessageProto.RequestMessage message = (RequestMessageProto.RequestMessage)o;
