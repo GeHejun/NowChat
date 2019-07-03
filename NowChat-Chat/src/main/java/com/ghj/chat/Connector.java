@@ -4,9 +4,10 @@ package com.ghj.chat;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
+import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.NotifyMessageProto;
-import com.ghj.protocol.RegistryMessageProto;
+import com.ghj.protocol.RegisterMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -44,7 +45,7 @@ public class Connector {
                             pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(RegistryMessageProto.RegistryMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ConnectHandler());
                         }
@@ -66,7 +67,7 @@ public class Connector {
     }
 
     public void register(Channel channel) {
-        new Thread(() -> {
+        ThreadPoolManager.getsInstance().execute(() -> {
             try {
                 String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTER_IP, "");
                 Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTER_PORT, ""));
@@ -75,14 +76,16 @@ public class Connector {
                     if (!future.isSuccess()) {
                         throw new ServerException();
                     }
-                    RegistryMessageProto.RegistryMessage registerMessage =
-                            RegistryMessageProto.RegistryMessage.newBuilder().setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
+                    RegisterMessageProto.RegisterMessage registerMessage =
+                            RegisterMessageProto.RegisterMessage.newBuilder()
+                                    .setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
                     channel.writeAndFlush(registerMessage);
                 });
             } catch (Exception e) {
 
             }
 
-        }).start();
+        });
+
     }
 }

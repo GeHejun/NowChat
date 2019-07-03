@@ -56,4 +56,7 @@ public class Constant {
 
     public static final String REGISTER_PORT = "register.port";
 
+    public static final String REGISTER_SUCCESS = "服务端注册成功";
+
+    public static final String REGISTER_FAILURE = "服务端注册失败";
 }

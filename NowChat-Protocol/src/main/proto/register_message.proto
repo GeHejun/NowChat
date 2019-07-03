@@ -3,10 +3,10 @@ syntax = "proto3";
 //包名
 option java_package = "com.ghj.protocol";
 //源文件类名
-option java_outer_classname = "RegistryMessageProto";
+option java_outer_classname = "RegisterMessageProto";
 
 // class Person
-message RegistryMessage {
+message RegisterMessage {
 
     string ip = 1;
 
@@ -14,8 +14,11 @@ message RegistryMessage {
 
     int32 port = 3;
 
+    enum ClientBehavior {
+        REGISTER = 0;
+    }
+
     enum MessageDirect {
         REGISTRY = 0;
     }
-
 }

@@ -8,13 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Registry {
 
-    public static ConcurrentHashMap<Long, ServerSession> SERVER_SESSION_MAP = new ConcurrentHashMap(32);
+    public static ConcurrentHashMap<Long, ServerSessionManager> SERVER_SESSION_MAP = new ConcurrentHashMap(32);
 
-    public static void putServerSession(Long machineSerialNumber, ServerSession serverSession) {
-        SERVER_SESSION_MAP.put(machineSerialNumber, serverSession);
+    public static void putServerSession(Long machineSerialNumber, ServerSessionManager serverSessionManager) {
+        SERVER_SESSION_MAP.put(machineSerialNumber, serverSessionManager);
     }
 
-    public static ServerSession getServerSession(Long machineSerialNumber) {
+    public static ServerSessionManager getServerSession(Long machineSerialNumber) {
         return SERVER_SESSION_MAP.get(machineSerialNumber);
     }
 }

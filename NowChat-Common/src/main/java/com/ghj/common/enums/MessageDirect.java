@@ -5,5 +5,5 @@ package com.ghj.common.enums;
  * @date 2019/6/2414:39
  */
 public enum MessageDirect {
-    PERSONAL,GROUP,SERVER
+    PERSONAL,GROUP,SERVER,REGISTRY
 }

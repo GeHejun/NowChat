@@ -4,5 +4,5 @@ package com.ghj.common.enums;
  * @date 2019-06-24
  */
 public enum ClientBehavior {
-    LOGIN,PING,MESSAGE,LOGIN_OUT
+    LOGIN,PING,MESSAGE,LOGIN_OUT,REGISTER,REGISTRY_ACK
 }
