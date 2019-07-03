@@ -16,6 +16,7 @@
         <module>NowChat-Eureka</module>
         <module>NowChat-Registry</module>
         <module>NowChat-Protocol</module>
+        <module>NowChat-Client</module>
     </modules>
 
     <parent>
