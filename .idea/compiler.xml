@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="NowChat-Back" />
         <module name="NowChat-Chat" />
+        <module name="NowChat-Client" />
         <module name="NowChat-Common" />
         <module name="NowChat-Eureka" />
         <module name="NowChat-Protocol" />
@@ -23,6 +24,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="NowChat-Back" options="-parameters" />
       <module name="NowChat-Chat" options="-parameters" />
+      <module name="NowChat-Client" options="-parameters" />
       <module name="NowChat-Common" options="-parameters" />
       <module name="NowChat-Eureka" options="-parameters" />
       <module name="NowChat-Protocol" options="-parameters" />
