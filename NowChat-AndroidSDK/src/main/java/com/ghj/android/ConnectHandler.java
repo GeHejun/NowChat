@@ -1,5 +1,8 @@
 package com.ghj.android;
 
+import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.RegisterMessageProto;
+import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -10,6 +13,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class ConnectHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg)  {
+        if (msg instanceof AckMessageProto.AckMessage) {
+            AckMessageProto.AckMessage ackMessage = (AckMessageProto.AckMessage) msg;
+        }
+        if (msg instanceof RequestMessageProto.RequestMessage) {
+            RequestMessageProto.RequestMessage requestMessage = (RequestMessageProto.RequestMessage) msg;
 
+        }
     }
 }
