@@ -14,10 +14,12 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class Connnector {
 
+    Bootstrap bootstrap;
+    NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
+
     public void connect(String host, int port) {
-        NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
         try {
-            Bootstrap bootstrap = new Bootstrap()
+            bootstrap = new Bootstrap()
                     .group(nioEventLoopGroup)
                     .channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
@@ -31,12 +33,13 @@ public class Connnector {
                     });
             // 发起异步连接操作
             ChannelFuture f = bootstrap.connect(host, port).sync();
-
             // 等待客户端链路关闭
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             nioEventLoopGroup.shutdownGracefully();
         }
-
+    }
+    public void stop() {
+        nioEventLoopGroup.shutdownGracefully();
     }
 }
