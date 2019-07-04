@@ -1,5 +1,6 @@
 package com.ghj.android;
 
+import com.ghj.protocol.AckMessageProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -7,6 +8,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 /**
  * @author gehj
@@ -26,8 +29,9 @@ public class Connnector {
                     .handler(new ChannelInitializer<SocketChannel>()
                     {
                         @Override
-                        public void initChannel(SocketChannel ch)
-                        {
+                        public void initChannel(SocketChannel ch) {
+                            ch.pipeline().addLast(new ProtobufEncoder());
+                            ch.pipeline().addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             ch.pipeline().addLast(new ConnectHandler());
                         }
                     });
