@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NowChat-Client/NowChat-Client.iml" filepath="$PROJECT_DIR$/NowChat-Client/NowChat-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NowChat-AndroidSDK/NowChat-AndroidSDK.iml" filepath="$PROJECT_DIR$/NowChat-AndroidSDK/NowChat-AndroidSDK.iml" />
     </modules>
   </component>
 </project>
