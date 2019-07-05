@@ -1,6 +1,5 @@
 package com.ghj.android;
 
-import com.ghj.common.base.Constant;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,15 +19,12 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg)  {
         if (msg instanceof AckMessageProto.AckMessage) {
             AckMessageProto.AckMessage ackMessage = (AckMessageProto.AckMessage) msg;
-            switch (ackMessage.getCode()) {
-                case Constant.LOGIN_SUCCESS_CODE:
-                    break;
-                    default:
-            }
+           ackMessageListener.dealAckMessage(ackMessage);
 
         }
         if (msg instanceof RequestMessageProto.RequestMessage) {
             RequestMessageProto.RequestMessage requestMessage = (RequestMessageProto.RequestMessage) msg;
+            requestMessageListener.dealRequestMessage(requestMessage);
 
         }
     }
