@@ -45,11 +45,7 @@ public class MessageManager {
         }
 
     }
-
-
-
-
-
-
-
+    public void sendLoginMessage(RequestMessageProto.RequestMessage requestMessage) {
+        ThreadPoolManager.getsInstance().execute(new MessageSender(channel, requestMessage));
+    }
 }

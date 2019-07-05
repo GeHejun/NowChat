@@ -51,7 +51,7 @@ public class Connnector {
                             .setId(new SnowFlakeIdGenerator(Constant.MACHINE_SERIAL_NUMBER, 0L).nextId())
                             .setClientBehavior(RequestMessageProto.RequestMessage.ClientBehavior.LOGIN)
                             .build();
-                    messageManager.messageQueue.add(requestMessage);
+                    messageManager.sendLoginMessage(requestMessage);
                 }
             });
 
