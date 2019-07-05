@@ -1,7 +1,7 @@
 package com.ghj.android.core;
 
-import com.ghj.android.request.RequestMessageListener;
-import com.ghj.android.ack.AckMessageListener;
+import com.ghj.android.message.RequestMessageListener;
+import com.ghj.android.message.AckMessageListener;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.ChannelHandlerContext;

@@ -1,4 +1,4 @@
-package com.ghj.android.ack;
+package com.ghj.android.message;
 
 /**
  * @author gehj

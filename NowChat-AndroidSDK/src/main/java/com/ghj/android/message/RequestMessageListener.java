@@ -1,4 +1,4 @@
-package com.ghj.android.request;
+package com.ghj.android.message;
 
 import com.ghj.protocol.RequestMessageProto;
 
