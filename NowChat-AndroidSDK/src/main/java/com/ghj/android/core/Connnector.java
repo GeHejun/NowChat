@@ -2,6 +2,7 @@ package com.ghj.android.core;
 
 import com.ghj.protocol.AckMessageProto;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -20,7 +21,7 @@ public class Connnector {
     Bootstrap bootstrap;
     NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
 
-    public void connect(String host, int port) {
+    public void connect(String host, int port, MessageManager messageManager) {
         try {
             bootstrap = new Bootstrap()
                     .group(nioEventLoopGroup)
@@ -37,8 +38,10 @@ public class Connnector {
                     });
             // 发起异步连接操作
             ChannelFuture f = bootstrap.connect(host, port).sync();
+            Channel channel = f.channel();
+            messageManager.setChannel(channel);
             // 等待客户端链路关闭
-            f.channel().closeFuture().sync();
+            channel.closeFuture().sync();
         } catch (InterruptedException e) {
             nioEventLoopGroup.shutdownGracefully();
         }
