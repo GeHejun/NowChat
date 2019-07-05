@@ -2,8 +2,6 @@ package com.ghj.common.base;
 
 import com.ghj.common.util.MachineSerialNumber;
 
-import java.security.acl.LastOwnerException;
-
 /**
  * @author GeHejun
  * @date 2019-06-24
