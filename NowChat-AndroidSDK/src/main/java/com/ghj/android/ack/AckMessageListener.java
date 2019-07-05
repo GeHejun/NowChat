@@ -1,4 +1,4 @@
-package com.ghj.android;
+package com.ghj.android.ack;
 
 import com.ghj.protocol.AckMessageProto;
 
