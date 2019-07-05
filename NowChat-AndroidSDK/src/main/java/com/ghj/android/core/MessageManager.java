@@ -24,7 +24,6 @@ public class MessageManager {
         if (messageManager == null) {
             synchronized (MessageManager.class) {
                 messageManager = new MessageManager();
-                messageManager.takeMessage();
             }
         }
         return messageManager;
