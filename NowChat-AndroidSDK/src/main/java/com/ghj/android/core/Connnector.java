@@ -1,6 +1,10 @@
 package com.ghj.android.core;
 
+import com.ghj.common.base.Constant;
+import com.ghj.common.util.MachineSerialNumber;
+import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -39,7 +43,19 @@ public class Connnector {
             // 发起异步连接操作
             ChannelFuture f = bootstrap.connect(host, port).sync();
             Channel channel = f.channel();
-            messageManager.setChannel(channel);
+            f.addListener(future -> {
+                if (future.isSuccess()) {
+                    messageManager.setChannel(channel);
+                    RequestMessageProto.RequestMessage requestMessage = RequestMessageProto.RequestMessage.newBuilder()
+                            .setMessageDirect(RequestMessageProto.RequestMessage.MessageDirect.SERVER)
+                            .setId(new SnowFlakeIdGenerator(Constant.MACHINE_SERIAL_NUMBER, 0L).nextId())
+                            .setClientBehavior(RequestMessageProto.RequestMessage.ClientBehavior.LOGIN)
+                            .build();
+                    messageManager.messageQueue.add(requestMessage);
+                }
+            });
+
+
             // 等待客户端链路关闭
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
