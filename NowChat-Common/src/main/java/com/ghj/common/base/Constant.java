@@ -57,4 +57,12 @@ public class Constant {
     public static final String REGISTER_SUCCESS = "服务端注册成功";
 
     public static final String REGISTER_FAILURE = "服务端注册失败";
+
+    public static final int SUCCESS_CODE = 2000;
+
+    public static final int LOGIN_SUCCESS_CODE = 2001;
+
+    public static final int PING_SUCCESS_CODE = 2002;
+
+    public static final int MESSAGE_SEND_SUCCESS_CODE = 2003;
 }
