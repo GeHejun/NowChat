@@ -18,6 +18,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="com.ghj" target="1.8" />
+      <module name="NowChat-Client" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -25,6 +26,7 @@
       <module name="NowChat-AndroidSDK" options="-parameters" />
       <module name="NowChat-Back" options="-parameters" />
       <module name="NowChat-Chat" options="-parameters" />
+      <module name="NowChat-Client" options="-parameters" />
       <module name="NowChat-Common" options="-parameters" />
       <module name="NowChat-Eureka" options="-parameters" />
       <module name="NowChat-Protocol" options="-parameters" />
