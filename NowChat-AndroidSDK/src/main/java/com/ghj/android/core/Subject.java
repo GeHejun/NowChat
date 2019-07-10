@@ -30,7 +30,7 @@ public class Subject {
 
     public void ackNotifyAllListener(AckMessageProto.AckMessage ackMessage) {
         for (Observer observer:ackObserverList) {
-            observer.loginMessageListener(ackMessage);
+            observer.ackMessageListener(ackMessage);
         }
     }
 
