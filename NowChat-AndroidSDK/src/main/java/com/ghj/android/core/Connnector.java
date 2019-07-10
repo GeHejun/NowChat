@@ -25,7 +25,7 @@ public class Connnector {
     Bootstrap bootstrap;
     NioEventLoopGroup nioEventLoopGroup = new NioEventLoopGroup();
 
-    public void connect(String host, int port, MessageManager messageManager) {
+    public void connect(String host, int port, MessageManager messageManager, Subject subject) {
         try {
             bootstrap = new Bootstrap()
                     .group(nioEventLoopGroup)
@@ -37,7 +37,7 @@ public class Connnector {
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new ProtobufEncoder());
                             ch.pipeline().addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
-                            ch.pipeline().addLast(new ConnectHandler());
+                            ch.pipeline().addLast(new ConnectHandler(subject));
                         }
                     });
             // 发起异步连接操作

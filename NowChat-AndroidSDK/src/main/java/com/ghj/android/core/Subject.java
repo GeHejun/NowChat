@@ -8,16 +8,16 @@ import java.util.List;
 
 public class Subject {
 
-    List<Observer> loginObserverList = new ArrayList<>();
+    List<Observer> ackObserverList = new ArrayList<>();
 
     List<Observer> requestObserverList = new ArrayList<>();
 
     public void attachLoginObserver(Observer observer) {
-        loginObserverList.add(observer);
+        ackObserverList.add(observer);
     }
 
     public void detachLoginObserver(Observer observer) {
-        loginObserverList.remove(observer);
+        ackObserverList.remove(observer);
     }
 
     public void attachRequestObserver(Observer observer) {
@@ -28,8 +28,8 @@ public class Subject {
         requestObserverList.remove(observer);
     }
 
-    public void loginNotifyAllListener(AckMessageProto.AckMessage ackMessage) {
-        for (Observer observer:loginObserverList) {
+    public void ackNotifyAllListener(AckMessageProto.AckMessage ackMessage) {
+        for (Observer observer:ackObserverList) {
             observer.loginMessageListener(ackMessage);
         }
     }
