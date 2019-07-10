@@ -22,11 +22,11 @@ public class ConnectAssistan {
         requestMessageObservers.forEach(requestMessageObserver -> subject.detachRequestObserver(requestMessageObserver));
     }
 
-    public void work(String ip, int port) {
+    public void work(String host, int port) {
         Connnector connnector = new Connnector();
         MessageManager messageManager = MessageManager.getInstance();
         try {
-            connnector.connect(ip, port, messageManager,subject);
+            connnector.connect(host, port, messageManager,subject);
         } catch (Exception e) {
             e.printStackTrace();
             connnector.stop();
