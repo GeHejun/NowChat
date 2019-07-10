@@ -1,4 +1,4 @@
-package com.ghj.android.core;
+package com.ghj.android.core.observer;
 
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.RequestMessageProto;

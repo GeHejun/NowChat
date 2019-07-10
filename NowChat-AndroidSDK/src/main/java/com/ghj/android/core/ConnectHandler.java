@@ -1,6 +1,7 @@
 package com.ghj.android.core;
 
 
+import com.ghj.android.core.observer.Subject;
 import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.ChannelHandlerContext;

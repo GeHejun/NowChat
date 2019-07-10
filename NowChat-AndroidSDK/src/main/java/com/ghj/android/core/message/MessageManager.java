@@ -1,6 +1,7 @@
-package com.ghj.android.core;
+package com.ghj.android.core.message;
 
 
+import com.ghj.android.core.Constant;
 import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;

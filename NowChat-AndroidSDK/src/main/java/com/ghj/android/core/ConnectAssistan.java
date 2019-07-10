@@ -1,6 +1,10 @@
 package com.ghj.android.core;
 
 
+import com.ghj.android.core.message.MessageManager;
+import com.ghj.android.core.observer.Observer;
+import com.ghj.android.core.observer.Subject;
+
 import java.util.List;
 
 /**
@@ -19,12 +23,6 @@ public class ConnectAssistan {
     public void detach(List<Observer> ackMessageObservers, List<Observer> requestMessageObservers) {
         ackMessageObservers.forEach(ackMessageObserver -> subject.detachAckObserver(ackMessageObserver));
         requestMessageObservers.forEach(requestMessageObserver -> subject.detachRequestObserver(requestMessageObserver));
-    }
-
-    public void attach() {
-    }
-
-    public void detach() {
     }
 
     public void work(String host, int port) {

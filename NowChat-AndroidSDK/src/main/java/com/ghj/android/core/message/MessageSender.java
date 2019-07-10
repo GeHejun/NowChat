@@ -1,4 +1,4 @@
-package com.ghj.android.core;
+package com.ghj.android.core.message;
 
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;

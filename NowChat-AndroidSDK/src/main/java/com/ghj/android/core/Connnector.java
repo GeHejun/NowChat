@@ -1,5 +1,7 @@
 package com.ghj.android.core;
 
+import com.ghj.android.core.message.MessageManager;
+import com.ghj.android.core.observer.Subject;
 import com.ghj.common.base.Constant;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.AckMessageProto;
