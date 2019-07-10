@@ -12,11 +12,11 @@ public class Subject {
 
     List<Observer> requestObserverList = new ArrayList<>();
 
-    public void attachLoginObserver(Observer observer) {
+    public void attachAckObserver(Observer observer) {
         ackObserverList.add(observer);
     }
 
-    public void detachLoginObserver(Observer observer) {
+    public void detachAckObserver(Observer observer) {
         ackObserverList.remove(observer);
     }
 
