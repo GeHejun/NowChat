@@ -14,6 +14,7 @@
         <module name="NowChat-Protocol" />
         <module name="NowChat-Registry" />
         <module name="NowChat-Rest" />
+        <module name="NowChat-Web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -32,6 +33,7 @@
       <module name="NowChat-Protocol" options="-parameters" />
       <module name="NowChat-Registry" options="-parameters" />
       <module name="NowChat-Rest" options="-parameters" />
+      <module name="NowChat-Web" options="-parameters" />
     </option>
   </component>
 </project>

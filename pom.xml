@@ -17,6 +17,7 @@
         <module>NowChat-Registry</module>
         <module>NowChat-Protocol</module>
         <module>NowChat-AndroidSDK</module>
+        <module>NowChat-Web</module>
     </modules>
 
     <parent>
