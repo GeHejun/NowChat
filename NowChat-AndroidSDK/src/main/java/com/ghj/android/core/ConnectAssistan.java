@@ -9,10 +9,9 @@ import java.util.List;
  */
 public class ConnectAssistan {
 
-    Subject subject;
+    Subject subject =  new Subject();
 
     public void attach(List<Observer> ackMessageObservers, List<Observer> requestMessageObservers) {
-        subject = new Subject();
         ackMessageObservers.forEach(ackMessageObserver -> subject.attachAckObserver(ackMessageObserver));
         requestMessageObservers.forEach(requestMessageObserver -> subject.attachRequestObserver(requestMessageObserver));
     }
@@ -20,6 +19,12 @@ public class ConnectAssistan {
     public void detach(List<Observer> ackMessageObservers, List<Observer> requestMessageObservers) {
         ackMessageObservers.forEach(ackMessageObserver -> subject.detachAckObserver(ackMessageObserver));
         requestMessageObservers.forEach(requestMessageObserver -> subject.detachRequestObserver(requestMessageObserver));
+    }
+
+    public void attach() {
+    }
+
+    public void detach() {
     }
 
     public void work(String host, int port) {
