@@ -16,7 +16,6 @@ public class MessageObserver implements Observer {
         this.messageCallBack = messageCallBack;
     }
 
-
     @Override
     public void ackMessageListener(AckMessageProto.AckMessage ackMessage) {
         if (Constant.MESSAGE_SEND_SUCCESS_CODE ==  ackMessage.getCode()) {
