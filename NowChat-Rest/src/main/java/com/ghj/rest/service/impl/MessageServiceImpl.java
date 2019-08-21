@@ -8,6 +8,7 @@ import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author gehj
  * @date 2019/6/25 17:47
  */
+@Service
 public class MessageServiceImpl implements MessageService {
 
 

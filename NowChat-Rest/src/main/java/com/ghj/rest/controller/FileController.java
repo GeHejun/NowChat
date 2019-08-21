@@ -23,8 +23,9 @@ public class FileController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public Result upload(MultipartFile file)  {
-        String imgUrl = fileService.uploadFile(file);
-        return Result.defaultSuccess(imgUrl);
+//        String imgUrl = fileService.uploadFile(file);
+//        return Result.defaultSuccess(imgUrl);
+        return Result.defaultFailure();
     }
 
 }

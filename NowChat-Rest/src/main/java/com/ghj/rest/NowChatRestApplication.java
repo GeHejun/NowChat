@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Import;
  */
 @EnableEurekaClient
 @SpringBootApplication
-
-@Import(FdfsClientConfig.class)
+//@Import(FdfsClientConfig.class)
+@MapperScan(basePackages = {"com.ghj.rest.dao"})
 public class NowChatRestApplication {
     public static void main(String[] args) {
         SpringApplication.run(NowChatRestApplication.class, args);

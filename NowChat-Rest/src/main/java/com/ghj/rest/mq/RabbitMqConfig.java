@@ -21,7 +21,7 @@ import static com.ghj.common.base.Constant.QUEUE_A;
  * @author GeHejun
  * @date 2019-06-25
  */
-@Configuration
+//@Configuration
 public class RabbitMqConfig {
 
 
