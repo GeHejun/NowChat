@@ -1,6 +1,7 @@
 package com.ghj.web.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author gehj
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TestController {
 
+
+
+    @RequestMapping("/test")
     public void test() {
 
     }
