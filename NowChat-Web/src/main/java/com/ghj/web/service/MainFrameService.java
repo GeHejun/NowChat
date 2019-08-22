@@ -12,5 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MainFrameService {
 
+    /**
+     * 初始化主面板数据
+     * @param id
+     * @return
+     */
     MainFrameVO initMainFrame(Integer id);
 }

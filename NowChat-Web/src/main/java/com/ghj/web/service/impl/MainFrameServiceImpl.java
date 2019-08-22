@@ -3,10 +3,7 @@ package com.ghj.web.service.impl;
 import com.ghj.common.dto.response.FriendGroupResponse;
 import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.common.dto.response.UserResponse;
-import com.ghj.web.service.FriendGroupService;
-import com.ghj.web.service.FriendService;
-import com.ghj.web.service.MainFrameService;
-import com.ghj.web.service.UserService;
+import com.ghj.web.service.*;
 import com.ghj.web.vo.FriendVO;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.MainFrameVO;
@@ -37,13 +34,16 @@ public class MainFrameServiceImpl implements MainFrameService {
     @Autowired
     FriendGroupService friendGroupService;
 
+    @Autowired
+    UserStateService userStateService;
+
     @Override
     public MainFrameVO initMainFrame(Integer id) {
         UserResponse userResponse = userService.queryUser(id).getData();
         UserVO userVO = UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .id(userResponse.getId().toString())
-                .status("")
+                .status(userStateService.queryUserStateById(id).getData().getName())
                 .username(userResponse.getNickName()).build();
         List<FriendResponse> friendResponseList = friendService.queryFriendList(id).getData();
         Map<Integer, List<FriendResponse>> groupMap = friendResponseList.stream().collect(Collectors.groupingBy(FriendResponse::getFriendGroupId));

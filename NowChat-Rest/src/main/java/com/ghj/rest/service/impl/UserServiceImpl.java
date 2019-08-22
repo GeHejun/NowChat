@@ -1,11 +1,10 @@
 package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.util.DesEncryptDecrypt;
-import com.ghj.common.exception.UserException;
-import com.ghj.rest.dao.UserMapper;
-import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
+import com.ghj.common.exception.UserException;
+import com.ghj.common.util.DesEncryptDecrypt;
+import com.ghj.rest.dao.UserMapper;
 import com.ghj.rest.model.User;
 import com.ghj.rest.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -29,12 +28,12 @@ public class UserServiceImpl implements UserService {
     RedisTemplate redisTemplate;
 
     @Override
-    public UserResponse validateUser(UserRequest userRequest) {
-        User user = userMapper.selectUserByLoginName(userRequest.getLoginName());
+    public UserResponse validateUser(String loginName, String password) {
+        User user = userMapper.selectUserByLoginName(loginName);
         if (Objects.isNull(user)) {
             throw new UserException();
         }
-        String encrypt = DesEncryptDecrypt.getInstance().encrypt(userRequest.getPassWord());
+        String encrypt = DesEncryptDecrypt.getInstance().encrypt(password);
         if (encrypt.equals(user.getPassWord())) {
             throw new UserException();
         }

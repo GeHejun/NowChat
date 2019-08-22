@@ -1,6 +1,5 @@
 package com.ghj.rest.service;
 
-import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 /**
  * @author GeHejun
@@ -8,7 +7,7 @@ import com.ghj.common.dto.response.UserResponse;
  */
 public interface UserService {
 
-    UserResponse validateUser(UserRequest userRequest);
+    UserResponse validateUser(String loginName, String password);
 
     UserResponse getUserById(Integer id);
 }

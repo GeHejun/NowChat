@@ -27,8 +27,8 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Result<UserResponse> login(@RequestParam @Valid UserRequest userRequest) {
-        UserResponse userResponse = userService.validateUser(userRequest);
+    public Result<UserResponse> login(@NotNull String loginName, @NotNull String passWord) {
+        UserResponse userResponse = userService.validateUser(loginName, passWord);
         return Result.defaultSuccess(userResponse);
     }
 
