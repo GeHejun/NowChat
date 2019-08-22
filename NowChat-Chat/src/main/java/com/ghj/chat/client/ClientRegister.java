@@ -4,9 +4,19 @@ import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
+import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.NotifyMessageProto;
 import com.ghj.protocol.RegisterMessageProto;
+import com.ghj.protocol.RequestMessageProto;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 import java.net.InetSocketAddress;
 
@@ -18,12 +28,37 @@ import java.net.InetSocketAddress;
  */
 public class ClientRegister {
 
-    public void register(Channel channel) {
+    public void clientStart() {
+
+        Bootstrap client = new Bootstrap();
+        //第1步 定义线程组，处理读写和链接事件，没有了accept事件
+        EventLoopGroup group = new NioEventLoopGroup();
+        client.group(group);
+
+        //第2步 绑定客户端通道
+        client.channel(NioSocketChannel.class);
+
+        //第3步 给NIoSocketChannel初始化handler， 处理读写事件
+        client.handler(new ChannelInitializer<NioSocketChannel>() {
+            @Override
+            protected void initChannel(NioSocketChannel ch) {
+                //字符串编码器，一定要加在SimpleClientHandler 的上面
+                ch.pipeline().addLast(new ProtobufEncoder());
+                ch.pipeline().addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
+                ch.pipeline().addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
+                ch.pipeline().addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
+                ch.pipeline().addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+            }
+        });
+        register(client);
+    }
+
+    public void register(Bootstrap bootstrap) {
         ThreadPoolManager.getsInstance().execute(() -> {
             try {
                 String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "");
                 Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, ""));
-                ChannelFuture channelFuture = channel.connect(new InetSocketAddress(registerIp, registerPort));
+                ChannelFuture channelFuture = bootstrap.connect(new InetSocketAddress(registerIp, registerPort));
                 channelFuture.addListener(future -> {
                     if (!future.isSuccess()) {
                         throw new ServerException();
@@ -31,7 +66,7 @@ public class ClientRegister {
                     RegisterMessageProto.RegisterMessage registerMessage =
                             RegisterMessageProto.RegisterMessage.newBuilder()
                                     .setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
-                    channel.writeAndFlush(registerMessage);
+                    channelFuture.channel().writeAndFlush(registerMessage);
                 });
             } catch (Exception e) {
                 e.printStackTrace();

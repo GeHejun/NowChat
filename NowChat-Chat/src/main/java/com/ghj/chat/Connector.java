@@ -1,6 +1,7 @@
 package com.ghj.chat;
 
 
+import com.ghj.chat.client.ClientRegister;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
@@ -9,6 +10,7 @@ import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.NotifyMessageProto;
 import com.ghj.protocol.RegisterMessageProto;
 import com.ghj.protocol.RequestMessageProto;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -52,6 +54,7 @@ public class Connector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
+            new ClientRegister().clientStart();
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,6 +67,6 @@ public class Connector {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
-
-
 }
+
+
