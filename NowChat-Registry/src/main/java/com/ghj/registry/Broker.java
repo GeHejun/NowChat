@@ -36,9 +36,9 @@ public class Broker {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
+//                            pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
+//                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+//                            pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new BrokeHandler());

@@ -28,13 +28,14 @@ import java.net.InetSocketAddress;
  * @date 2019-06-24
  */
 public class Connector {
-
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     ServerBootstrap serverBootstrap;
+    int port;
 
 
     public void start(int port) {
+        this.port = port;
         try {
             serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
@@ -54,7 +55,7 @@ public class Connector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
-            new ClientRegister().clientStart();
+            new ClientRegister().clientStart(this);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,6 +67,10 @@ public class Connector {
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
+    }
+
+    public int getPort() {
+        return port;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.ghj.chat.client;
 
+import com.ghj.chat.Connector;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
@@ -28,8 +29,10 @@ import java.net.InetSocketAddress;
  */
 public class ClientRegister {
 
-    public void clientStart() {
+    private Connector connector;
 
+    public void clientStart(Connector connector) {
+        this.connector = connector;
         Bootstrap client = new Bootstrap();
         //第1步 定义线程组，处理读写和链接事件，没有了accept事件
         EventLoopGroup group = new NioEventLoopGroup();
@@ -61,10 +64,13 @@ public class ClientRegister {
                 ChannelFuture channelFuture = bootstrap.connect(new InetSocketAddress(registerIp, registerPort));
                 channelFuture.addListener(future -> {
                     if (!future.isSuccess()) {
+                        connector.stop();
                         throw new ServerException();
                     }
                     RegisterMessageProto.RegisterMessage registerMessage =
                             RegisterMessageProto.RegisterMessage.newBuilder()
+                                    .setIp("127.0.0.1")
+                                    .setPort(connector.getPort())
                                     .setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
                     channelFuture.channel().writeAndFlush(registerMessage);
                 });

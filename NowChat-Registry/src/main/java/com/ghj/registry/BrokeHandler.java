@@ -39,7 +39,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .channel(channelHandlerContext.channel())
                     .build();
             Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSession);
-            NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
+            //NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = RequestMessage.newBuilder()
                     .setClientBehavior(RequestMessage.ClientBehavior.REGISTRY_ACK)
                     .setMessageDirect(RequestMessage.MessageDirect.SERVER)

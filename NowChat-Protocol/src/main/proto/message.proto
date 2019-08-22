@@ -4,10 +4,9 @@ syntax = "proto3";
 //包名
 option java_package = "com.ghj.protocol";
 //源文件类名
-option java_outer_classname = "RequestMessageProto";
+option java_outer_classname = "Message";
 
-// class Person
-message RequestMessage {
+message Message {
 
     int64 id = 1;
 
@@ -27,7 +26,7 @@ message RequestMessage {
 
     string token = 9;
 
-    ClientBehavior clientBehavior = 10;
+    MessageBehavior messageBehavior = 10;
 
     MessageDirect messageDirect = 11;
 
@@ -38,12 +37,24 @@ message RequestMessage {
     //消息路由到具体某一台服务器应该是路由算法决定的
     int64 machineSerialNumber = 14;
 
-    enum ClientBehavior {
+    string ip = 15;
+
+    string port = 16;
+
+    repeated int32 toUserIds = 17;
+
+    int64 matchMessageId = 18;
+
+    repeated int64 matchMessageIds = 19;
+
+
+    enum MessageBehavior {
         LOGIN = 0;
         PING = 1;
         MESSAGE = 2;
         LOGIN_OUT = 3;
         REGISTRY_ACK = 4;
+        NOTIFY = 5;
     }
 
     enum MessageDirect {
@@ -51,6 +62,4 @@ message RequestMessage {
         GROUP = 1;
         SERVER = 2;
     }
-
-
 }
