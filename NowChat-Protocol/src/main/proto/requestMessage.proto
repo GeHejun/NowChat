@@ -35,6 +35,7 @@ message RequestMessage {
 
     int32 associatedGroupId = 13;
 
+    //消息路由到具体某一台服务器应该是路由算法决定的
     int64 machineSerialNumber = 14;
 
     enum ClientBehavior {

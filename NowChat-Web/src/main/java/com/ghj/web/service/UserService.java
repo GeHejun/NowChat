@@ -18,6 +18,11 @@ import javax.validation.constraints.NotNull;
 @FeignClient(name = "rest")
 public interface UserService {
 
+    /**
+     * 查询用户信息
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/queryUser", method = RequestMethod.GET)
     @ResponseBody
     Result<UserResponse> queryUser(@NotNull Integer id);

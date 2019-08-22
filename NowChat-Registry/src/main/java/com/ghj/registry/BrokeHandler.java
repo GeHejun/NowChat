@@ -47,7 +47,6 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .setMachineSerialNumber(registerMessage.getMachineSerialNumber())
                     .setId(new SnowFlakeIdGenerator(registerMessage.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
                     .build();
-
         } catch (Exception e) {
             requestMessage = RequestMessage.newBuilder()
                     .setMessageDirect(RequestMessage.MessageDirect.SERVER)

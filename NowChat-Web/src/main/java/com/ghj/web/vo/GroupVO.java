@@ -19,5 +19,5 @@ public class GroupVO {
 
     private Integer id;
 
-    private List<FriendVO> friend;
+    private List<UserVO> friend;
 }

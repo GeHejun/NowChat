@@ -18,6 +18,11 @@ import java.util.List;
 @FeignClient(name = "rest")
 public interface FriendService {
 
+    /**
+     * 查询好友列表
+     * @param userId
+     * @return
+     */
     @RequestMapping("/queryFriendList")
     @ResponseBody
     Result<List<FriendResponse>> queryFriendList(@Valid Integer userId);

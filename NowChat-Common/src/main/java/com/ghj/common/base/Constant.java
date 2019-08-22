@@ -12,7 +12,7 @@ public class Constant {
 
     public static final String ENCRYPT_DECRYPT_KEY = "ENCRYPT_DECRYPT_KEY";
 
-    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY";
+    public static final String USER_TOKEN_KEY = "_USER_TOKEN_KEY";
 
     public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
 
@@ -54,9 +54,9 @@ public class Constant {
 
     public static final Long MACHINE_SERIAL_NUMBER = MachineSerialNumber.get();
 
-    public static final String REGISTER_IP = "register.ip";
+    public static final String REGISTRY_IP = "registry.ip";
 
-    public static final String REGISTER_PORT = "register.port";
+    public static final String REGISTRY_PORT = "registry.port";
 
     public static final String REGISTER_SUCCESS = "服务端注册成功";
 

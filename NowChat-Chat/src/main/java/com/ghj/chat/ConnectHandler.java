@@ -3,13 +3,18 @@ package com.ghj.chat;
 import com.ghj.chat.message.MessageManager;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
+import com.ghj.common.exception.ServerException;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.*;
 import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.RegisterMessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.net.InetSocketAddress;
 
 /**
  * @author GeHejun
@@ -17,6 +22,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ConnectHandler extends SimpleChannelInboundHandler {
 
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
@@ -101,5 +110,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 .setMatchMessageId(message.getId())
                 .build();
     }
+
+
 
 }

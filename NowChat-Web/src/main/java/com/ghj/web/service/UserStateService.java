@@ -16,6 +16,11 @@ import javax.validation.constraints.NotNull;
 @FeignClient(name = "rest")
 public interface UserStateService {
 
+    /**
+     * 查询状态信息
+     * @param id
+     * @return
+     */
     @RequestMapping("/")
     Result<UserStateResponse> queryUserStateById(@NotNull Integer id);
 }

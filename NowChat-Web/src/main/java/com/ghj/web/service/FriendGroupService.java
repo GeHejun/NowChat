@@ -16,6 +16,11 @@ import javax.validation.constraints.NotNull;
 @FeignClient(name = "rest")
 public interface FriendGroupService {
 
+    /**
+     * 查询好友所在群组信息
+     * @param id
+     * @return
+     */
     @RequestMapping("/queryGroupById")
     Result<FriendGroupResponse> queryGroupById(@NotNull Integer id);
 }

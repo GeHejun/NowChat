@@ -23,7 +23,10 @@ public class MainFrameController {
     @Autowired
     MainFrameService mainFrameService;
 
-    @RequestMapping
+    /**
+     * 暂时写死用id 以后改成token
+     */
+    @RequestMapping("/initMainFrame")
     public Result<MainFrameVO> initMainFrame(@NotNull Integer id) {
         MainFrameVO mainFrameVO = mainFrameService.initMainFrame(id);
         return Result.defaultSuccess(mainFrameVO);

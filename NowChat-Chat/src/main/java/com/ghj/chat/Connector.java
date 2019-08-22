@@ -42,17 +42,16 @@ public class Connector {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
                             pipeline.addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufEncoder());
+                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
                             pipeline.addLast(new ConnectHandler());
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
-            register(channel);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,26 +65,5 @@ public class Connector {
         workerGroup.shutdownGracefully();
     }
 
-    public void register(Channel channel) {
-        ThreadPoolManager.getsInstance().execute(() -> {
-            try {
-                String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTER_IP, "");
-                Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTER_PORT, ""));
-                ChannelFuture channelFuture = channel.connect(new InetSocketAddress(registerIp, registerPort));
-                channelFuture.addListener(future -> {
-                    if (!future.isSuccess()) {
-                        throw new ServerException();
-                    }
-                    RegisterMessageProto.RegisterMessage registerMessage =
-                            RegisterMessageProto.RegisterMessage.newBuilder()
-                                    .setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
-                    channel.writeAndFlush(registerMessage);
-                });
-            } catch (Exception e) {
 
-            }
-
-        });
-
-    }
 }

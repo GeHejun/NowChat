@@ -1,16 +1,16 @@
 package com.ghj.web.service.impl;
 
+import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.FriendGroupResponse;
 import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.web.service.*;
-import com.ghj.web.vo.FriendVO;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.MainFrameVO;
 import com.ghj.web.vo.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,39 +25,53 @@ import java.util.stream.Collectors;
 @Service
 public class MainFrameServiceImpl implements MainFrameService {
 
-    @Autowired
+    @Resource
     UserService userService;
 
-    @Autowired
+    @Resource
     FriendService friendService;
 
-    @Autowired
+    @Resource
     FriendGroupService friendGroupService;
 
-    @Autowired
+    @Resource
     UserStateService userStateService;
 
     @Override
     public MainFrameVO initMainFrame(Integer id) {
+        //登录用户信息
         UserResponse userResponse = userService.queryUser(id).getData();
         UserVO userVO = UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .id(userResponse.getId().toString())
                 .status(userStateService.queryUserStateById(id).getData().getName())
-                .username(userResponse.getNickName()).build();
+                .username(userResponse.getNickName())
+                .build();
+        //查询朋友列表
         List<FriendResponse> friendResponseList = friendService.queryFriendList(id).getData();
-        Map<Integer, List<FriendResponse>> groupMap = friendResponseList.stream().collect(Collectors.groupingBy(FriendResponse::getFriendGroupId));
+        //根据组分组
+        Map<Integer, List<FriendResponse>> groupMap = friendResponseList.stream()
+                .collect(Collectors.groupingBy(FriendResponse::getFriendGroupId));
         List<GroupVO> groupVOList = new ArrayList<>(groupMap.keySet().size());
         groupMap.forEach((k, v) -> {
+            //查询组信息
             FriendGroupResponse friendGroupResponse = friendGroupService.queryGroupById(k).getData();
-            List<FriendVO> friendVOList = new ArrayList<>(v.size());
+            List<UserVO> friendVOList = new ArrayList<>(v.size());
             v.forEach(friendResponse -> {
-                FriendVO friendVO = FriendVO.builder().build();
+                //查询朋友信息
+                UserResponse friend = userService.queryUser(friendResponse.getFriendId()).getData();
+                UserVO friendVO = UserVO.builder()
+                        .avatar(friend.getHeadPortrait())
+                        .id(friend.getId().toString())
+                        .status(userStateService.queryUserStateById(friend.getId()).getData().getName())
+                        .username(friend.getNickName())
+                        .build();
                 friendVOList.add(friendVO);
             });
             GroupVO groupVO = GroupVO.builder().id(friendGroupResponse.getId()).groupname(friendGroupResponse.getName()).friend(friendVOList).build();
             groupVOList.add(groupVO);
         });
+        //组装数据
         MainFrameVO mainFrameVO = MainFrameVO.builder().mine(userVO).groupVOList(groupVOList).build();
         return mainFrameVO;
     }

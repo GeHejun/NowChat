@@ -6,9 +6,9 @@ if (window.WebSocket) {
     //客户端收到服务器消息的时候就会执行这个回调方法
     socket.onmessage = function (event) {
         // 解码
-        responseUserDecoder({
+        responseMessageDecoder({
             data: event.data,
-            success: function (responseUser) {
+            success: function (message) {
 
             },
             fail: function (err) {
@@ -21,6 +21,7 @@ if (window.WebSocket) {
     }
     //连接建立的回调函数
     socket.onopen = function (event) {
+
     }
     //连接断掉的回调函数
     socket.onclose = function (event) {
@@ -33,19 +34,13 @@ function send(message) {
     if (!window.WebSocket) {
         return;
     }
-    // socket.binaryType = "arraybuffer";
     // 判断是否开启
     if (socket.readyState !== WebSocket.OPEN) {
         alert("连接没有开启");
         return;
     }
-    var data = {
-        userName: message,
-        age: 18,
-        password: "11111"
-    };
-    requestUserEncoder({
-        data: data,
+    requestMessageEncoder({
+        data: message,
         success: function (buffer) {
             console.log("编码成功");
             socket.send(buffer);
@@ -61,12 +56,12 @@ function send(message) {
 /**
  * 发送的消息编码成 protobuf
  */
-function requestUserEncoder(obj) {
-    var data = obj.data;
-    var success = obj.success; // 成功的回调
-    var fail = obj.fail; // 失败的回调
-    var complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("../proto/MessageDataProto.proto", function (err, root) {
+function requestMessageEncoder(obj) {
+    let data = obj.data;
+    let success = obj.success; // 成功的回调
+    let fail = obj.fail; // 失败的回调
+    let complete = obj.complete; // 成功或者失败都会回调
+    protobuf.load("/requestMessage.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -76,12 +71,9 @@ function requestUserEncoder(obj) {
             }
             return;
         }
-        // Obtain a message type
-        var RequestUser = root.lookupType("com.example.nettydemo.protobuf.RequestUser");
-        // Exemplary payload
-        var payload = data;
-        // Verify the payload if necessary (i.e. when possibly incomplete or invalid)
-        var errMsg = RequestUser.verify(payload);
+        let requestMessageProto = root.lookupType("com.ghj.protocol.RequestMessageProto");
+        let payload = data;
+        let errMsg = requestMessageProto.verify(payload);
         if (errMsg) {
             if (typeof fail === "function") {
                 fail(errMsg)
@@ -91,10 +83,8 @@ function requestUserEncoder(obj) {
             }
             return;
         }
-        // Create a new message
-        var message = RequestUser.create(payload); // or use .fromObject if conversion is necessary
-        // Encode a message to an Uint8Array (browser) or Buffer (node)
-        var buffer = RequestUser.encode(message).finish();
+        let message = requestMessageProto.create(payload);
+        let buffer = requestMessageProto.encode(message).finish();
         if (typeof success === "function") {
             success(buffer)
         }
@@ -106,12 +96,12 @@ function requestUserEncoder(obj) {
 /**
  * 接收到服务器二进制流的消息进行解码
  */
-function responseUserDecoder(obj) {
-    var data = obj.data;
-    var success = obj.success; // 成功的回调
-    var fail = obj.fail; // 失败的回调
-    var complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("../proto/MessageDataProto.proto", function (err, root) {
+function responseMessageDecoder(obj) {
+    let data = obj.data;
+    let success = obj.success; // 成功的回调
+    let fail = obj.fail; // 失败的回调
+    let complete = obj.complete; // 成功或者失败都会回调
+    protobuf.load("/requestMessage.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -122,12 +112,12 @@ function responseUserDecoder(obj) {
             return;
         }
         // Obtain a message type
-        var ResponseUser = root.lookupType("com.example.nettydemo.protobuf.ResponseUser");
-        var reader = new FileReader();
+        let requestMessageProto = root.lookupType("com.ghj.protocol.RequestMessageProto");
+        let reader = new FileReader();
         reader.readAsArrayBuffer(data);
-        reader.onload = function (e) {
-            var buf = new Uint8Array(reader.result);
-            var responseUser = ResponseUser.decode(buf);
+        reader.onload = function () {
+            let buf = new Uint8Array(reader.result);
+            let responseUser = requestMessageProto.decode(buf);
             if (typeof success === "function") {
                 success(responseUser)
             }
