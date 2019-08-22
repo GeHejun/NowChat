@@ -1,6 +1,6 @@
 package com.ghj.rest.service;
 
-import com.ghj.rest.dto.FriendResponse;
+import com.ghj.common.dto.response.FriendResponse;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.ghj.rest.service;
 
 
-import com.ghj.rest.dto.MessageResponse;
+import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.model.Message;
 import com.github.pagehelper.PageInfo;
 

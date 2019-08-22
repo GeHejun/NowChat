@@ -1,6 +1,6 @@
 package com.ghj.rest.service;
 
-import com.ghj.rest.dto.SessionResponse;
+import com.ghj.common.dto.response.SessionResponse;
 
 import java.util.List;
 

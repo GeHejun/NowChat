@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author 
  */
 public class FriendGroup implements Serializable {
+
     private Integer id;
 
     /**

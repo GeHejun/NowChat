@@ -1,7 +1,7 @@
 package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
-import com.ghj.rest.dto.SessionResponse;
+import com.ghj.common.dto.response.SessionResponse;
 import com.ghj.rest.service.SessionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

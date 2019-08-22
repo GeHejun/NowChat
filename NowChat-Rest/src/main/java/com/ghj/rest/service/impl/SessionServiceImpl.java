@@ -1,6 +1,6 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.rest.dto.SessionResponse;
+import com.ghj.common.dto.response.SessionResponse;
 import com.ghj.rest.service.SessionService;
 import org.springframework.stereotype.Service;
 

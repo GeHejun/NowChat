@@ -2,7 +2,7 @@ package com.ghj.rest.service.impl;
 
 
 import com.ghj.rest.dao.MessageMapper;
-import com.ghj.rest.dto.MessageResponse;
+import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageHelper;

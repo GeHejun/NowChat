@@ -1,7 +1,7 @@
 package com.ghj.rest.service;
 
-import com.ghj.rest.dto.UserRequest;
-import com.ghj.rest.dto.UserResponse;
+import com.ghj.common.dto.request.UserRequest;
+import com.ghj.common.dto.response.UserResponse;
 /**
  * @author GeHejun
  * @date 2019-06-24

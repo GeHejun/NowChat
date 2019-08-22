@@ -1,7 +1,7 @@
 package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
-import com.ghj.rest.dto.MessageResponse;
+import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
