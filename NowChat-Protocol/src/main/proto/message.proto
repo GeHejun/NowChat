@@ -43,7 +43,7 @@ message Message {
 
     string port = 16;
 
-
+    int32 code = 20;
 
     int64 matchMessageId = 18;
 
