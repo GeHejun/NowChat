@@ -1,10 +1,10 @@
 package com.ghj.web.service.impl;
 
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.FriendGroupResponse;
 import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.common.dto.response.UserResponse;
-import com.ghj.web.service.*;
+import com.ghj.web.service.MainFrameService;
+import com.ghj.web.service.RestService;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.MainFrameVO;
 import com.ghj.web.vo.UserVO;
@@ -26,44 +26,35 @@ import java.util.stream.Collectors;
 public class MainFrameServiceImpl implements MainFrameService {
 
     @Resource
-    UserService userService;
-
-    @Resource
-    FriendService friendService;
-
-    @Resource
-    FriendGroupService friendGroupService;
-
-    @Resource
-    UserStateService userStateService;
+    RestService restService;
 
     @Override
     public MainFrameVO initMainFrame(Integer id) {
         //登录用户信息
-        UserResponse userResponse = userService.queryUser(id).getData();
+        UserResponse userResponse = restService.queryUser(id).getData();
         UserVO userVO = UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .id(userResponse.getId().toString())
-                .status(userStateService.queryUserStateById(id).getData().getName())
+                .status(restService.queryUserStateById(id).getData().getName())
                 .username(userResponse.getNickName())
                 .build();
         //查询朋友列表
-        List<FriendResponse> friendResponseList = friendService.queryFriendList(id).getData();
+        List<FriendResponse> friendResponseList = restService.queryFriendList(id).getData();
         //根据组分组
         Map<Integer, List<FriendResponse>> groupMap = friendResponseList.stream()
                 .collect(Collectors.groupingBy(FriendResponse::getFriendGroupId));
         List<GroupVO> groupVOList = new ArrayList<>(groupMap.keySet().size());
         groupMap.forEach((k, v) -> {
             //查询组信息
-            FriendGroupResponse friendGroupResponse = friendGroupService.queryGroupById(k).getData();
+            FriendGroupResponse friendGroupResponse = restService.queryGroupById(k).getData();
             List<UserVO> friendVOList = new ArrayList<>(v.size());
             v.forEach(friendResponse -> {
                 //查询朋友信息
-                UserResponse friend = userService.queryUser(friendResponse.getFriendId()).getData();
+                UserResponse friend = restService.queryUser(friendResponse.getFriendId()).getData();
                 UserVO friendVO = UserVO.builder()
                         .avatar(friend.getHeadPortrait())
                         .id(friend.getId().toString())
-                        .status(userStateService.queryUserStateById(friend.getId()).getData().getName())
+                        .status(restService.queryUserStateById(friend.getId()).getData().getName())
                         .username(friend.getNickName())
                         .build();
                 friendVOList.add(friendVO);

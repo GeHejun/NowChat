@@ -4,6 +4,7 @@ import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RequestMessageProto;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -14,7 +15,7 @@ public class MessageDistributorCenter {
 
     private MessageDistributorCenter() {}
 
-    private static Object MESSAGE_DISTRIBUTOR_CENTER_LOCK = new Object();
+    private final static Object MESSAGE_DISTRIBUTOR_CENTER_LOCK = new Object();
 
     private static volatile MessageDistributorCenter messageDistributorCenter;
 
@@ -35,7 +36,10 @@ public class MessageDistributorCenter {
 
    public void takeMessage() {
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new RequestMessageDistributor((MessageProto.Message) requestMessageQueue.poll()));;
+            if (requestMessageQueue.isEmpty()) {
+                continue;
+            }
+            ThreadPoolManager.getsInstance().execute(new RequestMessageDistributor((MessageProto.Message) requestMessageQueue.poll()));
         }
    }
 

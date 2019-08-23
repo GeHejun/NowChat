@@ -5,6 +5,8 @@ import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
 import com.ghj.common.util.JSONUtil;
+import com.ghj.common.util.MachineSerialNumber;
+import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
@@ -39,13 +41,13 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .channel(channelHandlerContext.channel())
                     .build();
             Registry.putServerSession(message.getMachineSerialNumber(), serverSession);
-            //NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
+            NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
                     .setMachineSerialNumber(message.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
+                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), MachineSerialNumber.get()).nextId())
                     .build();
         } catch (Exception e) {
             requestMessage = MessageProto.Message.newBuilder()
@@ -53,8 +55,9 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
                     .setMachineSerialNumber(message.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
+                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), MachineSerialNumber.get()).nextId())
                     .build();
+            e.printStackTrace();
         }
         MessageDistributorCenter.getInstance().putMessage(requestMessage);
     }

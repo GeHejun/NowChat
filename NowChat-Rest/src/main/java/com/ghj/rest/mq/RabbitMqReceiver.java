@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Date;
 
-@Component
-@RabbitListener(queues = Constant.QUEUE_A)
+//@Component
+//@RabbitListener(queues = Constant.QUEUE_A)
 public class RabbitMqReceiver {
 
     @Resource

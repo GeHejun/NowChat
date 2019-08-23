@@ -21,7 +21,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class ConnectHandler extends SimpleChannelInboundHandler {
 
-
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message)o;
@@ -100,7 +99,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
-                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), code == Code.LOGIN_SUCCESS ? Constant.MACHINE_SERIAL_NUMBER : message.getMachineSerialNumber()).nextId())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())
                 .setToUserId(message.getFromUserId())
                 .setMatchMessageId(message.getId())
                 .build();

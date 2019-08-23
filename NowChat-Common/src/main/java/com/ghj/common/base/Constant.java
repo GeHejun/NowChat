@@ -52,8 +52,6 @@ public class Constant {
 
     public static final String MESSAGE_RECEIVER_SUCCESS = "消息已经成功接收";
 
-    public static final Long MACHINE_SERIAL_NUMBER = MachineSerialNumber.get();
-
     public static final String REGISTRY_IP = "registry.ip";
 
     public static final String REGISTRY_PORT = "registry.port";

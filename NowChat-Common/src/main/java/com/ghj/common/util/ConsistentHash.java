@@ -7,6 +7,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
+ * 一致性hash算法
  * @author gehj
  * @date 2019/7/311:24
  */

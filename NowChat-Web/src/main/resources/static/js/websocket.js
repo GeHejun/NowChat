@@ -2,7 +2,7 @@ var socket;
 //如果浏览器支持WebSocket
 if (window.WebSocket) {
     //参数就是与服务器连接的地址
-    socket = new WebSocket("ws://localhost:8899/ws");
+    socket = new WebSocket("ws://localhost:8798/ws");
     //客户端收到服务器消息的时候就会执行这个回调方法
     socket.onmessage = function (event) {
         // 解码
@@ -25,6 +25,7 @@ if (window.WebSocket) {
     }
     //连接断掉的回调函数
     socket.onclose = function (event) {
+
     }
 } else {
     alert("浏览器不支持WebSocket！");
@@ -61,7 +62,7 @@ function requestMessageEncoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("/requestMessage.proto", function (err, root) {
+    protobuf.load("/message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -71,7 +72,7 @@ function requestMessageEncoder(obj) {
             }
             return;
         }
-        let requestMessageProto = root.lookupType("com.ghj.protocol.RequestMessageProto");
+        let requestMessageProto = root.lookupType("com.ghj.protocol.Message");
         let payload = data;
         let errMsg = requestMessageProto.verify(payload);
         if (errMsg) {
@@ -101,7 +102,7 @@ function responseMessageDecoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("/requestMessage.proto", function (err, root) {
+    protobuf.load("//message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -112,7 +113,7 @@ function responseMessageDecoder(obj) {
             return;
         }
         // Obtain a message type
-        let requestMessageProto = root.lookupType("com.ghj.protocol.RequestMessageProto");
+        let requestMessageProto = root.lookupType("com.ghj.protocol.MessageProto.Message");
         let reader = new FileReader();
         reader.readAsArrayBuffer(data);
         reader.onload = function () {

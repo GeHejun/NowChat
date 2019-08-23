@@ -3,6 +3,7 @@ package com.ghj.chat.client;
 import com.ghj.chat.Connector;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
+import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.MessageProto;
@@ -61,11 +62,14 @@ public class ClientRegister {
                         connector.stop();
                         throw new ServerException();
                     }
-                    RegisterMessageProto.RegisterMessage registerMessage =
-                            RegisterMessageProto.RegisterMessage.newBuilder()
+                    MessageProto.Message registerMessage =
+                            MessageProto.Message.newBuilder()
                                     .setIp("127.0.0.1")
                                     .setPort(connector.getPort())
-                                    .setMachineSerialNumber(Constant.MACHINE_SERIAL_NUMBER).build();
+                                    .setMachineSerialNumber(MachineSerialNumber.get())
+                                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTER)
+                                    .build();
+
                     channelFuture.channel().writeAndFlush(registerMessage);
                 });
             } catch (Exception e) {

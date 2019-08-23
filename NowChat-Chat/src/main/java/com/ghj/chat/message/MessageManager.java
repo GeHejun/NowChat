@@ -49,6 +49,9 @@ public class MessageManager {
 
     public void takeMessage() {
         for (;;) {
+            if (waitSendMessageQueue.isEmpty()) {
+                continue;
+            }
             ThreadPoolManager.getsInstance().execute(new RequestMessageSender((MessageProto.Message) waitSendMessageQueue.poll()));
         }
     }

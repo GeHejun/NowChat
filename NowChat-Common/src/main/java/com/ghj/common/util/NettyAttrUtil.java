@@ -14,7 +14,7 @@ public class NettyAttrUtil {
 
 
     public static void updateReaderTime(Channel channel, Long time) {
-        channel.attr(ATTR_KEY_READER_TIME).set(time.toString());
+        channel.attr(ATTR_KEY_READER_TIME).getAndSet(time.toString());
     }
 
     public static Long getReaderTime(Channel channel) {

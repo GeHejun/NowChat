@@ -20,7 +20,7 @@ public class RequestMessageDistributor implements Runnable{
 
     @Override
     public void run() {
-        long machineSerialNumber = (requestMessage).getMachineSerialNumber();
+        long machineSerialNumber = requestMessage.getMachineSerialNumber();
         ServerSession serverSessionManager = Registry.getServerSession(machineSerialNumber);
         Channel serverChannel = serverSessionManager.getChannel();
         if (Objects.isNull(serverChannel)) {
