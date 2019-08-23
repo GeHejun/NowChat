@@ -1373,9 +1373,9 @@ layui.define(function(exports){
     processData: true,
     // Whether the browser should be allowed to cache GET responses
     cache: true,
-    //Used to handle the raw vo data of XMLHttpRequest.
-    //This is a pre-filtering function to sanitize the vo.
-    //The sanitized vo should be returned
+    //Used to handle the raw response data of XMLHttpRequest.
+    //This is a pre-filtering function to sanitize the response.
+    //The sanitized response should be returned
     dataFilter: empty
   }
 
@@ -1473,7 +1473,7 @@ layui.define(function(exports){
 
             try {
               // http://perfectionkills.com/global-eval-what-are-the-options/
-              // sanitize vo accordingly if data filter callback provided
+              // sanitize response accordingly if data filter callback provided
               result = ajaxDataFilter(result, dataType, settings)
               if (dataType == 'script')    (1,eval)(result)
               else if (dataType == 'xml')  result = xhr.responseXML
