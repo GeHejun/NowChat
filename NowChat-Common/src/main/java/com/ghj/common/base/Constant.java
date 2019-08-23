@@ -91,4 +91,6 @@ public class Constant {
     public static final int GROUP_MEMBER_REQUEST_FAILURE_CODE = 4006;
 
     public static final int REGISTER_FAILURE_CODE = 4007;
+
+    public static final int MAX_AGGREGATED_CONTENT_LENGTH = 65536;
 }
