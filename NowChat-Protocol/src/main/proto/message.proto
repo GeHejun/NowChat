@@ -23,9 +23,6 @@ message Message {
     //消息去向
     int32 toUserId = 5;
 
-    //1.群发消息去向 2.notify消息
-    repeated int32 toUserIds = 17;
-
     //notify
     int32 toGroupId = 6;
 
@@ -60,8 +57,8 @@ message Message {
     //去注册中心注册时的端口
     int32 port = 16;
 
-    //ack消息-对应匹配消息的状态码
-    int32 code = 20;
+    //1.群发消息去向 2.notify消息
+    repeated int32 toUserIds = 17;
 
     //匹配消息id 对应ack消息
     int64 matchMessageId = 18;
@@ -69,15 +66,19 @@ message Message {
     //通知消息 有时会有多个匹配消息
     repeated int64 matchMessageIds = 19;
 
+    //ack消息-对应匹配消息的状态码
+    int32 code = 20;
+
     //消息行为
     enum MessageBehavior {
         LOGIN = 0;
         PING = 1;
         MESSAGE = 2;
         LOGIN_OUT = 3;
+        ACK = 4;
         NOTIFY = 5;
         REGISTER = 6;
-        ACK = 4;
+
     }
 
     //消息去向

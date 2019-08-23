@@ -21,7 +21,8 @@ if (window.WebSocket) {
     }
     //连接建立的回调函数
     socket.onopen = function (event) {
-        let message = "{}";
+
+        var message = {id:1000,content:"fdfdf"};
         send(message);
 
     }
