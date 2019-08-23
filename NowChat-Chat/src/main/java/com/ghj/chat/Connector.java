@@ -6,10 +6,7 @@ import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.NotifyMessageProto;
-import com.ghj.protocol.RegisterMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -46,10 +43,7 @@ public class Connector {
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new ProtobufEncoder());
-                            pipeline.addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
-                            pipeline.addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+                            pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new ConnectHandler());
                         }
                     });

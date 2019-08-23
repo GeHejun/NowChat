@@ -1,8 +1,10 @@
 package com.ghj.chat;
 
 import com.ghj.common.util.NettyAttrUtil;
+import com.ghj.common.util.ThreadPoolManager;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -27,7 +29,7 @@ public class SessionManager {
 
 
     public static void watchSessionStatus() {
-        new Thread(()->{
+        ThreadPoolManager.getsInstance().execute(()->{
             for (;;) {
                 SESSION_MAP.forEach((k,v)->{
                     if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
@@ -36,7 +38,7 @@ public class SessionManager {
                     }
                 });
             }
-        }).start();
+        });
     }
 
 }

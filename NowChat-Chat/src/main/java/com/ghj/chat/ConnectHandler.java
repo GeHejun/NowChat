@@ -9,6 +9,7 @@ import com.ghj.common.util.RedisPoolUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.common.util.StringUtils;
 import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,10 +24,10 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-        RequestMessageProto.RequestMessage message = (RequestMessageProto.RequestMessage)o;
+        MessageProto.Message message = (MessageProto.Message)o;
         Channel channel = channelHandlerContext.channel();
-        AckMessageProto.AckMessage ackMessage;
-        switch (message.getClientBehavior()) {
+        MessageProto.Message ackMessage;
+        switch (message.getMessageBehavior()) {
             case LOGIN:
                 try {
                     validateUser(message);
@@ -79,7 +80,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         }
     }
 
-    public void validateUser(RequestMessageProto.RequestMessage message) {
+    public void validateUser(MessageProto.Message message) {
         String token = RedisPoolUtil.get(message.getFromUserId()+"_"+Constant.USER_TOKEN_KEY);
         if (StringUtils.isEmpty(token)) {
             throw new UserException();
@@ -90,13 +91,13 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     }
 
-    public synchronized void incrementOnLineUser(RequestMessageProto.RequestMessage message) {
+    public synchronized void incrementOnLineUser(MessageProto.Message message) {
         RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
         RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
     }
 
-    public AckMessageProto.AckMessage buildAckMessage(Code code, RequestMessageProto.RequestMessage message) {
-        return AckMessageProto.AckMessage.newBuilder()
+    public MessageProto.Message buildAckMessage(Code code, MessageProto.Message message) {
+        return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
                 .setId(new SnowFlakeIdGenerator(message.getDeviceId(), code == Code.LOGIN_SUCCESS ? Constant.MACHINE_SERIAL_NUMBER : message.getMachineSerialNumber()).nextId())

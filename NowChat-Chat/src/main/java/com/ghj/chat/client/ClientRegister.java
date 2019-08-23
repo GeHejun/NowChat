@@ -5,12 +5,9 @@ import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.NotifyMessageProto;
+import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RegisterMessageProto;
-import com.ghj.protocol.RequestMessageProto;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
@@ -47,10 +44,7 @@ public class ClientRegister {
             protected void initChannel(NioSocketChannel ch) {
                 //字符串编码器，一定要加在SimpleClientHandler 的上面
                 ch.pipeline().addLast(new ProtobufEncoder());
-                ch.pipeline().addLast(new ProtobufDecoder(RequestMessageProto.RequestMessage.getDefaultInstance()));
-                ch.pipeline().addLast(new ProtobufDecoder(NotifyMessageProto.NotifyMessage.getDefaultInstance()));
-                ch.pipeline().addLast(new ProtobufDecoder(RegisterMessageProto.RegisterMessage.getDefaultInstance()));
-                ch.pipeline().addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+                ch.pipeline().addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
             }
         });
         register(client);

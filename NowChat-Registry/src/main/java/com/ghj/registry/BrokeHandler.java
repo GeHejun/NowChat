@@ -5,12 +5,14 @@ import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
 import com.ghj.common.util.JSONUtil;
-import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
+import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
 import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
 
 /**
  * @author gehj
@@ -19,47 +21,45 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-        if (o instanceof RegisterMessage) {
-            RegisterMessage registerMessage = (RegisterMessage) o;
-            dealRegisterMessage(channelHandlerContext, registerMessage);
+        MessageProto.Message message = (MessageProto.Message)o;
+        if (REGISTER == message.getMessageBehavior()) {
+                dealRegisterMessage(channelHandlerContext, message);
+        } else {
+            dealRequestMessage(message);
         }
-        if (o instanceof RequestMessage) {
-            RequestMessage requestMessage = (RequestMessage)o;
-            dealRequestMessage(requestMessage);
 
-        }
     }
 
-    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, RegisterMessage registerMessage) {
-        RequestMessage requestMessage;
+    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
+        MessageProto.Message requestMessage;
         try {
             ServerSession serverSession = ServerSession.builder()
-                    .machineSerialNumber(registerMessage.getMachineSerialNumber())
-                    .ip(registerMessage.getIp()).port(registerMessage.getPort())
+                    .machineSerialNumber(message.getMachineSerialNumber())
+                    .ip(message.getIp()).port(message.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
-            Registry.putServerSession(registerMessage.getMachineSerialNumber(), serverSession);
+            Registry.putServerSession(message.getMachineSerialNumber(), serverSession);
             //NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
-            requestMessage = RequestMessage.newBuilder()
-                    .setClientBehavior(RequestMessage.ClientBehavior.REGISTRY_ACK)
-                    .setMessageDirect(RequestMessage.MessageDirect.SERVER)
+            requestMessage = MessageProto.Message.newBuilder()
+                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
+                    .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
-                    .setMachineSerialNumber(registerMessage.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(registerMessage.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
+                    .setMachineSerialNumber(message.getMachineSerialNumber())
+                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
                     .build();
         } catch (Exception e) {
-            requestMessage = RequestMessage.newBuilder()
-                    .setMessageDirect(RequestMessage.MessageDirect.SERVER)
-                    .setClientBehavior(RequestMessage.ClientBehavior.REGISTRY_ACK)
+            requestMessage = MessageProto.Message.newBuilder()
+                    .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
+                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
-                    .setMachineSerialNumber(registerMessage.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(registerMessage.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
+                    .setMachineSerialNumber(message.getMachineSerialNumber())
+                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), Constant.MACHINE_SERIAL_NUMBER).nextId())
                     .build();
         }
         MessageDistributorCenter.getInstance().putMessage(requestMessage);
     }
 
-    public void dealRequestMessage(RequestMessage requestMessage) {
-        MessageDistributorCenter.getInstance().putMessage(requestMessage);
+    public void dealRequestMessage(MessageProto.Message message) {
+        MessageDistributorCenter.getInstance().putMessage(message);
     }
 }

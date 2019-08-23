@@ -13,6 +13,7 @@ import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.OKHttpUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 public class RequestMessageSender implements Runnable {
 
-    public RequestMessageProto.RequestMessage message;
+    public MessageProto.Message message;
 
 
 
@@ -37,7 +38,7 @@ public class RequestMessageSender implements Runnable {
 
     AbstractMessage abstractMessage;
 
-    public RequestMessageSender(RequestMessageProto.RequestMessage message) {
+    public RequestMessageSender(MessageProto.Message message) {
         this.message = message;
     }
 
@@ -59,7 +60,7 @@ public class RequestMessageSender implements Runnable {
                 OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        AckMessageProto.AckMessage ackMessage = AckMessageProto.AckMessage.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
+                        MessageProto.Message ackMessage = MessageProto.Message.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
                                 .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
                                 .setMatchMessageId(message.getId())
                                 .setToUserId(message.getFromUserId())
@@ -92,8 +93,8 @@ public class RequestMessageSender implements Runnable {
 
     }
 
-    public AckMessageProto.AckMessage buildAckMessage(Code code, boolean isAckSender, RequestMessageProto.RequestMessage message) {
-        return AckMessageProto.AckMessage.newBuilder()
+    public MessageProto.Message buildAckMessage(Code code, boolean isAckSender, MessageProto.Message message) {
+        return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
                 .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())

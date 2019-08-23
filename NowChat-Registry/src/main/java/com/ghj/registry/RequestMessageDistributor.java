@@ -1,5 +1,6 @@
 package com.ghj.registry;
 
+import com.ghj.protocol.MessageProto;
 import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;
 
@@ -11,9 +12,9 @@ import java.util.Objects;
  */
 public class RequestMessageDistributor implements Runnable{
 
-    RequestMessageProto.RequestMessage requestMessage;
+    MessageProto.Message requestMessage;
 
-    public RequestMessageDistributor(RequestMessageProto.RequestMessage requestMessage) {
+    public RequestMessageDistributor(MessageProto.Message requestMessage) {
         this.requestMessage = requestMessage;
     }
 
