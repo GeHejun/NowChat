@@ -21,7 +21,10 @@ if (window.WebSocket) {
     }
     //连接建立的回调函数
     socket.onopen = function (event) {
-        let message = "{}";
+        let message = "{\"id\":10,\n" +
+            "\"fromUserId\":10,\n" +
+            "\"toUserId\":11\n" +
+            "}";
         send(message);
 
     }
@@ -64,7 +67,7 @@ function requestMessageEncoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("/message.proto", function (err, root) {
+    protobuf.load("/proto/message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -74,18 +77,18 @@ function requestMessageEncoder(obj) {
             }
             return;
         }
-        let requestMessageProto = root.lookupType("com.ghj.protocol.Message");
+        let requestMessageProto = root.lookup("com.ghj.protocol.MessageProto.Message");
         let payload = data;
-        let errMsg = requestMessageProto.verify(payload);
-        if (errMsg) {
-            if (typeof fail === "function") {
-                fail(errMsg)
-            }
-            if (typeof complete === "function") {
-                complete()
-            }
-            return;
-        }
+        // let errMsg = requestMessageProto.verify(payload);
+        // if (errMsg) {
+        //     if (typeof fail === "function") {
+        //         fail(errMsg)
+        //     }
+        //     if (typeof complete === "function") {
+        //         complete()
+        //     }
+        //     return;
+        // }
         let message = requestMessageProto.create(payload);
         let buffer = requestMessageProto.encode(message).finish();
         if (typeof success === "function") {
@@ -104,7 +107,7 @@ function responseMessageDecoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("//message.proto", function (err, root) {
+    protobuf.load("/proto/message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -115,7 +118,7 @@ function responseMessageDecoder(obj) {
             return;
         }
         // Obtain a message type
-        let requestMessageProto = root.lookupType("com.ghj.protocol.MessageProto.Message");
+        let requestMessageProto = root.lookup("com.ghj.protocol.MessageProto.Message");
         let reader = new FileReader();
         reader.readAsArrayBuffer(data);
         reader.onload = function () {
