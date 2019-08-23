@@ -7,7 +7,6 @@ import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.MessageProto;
-import com.ghj.protocol.RegisterMessageProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
