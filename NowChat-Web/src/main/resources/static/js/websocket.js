@@ -47,6 +47,7 @@ function send(message) {
         data: message,
         success: function (buffer) {
             console.log("编码成功");
+            console.log(buffer);
             socket.send(buffer);
         },
         fail: function (err) {

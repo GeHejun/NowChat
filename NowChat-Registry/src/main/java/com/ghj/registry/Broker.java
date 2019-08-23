@@ -39,12 +39,12 @@ public class Broker {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/"));
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new HttpServerCodec());
                             pipeline.addLast(new HttpObjectAggregator(65536));
                             pipeline.addLast(new ChunkedWriteHandler());
                             pipeline.addLast(new WebSocketServerCompressionHandler());
-                            pipeline.addLast(new WebSocketServerProtocolHandler("/"));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new BrokeHandler());
                         }
