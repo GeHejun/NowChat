@@ -4,6 +4,7 @@ import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Import;
 
@@ -12,9 +13,9 @@ import org.springframework.context.annotation.Import;
  * @date 2019/6/24 19:05
  */
 @EnableEurekaClient
-@SpringBootApplication
 //@Import(FdfsClientConfig.class)
 @MapperScan(basePackages = {"com.ghj.rest.dao"})
+@SpringBootApplication
 public class NowChatRestApplication {
     public static void main(String[] args) {
         SpringApplication.run(NowChatRestApplication.class, args);

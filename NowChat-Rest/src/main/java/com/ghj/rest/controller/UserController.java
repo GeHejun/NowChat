@@ -29,7 +29,7 @@ public class UserController {
         return Result.defaultSuccess(userResponse);
     }
 
-    @RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryUser")
     @ResponseBody
     public Result<UserResponse> queryUser(@NotNull Integer id) {
         UserResponse userResponse = userService.getUserById(id);

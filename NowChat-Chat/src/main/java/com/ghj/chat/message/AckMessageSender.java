@@ -6,17 +6,20 @@ import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
-import com.ghj.protocol.AckMessageProto;
+import com.ghj.protocol.MessageProto;
 
+/**
+ * @author GeHejun
+ */
 public class AckMessageSender implements Runnable{
 
-    public AckMessageProto.AckMessage message;
+    public MessageProto.Message message;
 
     Session session;
 
     AbstractMessage abstractMessage;
 
-    public AckMessageSender(AckMessageProto.AckMessage message) {
+    public AckMessageSender(MessageProto.Message message) {
         this.message = message;
     }
 

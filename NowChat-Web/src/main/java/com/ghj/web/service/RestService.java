@@ -28,7 +28,7 @@ public interface RestService {
      * @param id
      * @return
      */
-    @RequestMapping("/queryGroupById")
+    @RequestMapping("/friendGroup/queryGroupById")
     Result<FriendGroupResponse> queryGroupById(@NotNull Integer id);
 
     /**
@@ -36,7 +36,7 @@ public interface RestService {
      * @param userId
      * @return
      */
-    @RequestMapping("/queryFriendList")
+    @RequestMapping("/friend/queryFriendList")
     @ResponseBody
     Result<List<FriendResponse>> queryFriendList(@Valid Integer userId);
 
@@ -45,7 +45,7 @@ public interface RestService {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/queryUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/queryUser")
     @ResponseBody
     Result<UserResponse> queryUser(@NotNull Integer id);
 
@@ -54,6 +54,6 @@ public interface RestService {
      * @param id
      * @return
      */
-    @RequestMapping("/")
+    @RequestMapping("/state/queryUserStateById")
     Result<UserStateResponse> queryUserStateById(@NotNull Integer id);
 }

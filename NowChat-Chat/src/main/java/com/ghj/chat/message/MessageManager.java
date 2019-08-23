@@ -2,9 +2,7 @@ package com.ghj.chat.message;
 
 import com.ghj.common.exception.MessageException;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.AckMessageProto;
 import com.ghj.protocol.MessageProto;
-import com.ghj.protocol.RequestMessageProto;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -62,7 +60,7 @@ public class MessageManager {
         ackMessageQueue.add(message);
 
         for (;;) {
-            ThreadPoolManager.getsInstance().execute(new AckMessageSender((AckMessageProto.AckMessage)ackMessageQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new AckMessageSender((MessageProto.Message)ackMessageQueue.poll()));
         }
     }
 

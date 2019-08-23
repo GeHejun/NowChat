@@ -1,17 +1,17 @@
 server:
   port: 8085
-spring:
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/im
-      username: root
-      password: root
-    redis:
-      host: 192.168.122.1
-      port: 6379
-    application:
-      name: rest
 
+spring:
+  application:
+    name: rest
+  redis:
+    host: 192.168.122.1
+    port: 6379
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: http://localhost:3306/im
 
 fdfs:
   soTimeout: 1500
@@ -23,11 +23,7 @@ fdfs:
     - 192.168.0.201:22122
     - 192.168.0.202:22122
 
-
-
-
 eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka
-    enabled: true

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/state")
 public class UserStateController {
 
-    @RequestMapping("/")
+    @RequestMapping("/queryUserStateById")
     public Result<UserStateResponse> queryUserStateById(@NotNull Integer id) {
         return null;
     }
