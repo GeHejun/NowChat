@@ -64,7 +64,7 @@ function requestMessageEncoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("/message.proto", function (err, root) {
+    protobuf.load("/proto/message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
@@ -74,7 +74,7 @@ function requestMessageEncoder(obj) {
             }
             return;
         }
-        let requestMessageProto = root.lookupType("com.ghj.protocol.Message");
+        let requestMessageProto = root.lookupType("com.ghj.protocol.MessageProto.Message");
         let payload = data;
         let errMsg = requestMessageProto.verify(payload);
         if (errMsg) {
@@ -104,7 +104,7 @@ function responseMessageDecoder(obj) {
     let success = obj.success; // 成功的回调
     let fail = obj.fail; // 失败的回调
     let complete = obj.complete; // 成功或者失败都会回调
-    protobuf.load("//message.proto", function (err, root) {
+    protobuf.load("/proto/message.proto", function (err, root) {
         if (err) {
             if (typeof fail === "function") {
                 fail(err)
