@@ -1,9 +1,8 @@
 package com.ghj.android.core.observer;
 
 import com.ghj.android.core.message.MessageManager;
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
 import com.ghj.common.base.Constant;
+import com.ghj.protocol.MessageProto;
 
 /**
  * @author gehj
@@ -18,7 +17,7 @@ public class LoginObserver implements Observer {
     }
 
     @Override
-    public void ackMessageListener(AckMessageProto.AckMessage ackMessage) {
+    public void ackMessageListener(MessageProto.Message ackMessage) {
         if (Constant.LOGIN_SUCCESS_CODE ==  ackMessage.getCode()) {
             MessageManager.getInstance().takeMessage();
             loginCallBack.success(ackMessage);
@@ -29,7 +28,7 @@ public class LoginObserver implements Observer {
     }
 
     @Override
-    public void requestMessageListener(RequestMessageProto.RequestMessage requestMessage) {
+    public void requestMessageListener(MessageProto.Message requestMessage) {
         return;
     }
 }

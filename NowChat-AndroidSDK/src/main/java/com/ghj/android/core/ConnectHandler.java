@@ -2,8 +2,7 @@ package com.ghj.android.core;
 
 
 import com.ghj.android.core.observer.Subject;
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -22,13 +21,13 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg)  {
-        if (msg instanceof AckMessageProto.AckMessage) {
-            AckMessageProto.AckMessage ackMessage = (AckMessageProto.AckMessage) msg;
-            subject.ackNotifyAllListener(ackMessage);
+        MessageProto.Message message = (MessageProto.Message) msg;
+        if (MessageProto.Message.MessageBehavior.ACK == message.getMessageBehavior()) {
+            subject.ackNotifyAllListener(message);
         }
-        if (msg instanceof RequestMessageProto.RequestMessage) {
-            RequestMessageProto.RequestMessage requestMessage = (RequestMessageProto.RequestMessage) msg;
-            subject.requestNotifyAllListener(requestMessage);
+        if (MessageProto.Message.MessageBehavior.MESSAGE == message.getMessageBehavior()) {
+            subject.requestNotifyAllListener(message);
         }
+
     }
 }

@@ -9,11 +9,10 @@ import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
-import com.ghj.protocol.RegisterMessageProto.RegisterMessage;
-import com.ghj.protocol.RequestMessageProto.RequestMessage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import static com.ghj.protocol.MessageProto.Message.MessageBehavior.MESSAGE;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
 
 /**
@@ -26,7 +25,8 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         MessageProto.Message message = (MessageProto.Message)o;
         if (REGISTER == message.getMessageBehavior()) {
                 dealRegisterMessage(channelHandlerContext, message);
-        } else {
+        }
+        if (MESSAGE == message.getMessageBehavior()) {
             dealRequestMessage(message);
         }
 
@@ -43,7 +43,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
             Registry.putServerSession(message.getMachineSerialNumber(), serverSession);
             NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = MessageProto.Message.newBuilder()
-                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
+                    .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
                     .setMachineSerialNumber(message.getMachineSerialNumber())
@@ -52,7 +52,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         } catch (Exception e) {
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
-                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTRY_ACK)
+                    .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
                     .setMachineSerialNumber(message.getMachineSerialNumber())
                     .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), MachineSerialNumber.get()).nextId())

@@ -2,9 +2,7 @@ package com.ghj.registry;
 
 import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.MessageProto;
-import com.ghj.protocol.RequestMessageProto;
 
-import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**

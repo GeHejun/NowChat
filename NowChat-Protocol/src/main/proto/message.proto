@@ -75,9 +75,9 @@ message Message {
         PING = 1;
         MESSAGE = 2;
         LOGIN_OUT = 3;
-        REGISTRY_ACK = 4;
         NOTIFY = 5;
         REGISTER = 6;
+        ACK = 4;
     }
 
     //消息去向
@@ -85,5 +85,6 @@ message Message {
         PERSONAL = 0;
         GROUP = 1;
         SERVER = 2;
+        REGISTRY = 3;
     }
 }

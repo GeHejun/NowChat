@@ -70,7 +70,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 }
                 MessageManager.getInstance().ackMessageQueue(ackMessage);
                 break;
-            case REGISTRY_ACK:
+            case ACK:
                 break;
             case UNRECOGNIZED:
                 default:

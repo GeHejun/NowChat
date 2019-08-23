@@ -2,10 +2,9 @@ package com.ghj.android.core;
 
 import com.ghj.android.core.message.MessageManager;
 import com.ghj.android.core.observer.Subject;
-import com.ghj.common.base.Constant;
+import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.SnowFlakeIdGenerator;
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -37,7 +36,7 @@ public class Connnector {
                         @Override
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new ProtobufEncoder());
-                            ch.pipeline().addLast(new ProtobufDecoder(AckMessageProto.AckMessage.getDefaultInstance()));
+                            ch.pipeline().addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             ch.pipeline().addLast(new ConnectHandler(subject));
                         }
                     });
@@ -47,10 +46,10 @@ public class Connnector {
             f.addListener(future -> {
                 if (future.isSuccess()) {
                     messageManager.setChannel(channel);
-                    RequestMessageProto.RequestMessage requestMessage = RequestMessageProto.RequestMessage.newBuilder()
-                            .setMessageDirect(RequestMessageProto.RequestMessage.MessageDirect.SERVER)
-                            .setId(new SnowFlakeIdGenerator(Constant.MACHINE_SERIAL_NUMBER, 0L).nextId())
-                            .setClientBehavior(RequestMessageProto.RequestMessage.ClientBehavior.LOGIN)
+                    MessageProto.Message requestMessage = MessageProto.Message.newBuilder()
+                            .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
+                            .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), 0L).nextId())
+                            .setMessageBehavior(MessageProto.Message.MessageBehavior.LOGIN)
                             .build();
                     messageManager.sendLoginMessage(requestMessage);
                 }

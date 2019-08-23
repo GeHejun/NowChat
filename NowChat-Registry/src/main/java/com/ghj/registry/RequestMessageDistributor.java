@@ -1,7 +1,6 @@
 package com.ghj.registry;
 
 import com.ghj.protocol.MessageProto;
-import com.ghj.protocol.RequestMessageProto;
 import io.netty.channel.Channel;
 
 import java.util.Objects;

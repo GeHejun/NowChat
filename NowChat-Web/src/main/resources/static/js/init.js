@@ -3,7 +3,7 @@ layui.use('layim', function (layim) {
     layim.config({
 
         init: {
-            url: '/index/initMainFrame?id=1' //接口地址（返回的数据格式见下文）
+            url: '/js/init.json' //接口地址（返回的数据格式见下文）
             , type: 'get' //默认get，一般可不填
             , data: {} //额外参数
         } //获取主面板列表信息，下文会做进一步介绍

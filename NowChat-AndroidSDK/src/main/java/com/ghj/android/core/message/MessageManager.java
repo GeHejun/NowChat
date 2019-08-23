@@ -3,7 +3,7 @@ package com.ghj.android.core.message;
 
 import com.ghj.android.core.Constant;
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -40,12 +40,12 @@ public class MessageManager {
 
     public void takeMessage() {
         for (;;) {
-            RequestMessageProto.RequestMessage  requestMessage = (RequestMessageProto.RequestMessage) messageQueue.poll();
+            MessageProto.Message  requestMessage = (MessageProto.Message) messageQueue.poll();
             ThreadPoolManager.getsInstance().execute(new MessageSender(channel, requestMessage));
         }
 
     }
-    public void sendLoginMessage(RequestMessageProto.RequestMessage requestMessage) {
+    public void sendLoginMessage(MessageProto.Message requestMessage) {
         ThreadPoolManager.getsInstance().execute(new MessageSender(channel, requestMessage));
     }
 }

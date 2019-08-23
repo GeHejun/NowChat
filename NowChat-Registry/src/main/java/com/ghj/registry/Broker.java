@@ -6,10 +6,15 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * @author GeHejun
@@ -33,6 +38,11 @@ public class Broker {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
+                            pipeline.addLast(new HttpServerCodec());
+                            pipeline.addLast(new HttpObjectAggregator(65536));
+                            pipeline.addLast(new ChunkedWriteHandler());
+                            pipeline.addLast(new WebSocketServerCompressionHandler());
+                            pipeline.addLast(new WebSocketServerProtocolHandler("/"));
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new BrokeHandler());

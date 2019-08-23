@@ -1,11 +1,10 @@
 package com.ghj.android.core.observer;
 
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 
 public interface Observer {
 
-    void ackMessageListener(AckMessageProto.AckMessage ackMessage);
+    void ackMessageListener(MessageProto.Message ackMessage);
 
-    void requestMessageListener(RequestMessageProto.RequestMessage requestMessage);
+    void requestMessageListener(MessageProto.Message requestMessage);
 }

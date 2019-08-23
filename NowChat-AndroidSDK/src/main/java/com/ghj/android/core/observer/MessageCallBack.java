@@ -1,6 +1,7 @@
 package com.ghj.android.core.observer;
 
-import com.ghj.protocol.AckMessageProto;
+
+import com.ghj.protocol.MessageProto;
 
 /**
  * @author gehj
@@ -8,7 +9,7 @@ import com.ghj.protocol.AckMessageProto;
  */
 public interface MessageCallBack {
 
-    void success(AckMessageProto.AckMessage ackMessage);
+    void success(MessageProto.Message ackMessage);
 
-    void failure(AckMessageProto.AckMessage ackMessage);
+    void failure(MessageProto.Message ackMessage);
 }

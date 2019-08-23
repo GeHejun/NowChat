@@ -1,7 +1,6 @@
 package com.ghj.android.core.observer;
 
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 
 /**
  * @author gehj
@@ -17,12 +16,12 @@ public class RequestMessageObserver implements Observer {
 
 
     @Override
-    public void ackMessageListener(AckMessageProto.AckMessage ackMessage) {
+    public void ackMessageListener(MessageProto.Message ackMessage) {
         return;
     }
 
     @Override
-    public void requestMessageListener(RequestMessageProto.RequestMessage requestMessage) {
+    public void requestMessageListener(MessageProto.Message requestMessage) {
         requestMessageCallBack.dealRequestMessage(requestMessage);
     }
 }

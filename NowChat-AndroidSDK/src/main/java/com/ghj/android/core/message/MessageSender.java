@@ -1,6 +1,6 @@
 package com.ghj.android.core.message;
 
-import com.ghj.protocol.RequestMessageProto;
+import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
 
 /**
@@ -9,11 +9,11 @@ import io.netty.channel.Channel;
  */
 public class MessageSender implements Runnable {
 
-    RequestMessageProto.RequestMessage requestMessage;
+    MessageProto.Message requestMessage;
     Channel channel;
 
 
-    public MessageSender(Channel channel, RequestMessageProto.RequestMessage requestMessage){
+    public MessageSender(Channel channel, MessageProto.Message requestMessage){
         this.requestMessage = requestMessage;
         this.channel = channel;
     }

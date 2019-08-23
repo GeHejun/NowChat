@@ -1,11 +1,15 @@
 package com.ghj.android.core.observer;
 
-import com.ghj.protocol.AckMessageProto;
-import com.ghj.protocol.RequestMessageProto;
+
+
+import com.ghj.protocol.MessageProto;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author GeHejun
+ */
 public class Subject {
 
     List<Observer> ackObserverList = new ArrayList<>();
@@ -28,13 +32,13 @@ public class Subject {
         requestObserverList.remove(observer);
     }
 
-    public void ackNotifyAllListener(AckMessageProto.AckMessage ackMessage) {
+    public void ackNotifyAllListener(MessageProto.Message ackMessage) {
         for (Observer observer:ackObserverList) {
             observer.ackMessageListener(ackMessage);
         }
     }
 
-    public void requestNotifyAllListener(RequestMessageProto.RequestMessage requestMessage) {
+    public void requestNotifyAllListener(MessageProto.Message requestMessage) {
         for (Observer observer:requestObserverList) {
             observer.requestMessageListener(requestMessage);
         }
