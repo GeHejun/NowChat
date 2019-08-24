@@ -6,6 +6,8 @@ import com.ghj.rest.service.FriendGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +24,8 @@ public class FriendGroupController {
     FriendGroupService friendGroupService;
 
     @RequestMapping("/queryGroupById")
-    public Result<FriendGroupResponse> queryGroupById(@NotNull Integer id) {
+    @ResponseBody
+    public Result<FriendGroupResponse> queryGroupById(@NotNull @RequestParam("id") Integer id) {
         FriendGroupResponse friendGroupResponse = friendGroupService.queryGroupById(id);
         return Result.defaultSuccess(friendGroupResponse);
 

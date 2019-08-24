@@ -58,14 +58,12 @@ public class Broker {
                             pipeline.addLast(new HttpObjectAggregator(Constant.MAX_AGGREGATED_CONTENT_LENGTH));
                             // 主要用于处理大数据流，比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的; 增加之后就不用考虑这个问题了
                             pipeline.addLast(new ChunkedWriteHandler());
-                            // WebSocket数据压缩
-                            pipeline.addLast(new WebSocketServerCompressionHandler());
                             pipeline.addLast(new WebSocketServerProtocolHandler("/"));
                             // 协议包解码
                             pipeline.addLast(new MessageToMessageDecoder<WebSocketFrame>() {
                                 @Override
-                                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs)  {
-                                    ByteBuf buf =  frame.content();
+                                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs) {
+                                    ByteBuf buf = frame.content();
                                     objs.add(buf);
                                     buf.retain();
                                 }
@@ -73,7 +71,7 @@ public class Broker {
                             // 协议包编码
                             pipeline.addLast(new MessageToMessageEncoder<MessageLiteOrBuilder>() {
                                 @Override
-                                protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List<Object> out)  {
+                                protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List<Object> out) {
                                     ByteBuf result = null;
                                     if (msg instanceof MessageLite) {
                                         result = wrappedBuffer(((MessageLite) msg).toByteArray());
@@ -86,6 +84,7 @@ public class Broker {
                                     out.add(frame);
                                 }
                             });
+                            //pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new BrokeHandler());
                         }

@@ -7,6 +7,8 @@ import java.io.Serializable;
  * @author 
  */
 public class UserState implements Serializable {
+
+
     private Integer id;
 
     /**

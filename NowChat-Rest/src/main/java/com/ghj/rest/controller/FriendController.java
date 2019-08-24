@@ -5,6 +5,7 @@ import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.rest.service.FriendService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class FriendController {
 
     @RequestMapping("/queryFriendList")
     @ResponseBody
-    public Result<List<FriendResponse>> queryFriendList(@Valid Integer userId) {
+    public Result<List<FriendResponse>> queryFriendList(@Valid @RequestParam("userId") Integer userId) {
         List<FriendResponse> friendResponseList = friendService.listFriendsByUserId(userId);
         return Result.defaultSuccess(friendResponseList);
     }

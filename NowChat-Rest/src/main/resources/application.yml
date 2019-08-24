@@ -11,7 +11,7 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    url: http://localhost:3306/im
+    url: jdbc:mysql://localhost:3306/im
 
 fdfs:
   soTimeout: 1500
@@ -29,4 +29,4 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 
 mybatis:
-  mapper-locations: classpath*:com/ghj/rest/mapper/**/*.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml

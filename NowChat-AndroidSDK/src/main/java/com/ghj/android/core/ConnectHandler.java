@@ -18,16 +18,16 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         this.subject = subject;
     }
 
-
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Object msg)  {
-        MessageProto.Message message = (MessageProto.Message) msg;
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+        MessageProto.Message message = (MessageProto.Message) o;
         if (MessageProto.Message.MessageBehavior.ACK == message.getMessageBehavior()) {
             subject.ackNotifyAllListener(message);
         }
         if (MessageProto.Message.MessageBehavior.MESSAGE == message.getMessageBehavior()) {
             subject.requestNotifyAllListener(message);
         }
-
     }
+
+
 }

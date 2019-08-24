@@ -11,6 +11,8 @@ import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.FullHttpMessage;
+import io.netty.handler.codec.http.FullHttpRequest;
 
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.MESSAGE;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
@@ -20,6 +22,7 @@ import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
  * @date 2019/7/115:44
  */
 public class BrokeHandler extends SimpleChannelInboundHandler {
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message)o;

@@ -3,8 +3,11 @@ package com.ghj.web.controller;
 import com.ghj.common.base.Result;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.vo.MainFrameVO;
+import com.ghj.web.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
@@ -27,8 +30,9 @@ public class MainFrameController {
      * 暂时写死用id 以后改成token
      */
     @RequestMapping("/initMainFrame")
-    public Result<MainFrameVO> initMainFrame(@NotNull Integer id) {
+    @ResponseBody
+    public ResultVO<MainFrameVO> initMainFrame(@NotNull @RequestParam("id") Integer id) {
         MainFrameVO mainFrameVO = mainFrameService.initMainFrame(id);
-        return Result.defaultSuccess(mainFrameVO);
+        return ResultVO.defaultSuccess(mainFrameVO);
     }
 }

@@ -8,8 +8,10 @@ import com.ghj.common.dto.response.UserStateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -29,7 +31,8 @@ public interface RestService {
      * @return
      */
     @RequestMapping("/friendGroup/queryGroupById")
-    Result<FriendGroupResponse> queryGroupById(@NotNull Integer id);
+    @ResponseBody
+    Result<FriendGroupResponse> queryGroupById(@NotNull @RequestParam("id") Integer id);
 
     /**
      * 查询好友列表
@@ -38,7 +41,7 @@ public interface RestService {
      */
     @RequestMapping("/friend/queryFriendList")
     @ResponseBody
-    Result<List<FriendResponse>> queryFriendList(@Valid Integer userId);
+    Result<List<FriendResponse>> queryFriendList(@Valid @RequestParam("userId") Integer userId);
 
     /**
      * 查询用户信息
@@ -47,7 +50,7 @@ public interface RestService {
      */
     @RequestMapping(value = "/user/queryUser")
     @ResponseBody
-    Result<UserResponse> queryUser(@NotNull Integer id);
+    Result<UserResponse> queryUser(@NotNull @RequestParam("id") Integer id);
 
     /**
      * 查询状态信息
@@ -55,5 +58,6 @@ public interface RestService {
      * @return
      */
     @RequestMapping("/state/queryUserStateById")
-    Result<UserStateResponse> queryUserStateById(@NotNull Integer id);
+    @ResponseBody
+    Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam("id") Integer id);
 }

@@ -35,7 +35,7 @@ public class MainFrameServiceImpl implements MainFrameService {
         UserVO userVO = UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .id(userResponse.getId().toString())
-                .status(restService.queryUserStateById(id).getData().getName())
+                .status(restService.queryUserStateById(userResponse.getUserStateId()).getData().getName())
                 .username(userResponse.getNickName())
                 .build();
         //查询朋友列表
@@ -54,16 +54,16 @@ public class MainFrameServiceImpl implements MainFrameService {
                 UserVO friendVO = UserVO.builder()
                         .avatar(friend.getHeadPortrait())
                         .id(friend.getId().toString())
-                        .status(restService.queryUserStateById(friend.getId()).getData().getName())
+                        .status(restService.queryUserStateById(friend.getUserStateId()).getData().getName())
                         .username(friend.getNickName())
                         .build();
                 friendVOList.add(friendVO);
             });
-            GroupVO groupVO = GroupVO.builder().id(friendGroupResponse.getId()).groupname(friendGroupResponse.getName()).friend(friendVOList).build();
+            GroupVO groupVO = GroupVO.builder().id(friendGroupResponse.getId()).groupname(friendGroupResponse.getName()).list(friendVOList).build();
             groupVOList.add(groupVO);
         });
         //组装数据
-        MainFrameVO mainFrameVO = MainFrameVO.builder().mine(userVO).groupVOList(groupVOList).build();
+        MainFrameVO mainFrameVO = MainFrameVO.builder().mine(userVO).friend(groupVOList).build();
         return mainFrameVO;
     }
 }

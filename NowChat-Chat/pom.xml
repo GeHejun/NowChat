@@ -14,11 +14,8 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.25.Final</version>
-        </dependency>
+
+
         <dependency>
             <groupId>com.ghj</groupId>
             <artifactId>NowChat-Common</artifactId>
@@ -29,6 +26,12 @@
             <groupId>com.ghj</groupId>
             <artifactId>NowChat-Protocol</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.34.Final</version>
         </dependency>
     </dependencies>
 

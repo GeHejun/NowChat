@@ -6,6 +6,7 @@ import com.ghj.rest.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -31,7 +32,7 @@ public class UserController {
 
     @RequestMapping(value = "/queryUser")
     @ResponseBody
-    public Result<UserResponse> queryUser(@NotNull Integer id) {
+    public Result<UserResponse> queryUser(@NotNull @RequestParam("id") Integer id) {
         UserResponse userResponse = userService.getUserById(id);
         return Result.defaultSuccess(userResponse);
     }

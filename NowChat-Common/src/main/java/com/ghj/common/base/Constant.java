@@ -92,5 +92,5 @@ public class Constant {
 
     public static final int REGISTER_FAILURE_CODE = 4007;
 
-    public static final int MAX_AGGREGATED_CONTENT_LENGTH = 65536;
+    public static final int MAX_AGGREGATED_CONTENT_LENGTH = 64 * 1024;
 }
