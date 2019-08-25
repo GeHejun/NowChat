@@ -22,6 +22,7 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketSe
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -34,7 +35,7 @@ import static io.netty.buffer.Unpooled.wrappedBuffer;
  * @author GeHejun
  * @date 2019/7/1 11:22
  */
-public class Broker {
+public class WebSocketBroker {
 
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -60,33 +61,32 @@ public class Broker {
                             // 主要用于处理大数据流，比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的; 增加之后就不用考虑这个问题了
                             pipeline.addLast(new ChunkedWriteHandler());
                             pipeline.addLast(new WebSocketServerProtocolHandler("/"));
-                            // 协议包解码
-//                            pipeline.addLast(new MessageToMessageDecoder<WebSocketFrame>() {
-//                                @Override
-//                                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs) {
-//                                    ByteBuf buf = frame.content();
-//                                    objs.add(buf);
-//                                    buf.retain();
-//                                }
-//                            });
-//                            // 协议包编码
-//                            pipeline.addLast(new MessageToMessageEncoder<MessageLiteOrBuilder>() {
-//                                @Override
-//                                protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List<Object> out) {
-//                                    ByteBuf result = null;
-//                                    if (msg instanceof MessageLite) {
-//                                        result = wrappedBuffer(((MessageLite) msg).toByteArray());
-//                                    }
-//                                    if (msg instanceof MessageLite.Builder) {
-//                                        result = wrappedBuffer(((MessageLite.Builder) msg).build().toByteArray());
-//                                    }
-//
-//                                    WebSocketFrame frame = new BinaryWebSocketFrame(result);
-//                                    out.add(frame);
-//                                }
-//                            });
+//                            // 协议包解码
+                            pipeline.addLast(new MessageToMessageDecoder<WebSocketFrame>() {
+                                @Override
+                                protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs) {
+                                    ByteBuf buf = frame.content();
+                                    objs.add(buf);
+                                    buf.retain();
+                                }
+                            });
+                            // 协议包编码
+                            pipeline.addLast(new MessageToMessageEncoder<MessageLiteOrBuilder>() {
+                                @Override
+                                protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List<Object> out) {
+                                    ByteBuf result = null;
+                                    if (msg instanceof MessageLite) {
+                                        result = wrappedBuffer(((MessageLite) msg).toByteArray());
+                                    }
+                                    if (msg instanceof MessageLite.Builder) {
+                                        result = wrappedBuffer(((MessageLite.Builder) msg).build().toByteArray());
+                                    }
+
+                                    WebSocketFrame frame = new BinaryWebSocketFrame(result);
+                                    out.add(frame);
+                                }
+                            });
                             pipeline.addLast(new ProtobufEncoder());
-                            pipeline.addLast(new ProtobufVarint32FrameDecoder());
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new BrokeHandler());
                         }

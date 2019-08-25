@@ -7,14 +7,7 @@ import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.common.util.ThreadPoolManager;
 import com.ghj.protocol.MessageProto;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 import java.net.InetSocketAddress;
 
@@ -26,36 +19,17 @@ import java.net.InetSocketAddress;
  */
 public class ClientRegister {
 
-    private Connector connector;
-
     public void clientStart(Connector connector) {
-        this.connector = connector;
-        Bootstrap client = new Bootstrap();
-        //第1步 定义线程组，处理读写和链接事件，没有了accept事件
-        EventLoopGroup group = new NioEventLoopGroup();
-        client.group(group);
-
-        //第2步 绑定客户端通道
-        client.channel(NioSocketChannel.class);
-
-        //第3步 给NIoSocketChannel初始化handler， 处理读写事件
-        client.handler(new ChannelInitializer<NioSocketChannel>() {
-            @Override
-            protected void initChannel(NioSocketChannel ch) {
-                //字符串编码器，一定要加在SimpleClientHandler 的上面
-                ch.pipeline().addLast(new ProtobufEncoder());
-                ch.pipeline().addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
-            }
-        });
-        register(client);
+        register(connector);
     }
 
-    public void register(Bootstrap bootstrap) {
+
+    public void register(Connector connector) {
         ThreadPoolManager.getsInstance().execute(() -> {
             try {
                 String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "");
                 Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, ""));
-                ChannelFuture channelFuture = bootstrap.connect(new InetSocketAddress(registerIp, registerPort));
+                ChannelFuture channelFuture = connector.getServerBootstrap().bind(new InetSocketAddress(registerIp, registerPort));
                 channelFuture.addListener(future -> {
                     if (!future.isSuccess()) {
                         connector.stop();
@@ -76,6 +50,5 @@ public class ClientRegister {
             }
 
         });
-
     }
 }
