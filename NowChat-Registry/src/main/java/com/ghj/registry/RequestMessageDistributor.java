@@ -1,5 +1,6 @@
 package com.ghj.registry;
 
+import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
 
@@ -25,6 +26,9 @@ public class RequestMessageDistributor implements Runnable{
         if (Objects.isNull(serverChannel)) {
             //一致性hash
         }
+//        MessageProto.Message message = MessageProto.Message
+//                .newBuilder(requestMessage)
+//                .setMatchMessageId(new SnowFlakeIdGenerator(requestMessage.getDeviceId(), (long)Math.random() * 10000).nextId()).build();
         serverChannel.writeAndFlush(requestMessage);
     }
 }

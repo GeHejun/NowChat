@@ -30,8 +30,6 @@ public class RequestMessageSender implements Runnable {
 
     public MessageProto.Message message;
 
-
-
     Session session;
 
     AbstractMessage abstractMessage;

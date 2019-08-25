@@ -48,6 +48,13 @@ public class Result<T> {
     }
 
     /**
+     * 调用默认成功
+     */
+    public static  <T> Result<T> defaultSuccess(Code code, T data){
+        return new Result(data, true, code.getCode(), "返回成功");
+    }
+
+    /**
      * 返回默认失败
      */
     public static <T> Result<T> defaultFailure(){

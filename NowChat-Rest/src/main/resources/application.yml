@@ -5,7 +5,7 @@ spring:
   application:
     name: rest
   redis:
-    host: 192.168.122.1
+    host: 172.16.219.130
     port: 6379
   datasource:
     username: root

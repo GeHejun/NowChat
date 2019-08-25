@@ -60,4 +60,14 @@ public interface RestService {
     @RequestMapping("/state/queryUserStateById")
     @ResponseBody
     Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam("id") Integer id);
+
+    /**
+     * 登录验证
+     * @param loginName
+     * @param password
+     * @return
+     */
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    @ResponseBody
+    Result<UserResponse> login(@NotNull @RequestParam("loginName") String loginName, @NotNull @RequestParam("password") String password);
 }

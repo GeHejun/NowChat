@@ -1,18 +1,33 @@
-var WSMessage;
-var wsmessage;
-var buffer;
-protobuf.load("./proto/message.proto", function (err, root) {
-    if (err) throw err;
-    WSMessage = root.lookup("com.ghj.protocol.MessageProto.Message");
-    wsmessage = WSMessage.create({content: "hello"});
-    buffer = WSMessage.encode(wsmessage).finish();
-});
-var wsUri = "ws://127.0.0.1:8798/";
-var output;
-testWebSocket();
+function encode(message) {
+    let buffer = null;
+    protobuf.load("./proto/message.proto", function (err, root) {
+        if (err) throw err;
+        let WSMessage = root.lookup("com.ghj.protocol.MessageProto.Message");
+        let wsmessage = WSMessage.create(message);
+        buffer = WSMessage.encode(wsmessage).finish();
+    });
+    return buffer;
+}
+function decode(message) {
+    let buffer = null;
+    protobuf.load("./proto/message.proto", function (err, root) {
+        if (err) throw err;
+        let WSMessage = root.lookup("com.ghj.protocol.MessageProto.Message");
+        let reader = new FileReader();
+        reader.readAsArrayBuffer(message);
+        reader.onload = function (e) {
+            let buf = new Uint8Array(reader.result);
+            buffer = WSMessage.decode(buf).content;
+        }
+    });
+    return buffer;
 
-function testWebSocket() {
-    websocket = new WebSocket(wsUri);
+}
+let wsUri = "ws://127.0.0.1:8798/";
+connect(wsUri);
+
+function connect(url) {
+    websocket = new WebSocket(url);
     websocket.onopen = function (evt) {
         onOpen(evt)
     };
@@ -28,25 +43,26 @@ function testWebSocket() {
 }
 
 function onOpen(evt) {
-    doSend(buffer);
+
 }
 
 function onClose(evt) {
+
 }
 
 function onMessage(evt) {
-    var reader = new FileReader();
-    reader.readAsArrayBuffer(evt.data);
-    reader.onload = function (e) {
-        var buf = new Uint8Array(reader.result);
-        WSMessage.decode(buf).content;
-    }
+    // if (decode(evt.data).matchMessageId == ackMessage) {
+    //
+    // }
 }
 
 function onError(evt) {
+
 }
 
-function doSend(message) {
-    websocket.send(buffer);
+
+
+function send(message) {
+    websocket.send(encode(message));
 }
 

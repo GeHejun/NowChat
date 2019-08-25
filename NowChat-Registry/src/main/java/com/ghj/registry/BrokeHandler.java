@@ -27,7 +27,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message)o;
         if (REGISTER == message.getMessageBehavior()) {
-                dealRegisterMessage(channelHandlerContext, message);
+            dealRegisterMessage(channelHandlerContext, message);
         }
         if (MESSAGE == message.getMessageBehavior()) {
             dealRequestMessage(message);

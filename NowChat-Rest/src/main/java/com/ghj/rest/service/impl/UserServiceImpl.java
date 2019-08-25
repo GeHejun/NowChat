@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException();
         }
         String encrypt = DesEncryptDecrypt.getInstance().encrypt(password);
-        if (encrypt.equals(user.getPassWord())) {
+        if (!encrypt.equals(user.getPassWord())) {
             throw new UserException();
         }
         String token = user.getId()+"_"+ UUID.randomUUID().toString().replace("-","");
