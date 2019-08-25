@@ -1,11 +1,7 @@
 package com.ghj.chat;
 
 
-import com.ghj.chat.client.ClientRegister;
-import com.ghj.common.base.Constant;
-import com.ghj.common.exception.ServerException;
-import com.ghj.common.util.PropertiesUtil;
-import com.ghj.common.util.ThreadPoolManager;
+
 import com.ghj.protocol.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
@@ -25,15 +21,15 @@ import java.net.InetSocketAddress;
  * @author GeHejun
  * @date 2019-06-24
  */
-public class Connector {
+public class NettyConnector {
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     ServerBootstrap serverBootstrap;
-    int port;
+
 
 
     public void start(int port) {
-        this.port = port;
+
         try {
             serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
@@ -50,7 +46,6 @@ public class Connector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
-            //new ClientRegister().clientStart(this);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,13 +59,6 @@ public class Connector {
         workerGroup.shutdownGracefully();
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public ServerBootstrap getServerBootstrap() {
-        return serverBootstrap;
-    }
 }
 
 

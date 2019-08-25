@@ -7,28 +7,17 @@ import com.ghj.common.util.ThreadPoolManager;
  * @date 2019/6/2414:26
  */
 public class ServerStarter {
-//    public static void main(String[] args) {
-//        Connector connector = new Connector();
-//        try {
-//            connector.start(8990);
-//            SessionManager.watchSessionStatus();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            connector.stop();
-//        }
-//
-//    }
 
     public static void main(String[] args) {
-        Connector connector = new Connector();
+        NettyConnector nettyConnector = new NettyConnector();
         WebSocketConnector webSocketConnector = new WebSocketConnector();
         try {
-            ThreadPoolManager.getsInstance().execute(()-> connector.start(8990));
+            ThreadPoolManager.getsInstance().execute(()-> nettyConnector.start(8990));
             ThreadPoolManager.getsInstance().execute(() -> webSocketConnector.start(8991));
             SessionManager.watchSessionStatus();
         } catch (Exception e) {
             e.printStackTrace();
-            connector.stop();
+            nettyConnector.stop();
             webSocketConnector.stop();
         }
     }

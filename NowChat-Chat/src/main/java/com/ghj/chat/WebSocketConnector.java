@@ -32,11 +32,11 @@ public class WebSocketConnector {
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     ServerBootstrap serverBootstrap;
-    int port;
+
 
 
     public void start(int port) {
-        this.port = port;
+
         try {
             serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
@@ -99,11 +99,4 @@ public class WebSocketConnector {
         workerGroup.shutdownGracefully();
     }
 
-    public int getPort() {
-        return port;
-    }
-
-    public ServerBootstrap getServerBootstrap() {
-        return serverBootstrap;
-    }
 }
