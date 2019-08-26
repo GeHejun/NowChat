@@ -21,4 +21,10 @@ public class FriendResponse {
      */
     private Integer friendGroupId;
 
+    /**
+     *
+     * 备注
+     */
+    private String name;
+
 }

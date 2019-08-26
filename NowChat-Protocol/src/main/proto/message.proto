@@ -91,5 +91,11 @@ message Message {
         CLIENT = 5;
     }
 
+    //以下兼容layui --- 又不想调接口查询
+    //备注
+    string name = 19;
+    //头像
+    string headPortrait = 20;
+
 
 }

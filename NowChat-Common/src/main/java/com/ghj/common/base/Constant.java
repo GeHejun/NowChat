@@ -95,4 +95,8 @@ public class Constant {
     public static final int MAX_AGGREGATED_CONTENT_LENGTH = 64 * 1024;
 
     public static final String SYSTEM_PREFIX = "NOW-CHAT:USER:";
+
+    public static final String REDIS_IP = "redis.ip";
+
+    public static String REDIS_PORT  = "redis.port";
 }

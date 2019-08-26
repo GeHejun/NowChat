@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Resource
-    StringRedisTemplate redisTemplate;
+    RedisTemplate redisTemplate;
 
     @Override
     public UserResponse validateUser(String loginName, String password) {

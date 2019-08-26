@@ -37,6 +37,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .id(userResponse.getId().toString())
                 .status(restService.queryUserStateById(userResponse.getUserStateId()).getData().getName())
                 .username(userResponse.getNickName())
+                .sign(userResponse.getSignature())
                 .build();
         //查询朋友列表
         List<FriendResponse> friendResponseList = restService.queryFriendList(id).getData();
@@ -55,7 +56,8 @@ public class MainFrameServiceImpl implements MainFrameService {
                         .avatar(friend.getHeadPortrait())
                         .id(friend.getId().toString())
                         .status(restService.queryUserStateById(friend.getUserStateId()).getData().getName())
-                        .username(friend.getNickName())
+                        .username(friendResponse.getName())
+                        .sign(friend.getSignature())
                         .build();
                 friendVOList.add(friendVO);
             });
