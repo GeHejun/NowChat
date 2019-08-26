@@ -19,7 +19,7 @@ public class RedisPool {
     private static Boolean testReturn = false;//在return一个jedis实例的时候，是否要进行验证操作，如果赋值true。则放回jedispool的jedis实例肯定是可以用的。
 
     private static String redisIp = "127.0.0.1";//redis服务端的ip
-    private static Integer redisPort = 3679;//redis提供的接口
+    private static Integer redisPort = 6379;//redis提供的接口
 
 
     private static void initPool(){

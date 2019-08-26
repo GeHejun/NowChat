@@ -1,33 +1,21 @@
 package com.ghj.registry;
 
-import com.ghj.common.base.Constant;
 import com.ghj.protocol.MessageProto;
-import com.google.protobuf.MessageLite;
-import com.google.protobuf.MessageLiteOrBuilder;
+import com.ghj.registry.BrokeHandler;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.MessageToMessageDecoder;
-import io.netty.handler.codec.MessageToMessageEncoder;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.stream.ChunkedWriteHandler;
 
-import java.util.List;
-
-import static io.netty.buffer.Unpooled.wrappedBuffer;
-
-public class TcpBroker {
+/**
+ * @author GeHejun
+ */
+public class NettyBroker {
 
 
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();

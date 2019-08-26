@@ -11,34 +11,14 @@ html{background-color: #333;}
 </style>
 </head>
 <body>
+<script src="js/snowflake.js"></script>
 <script src="protobuf/protobuf.js"></script>
 <script src="js/jquery-3.4.1.js"></script>
 <script src="js/ws.js"></script>
 <script src="layui/layui.js"></script>
-<script src="js/snowflake.js"></script>
+
 
 <script>
-    $.ajax({
-        url:"/security/validateUser",
-        data:{'loginName':'GeHejun','password':'1'},
-        type:"Post",
-        dataType:"json",
-        success:function(data){
-            let message = {
-                "id": new Snowflake(1, 1, 0).nextId(),
-                "loginName":"GeHejun",
-                "fromUserId":10,
-                "messageTypeId":0,
-                "messageBehavior":1,
-                "messageDirect":2,
-                "deviceId":100,
-                "token":data.data.token
-            };
-            send(message);
-        },
-        error:function(data){
-        }
-    });
 layui.use(['layim','jquery'], function(layim){
     var $ = layui.$;//重点处
 

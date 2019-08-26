@@ -1,8 +1,8 @@
 package com.ghj.registry;
 
-import com.alibaba.fastjson.JSON;
 import com.ghj.common.base.Constant;
-import com.ghj.protocol.*;
+import com.ghj.protocol.MessageProto;
+import com.ghj.registry.BrokeHandler;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -18,10 +18,8 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -53,15 +51,10 @@ public class WebSocketBroker {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            // HTTP请求的解码和编码
                             pipeline.addLast(new HttpServerCodec());
-                            // 把多个消息转换为一个单一的FullHttpRequest或是FullHttpResponse，
-                            // 原因是HTTP解码器会在每个HTTP消息中生成多个消息对象HttpRequest/HttpResponse,HttpContent,LastHttpContent
                             pipeline.addLast(new HttpObjectAggregator(Constant.MAX_AGGREGATED_CONTENT_LENGTH));
-                            // 主要用于处理大数据流，比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的; 增加之后就不用考虑这个问题了
                             pipeline.addLast(new ChunkedWriteHandler());
                             pipeline.addLast(new WebSocketServerProtocolHandler("/"));
-//                            // 协议包解码
                             pipeline.addLast(new MessageToMessageDecoder<WebSocketFrame>() {
                                 @Override
                                 protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs) {
@@ -70,7 +63,6 @@ public class WebSocketBroker {
                                     buf.retain();
                                 }
                             });
-                            // 协议包编码
                             pipeline.addLast(new MessageToMessageEncoder<MessageLiteOrBuilder>() {
                                 @Override
                                 protected void encode(ChannelHandlerContext ctx, MessageLiteOrBuilder msg, List<Object> out) {

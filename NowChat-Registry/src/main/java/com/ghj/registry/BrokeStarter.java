@@ -9,13 +9,13 @@ import com.ghj.common.util.ThreadPoolManager;
 public class BrokeStarter {
     public static void main(String[] args) {
         WebSocketBroker webSocketBroker = new WebSocketBroker();
-        TcpBroker tcpBroker = new TcpBroker();
+        NettyBroker nettyBroker = new NettyBroker();
         try {
             ThreadPoolManager.getsInstance().execute(()->{
                 webSocketBroker.start(8798);
             });
             ThreadPoolManager.getsInstance().execute(()->{
-                tcpBroker.start(8799);
+                nettyBroker.start(8799);
             });
 
         } catch (Exception e) {

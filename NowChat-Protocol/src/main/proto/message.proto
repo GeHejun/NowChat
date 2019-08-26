@@ -71,15 +71,14 @@ message Message {
 
     //消息行为
     enum MessageBehavior {
-
-        DEFAULT = 0;
-        LOGIN = 1;
-        PING = 2;
-        MESSAGE = 3;
-        LOGIN_OUT = 4;
-        ACK = 5;
-        NOTIFY = 6;
-        REGISTER = 7;
+        LOGIN = 0;
+        PING = 1;
+        MESSAGE = 2;
+        LOGIN_OUT = 3;
+        ACK = 4;
+        NOTIFY = 5;
+        REGISTER = 6;
+        ROUTE = 7;
 
     }
 
@@ -89,5 +88,6 @@ message Message {
         GROUP = 1;
         SERVER = 2;
         REGISTRY = 3;
+        CLIENT = 4;
     }
 }

@@ -1,5 +1,8 @@
 package com.ghj.registry;
 
+import com.ghj.common.util.NettyAttrUtil;
+import com.ghj.common.util.ThreadPoolManager;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -16,5 +19,18 @@ public class Registry {
 
     public static ServerSession getServerSession(Long machineSerialNumber) {
         return SERVER_SESSION_MAP.get(machineSerialNumber);
+    }
+
+    public static void watchServerSessionStatus() {
+        ThreadPoolManager.getsInstance().execute(() -> {
+            for (; ; ) {
+                SERVER_SESSION_MAP.forEach((k, v) -> {
+                    if (NettyAttrUtil.getReaderTime(v.getChannel()) < System.currentTimeMillis()) {
+
+                        Thread.yield();
+                    }
+                });
+            }
+        });
     }
 }

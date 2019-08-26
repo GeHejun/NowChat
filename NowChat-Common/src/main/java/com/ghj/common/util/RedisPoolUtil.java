@@ -3,6 +3,8 @@ package com.ghj.common.util;
 import org.omg.PortableInterceptor.INACTIVE;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
+
 /**
  * @author gehj
  * @date 2019/6/2416:55
@@ -24,7 +26,6 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //设置key时间并且设置过期时间
     public static String setEx(String key,String value,int seconds){
         Jedis jedis = null;
         String result = null;
@@ -69,7 +70,6 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //获取一个key
     public static String get(Integer key){
         Jedis jedis = null;
         String result = null;
@@ -84,7 +84,6 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //删除一个key
     public static Long del(String key){
         Jedis jedis = null;
         Long result = null;
@@ -99,7 +98,6 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //设置一个key
     public static Long increment(String key){
         Jedis jedis = null;
         Long result = null;
@@ -114,7 +112,6 @@ public class RedisPoolUtil {
         return result;
     }
 
-    //获取一个key
     public static Long lpush(String key, String value){
         Jedis jedis = null;
         Long result = null;
@@ -128,4 +125,9 @@ public class RedisPoolUtil {
         RedisPool.returnResource(jedis);
         return result;
     }
+
+
+
+
+
 }

@@ -11,11 +11,9 @@ import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.FullHttpMessage;
-import io.netty.handler.codec.http.FullHttpRequest;
 
-import static com.ghj.protocol.MessageProto.Message.MessageBehavior.MESSAGE;
-import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
+import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
+import static com.ghj.protocol.MessageProto.Message.MessageDirect.*;
 
 /**
  * @author gehj
@@ -24,13 +22,20 @@ import static com.ghj.protocol.MessageProto.Message.MessageBehavior.REGISTER;
 public class BrokeHandler extends SimpleChannelInboundHandler {
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(ctx.toString());
+        super.channelActive(ctx);
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         System.out.println(o);
         MessageProto.Message message = (MessageProto.Message)o;
         if (REGISTER == message.getMessageBehavior()) {
             dealRegisterMessage(channelHandlerContext, message);
-        } else {
-            dealRequestMessage(message);
+        }
+        if (ROUTE == message.getMessageBehavior()) {
+            dealRouteMessage(channelHandlerContext, message);
         }
 
     }
@@ -62,10 +67,20 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .build();
             e.printStackTrace();
         }
-        MessageDistributorCenter.getInstance().putMessage(requestMessage);
+        channelHandlerContext.channel().writeAndFlush(requestMessage);
     }
 
-    public void dealRequestMessage(MessageProto.Message message) {
-        MessageDistributorCenter.getInstance().putMessage(message);
+    public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
+        //策略
+        //
+        ServerSession serverSession = Registry.getServerSession(0L);
+        MessageProto.Message ackMessage = MessageProto.Message.newBuilder()
+                .setMessageBehavior(ACK)
+                .setMessageDirect(CLIENT)
+                .setIp(serverSession.getIp())
+                .setPort(serverSession.getPort())
+                .setMatchMessageId(message.getId())
+                .build();
+        channelHandlerContext.channel().write(ackMessage);
     }
 }
