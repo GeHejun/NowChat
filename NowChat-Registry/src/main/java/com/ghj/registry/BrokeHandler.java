@@ -49,12 +49,12 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
         MessageProto.Message requestMessage;
         try {
+            NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             ServerSession serverSession = ServerSession.builder()
                     .ip(message.getIp()).port(message.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
             Registry.putServerSession(message.getIp(), message.getConnectType(), serverSession);
-            NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)

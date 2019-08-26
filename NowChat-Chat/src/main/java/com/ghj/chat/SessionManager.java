@@ -29,20 +29,20 @@ public class SessionManager {
     }
 
 
-    public static void watchSessionStatus() {
-        ThreadPoolManager.getsInstance().execute(()->{
-            for (;;) {
-                SESSION_MAP.forEach((k,v)->{
-                    if (v != null && ((Session)v).channel != null && NettyAttrUtil.getReaderTime(((Session)v).channel) != null) {
-                        if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
-                            removeSession((Integer) k);
-                            Thread.yield();
-                        }
-                    }
-
-                });
-            }
-        });
-    }
+//    public static void watchSessionStatus() {
+//        ThreadPoolManager.getsInstance().execute(()->{
+//            for (;;) {
+//                SESSION_MAP.forEach((k,v)->{
+//                    if (v != null && ((Session)v).channel != null && NettyAttrUtil.getReaderTime(((Session)v).channel) != null) {
+//                        if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
+//                            removeSession((Integer) k);
+//                            Thread.yield();
+//                        }
+//                    }
+//
+//                });
+//            }
+//        });
+//    }
 
 }

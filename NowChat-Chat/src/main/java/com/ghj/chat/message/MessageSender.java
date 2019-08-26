@@ -50,7 +50,7 @@ public class MessageSender implements Runnable {
             }
             session.getChannel().writeAndFlush(message);
             abstractMessage = MessageToUser.builder().build();
-            SendUtil.sendForQueue(abstractMessage);
+            //SendUtil.sendForQueue(abstractMessage);
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
@@ -97,7 +97,7 @@ public class MessageSender implements Runnable {
                     MessageManager.getInstance().putMessage(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
                 default:
             }
-            SendUtil.sendForQueue(abstractMessage);
+            //SendUtil.sendForQueue(abstractMessage);
         }
 
 

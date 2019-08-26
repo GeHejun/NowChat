@@ -22,16 +22,16 @@ public class Registry {
         return SERVER_SESSION_MAP.get(ip + "_" + connectType);
     }
 
-    public static void watchServerSessionStatus() {
-        ThreadPoolManager.getsInstance().execute(() -> {
-            for (; ; ) {
-                SERVER_SESSION_MAP.forEach((k, v) -> {
-                    if (NettyAttrUtil.getReaderTime(v.getChannel()) < System.currentTimeMillis()) {
-
-                        Thread.yield();
-                    }
-                });
-            }
-        });
-    }
+//    public static void watchServerSessionStatus() {
+//        ThreadPoolManager.getsInstance().execute(() -> {
+//            for (; ; ) {
+//                SERVER_SESSION_MAP.forEach((k, v) -> {
+//                    if (NettyAttrUtil.getReaderTime(v.getChannel()) < System.currentTimeMillis()) {
+//
+//                        Thread.yield();
+//                    }
+//                });
+//            }
+//        });
+//    }
 }

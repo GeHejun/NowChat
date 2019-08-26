@@ -25,11 +25,11 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
             case LOGIN:
                 try {
                     validateUser(message);
+                    NettyAttrUtil.updateReaderTime(channel, System.currentTimeMillis() + Constant.PING_ADD_TIME);
                     Session session = Session.builder().channel(channel)
                             .userId(message.getFromUserId())
                             .build();
                     SessionManager.putSession(message.getFromUserId(), session);
-                    NettyAttrUtil.updateReaderTime(channel, System.currentTimeMillis() + Constant.PING_ADD_TIME);
                     incrementOnLineUser(message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
                 } catch (Exception e) {
@@ -95,6 +95,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
                 .setToUserId(message.getFromUserId())
                 .setMatchMessageId(message.getId())
+                .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                 .build();
     }
 

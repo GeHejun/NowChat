@@ -22,7 +22,7 @@ public class Constant {
 
     public static final String ON_LINE_USER_COUNT = "ON_LINE_USER_COUNT";
 
-    public static final String ON_LINE_USER_LIST = "ON_LINE_USER_COUNT";
+    public static final String ON_LINE_USER_LIST = "ON_LINE_USER_LIST";
 
     public static final String SUCCESS = "成功";
 

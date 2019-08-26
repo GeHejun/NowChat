@@ -1,10 +1,12 @@
+layui.use('layim', function(layim){
+var deviceId = parseInt(10*Math.random());
 var websocket;
 let wsUri = "ws://127.0.0.1:8798/";
-var user = localStorage.getItem('user');
-var deviceId = Math.floor(Math.random()*10+1);
+var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;
 route(wsUri);
+
 
 function route(url) {
     websocket = new WebSocket(url);
@@ -12,7 +14,7 @@ function route(url) {
         let message = {
             "messageBehavior": 8,
             "messageDirect": 4,
-            "deviceId": 10,
+            "deviceId": deviceId,
             "id": routeMsgId,
         }
         sendMessage(message);
@@ -26,7 +28,7 @@ function connect(url) {
     websocket = new WebSocket(url);
     websocket.onopen = function (evt) {
         let message = {
-            "id": new Snowflake(1, 1, 0).nextId(),
+            "id": loginMsgId,
             "loginName": user.name,
             "fromUserId": user.id,
             "messageTypeId": 0,
@@ -67,13 +69,13 @@ function onMessage(evt) {
                 let url = "ws://" + buffer.ip + ":" + buffer.port;
                 connect(url);
             } else if (buffer.matchMessageId == loginMsgId) {
-                layui.use('layim', function(layim){
+
                     //基础配置
                     layim.config({
                         //初始化接口
                         init: {
                             url: '/index/initMainFrame'
-                            ,data: {id:10}
+                            ,data: {id:user.id}
                         }
                         //上传图片接口
                         ,uploadImage: {
@@ -155,15 +157,6 @@ function onMessage(evt) {
                         });
                     });
 
-                    //监听发送消息
-                    layim.on('sendMessage', function(data){
-                        var To = data.to;
-
-                        if(To.type === 'friend'){
-                            layim.setChatStatus('<span style="color:#FF5722;">对方正在输入。。。</span>');
-                        }
-                    });
-
                     //监听查看群员
                     layim.on('members', function(data){
 
@@ -175,7 +168,7 @@ function onMessage(evt) {
                         var toUserId = res.to.id; //对方的信息
                         var id = new Snowflake(1, 1, 0).nextId();
                         var messageTypeId = 0;
-                        var content = "";
+                        var content = res.mine.content;
                         var messageBehavior = 3;
                         var messageDirect = 1;
                         var deviceId = deviceId;
@@ -196,7 +189,7 @@ function onMessage(evt) {
                         //监听到上述消息后，就可以轻松地发送socket了，如：
                         sendMessage(message);
                     });
-                });
+
             } else {
                 layim.getMessage({
                     username: buffer.name //消息来源用户名
@@ -213,4 +206,5 @@ function onMessage(evt) {
         }
     });
 }
+});
 

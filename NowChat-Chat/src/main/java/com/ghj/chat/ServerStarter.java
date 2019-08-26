@@ -14,7 +14,7 @@ public class ServerStarter {
         try {
             ThreadPoolManager.getsInstance().execute(() -> webSocketConnector.start(8991));
             ThreadPoolManager.getsInstance().execute(()-> nettyConnector.start(8990));
-            SessionManager.watchSessionStatus();
+//            SessionManager.watchSessionStatus();
         } catch (Exception e) {
             e.printStackTrace();
             nettyConnector.stop();
