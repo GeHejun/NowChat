@@ -16,7 +16,7 @@ public class MessageObserver implements Observer {
     }
 
     @Override
-    public void ackMessageListener(MessageProto.Message ackMessage) {
+    public void messageListener(MessageProto.Message ackMessage) {
         if (Constant.MESSAGE_SEND_SUCCESS_CODE ==  ackMessage.getCode()) {
             messageCallBack.success(ackMessage);
         }
@@ -25,8 +25,4 @@ public class MessageObserver implements Observer {
         }
     }
 
-    @Override
-    public void requestMessageListener(MessageProto.Message requestMessage) {
-        return;
-    }
 }

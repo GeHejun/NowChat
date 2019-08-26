@@ -9,12 +9,12 @@ import io.netty.channel.Channel;
  */
 public class MessageSender implements Runnable {
 
-    MessageProto.Message requestMessage;
+    MessageProto.Message message;
     Channel channel;
 
 
     public MessageSender(Channel channel, MessageProto.Message requestMessage){
-        this.requestMessage = requestMessage;
+        this.message = requestMessage;
         this.channel = channel;
     }
     @Override

@@ -4,7 +4,6 @@ import com.ghj.protocol.MessageProto;
 
 public interface Observer {
 
-    void ackMessageListener(MessageProto.Message ackMessage);
 
-    void requestMessageListener(MessageProto.Message requestMessage);
+    void messageListener(MessageProto.Message requestMessage);
 }

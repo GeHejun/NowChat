@@ -34,9 +34,6 @@ public class MessageManager {
     private ConcurrentLinkedQueue waitSendMessageQueue = new ConcurrentLinkedQueue();
 
 
-    private ConcurrentLinkedQueue ackMessageQueue = new ConcurrentLinkedQueue();
-
-
     public void putMessage(MessageProto.Message message) {
         if (Objects.isNull(message)) {
             throw new MessageException();
@@ -50,19 +47,11 @@ public class MessageManager {
             if (waitSendMessageQueue.isEmpty()) {
                 continue;
             }
-            ThreadPoolManager.getsInstance().execute(new RequestMessageSender((MessageProto.Message) waitSendMessageQueue.poll()));
+            ThreadPoolManager.getsInstance().execute(new MessageSender((MessageProto.Message) waitSendMessageQueue.poll()));
         }
     }
 
 
-    public void ackMessageQueue(MessageProto.Message message) {
-
-        ackMessageQueue.add(message);
-
-        for (;;) {
-            ThreadPoolManager.getsInstance().execute(new AckMessageSender((MessageProto.Message)ackMessageQueue.poll()));
-        }
-    }
 
 
 

@@ -21,12 +21,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
         MessageProto.Message message = (MessageProto.Message) o;
-        if (MessageProto.Message.MessageBehavior.ACK == message.getMessageBehavior()) {
-            subject.ackNotifyAllListener(message);
-        }
-        if (MessageProto.Message.MessageBehavior.MESSAGE == message.getMessageBehavior()) {
-            subject.requestNotifyAllListener(message);
-        }
+        subject.notifyAllListener(message);
     }
 
 
