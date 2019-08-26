@@ -1,6 +1,8 @@
 package com.ghj.chat;
 
+import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.NettyAttrUtil;
+import com.ghj.common.util.RedisPoolUtil;
 import com.ghj.common.util.ThreadPoolManager;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +19,7 @@ public class SessionManager {
 
     public static void putSession(Integer id, Session session) {
         SESSION_MAP.put(id, session);
+        RedisPoolUtil.hset(session.getChannel().localAddress().toString(), id.toString(), session);
     }
 
     public static Session getSession(Integer id) {

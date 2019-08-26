@@ -20,7 +20,6 @@ public class RedisPoolUtil {
             result = jedis.expire(key,seconds);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -34,7 +33,6 @@ public class RedisPoolUtil {
             result = jedis.setex(key,seconds,value);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -49,7 +47,6 @@ public class RedisPoolUtil {
             result = jedis.set(key,value);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -64,7 +61,6 @@ public class RedisPoolUtil {
             result = jedis.get(key);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -78,7 +74,6 @@ public class RedisPoolUtil {
             result = jedis.get(key.toString());
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -92,7 +87,6 @@ public class RedisPoolUtil {
             result = jedis.del(key);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -106,7 +100,6 @@ public class RedisPoolUtil {
             result = jedis.incr(key);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
@@ -120,14 +113,22 @@ public class RedisPoolUtil {
             result = jedis.lpush(key,value);
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
-            return result;
         }
         RedisPool.returnResource(jedis);
         return result;
     }
 
-
-
-
+    public static Long hset(String key, String id, Object value) {
+        Jedis jedis = null;
+        Long result = null;
+        try {
+            jedis = RedisPool.getJedis();
+            result = jedis.hset(key,id, JSONUtil.beanToJson(value));
+        } catch (Exception e) {
+            RedisPool.returnBrokenResource(jedis);
+        }
+        RedisPool.returnResource(jedis);
+        return result;
+    }
 
 }
