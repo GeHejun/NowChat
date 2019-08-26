@@ -9,6 +9,7 @@ import com.ghj.rest.model.User;
 import com.ghj.rest.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Resource
-    RedisTemplate redisTemplate;
+    StringRedisTemplate redisTemplate;
 
     @Override
     public UserResponse validateUser(String loginName, String password) {
