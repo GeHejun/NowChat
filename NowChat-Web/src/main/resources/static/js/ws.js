@@ -1,6 +1,6 @@
 var websocket;
 let wsUri = "ws://127.0.0.1:8798/";
-var user = layui.data('user');
+var user = localStorage.getItem('user');
 var deviceId = Math.floor(Math.random()*10+1);
 let routeMsgId = 10000;
 let loginMsgId = 20000;
@@ -33,7 +33,7 @@ function connect(url) {
             "messageBehavior": 1,
             "messageDirect": 3,
             "deviceId": deviceId,
-            "token": data.token
+            "token": user.token
         };
         sendMessage(message);
     };

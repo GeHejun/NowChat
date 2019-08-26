@@ -69,12 +69,12 @@
         form.on('submit(loginSubmit)', function (data) {
             $.ajax({
                 url: "/security/validateUser",
-                data: data,field,
+                data: data.field,
                 type: "Post",
                 dataType: "json",
                 success: function (data) {
                     if (data.code == 0) {
-                        layui.data('user', data.data);
+                        localStorage.setItem("user",data.data)
                         location.href="index.html";
                     }
 
