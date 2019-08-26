@@ -45,7 +45,7 @@ function onMessage(evt) {
         reader.readAsArrayBuffer(evt.data);
         reader.onload = function (e) {
             let buf = new Uint8Array(reader.result);
-            let buffer = WSMessage.decode(buf).content;
+            let buffer = WSMessage.decode(buf);
             console.log(buffer);
             if (buffer.matchMessageId == routeMsgId) {
                 websocket.close();

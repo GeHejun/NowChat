@@ -80,7 +80,9 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                 .setIp(serverSession.getIp())
                 .setPort(serverSession.getPort())
                 .setMatchMessageId(message.getId())
+                .setMachineSerialNumber(0)
                 .build();
-        channelHandlerContext.channel().write(ackMessage);
+        channelHandlerContext.channel().writeAndFlush(ackMessage);
+        channelHandlerContext.channel().close();
     }
 }

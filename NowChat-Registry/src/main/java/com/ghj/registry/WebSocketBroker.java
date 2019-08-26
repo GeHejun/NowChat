@@ -2,7 +2,6 @@ package com.ghj.registry;
 
 import com.ghj.common.base.Constant;
 import com.ghj.protocol.MessageProto;
-import com.ghj.registry.BrokeHandler;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.MessageLiteOrBuilder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -20,7 +19,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -78,7 +76,6 @@ public class WebSocketBroker {
                                     out.add(frame);
                                 }
                             });
-                            pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
                             pipeline.addLast(new BrokeHandler());
                         }
