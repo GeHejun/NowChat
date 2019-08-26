@@ -32,10 +32,13 @@ public class SessionManager {
         ThreadPoolManager.getsInstance().execute(()->{
             for (;;) {
                 SESSION_MAP.forEach((k,v)->{
-                    if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
-                        removeSession((Integer) k);
-                        Thread.yield();
+                    if (v != null && ((Session)v).channel != null && NettyAttrUtil.getReaderTime(((Session)v).channel) != null) {
+                        if (NettyAttrUtil.getReaderTime(((Session)v).channel) < System.currentTimeMillis()) {
+                            removeSession((Integer) k);
+                            Thread.yield();
+                        }
                     }
+
                 });
             }
         });

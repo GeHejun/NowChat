@@ -1,5 +1,6 @@
 package com.ghj.chat;
 
+import com.ghj.chat.client.ClientRegister;
 import com.ghj.common.base.Constant;
 import com.ghj.protocol.MessageProto;
 import com.google.protobuf.MessageLite;
@@ -18,8 +19,6 @@ import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -28,16 +27,20 @@ import java.util.List;
 
 import static io.netty.buffer.Unpooled.wrappedBuffer;
 
-public class WebSocketConnector {
+/**
+ * @author Gehejun
+ */
+public class WebSocketConnector implements Connector{
 
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     ServerBootstrap serverBootstrap;
+    int port;
 
 
-
+    @Override
     public void start(int port) {
-
+        this.port = port;
         try {
             serverBootstrap = new ServerBootstrap()
                     .group(bossGroup, workerGroup)
@@ -51,6 +54,7 @@ public class WebSocketConnector {
                             pipeline.addLast(new HttpObjectAggregator(Constant.MAX_AGGREGATED_CONTENT_LENGTH));
                             pipeline.addLast(new ChunkedWriteHandler());
                             pipeline.addLast(new WebSocketServerProtocolHandler("/"));
+
                             pipeline.addLast(new MessageToMessageDecoder<WebSocketFrame>() {
                                 @Override
                                 protected void decode(ChannelHandlerContext ctx, WebSocketFrame frame, List<Object> objs) {
@@ -80,6 +84,7 @@ public class WebSocketConnector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
+            new ClientRegister().clientRegister(this, MessageProto.Message.ConnectType.WEBSOCKET);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,9 +93,14 @@ public class WebSocketConnector {
         }
     }
 
+    @Override
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
 
+    @Override
+    public int getPort() {
+        return port;
+    }
 }

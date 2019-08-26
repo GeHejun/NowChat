@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
         if (!encrypt.equals(user.getPassWord())) {
             throw new UserException();
         }
-        String token = user.getId()+"_"+ UUID.randomUUID().toString().replace("-","");
-        redisTemplate.opsForValue().set(user.getId() + Constant.USER_TOKEN_KEY, token);
+        String token = UUID.randomUUID().toString().replace("-","");
+        redisTemplate.opsForValue().set(Constant.SYSTEM_PREFIX + user.getId() + "_" + Constant.USER_TOKEN_KEY, token);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
         userResponse.setToken(token);

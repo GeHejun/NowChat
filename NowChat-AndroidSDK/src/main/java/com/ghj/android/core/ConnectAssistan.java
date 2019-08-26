@@ -15,15 +15,10 @@ public class ConnectAssistan {
 
     Subject subject =  new Subject();
 
-    public void attach(List<Observer> ackMessageObservers, List<Observer> requestMessageObservers) {
-        ackMessageObservers.forEach(ackMessageObserver -> subject.attachAckObserver(ackMessageObserver));
-        requestMessageObservers.forEach(requestMessageObserver -> subject.attachRequestObserver(requestMessageObserver));
+    public void attach(List<Observer> messageObservers) {
+        messageObservers.forEach(messageObserver -> subject.attachObserver(messageObserver));
     }
 
-    public void detach(List<Observer> ackMessageObservers, List<Observer> requestMessageObservers) {
-        ackMessageObservers.forEach(ackMessageObserver -> subject.detachAckObserver(ackMessageObserver));
-        requestMessageObservers.forEach(requestMessageObserver -> subject.detachRequestObserver(requestMessageObserver));
-    }
 
     public void work(String host, int port) {
         Connnector connnector = new Connnector();

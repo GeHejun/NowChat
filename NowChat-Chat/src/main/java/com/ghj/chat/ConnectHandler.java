@@ -27,8 +27,6 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     validateUser(message);
                     Session session = Session.builder().channel(channel)
                             .userId(message.getFromUserId())
-                            .loginName(message.getLoginName())
-                            .nickName(message.getNickName())
                             .build();
                     SessionManager.putSession(message.getFromUserId(), session);
                     NettyAttrUtil.updateReaderTime(channel, System.currentTimeMillis() + Constant.PING_ADD_TIME);
@@ -37,7 +35,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
                 }
-                MessageManager.getInstance().ackMessageQueue(ackMessage);
+                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case PING:
                 try {
@@ -47,7 +45,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.PING_FAILURE, message);
                 }
-                MessageManager.getInstance().ackMessageQueue(ackMessage);
+                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case MESSAGE:
                 try {
@@ -56,7 +54,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.MESSAGE_SEND_FAILURE, message);
                 }
-                MessageManager.getInstance().ackMessageQueue(ackMessage);
+                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case LOGIN_OUT:
                 try {
@@ -65,7 +63,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.LOGIN_OUT_FAILURE, message);
                 }
-                MessageManager.getInstance().ackMessageQueue(ackMessage);
+                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case ACK:
                 break;
@@ -75,7 +73,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     }
 
     public void validateUser(MessageProto.Message message) {
-        String token = RedisPoolUtil.get(message.getFromUserId()+"_"+Constant.USER_TOKEN_KEY);
+        String token = RedisPoolUtil.get(Constant.SYSTEM_PREFIX + message.getFromUserId() + "_" + Constant.USER_TOKEN_KEY);
         if (StringUtils.isEmpty(token)) {
             throw new UserException();
         }
@@ -94,7 +92,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
-                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
                 .setToUserId(message.getFromUserId())
                 .setMatchMessageId(message.getId())
                 .build();

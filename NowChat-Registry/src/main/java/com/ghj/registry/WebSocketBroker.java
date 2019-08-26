@@ -77,7 +77,7 @@ public class WebSocketBroker {
                                 }
                             });
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
-                            pipeline.addLast(new BrokeHandler());
+                            pipeline.addLast(new BrokeHandler(MessageProto.Message.ConnectType.WEBSOCKET));
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();

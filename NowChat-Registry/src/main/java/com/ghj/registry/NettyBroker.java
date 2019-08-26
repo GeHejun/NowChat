@@ -1,7 +1,6 @@
 package com.ghj.registry;
 
 import com.ghj.protocol.MessageProto;
-import com.ghj.registry.BrokeHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -36,7 +35,7 @@ public class NettyBroker {
                             ChannelPipeline pipeline = socketChannel.pipeline();
                             pipeline.addLast(new ProtobufEncoder());
                             pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
-                            pipeline.addLast(new BrokeHandler());
+                            pipeline.addLast(new BrokeHandler(MessageProto.Message.ConnectType.NETTY));
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();

@@ -1,10 +1,8 @@
 package com.ghj.chat;
 
 
-
 import com.ghj.chat.client.ClientRegister;
-import com.ghj.protocol.*;
-import io.netty.bootstrap.Bootstrap;
+import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,23 +10,21 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-
-import java.net.InetSocketAddress;
 
 /**
  * @author GeHejun
  * @date 2019-06-24
  */
-public class NettyConnector {
+public class NettyConnector implements Connector{
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
     int port;
 
 
+    @Override
     public void start(int port) {
         this.port = port;
         try {
@@ -47,7 +43,7 @@ public class NettyConnector {
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             Channel channel = channelFuture.channel();
-            new ClientRegister().clientStart(this);
+            new ClientRegister().clientRegister(this, MessageProto.Message.ConnectType.NETTY);
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,11 +52,13 @@ public class NettyConnector {
         }
     }
 
+    @Override
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
 
+    @Override
     public int getPort() {
         return port;
     }

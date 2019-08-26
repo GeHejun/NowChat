@@ -13,13 +13,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
-import static com.ghj.protocol.MessageProto.Message.MessageDirect.*;
+import static com.ghj.protocol.MessageProto.Message.MessageDirect.CLIENT;
 
 /**
  * @author gehj
  * @date 2019/7/115:44
  */
 public class BrokeHandler extends SimpleChannelInboundHandler {
+
+    MessageProto.Message.ConnectType connectType;
+
+    public BrokeHandler(MessageProto.Message.ConnectType connectType) {
+        this.connectType = connectType;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -44,26 +50,23 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         MessageProto.Message requestMessage;
         try {
             ServerSession serverSession = ServerSession.builder()
-                    .machineSerialNumber(message.getMachineSerialNumber())
                     .ip(message.getIp()).port(message.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
-            Registry.putServerSession(message.getMachineSerialNumber(), serverSession);
+            Registry.putServerSession(message.getIp(), message.getConnectType(), serverSession);
             NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
-                    .setMachineSerialNumber(message.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), MachineSerialNumber.get()).nextId())
+                    .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
         } catch (Exception e) {
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
-                    .setMachineSerialNumber(message.getMachineSerialNumber())
-                    .setId(new SnowFlakeIdGenerator(message.getMachineSerialNumber(), MachineSerialNumber.get()).nextId())
+                    .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
             e.printStackTrace();
         }
@@ -73,14 +76,13 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
         //策略
         //
-        ServerSession serverSession = Registry.getServerSession(0L);
+        ServerSession serverSession = Registry.getServerSession("127.0.0.1", connectType);
         MessageProto.Message ackMessage = MessageProto.Message.newBuilder()
                 .setMessageBehavior(ACK)
                 .setMessageDirect(CLIENT)
                 .setIp(serverSession.getIp())
                 .setPort(serverSession.getPort())
                 .setMatchMessageId(message.getId())
-                .setMachineSerialNumber(0)
                 .build();
         channelHandlerContext.channel().writeAndFlush(ackMessage);
         channelHandlerContext.channel().close();

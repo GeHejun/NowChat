@@ -11,83 +11,85 @@ message Message {
     //所有消息类型都会存在消息ID
     int64 id = 1;
 
-    //登录类型消息 用户名
-    string loginName = 2;
-
-    //昵称
-    string nickName = 3;
-
     //消息来源
-    int32 fromUserId = 4;
+    int32 fromUserId = 2;
 
     //消息去向
-    int32 toUserId = 5;
+    int32 toUserId = 3;
 
     //notify
-    int32 toGroupId = 6;
+    int32 toGroupId = 4;
 
     //消息类型 音频  视频  文字 图片...
-    int32 messageTypeId = 7;
+    int32 messageTypeId = 5;
 
     //消息内容
-    string content = 8;
+    string content = 6;
 
     //token
-    string token = 9;
+    string token = 7;
 
     //消息行为 登录  登录 注册  普通消息...
-    MessageBehavior messageBehavior = 10;
+    MessageBehavior messageBehavior = 8;
 
     //消息去向 个人 群组 服务端
-    MessageDirect messageDirect = 11;
+    MessageDirect messageDirect = 9;
 
     //设备id
-    int64 deviceId = 12;
+    int64 deviceId = 10;
 
     //关联群组  群消息使用
-    int32 associatedGroupId = 13;
-
-    //由于是集群 通过该序列号查找具体的机器
-    //消息路由到具体某一台服务器应该是路由算法决定的
-    int64 machineSerialNumber = 14;
+    int32 associatedGroupId = 11;
 
     //去注册中心注册时的ip
-    string ip = 15;
+    string ip = 12;
 
     //去注册中心注册时的端口
-    int32 port = 16;
+    int32 port = 13;
 
     //1.群发消息去向 2.notify消息
-    repeated int32 toUserIds = 17;
+    repeated int32 toUserIds = 14;
 
     //匹配消息id 对应ack消息
-    int64 matchMessageId = 18;
+    int64 matchMessageId = 15;
 
     //通知消息 有时会有多个匹配消息
-    repeated int64 matchMessageIds = 19;
+    repeated int64 matchMessageIds = 16;
 
     //ack消息-对应匹配消息的状态码
-    int32 code = 20;
+    int32 code = 17;
+
+    ConnectType connectType = 18;
 
     //消息行为
     enum MessageBehavior {
-        LOGIN = 0;
-        PING = 1;
-        MESSAGE = 2;
-        LOGIN_OUT = 3;
-        ACK = 4;
-        NOTIFY = 5;
-        REGISTER = 6;
-        ROUTE = 7;
+        DEFAULT_M_B = 0;
+        LOGIN = 1;
+        PING = 2;
+        MESSAGE = 3;
+        LOGIN_OUT = 4;
+        ACK = 5;
+        NOTIFY = 6;
+        REGISTER = 7;
+        ROUTE = 8;
 
+    }
+
+    enum ConnectType {
+        DEFAULT_C_T = 0;
+        NETTY = 1;
+        WEBSOCKET = 2;
     }
 
     //消息去向
     enum MessageDirect {
-        PERSONAL = 0;
-        GROUP = 1;
-        SERVER = 2;
-        REGISTRY = 3;
-        CLIENT = 4;
+        DEFAULT_M_D = 0;
+        PERSONAL = 1;
+        GROUP = 2;
+        SERVER = 3;
+        REGISTRY = 4;
+        CLIENT = 5;
     }
+
+
 }

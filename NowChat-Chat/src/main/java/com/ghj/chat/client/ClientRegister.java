@@ -1,5 +1,6 @@
 package com.ghj.chat.client;
 
+import com.ghj.chat.Connector;
 import com.ghj.chat.NettyConnector;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
@@ -26,10 +27,7 @@ import java.net.InetSocketAddress;
  */
 public class ClientRegister {
 
-    NettyConnector connector;
-
-    public void clientStart(NettyConnector connector) {
-        this.connector = connector;
+    public void clientRegister(Connector connector, MessageProto.Message.ConnectType connectType) {
         Bootstrap client = new Bootstrap();
         //第1步 定义线程组，处理读写和链接事件，没有了accept事件
         EventLoopGroup group = new NioEventLoopGroup();
@@ -47,34 +45,32 @@ public class ClientRegister {
                 ch.pipeline().addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
             }
         });
-        register(client);
+        register(connector, connectType, client);
     }
 
-    public void register(Bootstrap client) {
-        ThreadPoolManager.getsInstance().execute(() -> {
-            try {
-                String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "");
-                Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, ""));
-                ChannelFuture channelFuture = client.connect((new InetSocketAddress(registerIp, registerPort)));
-                channelFuture.addListener(future -> {
-                    if (!future.isSuccess()) {
-                        connector.stop();
-                        throw new ServerException();
-                    }
-                    MessageProto.Message registerMessage =
-                            MessageProto.Message.newBuilder()
-                                    .setIp("127.0.0.1")
-                                    .setPort(connector.getPort())
-                                    .setMachineSerialNumber(MachineSerialNumber.get())
-                                    .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTER)
-                                    .build();
 
-                    channelFuture.channel().writeAndFlush(registerMessage);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public void register(Connector connector, MessageProto.Message.ConnectType connectType, Bootstrap client) {
+        try {
+            String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "");
+            Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, ""));
+            ChannelFuture channelFuture = client.connect((new InetSocketAddress(registerIp, registerPort)));
+            channelFuture.addListener(future -> {
+                if (!future.isSuccess()) {
+                    connector.stop();
+                    throw new ServerException();
+                }
+                MessageProto.Message registerMessage =
+                        MessageProto.Message.newBuilder()
+                                .setIp("127.0.0.1")
+                                .setPort(connector.getPort())
+                                .setMessageBehavior(MessageProto.Message.MessageBehavior.REGISTER)
+                                .setConnectType(connectType)
+                                .build();
 
-        });
+                channelFuture.channel().writeAndFlush(registerMessage);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

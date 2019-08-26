@@ -10,6 +10,7 @@ import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.JSONUtil;
+import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.OKHttpUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
@@ -106,7 +107,7 @@ public class MessageSender implements Runnable {
         return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
-                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), message.getMachineSerialNumber()).nextId())
+                .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
                 .setToUserId(isAckSender ? message.getFromUserId() : message.getToUserId())
                 .setAssociatedGroupId(message.getAssociatedGroupId())
                 .setMatchMessageId(message.getId())

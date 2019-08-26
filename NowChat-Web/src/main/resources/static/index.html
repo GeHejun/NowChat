@@ -19,8 +19,7 @@ html{background-color: #333;}
 
 
 <script>
-layui.use(['layim','jquery'], function(layim){
-    var $ = layui.$;//重点处
+layui.use('layim', function(layim){
 
   
   //演示自动回复
@@ -246,8 +245,21 @@ layui.use(['layim','jquery'], function(layim){
       });
     }
   });
-  
-  
+
+    layim.on('sendMessage', function(res){
+        var fromUserId = res.mine.id; //包含我发送的消息及我的信息
+        var toUserId = res.to.id; //对方的信息
+        var
+        //监听到上述消息后，就可以轻松地发送socket了，如：
+        socket.send(JSON.stringify({
+            type: 'chatMessage' //随便定义，用于在服务端区分消息类型
+            ,data: res
+        }));
+
+    });
+
+
+
 
 });
 </script>
