@@ -11,5 +11,26 @@
 
     <artifactId>NowChat-Proxy</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ghj</groupId>
+            <artifactId>NowChat-Common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.34.Final</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.ghj</groupId>
+            <artifactId>NowChat-Protocol</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
