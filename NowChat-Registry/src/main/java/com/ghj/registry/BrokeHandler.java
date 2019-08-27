@@ -13,7 +13,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
-import static com.ghj.protocol.MessageProto.Message.MessageDirect.CLIENT;
 
 /**
  * @author gehj
@@ -36,33 +35,37 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         System.out.println(o);
-        MessageProto.Message message = (MessageProto.Message)o;
-        if (REGISTER == message.getMessageBehavior()) {
-            dealRegisterMessage(channelHandlerContext, message);
+        MessageProto.Message message = (MessageProto.Message) o;
+        if (PROXY_REGISTER == message.getMessageBehavior() || SERVER_REGISTER == message.getMessageBehavior()) {
+            dealRegisterMessage(channelHandlerContext, message, message.getMessageBehavior());
         }
-        if (ROUTE == message.getMessageBehavior()) {
-            dealRouteMessage(channelHandlerContext, message);
+        if (PROXY_ROUTE == message.getMessageBehavior() || CLIENT_ROUTE == message.getMessageBehavior()) {
+            dealRouteMessage(channelHandlerContext, message, message.getMessageBehavior());
         }
 
     }
 
-    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
-        MessageProto.Message requestMessage;
+    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message, MessageProto.Message.MessageBehavior messageBehavior) {
+        MessageProto.Message ackMessage;
         try {
             NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
-            Session serverSession = Session.builder()
+            Session session = Session.builder()
                     .ip(message.getIp()).port(message.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
-            Registry.putSession(message.getIp(), message.getConnectType(), serverSession);
-            requestMessage = MessageProto.Message.newBuilder()
+            if (PROXY_REGISTER == message.getMessageBehavior()) {
+                Registry.addProxySession(session);
+            } else {
+                Registry.addServerSession(session);
+            }
+            ackMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
                     .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
         } catch (Exception e) {
-            requestMessage = MessageProto.Message.newBuilder()
+            ackMessage = MessageProto.Message.newBuilder()
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
@@ -70,18 +73,22 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .build();
             e.printStackTrace();
         }
-        channelHandlerContext.channel().writeAndFlush(requestMessage);
+        channelHandlerContext.channel().writeAndFlush(ackMessage);
     }
 
-    public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
+    public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message, MessageProto.Message.MessageBehavior messageBehavior) {
         //策略
         //
-        Session serverSession = Registry.getSession("127.0.0.1", connectType);
+        Session session;
+        if (PROXY_ROUTE == message.getMessageBehavior()) {
+            session = Registry.getBetterProxySession();
+        } else {
+            session = Registry.getBetterServerSession();
+        }
         MessageProto.Message ackMessage = MessageProto.Message.newBuilder()
                 .setMessageBehavior(ACK)
-                .setMessageDirect(CLIENT)
-                .setIp(serverSession.getIp())
-                .setPort(serverSession.getPort())
+                .setIp(session.getIp())
+                .setPort(session.getPort())
                 .setMatchMessageId(message.getId())
                 .build();
         channelHandlerContext.channel().writeAndFlush(ackMessage);

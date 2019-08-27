@@ -72,7 +72,8 @@ message Message {
         NOTIFY = 6;
         SERVER_REGISTER = 7;
         PROXY_REGISTER = 8;
-        ROUTE = 9;
+        CLIENT_ROUTE = 9;
+        PROXY_ROUTE = 10;
 
     }
 
@@ -89,8 +90,6 @@ message Message {
         GROUP = 2;
         SERVER = 3;
         REGISTRY = 4;
-        CLIENT = 5;
-        PROXY = 6;
     }
 
     //以下兼容layui --- 又不想调接口查询

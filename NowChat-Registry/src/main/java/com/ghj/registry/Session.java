@@ -1,5 +1,6 @@
 package com.ghj.registry;
 
+import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,8 @@ public class Session {
     private String ip;
 
     private int port;
+
+    private MessageProto.Message.ConnectType connectType;
 
     private Channel channel;
 

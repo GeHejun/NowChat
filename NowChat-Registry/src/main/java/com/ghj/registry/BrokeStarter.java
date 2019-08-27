@@ -11,17 +11,16 @@ public class BrokeStarter {
         WebSocketBroker webSocketBroker = new WebSocketBroker();
         NettyBroker nettyBroker = new NettyBroker();
         try {
-
-            ThreadPoolManager.getsInstance().execute(()->{
-                nettyBroker.start(8799);
-            });
-            ThreadPoolManager.getsInstance().execute(()->{
-                webSocketBroker.start(8798);
-            });
-
+            ThreadPoolManager.getsInstance().execute(()->
+                nettyBroker.start(9999)
+            );
+            ThreadPoolManager.getsInstance().execute(()->
+                webSocketBroker.start(9998)
+            );
         } catch (Exception e) {
             e.printStackTrace();
             webSocketBroker.stop();
+            nettyBroker.stop();
         }
 
     }

@@ -6,8 +6,6 @@ import com.ghj.common.netty.Register;
 import com.ghj.common.netty.ServerChannelGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 
 /**
@@ -26,12 +24,8 @@ public class ServerConnector implements Connector {
         this.port = port;
         channel = ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port,
                 MessageProto.Message.ConnectType.NETTY, new ConnectHandler());
-        new Register().register(this, MessageProto.Message.ConnectType.NETTY, new SimpleChannelInboundHandler() {
-            @Override
-            protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o)  {
-                channelHandlerContext.channel().read();
-            }
-        });
+        new Register().register(this, MessageProto.Message.ConnectType.NETTY, MessageProto.Message.MessageBehavior.SERVER_REGISTER);
+
     }
 
     @Override

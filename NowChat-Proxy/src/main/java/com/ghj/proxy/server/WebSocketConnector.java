@@ -1,6 +1,7 @@
 package com.ghj.proxy.server;
 
 import com.ghj.common.netty.Connector;
+import com.ghj.common.netty.Register;
 import com.ghj.common.netty.ServerChannelGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
@@ -24,6 +25,7 @@ public class WebSocketConnector implements Connector {
         this.port = port;
         channel = ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port,
                 MessageProto.Message.ConnectType.WEBSOCKET, new ConnectHandler());
+        new Register().register(this, MessageProto.Message.ConnectType.WEBSOCKET, MessageProto.Message.MessageBehavior.PROXY_REGISTER);
     }
 
     @Override

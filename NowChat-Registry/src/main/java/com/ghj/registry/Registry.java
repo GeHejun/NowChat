@@ -1,10 +1,7 @@
 package com.ghj.registry;
 
-import com.ghj.common.util.NettyAttrUtil;
-import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.protocol.MessageProto;
-
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gehj
@@ -12,15 +9,27 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Registry {
 
-    public static ConcurrentHashMap<String, Session> SERVER_SESSION_MAP = new ConcurrentHashMap(32);
+    private static List<Session> PROXY_SESSION_LIST = new ArrayList<>();
 
-    public static void putSession(String ip, MessageProto.Message.ConnectType connectType, Session serverSession) {
-        SERVER_SESSION_MAP.put(ip + "_" + connectType, serverSession);
+    private static List<Session> SERVER_SESSION_LIST = new ArrayList<>();
+
+    public static void addProxySession(Session session) {
+        PROXY_SESSION_LIST.add(session);
     }
 
-    public static Session getSession(String ip, MessageProto.Message.ConnectType connectType) {
-        return SERVER_SESSION_MAP.get(ip + "_" + connectType);
+    public static Session getBetterProxySession() {
+        return PROXY_SESSION_LIST.get(0);
     }
+
+    public static void addServerSession(Session session) {
+        SERVER_SESSION_LIST.add(session);
+    }
+
+    public static Session getBetterServerSession() {
+        return SERVER_SESSION_LIST.get(0);
+    }
+
+
 
 //    public static void watchServerSessionStatus() {
 //        ThreadPoolManager.getsInstance().execute(() -> {
