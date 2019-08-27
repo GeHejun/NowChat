@@ -1,5 +1,6 @@
 package com.ghj.proxy;
 
+import java.nio.channels.Channel;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -10,7 +11,23 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionManager {
 
-    public ConcurrentHashMap SERVER_SESSION_MAP = new ConcurrentHashMap();
+    public static ConcurrentHashMap<Channel, Channel> SERVER_SESSION_MAP = new ConcurrentHashMap();
 
-    public ConcurrentHashMap CLIENT_SESSION_MAP = new ConcurrentHashMap();
+    public static ConcurrentHashMap<Channel, Channel> CLIENT_SESSION_MAP = new ConcurrentHashMap();
+
+    public static void bindServer(Channel client, Channel server) {
+        SERVER_SESSION_MAP.put(client, server);
+    }
+
+    public static void bindClient(Channel server, Channel client) {
+        SERVER_SESSION_MAP.put(server, client);
+    }
+
+    public static Channel getServer(Channel client) {
+        return SERVER_SESSION_MAP.get(client);
+    }
+
+    public static Channel getClient(Channel server) {
+        return CLIENT_SESSION_MAP.get(server);
+    }
 }

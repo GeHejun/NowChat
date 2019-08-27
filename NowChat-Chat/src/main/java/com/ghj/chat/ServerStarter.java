@@ -9,7 +9,7 @@ public class ServerStarter {
     public static void main(String[] args) {
         ServerConnector serverConnector = new ServerConnector();
         try {
-            serverConnector.start(8888);
+            serverConnector.start(8999);
         } catch (Exception e) {
             e.printStackTrace();
             serverConnector.stop();

@@ -23,19 +23,17 @@ public class ClientConnectHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message) o;
-        if (ACK == message.getMessageBehavior()) {
-            long matchMessageId = message.getMatchMessageId();
-            MessageProto.Message loginMessage = MessageManager.ROUTE_MESSAGE_MAP.get(matchMessageId);
-            if (!Objects.isNull(loginMessage)) {
-                channelHandlerContext.channel().close();
-                Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler());
-                ChannelFuture future = client.connect(new InetSocketAddress(message.getIp(), message.getPort()));
-                if (!future.isSuccess()) {
+        long matchMessageId = message.getMatchMessageId();
+        MessageProto.Message loginMessage = MessageManager.ROUTE_MESSAGE_MAP.get(matchMessageId);
+        if (!Objects.isNull(loginMessage)) {
+            channelHandlerContext.channel().close();
+            Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler());
+            ChannelFuture future = client.connect(new InetSocketAddress(message.getIp(), message.getPort()));
+            if (!future.isSuccess()) {
 
-                } else {
-                    future.channel().writeAndFlush(loginMessage);
-                }
             }
+            future.channel().writeAndFlush(loginMessage);
         }
+
     }
 }

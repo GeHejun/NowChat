@@ -43,6 +43,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         if (!channelFuture.isSuccess()) {
 
         } else {
+
             channelFuture.channel().writeAndFlush(buildRoutMessage(message));
         }
 

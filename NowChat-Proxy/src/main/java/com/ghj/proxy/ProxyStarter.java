@@ -14,10 +14,10 @@ public class ProxyStarter {
         WebSocketConnector webSocketConnector = new WebSocketConnector();
         try {
             ThreadPoolManager.getsInstance().execute(()->
-                    nettyConnector.start(6999)
+                    nettyConnector.start(7999)
             );
             ThreadPoolManager.getsInstance().execute(()->
-                    webSocketConnector.start(6998)
+                    webSocketConnector.start(7998)
             );
         } catch (Exception e) {
             e.printStackTrace();
