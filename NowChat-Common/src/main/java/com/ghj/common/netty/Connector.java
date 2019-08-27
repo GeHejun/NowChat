@@ -1,4 +1,4 @@
-package com.ghj.chat;
+package com.ghj.common.netty;
 
 /**
  * @author gehj

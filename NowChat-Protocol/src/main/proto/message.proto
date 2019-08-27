@@ -70,8 +70,9 @@ message Message {
         LOGIN_OUT = 4;
         ACK = 5;
         NOTIFY = 6;
-        REGISTER = 7;
-        ROUTE = 8;
+        SERVER_REGISTER = 7;
+        PROXY_REGISTER = 8;
+        ROUTE = 9;
 
     }
 
@@ -89,6 +90,7 @@ message Message {
         SERVER = 3;
         REGISTRY = 4;
         CLIENT = 5;
+        PROXY = 6;
     }
 
     //以下兼容layui --- 又不想调接口查询

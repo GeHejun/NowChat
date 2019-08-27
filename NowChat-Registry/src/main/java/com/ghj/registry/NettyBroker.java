@@ -1,5 +1,7 @@
 package com.ghj.registry;
 
+import com.ghj.common.netty.Connector;
+import com.ghj.common.netty.ServerChannelGenerator;
 import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -20,36 +22,15 @@ public class NettyBroker {
     NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    ServerBootstrap serverBootstrap;
-
 
     public void start(int port) {
-        try {
-            serverBootstrap = new ServerBootstrap()
-                    .group(bossGroup, workerGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .option(ChannelOption.SO_BACKLOG, 100)
-                    .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel socketChannel) {
-                            ChannelPipeline pipeline = socketChannel.pipeline();
-                            pipeline.addLast(new ProtobufEncoder());
-                            pipeline.addLast(new ProtobufDecoder(MessageProto.Message.getDefaultInstance()));
-                            pipeline.addLast(new BrokeHandler(MessageProto.Message.ConnectType.NETTY));
-                        }
-                    });
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            Channel channel = channelFuture.channel();
-            channel.closeFuture().sync();
-        } catch (Exception e) {
-            e.printStackTrace();
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+        ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port, MessageProto.Message.ConnectType.NETTY,
+                new BrokeHandler(MessageProto.Message.ConnectType.NETTY));
     }
 
     public void stop() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
     }
+
 }
