@@ -15,13 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServerSession {
+public class Session {
 
     private String ip;
 
     private int port;
-
-    private Long machineSerialNumber;
 
     private Channel channel;
 

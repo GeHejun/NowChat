@@ -50,11 +50,11 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         MessageProto.Message requestMessage;
         try {
             NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
-            ServerSession serverSession = ServerSession.builder()
+            Session serverSession = Session.builder()
                     .ip(message.getIp()).port(message.getPort())
                     .channel(channelHandlerContext.channel())
                     .build();
-            Registry.putServerSession(message.getIp(), message.getConnectType(), serverSession);
+            Registry.putSession(message.getIp(), message.getConnectType(), serverSession);
             requestMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
@@ -76,7 +76,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
         //策略
         //
-        ServerSession serverSession = Registry.getServerSession("127.0.0.1", connectType);
+        Session serverSession = Registry.getSession("127.0.0.1", connectType);
         MessageProto.Message ackMessage = MessageProto.Message.newBuilder()
                 .setMessageBehavior(ACK)
                 .setMessageDirect(CLIENT)

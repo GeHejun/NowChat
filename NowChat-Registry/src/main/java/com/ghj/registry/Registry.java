@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Registry {
 
-    public static ConcurrentHashMap<String, ServerSession> SERVER_SESSION_MAP = new ConcurrentHashMap(32);
+    public static ConcurrentHashMap<String, Session> SERVER_SESSION_MAP = new ConcurrentHashMap(32);
 
-    public static void putServerSession(String ip, MessageProto.Message.ConnectType connectType, ServerSession serverSession) {
+    public static void putSession(String ip, MessageProto.Message.ConnectType connectType, Session serverSession) {
         SERVER_SESSION_MAP.put(ip + "_" + connectType, serverSession);
     }
 
-    public static ServerSession getServerSession(String ip, MessageProto.Message.ConnectType connectType) {
+    public static Session getSession(String ip, MessageProto.Message.ConnectType connectType) {
         return SERVER_SESSION_MAP.get(ip + "_" + connectType);
     }
 
