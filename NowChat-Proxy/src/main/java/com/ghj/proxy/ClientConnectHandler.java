@@ -34,6 +34,7 @@ public class ClientConnectHandler extends SimpleChannelInboundHandler {
             }
             future.channel().writeAndFlush(loginMessage);
         }
+        SessionManager.getClient(channelHandlerContext.channel()).writeAndFlush(message);
 
     }
 }

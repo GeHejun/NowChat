@@ -8,6 +8,7 @@ import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
 import com.ghj.proxy.ClientConnectHandler;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -27,15 +28,15 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message) o;
         if (LOGIN == message.getMessageBehavior()) {
-            route(message);
+            route(channelHandlerContext.channel(), message);
         } else if (LOGIN_OUT == message.getMessageBehavior()) {
 
         } else {
-
+            SessionManager.getServer(channelHandlerContext.channel()).writeAndFlush(message);
         }
     }
 
-    private void route(MessageProto.Message message) {
+    private void route(Channel channel, MessageProto.Message message) {
         Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler());
         String registryIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "127.0.0.1");
         int port = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "9999"));
@@ -43,7 +44,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
         if (!channelFuture.isSuccess()) {
 
         } else {
-
+            SessionManager.bind(channel, channelFuture.channel());
             channelFuture.channel().writeAndFlush(buildRoutMessage(message));
         }
 
