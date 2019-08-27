@@ -1,4 +1,4 @@
-package com.ghj.proxy.server;
+package com.ghj.proxy;
 
 import com.ghj.common.netty.Connector;
 import com.ghj.common.netty.Register;

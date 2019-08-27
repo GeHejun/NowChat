@@ -1,8 +1,6 @@
 package com.ghj.proxy;
 
 import com.ghj.common.util.ThreadPoolManager;
-import com.ghj.proxy.server.NettyConnector;
-import com.ghj.proxy.server.WebSocketConnector;
 
 /**
  * @author gehj
