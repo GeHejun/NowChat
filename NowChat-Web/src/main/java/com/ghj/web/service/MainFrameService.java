@@ -1,7 +1,10 @@
 package com.ghj.web.service;
 
 import com.ghj.web.vo.MainFrameVO;
+import com.ghj.web.vo.UserVO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author gehj
@@ -18,4 +21,6 @@ public interface MainFrameService {
      * @return
      */
     MainFrameVO initMainFrame(Integer id);
+
+    List<UserVO> initMembers(Integer groupId);
 }

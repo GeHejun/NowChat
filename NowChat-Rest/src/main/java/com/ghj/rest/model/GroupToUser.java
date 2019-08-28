@@ -8,6 +8,7 @@ import java.util.Date;
  * @author 
  */
 public class GroupToUser implements Serializable {
+
     private Integer id;
 
     private Integer toUserId;

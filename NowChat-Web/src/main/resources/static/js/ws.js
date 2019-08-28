@@ -76,6 +76,10 @@ function onMessage(evt) {
                             url: '/index/initMainFrame'
                             ,data: {id:user.id}
                         }
+                        ,members: {
+                            url: ' '/api/im/getMembers/'
+                            ,data: {}
+                        }
                         //上传图片接口
                         ,uploadImage: {
                             url: '/upload/image' //（返回的数据格式见下文）

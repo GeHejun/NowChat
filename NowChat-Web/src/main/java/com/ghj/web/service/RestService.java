@@ -1,10 +1,7 @@
 package com.ghj.web.service;
 
 import com.ghj.common.base.Result;
-import com.ghj.common.dto.response.FriendGroupResponse;
-import com.ghj.common.dto.response.FriendResponse;
-import com.ghj.common.dto.response.UserResponse;
-import com.ghj.common.dto.response.UserStateResponse;
+import com.ghj.common.dto.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +22,17 @@ import java.util.List;
 @FeignClient(name = "rest")
 public interface RestService {
 
+    @RequestMapping("/groupToUser/findGroupByUserId")
+    @ResponseBody
+    Result<List<GroupToUserResponse>> findGroupsByUserId(@NotNull @RequestParam("userId") Integer userId);
+
+    @RequestMapping("/groupToUser/findUserIdByGroupId")
+    @ResponseBody
+    Result<List<Integer>> findUserIdByGroupId(@RequestParam("groupId") @NotNull Integer groupId);
+
+    @RequestMapping("/userGroup/findGroupById")
+    @ResponseBody
+    Result<UserGroupResponse> findGroupById(@RequestParam("id") @NotNull Integer id);
     /**
      * 查询好友所在群组信息
      * @param id

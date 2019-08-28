@@ -1,13 +1,10 @@
 package com.ghj.web.service.impl;
 
-import com.ghj.common.dto.response.FriendGroupResponse;
-import com.ghj.common.dto.response.FriendResponse;
-import com.ghj.common.dto.response.UserResponse;
+import com.ghj.common.base.Result;
+import com.ghj.common.dto.response.*;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
-import com.ghj.web.vo.GroupVO;
-import com.ghj.web.vo.MainFrameVO;
-import com.ghj.web.vo.UserVO;
+import com.ghj.web.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,19 +29,13 @@ public class MainFrameServiceImpl implements MainFrameService {
     public MainFrameVO initMainFrame(Integer id) {
         //登录用户信息
         UserResponse userResponse = restService.queryUser(id).getData();
-        UserVO userVO = UserVO.builder()
-                .avatar(userResponse.getHeadPortrait())
-                .id(userResponse.getId().toString())
-                .status(restService.queryUserStateById(userResponse.getUserStateId()).getData().getName())
-                .username(userResponse.getNickName())
-                .sign(userResponse.getSignature())
-                .build();
+        UserVO userVO = buildUserVO(userResponse);
         //查询朋友列表
         List<FriendResponse> friendResponseList = restService.queryFriendList(id).getData();
         //根据组分组
         Map<Integer, List<FriendResponse>> groupMap = friendResponseList.stream()
                 .collect(Collectors.groupingBy(FriendResponse::getFriendGroupId));
-        List<GroupVO> groupVOList = new ArrayList<>(groupMap.keySet().size());
+        List<FriendGroupVO> friendGroupVOList = new ArrayList<>(groupMap.keySet().size());
         groupMap.forEach((k, v) -> {
             //查询组信息
             FriendGroupResponse friendGroupResponse = restService.queryGroupById(k).getData();
@@ -61,11 +52,41 @@ public class MainFrameServiceImpl implements MainFrameService {
                         .build();
                 friendVOList.add(friendVO);
             });
-            GroupVO groupVO = GroupVO.builder().id(friendGroupResponse.getId()).groupname(friendGroupResponse.getName()).list(friendVOList).build();
+            FriendGroupVO friendGroupVO = FriendGroupVO.builder().id(friendGroupResponse.getId()).groupname(friendGroupResponse.getName()).list(friendVOList).build();
+            friendGroupVOList.add(friendGroupVO);
+        });
+        List<GroupToUserResponse> groupToUserResponseList = restService.findGroupsByUserId(id).getData();
+        List<GroupVO> groupVOList = new ArrayList<>(groupToUserResponseList.size());
+        groupToUserResponseList.forEach(groupToUserResponse -> {
+            UserGroupResponse userGroupResponse = restService.findGroupById(groupToUserResponse.getGroupId()).getData();
+            GroupVO groupVO = GroupVO.builder().avatar(userGroupResponse.getIcon()).groupname(userGroupResponse.getName())
+                    .id(userGroupResponse.getId().toString()).build();
             groupVOList.add(groupVO);
         });
         //组装数据
-        MainFrameVO mainFrameVO = MainFrameVO.builder().mine(userVO).friend(groupVOList).build();
+        MainFrameVO mainFrameVO = MainFrameVO.builder().mine(userVO).friend(friendGroupVOList).group(groupVOList).build();
         return mainFrameVO;
+    }
+
+    @Override
+    public List<UserVO> initMembers(Integer groupId) {
+        List<Integer> userIds = restService.findUserIdByGroupId(groupId).getData();
+        List<UserVO> userVOList = new ArrayList<>(userIds.size());
+        userIds.forEach(userId -> {
+            UserResponse userResponse = restService.queryUser(userId).getData();
+            userVOList.add(buildUserVO(userResponse));
+        });
+        return userVOList;
+    }
+
+    public UserVO buildUserVO(UserResponse userResponse) {
+        UserVO userVO = UserVO.builder()
+                .avatar(userResponse.getHeadPortrait())
+                .id(userResponse.getId().toString())
+                .status(restService.queryUserStateById(userResponse.getUserStateId()).getData().getName())
+                .username(userResponse.getNickName())
+                .sign(userResponse.getSignature())
+                .build();
+        return userVO;
     }
 }
