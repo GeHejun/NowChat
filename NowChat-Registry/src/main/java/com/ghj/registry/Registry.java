@@ -37,6 +37,9 @@ public class Registry {
     }
 
     public static Session getBetterWebSocketProxySession() {
+        if (PROXY_WEBSOCKET_SESSION_LIST.size() > 1) {
+            PROXY_WEBSOCKET_SESSION_LIST.stream().sorted(Comparator.comparing(Session::getVersion));
+        }
         return PROXY_WEBSOCKET_SESSION_LIST.get(0);
     }
 

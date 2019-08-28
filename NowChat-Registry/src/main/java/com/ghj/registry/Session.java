@@ -26,5 +26,7 @@ public class Session {
 
     private Channel channel;
 
+    private int version;
+
 
 }
