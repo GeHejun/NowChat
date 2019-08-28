@@ -53,8 +53,9 @@ public class Register {
                     connector.stop();
                     throw new ServerException();
                 }
-                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().remoteAddress();
-                String ip = inetSocketAddress.getAddress().getHostAddress();
+                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
+//                String ip = inetSocketAddress.getAddress().getHostAddress();
+                String ip = "10.30.21.24";
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
