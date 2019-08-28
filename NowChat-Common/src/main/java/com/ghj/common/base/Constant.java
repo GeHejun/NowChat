@@ -99,4 +99,6 @@ public class Constant {
     public static final String REDIS_IP = "redis.ip";
 
     public static String REDIS_PORT  = "redis.port";
+
+    public static String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
 }

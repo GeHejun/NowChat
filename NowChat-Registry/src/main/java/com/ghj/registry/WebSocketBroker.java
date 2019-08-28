@@ -15,7 +15,7 @@ public class WebSocketBroker {
 
     public void start(int port) {
         ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port, MessageProto.Message.ConnectType.WEBSOCKET,
-                new BrokeHandler(MessageProto.Message.ConnectType.WEBSOCKET));
+                new BrokeHandler(MessageProto.Message.ConnectType.WEBSOCKET), ()->{});
     }
 
     public void stop() {

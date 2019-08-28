@@ -24,8 +24,9 @@ public class WebSocketConnector implements Connector {
     public void start(int port) {
         this.port = port;
         channel = ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port,
-                MessageProto.Message.ConnectType.WEBSOCKET, new ConnectHandler());
-        new Register().register(this, MessageProto.Message.ConnectType.WEBSOCKET, MessageProto.Message.MessageBehavior.PROXY_REGISTER);
+                MessageProto.Message.ConnectType.WEBSOCKET, new ConnectHandler(), ()->{
+                    new Register().register(this, MessageProto.Message.ConnectType.WEBSOCKET, MessageProto.Message.MessageBehavior.PROXY_REGISTER);
+                });
     }
 
     @Override

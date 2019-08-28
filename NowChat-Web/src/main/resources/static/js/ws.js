@@ -1,7 +1,7 @@
 layui.use('layim', function(layim){
 var deviceId = parseInt(10*Math.random());
 var websocket;
-let wsUri = "ws://127.0.0.1:8798/";
+let wsUri = "ws://127.0.0.1:9998/";
 var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;
@@ -12,7 +12,7 @@ function route(url) {
     websocket = new WebSocket(url);
     websocket.onopen = function () {
         let message = {
-            "messageBehavior": 8,
+            "messageBehavior": 9,
             "messageDirect": 4,
             "deviceId": deviceId,
             "id": routeMsgId,

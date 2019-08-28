@@ -58,7 +58,6 @@ message Message {
 
     ConnectType connectType = 18;
 
-
     //消息行为
     enum MessageBehavior {
         DEFAULT_M_B = 0;
@@ -68,8 +67,10 @@ message Message {
         LOGIN_OUT = 4;
         ACK = 5;
         NOTIFY = 6;
-        REGISTER = 7;
-        ROUTE = 8;
+        SERVER_REGISTER = 7;
+        PROXY_REGISTER = 8;
+        CLIENT_ROUTE = 9;
+        PROXY_ROUTE = 10;
 
     }
 
@@ -86,7 +87,6 @@ message Message {
         GROUP = 2;
         SERVER = 3;
         REGISTRY = 4;
-        CLIENT = 5;
     }
 
     //以下兼容layui --- 又不想调接口查询

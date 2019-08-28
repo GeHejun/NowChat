@@ -7,6 +7,7 @@ import com.ghj.common.exception.UserException;
 import com.ghj.common.util.*;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -14,10 +15,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author GeHejun
  * @date 2019-06-24
  */
+@ChannelHandler.Sharable
 public class ConnectHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
+        System.out.println(o);
         MessageProto.Message message = (MessageProto.Message)o;
         Channel channel = channelHandlerContext.channel();
         MessageProto.Message ackMessage;

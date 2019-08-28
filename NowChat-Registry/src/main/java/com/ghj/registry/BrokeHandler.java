@@ -9,15 +9,18 @@ import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
 import com.ghj.protocol.MessageProto;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import static com.ghj.protocol.MessageProto.Message.ConnectType.NETTY;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
 
 /**
  * @author gehj
  * @date 2019/7/115:44
  */
+@ChannelHandler.Sharable
 public class BrokeHandler extends SimpleChannelInboundHandler {
 
     MessageProto.Message.ConnectType connectType;
@@ -25,6 +28,7 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
     public BrokeHandler(MessageProto.Message.ConnectType connectType) {
         this.connectType = connectType;
     }
+
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -37,15 +41,15 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         System.out.println(o);
         MessageProto.Message message = (MessageProto.Message) o;
         if (PROXY_REGISTER == message.getMessageBehavior() || SERVER_REGISTER == message.getMessageBehavior()) {
-            dealRegisterMessage(channelHandlerContext, message, message.getMessageBehavior());
+            dealRegisterMessage(channelHandlerContext, message);
         }
         if (PROXY_ROUTE == message.getMessageBehavior() || CLIENT_ROUTE == message.getMessageBehavior()) {
-            dealRouteMessage(channelHandlerContext, message, message.getMessageBehavior());
+            dealRouteMessage(channelHandlerContext, message);
         }
 
     }
 
-    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message, MessageProto.Message.MessageBehavior messageBehavior) {
+    public void dealRegisterMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
         MessageProto.Message ackMessage;
         try {
             NettyAttrUtil.updateReaderTime(channelHandlerContext.channel(), System.currentTimeMillis() + Constant.PING_ADD_TIME);
@@ -54,7 +58,12 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                     .channel(channelHandlerContext.channel())
                     .build();
             if (PROXY_REGISTER == message.getMessageBehavior()) {
-                Registry.addProxySession(session);
+                if (NETTY == message.getConnectType()) {
+                    Registry.addNettyProxySession(session);
+                } else {
+                    Registry.addWebSocketProxySession(session);
+                }
+
             } else {
                 Registry.addServerSession(session);
             }
@@ -76,14 +85,18 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
         channelHandlerContext.channel().writeAndFlush(ackMessage);
     }
 
-    public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message, MessageProto.Message.MessageBehavior messageBehavior) {
+    public void dealRouteMessage(ChannelHandlerContext channelHandlerContext, MessageProto.Message message) {
         //策略
         //
         Session session;
         if (PROXY_ROUTE == message.getMessageBehavior()) {
-            session = Registry.getBetterProxySession();
-        } else {
             session = Registry.getBetterServerSession();
+        } else {
+            if (NETTY == connectType) {
+                session = Registry.getBetterNettyProxySession();
+            } else {
+                session = Registry.getBetterWebSocketProxySession();
+            }
         }
         MessageProto.Message ackMessage = MessageProto.Message.newBuilder()
                 .setMessageBehavior(ACK)
@@ -92,6 +105,11 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
                 .setMatchMessageId(message.getId())
                 .build();
         channelHandlerContext.channel().writeAndFlush(ackMessage);
-        channelHandlerContext.channel().close();
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        Registry.remove(ctx.channel());
+        super.channelInactive(ctx);
     }
 }
