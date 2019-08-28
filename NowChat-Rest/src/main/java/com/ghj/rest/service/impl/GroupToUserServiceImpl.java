@@ -33,6 +33,7 @@ public class GroupToUserServiceImpl implements GroupToUserService {
     public List<Integer> findUserIdByGroupId(Integer groupId) {
         List<GroupToUser> groupToUserList = groupToUserMapper.selectGroupToUserByGroupId(groupId);
         List<Integer> userIds = new ArrayList<>(groupToUserList.size());
+        groupToUserList.stream().forEach(groupToUser -> userIds.add(groupToUser.getToUserId()));
         return userIds;
     }
 }

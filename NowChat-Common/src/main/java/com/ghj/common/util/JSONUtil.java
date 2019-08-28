@@ -70,6 +70,13 @@ public class JSONUtil {
         return JSON.parseObject(json, clazz.getClass());
     }
 
+    public static Object jsonToBean(String json, Class clazz) {
+        if (StringUtils.isEmpty(json) || clazz == null) {
+            return null;
+        }
+        return JSON.parseObject(json, clazz);
+    }
+
     /**
      * 将json字符串转换成对象
      *

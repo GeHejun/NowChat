@@ -2,6 +2,7 @@ package com.ghj.web.controller;
 
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.vo.MainFrameVO;
+import com.ghj.web.vo.MemberVO;
 import com.ghj.web.vo.ResultVO;
 import com.ghj.web.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,10 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(mainFrameVO);
     }
 
-    @RequestMapping
+    @RequestMapping("/initMembers")
     @ResponseBody
-    public ResultVO<List<UserVO>> initMembers(@NotNull @RequestParam("groupId") Integer groupId) {
-        List<UserVO> memberVOList = mainFrameService.initMembers(groupId);
-        return ResultVO.defaultSuccess(memberVOList);
+    public ResultVO<MemberVO> initMembers(@NotNull @RequestParam("id") Integer groupId) {
+        MemberVO memberVO = mainFrameService.initMembers(groupId);
+        return ResultVO.defaultSuccess(memberVO);
     }
 }

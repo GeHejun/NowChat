@@ -69,14 +69,14 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     @Override
-    public List<UserVO> initMembers(Integer groupId) {
+    public MemberVO initMembers(Integer groupId) {
         List<Integer> userIds = restService.findUserIdByGroupId(groupId).getData();
         List<UserVO> userVOList = new ArrayList<>(userIds.size());
         userIds.forEach(userId -> {
             UserResponse userResponse = restService.queryUser(userId).getData();
             userVOList.add(buildUserVO(userResponse));
         });
-        return userVOList;
+        return MemberVO.builder().list(userVOList).build();
     }
 
     public UserVO buildUserVO(UserResponse userResponse) {

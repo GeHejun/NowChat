@@ -51,18 +51,19 @@ public class Registry {
 
     }
     public static Session getBetterServerSession() {
-        Map<Integer, Session> connects = new HashMap<>(16);
-        for (Session session:SERVER_SESSION_LIST) {
-            int num = Integer.parseInt(RedisPoolUtil.get(Constant.ON_LINE_USER_COUNT + "_" + session.getIp() + "_" + session.getPort()));
-            if (num > Constant.MAX_CONNECT_NUM) {
-                continue;
-            }
-            connects.put(num, session);
-        }
-        if (connects.isEmpty()) {
-            //
-        }
-        return connects.get(connects.keySet().stream().sorted(Comparator.reverseOrder()).findFirst());
+//        Map<Integer, Session> connects = new HashMap<>(16);
+//        for (Session session:SERVER_SESSION_LIST) {
+//            int num = Integer.parseInt(RedisPoolUtil.get(Constant.ON_LINE_USER_COUNT + "_" + session.getIp() + "_" + session.getPort()));
+//            if (num > Constant.MAX_CONNECT_NUM) {
+//                continue;
+//            }
+//            connects.put(num, session);
+//        }
+//        if (connects.isEmpty()) {
+//            //
+//        }
+//        return connects.get(connects.keySet().stream().sorted(Comparator.reverseOrder()).findFirst());
+        return SERVER_SESSION_LIST.get(0);
     }
 
 

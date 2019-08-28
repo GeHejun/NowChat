@@ -1,5 +1,7 @@
 package com.ghj.common.netty;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
 import com.ghj.common.exception.ServerException;
@@ -30,15 +32,15 @@ public class Register {
         register(connector, connectType, messageBehavior, BootstrapGenerator.generateBootStrap(new SimpleChannelInboundHandler() {
             @Override
             protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-//                RETRY_COUNT--;
-//                if (RETRY_COUNT > 0 && Objects.isNull(o)) {
-//                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
-//                }
-//                MessageProto.Message message = (MessageProto.Message) o;
-//                Result result = (Result) JSONUtil.jsonToBean(message.getContent(), Result.newInstance());
-//                if (RETRY_COUNT > 0 &&  Constant.REGISTER_SUCCESS_CODE != result.getCode()) {
-//                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
-//                }
+                RETRY_COUNT--;
+                if (RETRY_COUNT > 0 && Objects.isNull(o)) {
+                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
+                }
+                MessageProto.Message message = (MessageProto.Message) o;
+                JSONObject result = (JSONObject) JSONObject.parse(message.getContent());
+                if (RETRY_COUNT > 0 &&  Constant.REGISTER_SUCCESS_CODE != Integer.parseInt(result.get("code").toString())) {
+                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
+                }
             }
         }));
         return channelFuture;
@@ -54,8 +56,7 @@ public class Register {
                     throw new ServerException();
                 }
                 InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
-//                String ip = inetSocketAddress.getAddress().getHostAddress();
-                String ip = "10.30.21.24";
+                String ip = inetSocketAddress.getAddress().getHostAddress();
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {

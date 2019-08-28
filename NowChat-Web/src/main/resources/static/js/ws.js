@@ -1,7 +1,7 @@
 layui.use('layim', function(layim){
 var deviceId = parseInt(10*Math.random() + 1);
 var websocket;
-let wsUri = "ws://10.30.21.24:9998/";
+let wsUri = "ws://127.0.0.1:9998/";
 var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;
@@ -77,7 +77,7 @@ function onMessage(evt) {
                             ,data: {id:user.id}
                         }
                         ,members: {
-                            url: ' '/api/im/getMembers/'
+                            url: '/index/initMembers/'
                             ,data: {}
                         }
                         //上传图片接口
@@ -110,6 +110,10 @@ function onMessage(evt) {
                     //监听在线状态的切换事件
                     layim.on('online', function(data){
 
+                    });
+
+                    layim.on('members', function(data){
+                        console.log(data);
                     });
 
                     //监听签名修改
