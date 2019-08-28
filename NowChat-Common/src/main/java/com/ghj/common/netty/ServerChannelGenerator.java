@@ -21,7 +21,7 @@ public class ServerChannelGenerator {
 
     public static Channel generateChannel(NioEventLoopGroup bossGroup, NioEventLoopGroup workerGroup,
                                           int port, MessageProto.Message.ConnectType connectType,
-                                          SimpleChannelInboundHandler handler) {
+                                          SimpleChannelInboundHandler handler, CallBack callBack) {
         Channel channel = null;
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap()
@@ -30,13 +30,14 @@ public class ServerChannelGenerator {
                     .option(ChannelOption.SO_BACKLOG, 100)
                     .handler(new LoggingHandler(LogLevel.INFO));
             if (connectType == MessageProto.Message.ConnectType.WEBSOCKET) {
-                serverBootstrap.handler(new WebSocketChannelInitializer(handler));
+                serverBootstrap.childHandler(new WebSocketChannelInitializer(handler));
             }
             if (connectType == MessageProto.Message.ConnectType.NETTY) {
-                serverBootstrap.handler(new NettyChannelInitializer(handler));
+                serverBootstrap.childHandler(new NettyChannelInitializer(handler));
             }
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
             channel = channelFuture.channel();
+            callBack.call();
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();

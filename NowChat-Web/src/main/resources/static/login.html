@@ -31,7 +31,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input type="password" name="password" lay-verify="required"
+            <input type="password" name="password" lay-verify="password"
                    placeholder="请输入密码" autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -53,12 +53,12 @@
         //自定义验证规则
         form.verify({
             title: function (value) {
-                if (value.length < 5) {
+                if (value.length < 3) {
                     return '用户名不可为空';
                 }
             },
-            title: function (value) {
-                if (value.length < 5) {
+            password: function (value) {
+                if (value.length < 1) {
                     return '密码不可为空';
                 }
             }

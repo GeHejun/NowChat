@@ -23,9 +23,9 @@ public class ServerConnector implements Connector {
     public void start(int port) {
         this.port = port;
         channel = ServerChannelGenerator.generateChannel(bossGroup, workerGroup, port,
-                MessageProto.Message.ConnectType.NETTY, new ConnectHandler());
-        new Register().register(this, MessageProto.Message.ConnectType.NETTY, MessageProto.Message.MessageBehavior.SERVER_REGISTER);
-
+                MessageProto.Message.ConnectType.NETTY, new ConnectHandler(), ()->{
+                    new Register().register(this, MessageProto.Message.ConnectType.NETTY, MessageProto.Message.MessageBehavior.SERVER_REGISTER);
+                });
     }
 
     @Override

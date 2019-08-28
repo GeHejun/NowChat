@@ -99,4 +99,8 @@ public class Constant {
     public static final String REDIS_IP = "redis.ip";
 
     public static String REDIS_PORT  = "redis.port";
+
+    public static String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
+
+    public static int MAX_CONNECT_NUM = 10000;
 }

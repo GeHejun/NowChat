@@ -30,15 +30,15 @@ public class Register {
         register(connector, connectType, messageBehavior, BootstrapGenerator.generateBootStrap(new SimpleChannelInboundHandler() {
             @Override
             protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-                RETRY_COUNT--;
-                if (RETRY_COUNT > 0 && Objects.isNull(o)) {
-                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
-                }
-                MessageProto.Message message = (MessageProto.Message) o;
-                Result result = (Result) JSONUtil.jsonToBean(message.getContent(), Result.class);
-                if (RETRY_COUNT > 0 &&  Constant.REGISTER_SUCCESS_CODE != result.getCode()) {
-                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
-                }
+//                RETRY_COUNT--;
+//                if (RETRY_COUNT > 0 && Objects.isNull(o)) {
+//                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
+//                }
+//                MessageProto.Message message = (MessageProto.Message) o;
+//                Result result = (Result) JSONUtil.jsonToBean(message.getContent(), Result.newInstance());
+//                if (RETRY_COUNT > 0 &&  Constant.REGISTER_SUCCESS_CODE != result.getCode()) {
+//                    reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
+//                }
             }
         }));
         return channelFuture;
@@ -46,15 +46,16 @@ public class Register {
 
     private void register(Connector connector, MessageProto.Message.ConnectType connectType, MessageProto.Message.MessageBehavior messageBehavior, Bootstrap client) {
         try {
-            Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "6798"));
+            Integer registerPort = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "9999"));
             channelFuture = client.connect((new InetSocketAddress(registerIp, registerPort)));
             channelFuture.addListener(future -> {
                 if (!future.isSuccess()) {
                     connector.stop();
                     throw new ServerException();
                 }
-                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().remoteAddress();
-                String ip = inetSocketAddress.getAddress().getHostAddress();
+                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
+//                String ip = inetSocketAddress.getAddress().getHostAddress();
+                String ip = "10.30.21.24";
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {

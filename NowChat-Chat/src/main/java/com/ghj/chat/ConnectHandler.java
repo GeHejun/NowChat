@@ -7,17 +7,22 @@ import com.ghj.common.exception.UserException;
 import com.ghj.common.util.*;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+
+import java.net.InetSocketAddress;
 
 /**
  * @author GeHejun
  * @date 2019-06-24
  */
+@ChannelHandler.Sharable
 public class ConnectHandler extends SimpleChannelInboundHandler {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
+        System.out.println(o);
         MessageProto.Message message = (MessageProto.Message)o;
         Channel channel = channelHandlerContext.channel();
         MessageProto.Message ackMessage;
@@ -30,7 +35,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                             .userId(message.getFromUserId())
                             .build();
                     SessionManager.putSession(message.getFromUserId(), session);
-                    incrementOnLineUser(message);
+                    incrementOnLineUser(channel,message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
@@ -83,9 +88,10 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     }
 
-    public synchronized void incrementOnLineUser(MessageProto.Message message) {
+    public synchronized void incrementOnLineUser(Channel channel, MessageProto.Message message) {
+        InetSocketAddress socketAddress = (InetSocketAddress)channel.localAddress();
         RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
-        RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT);
+        RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT+"_"+socketAddress.getAddress()+"_"+socketAddress.getPort());
     }
 
     public MessageProto.Message buildAckMessage(Code code, MessageProto.Message message) {

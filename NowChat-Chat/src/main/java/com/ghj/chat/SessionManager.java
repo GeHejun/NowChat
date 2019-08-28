@@ -1,9 +1,12 @@
 package com.ghj.chat;
 
+import com.ghj.common.base.Constant;
 import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.RedisPoolUtil;
 import com.ghj.common.util.ThreadPoolManager;
 
+import java.net.InetSocketAddress;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -17,7 +20,8 @@ public class SessionManager {
 
     public static void putSession(Integer id, Session session) {
         SESSION_MAP.put(id, session);
-        RedisPoolUtil.hset(session.getChannel().localAddress().toString(), id.toString(), session);
+        InetSocketAddress inetSocketAddress = (InetSocketAddress)session.getChannel().localAddress();
+        RedisPoolUtil.set(Constant.DISTRIBUTED_SESSION + id.toString(),  inetSocketAddress.getAddress()+"_"+ inetSocketAddress.getPort());
     }
 
     public static Session getSession(Integer id) {
@@ -27,6 +31,8 @@ public class SessionManager {
     public static Session removeSession(Integer id) {
         return (Session) SESSION_MAP.remove(id);
     }
+
+
 
 
 //    public static void watchSessionStatus() {
