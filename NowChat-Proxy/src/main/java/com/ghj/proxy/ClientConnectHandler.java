@@ -34,14 +34,13 @@ public class ClientConnectHandler extends SimpleChannelInboundHandler {
             channelHandlerContext.channel().close();
             Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler(channel));
             ChannelFuture future = client.connect(new InetSocketAddress(message.getIp(), message.getPort()));
-//            if (!future.isSuccess()) {
-//
-//            }
-            System.out.println("登录--客户端---proxy---server---channel即将绑定" + channel + "---" + future.channel());
-            SessionManager.bind(channel, future.channel());
-            System.out.println("登录--proxyClient---server---channel绑定结束");
-            future.channel().writeAndFlush(loginMessage);
-            System.out.println("登录--发消息结束");
+            future.addListener(f -> {
+                System.out.println("登录--客户端---proxy---server---channel即将绑定" + channel + "---" + future.channel());
+                SessionManager.bind(channel, future.channel());
+                System.out.println("登录--proxyClient---server---channel绑定结束");
+                future.channel().writeAndFlush(loginMessage);
+                System.out.println("登录--发消息结束");
+            });
         } else {
             System.out.println("非登陆消息即将转发");
             SessionManager.getClient(channelHandlerContext.channel()).writeAndFlush(message);

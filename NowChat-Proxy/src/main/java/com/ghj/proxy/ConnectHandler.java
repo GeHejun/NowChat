@@ -49,12 +49,14 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
             int port = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "9999"));
             System.out.println("获取port成功"+port);
             ChannelFuture channelFuture = client.connect(new InetSocketAddress(registryIp, port));
-            System.out.println("连接成功"+channelFuture);
-//        if (!channelFuture.isSuccess()) {
-//            throw new ServerException();
-//        }
-            channelFuture.channel().writeAndFlush(buildRoutMessage(message));
-            System.out.println("发送路由消息成功"+buildRoutMessage(message));
+            channelFuture.addListener(future -> {
+                if (future.isSuccess()) {
+                    System.out.println("连接成功"+future);
+                    channelFuture.channel().writeAndFlush(buildRoutMessage(message));
+                    System.out.println("发送路由消息成功"+buildRoutMessage(message));
+                }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
