@@ -1,5 +1,5 @@
 layui.use('layim', function(layim){
-var deviceId = parseInt(10*Math.random());
+var deviceId = parseInt(10*Math.random() + 1);
 var websocket;
 let wsUri = "ws://127.0.0.1:9998/";
 var user = JSON.parse(localStorage.getItem('user'));
@@ -167,7 +167,7 @@ function onMessage(evt) {
                         var fromUserId = res.mine.id; //包含我发送的消息及我的信息
                         var toUserId = res.to.id; //对方的信息
                         var id = new Snowflake(1, 1, 0).nextId();
-                        var messageTypeId = 0;
+                        var messageTypeId = 1;
                         var content = res.mine.content;
                         var messageBehavior = 3;
                         var messageDirect = 1;
@@ -196,7 +196,7 @@ function onMessage(evt) {
                         username: buffer.name //消息来源用户名
                         ,avatar: buffer.headPortrait //消息来源用户头像
                         ,id: buffer.toUserId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
-                        ,type: buffer.messageDirect == 1 ? "friend" :"group" //聊天窗口来源类型，从发送消息传递的to里面获取
+                        ,type: buffer.messageDirect == 'PERSONAL' ? "friend" :"group" //聊天窗口来源类型，从发送消息传递的to里面获取
                         ,content: buffer.connect //消息内容
                         ,cid: buffer.id //消息id，可不传。除非你要对消息进行一些操作（如撤回）
                         ,mine: false //是否我发送的消息，如果为true，则会显示在右方
