@@ -26,7 +26,7 @@ public class SessionManager {
     }
 
     public static void bindClient(Channel server, Channel client) {
-        SERVER_SESSION_MAP.put(server, client);
+        CLIENT_SESSION_MAP.put(server, client);
     }
 
     public static Channel getServer(Channel client) {

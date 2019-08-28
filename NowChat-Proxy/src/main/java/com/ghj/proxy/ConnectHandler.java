@@ -1,6 +1,7 @@
 package com.ghj.proxy;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.exception.ServerException;
 import com.ghj.common.netty.BootstrapGenerator;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.PropertiesUtil;
@@ -30,9 +31,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
         MessageProto.Message message = (MessageProto.Message) o;
         if (LOGIN == message.getMessageBehavior()) {
-            System.out.println(channelHandlerContext.channel().toString());
             route(channelHandlerContext.channel(), message);
-            System.out.println("-----------");
         } else if (LOGIN_OUT == message.getMessageBehavior()) {
 
         } else {
@@ -41,16 +40,25 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     }
 
     private void route(Channel channel,  MessageProto.Message message) {
-        System.out.println(channel.toString());
-        Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler(channel));
-        String registryIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "127.0.0.1");
-        int port = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "9999"));
-        ChannelFuture channelFuture = client.connect(new InetSocketAddress(registryIp, port));
-        if (!channelFuture.isSuccess()) {
-
-        } else {
+        System.out.println("客户端---ProxyServer---channel:" + channel);
+        try {
+            Bootstrap client = BootstrapGenerator.generateBootStrap(new ClientConnectHandler(channel));
+            System.out.println("client生成成功"+client);
+            String registryIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "127.0.0.1");
+            System.out.println("获取ip成功"+registryIp);
+            int port = Integer.valueOf(PropertiesUtil.getInstance().getValue(Constant.REGISTRY_PORT, "9999"));
+            System.out.println("获取port成功"+port);
+            ChannelFuture channelFuture = client.connect(new InetSocketAddress(registryIp, port));
+            System.out.println("连接成功"+channelFuture);
+//        if (!channelFuture.isSuccess()) {
+//            throw new ServerException();
+//        }
             channelFuture.channel().writeAndFlush(buildRoutMessage(message));
+            System.out.println("发送路由消息成功"+buildRoutMessage(message));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private MessageProto.Message buildRoutMessage(MessageProto.Message message) {

@@ -50,23 +50,6 @@ public class Registry {
         return SERVER_SESSION_LIST.get(0);
     }
 
-    public static void remove(Channel channel) {
-        for (Session session:PROXY_NETTY_SESSION_LIST) {
-            if (session.getChannel().equals(channel)) {
-                PROXY_NETTY_SESSION_LIST.remove(session);
-            }
-        }
-        for (Session session:PROXY_WEBSOCKET_SESSION_LIST) {
-            if (session.getChannel().equals(channel)) {
-                PROXY_WEBSOCKET_SESSION_LIST.remove(session);
-            }
-        }
-        for (Session session:SERVER_SESSION_LIST) {
-            if (session.getChannel().equals(channel)) {
-                SERVER_SESSION_LIST.remove(session);
-            }
-        }
-    }
 
 
 

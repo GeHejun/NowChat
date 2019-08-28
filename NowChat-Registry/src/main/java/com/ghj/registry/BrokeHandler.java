@@ -109,7 +109,6 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        Registry.remove(ctx.channel());
         super.channelInactive(ctx);
     }
 }
