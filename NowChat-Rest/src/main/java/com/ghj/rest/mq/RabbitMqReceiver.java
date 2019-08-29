@@ -25,7 +25,7 @@ public class RabbitMqReceiver {
     @RabbitHandler
     public void process(String content) {
         try {
-            AbstractMessage message = (AbstractMessage) JSONUtil.jsonToBean(content, Message.class);
+            AbstractMessage message = (AbstractMessage) JSONUtil.toBean(content);
             if (message instanceof MessageToUser) {
                 Message nativeMessage = new Message();
                 nativeMessage.setId(message.getId());

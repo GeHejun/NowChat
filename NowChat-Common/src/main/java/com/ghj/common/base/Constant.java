@@ -1,7 +1,5 @@
 package com.ghj.common.base;
 
-import com.ghj.common.util.MachineSerialNumber;
-
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -98,9 +96,11 @@ public class Constant {
 
     public static final String REDIS_IP = "redis.ip";
 
-    public static String REDIS_PORT  = "redis.port";
+    public static final String REDIS_PORT  = "redis.port";
 
-    public static String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
+    public static final String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
 
-    public static int MAX_CONNECT_NUM = 10000;
+    public static final int MAX_CONNECT_NUM = 10000;
+
+    public static final String KEY_CODE = "code";
 }

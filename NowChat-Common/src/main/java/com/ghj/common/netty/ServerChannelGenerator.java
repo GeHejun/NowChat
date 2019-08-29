@@ -36,8 +36,8 @@ public class ServerChannelGenerator {
                 serverBootstrap.childHandler(new NettyChannelInitializer(handler));
             }
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+            channelFuture.addListener(future -> callBack.call());
             channel = channelFuture.channel();
-            callBack.call();
             channel.closeFuture().sync();
         } catch (Exception e) {
             e.printStackTrace();

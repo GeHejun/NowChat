@@ -123,7 +123,7 @@ public class RedisPoolUtil {
         Long result = null;
         try {
             jedis = RedisPool.getJedis();
-            result = jedis.hset(key,id, JSONUtil.beanToJson(value));
+            result = jedis.hset(key,id, JSONUtil.toJSONString(value));
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
         }

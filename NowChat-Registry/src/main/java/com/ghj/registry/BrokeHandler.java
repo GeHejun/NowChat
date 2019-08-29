@@ -70,14 +70,14 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
             ackMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
-                    .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
+                    .setContent(JSONUtil.toJSONString(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
                     .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
         } catch (Exception e) {
             ackMessage = MessageProto.Message.newBuilder()
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
-                    .setContent(JSONUtil.beanToJson(Result.defaultSuccess(Code.REGISTER_FAILURE)))
+                    .setContent(JSONUtil.toJSONString(Result.defaultSuccess(Code.REGISTER_FAILURE)))
                     .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
             e.printStackTrace();

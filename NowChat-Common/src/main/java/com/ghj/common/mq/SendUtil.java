@@ -28,7 +28,7 @@ public class SendUtil {
                 Channel channel = connection.createChannel();
                 // 声明（创建）队列
                 channel.queueDeclare(Constant.QUEUE_A, true, false, false, null);
-                channel.basicPublish(Constant.EXCHANGE_A, Constant.ROUTING_KEY_A, null, JSONUtil.beanToJson(message).getBytes());
+                channel.basicPublish(Constant.EXCHANGE_A, Constant.ROUTING_KEY_A, null, JSONUtil.toJSONString(message).getBytes());
                 //关闭通道和连接
                 channel.close();
                 connection.close();

@@ -79,7 +79,7 @@ public class MessageSender implements Runnable {
                         @Override
                         public void onResponse(Call call, Response response) {
                             String result = response.body().toString();
-                            List<Integer> toIds = (List<Integer>)JSONUtil.jsonToList(result);
+                            List<Integer> toIds = JSONUtil.toList(result, Integer.class);
                             toIds.remove(message.getFromUserId());
                             toIds.forEach(id -> {
                                 session = SessionManager.getSession(id);

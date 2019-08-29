@@ -15,6 +15,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.net.InetSocketAddress;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.ghj.common.base.Constant.KEY_CODE;
 
 /**
  * @author gehj
@@ -24,7 +27,7 @@ import java.util.Objects;
  */
 public class Register {
 
-    private static volatile int RETRY_COUNT = 3;
+    private static volatile AtomicInteger RETRY_COUNT = new AtomicInteger(3);
     private static String registerIp = PropertiesUtil.getInstance().getValue(Constant.REGISTRY_IP, "127.0.0.1");
     ChannelFuture channelFuture;
 
@@ -32,13 +35,13 @@ public class Register {
         register(connector, connectType, messageBehavior, BootstrapGenerator.generateBootStrap(new SimpleChannelInboundHandler() {
             @Override
             protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) {
-                RETRY_COUNT--;
-                if (RETRY_COUNT > 0 && Objects.isNull(o)) {
+                RETRY_COUNT.getAndDecrement();
+                if (RETRY_COUNT.intValue() > 0 && Objects.isNull(o)) {
                     reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
                 }
                 MessageProto.Message message = (MessageProto.Message) o;
-                JSONObject result = (JSONObject) JSONObject.parse(message.getContent());
-                if (RETRY_COUNT > 0 &&  Constant.REGISTER_SUCCESS_CODE != Integer.parseInt(result.get("code").toString())) {
+                JSONObject result = (JSONObject) JSON.parse(message.getContent());
+                if (RETRY_COUNT.intValue() > 0 &&  Constant.REGISTER_SUCCESS_CODE != Integer.parseInt(result.get(KEY_CODE).toString())) {
                     reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
                 }
             }
