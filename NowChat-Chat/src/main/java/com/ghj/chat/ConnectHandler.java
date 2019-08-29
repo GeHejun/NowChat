@@ -37,7 +37,11 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     SessionManager.putSession(message.getFromUserId(), session);
                     incrementOnLineUser(channel,message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
-                } catch (Exception e) {
+                } catch (UserException e) {
+                    ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
+                    channelHandlerContext.channel().writeAndFlush(ackMessage);
+                    break;
+                } catch (RuntimeException e) {
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
                 }
                 MessageManager.getInstance().putMessage(ackMessage);

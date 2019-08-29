@@ -140,13 +140,13 @@ function onMessage(evt) {
 
 
                     layim.on('sendMessage', function(res){
+                        var messageDirect = res.to.type == 'friend' ? 1 : 2;
                         var fromUserId = res.mine.id; //包含我发送的消息及我的信息
                         var toUserId = res.to.id; //对方的信息
                         var id = new Snowflake(1, 1, 0).nextId();
                         var messageTypeId = 1;
                         var content = res.mine.content;
                         var messageBehavior = 3;
-                        var messageDirect = 1;
                         var deviceId = deviceId;
                         var username = res.mine.username;
                         var avatar = res.mine.headPortrait;

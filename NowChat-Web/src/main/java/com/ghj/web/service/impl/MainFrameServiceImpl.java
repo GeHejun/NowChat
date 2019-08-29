@@ -1,6 +1,5 @@
 package com.ghj.web.service.impl;
 
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.*;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class MainFrameServiceImpl implements MainFrameService {
+
 
     @Resource
     RestService restService;
