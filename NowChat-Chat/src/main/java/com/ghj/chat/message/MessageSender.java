@@ -73,6 +73,7 @@ public class MessageSender implements Runnable {
                                     .setToUserId(message.getFromUserId())
                                     .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId())
                                     .setMessageBehavior(ACK)
+                                    .setFromUserId(message.getToUserId())
                                     .build();
                             MessageManager.getInstance().putMessage(ackMessage);
                         }
