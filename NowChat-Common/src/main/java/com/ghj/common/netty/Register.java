@@ -11,7 +11,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.net.InetSocketAddress;
+import java.net.*;
+import java.util.Enumeration;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -57,7 +58,8 @@ public class Register {
                     throw new ServerException();
                 }
                 InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
-                String ip = inetSocketAddress.getAddress().getHostAddress();
+//                String ip = inetSocketAddress.getAddress().getHostAddress();
+                String ip = getLocalIpv4Address();
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
@@ -74,5 +76,30 @@ public class Register {
                         .setConnectType(connectType)
                         .build();
         channelFuture.channel().writeAndFlush(registerMessage);
+    }
+
+    public static String getLocalIpv4Address() throws SocketException {
+        Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
+        String siteLocalAddress = null;
+        while (ifaces.hasMoreElements()) {
+            NetworkInterface iface = ifaces.nextElement();
+            Enumeration<InetAddress> addresses = iface.getInetAddresses();
+            while (addresses.hasMoreElements()) {
+                InetAddress addr = addresses.nextElement();
+                String hostAddress = addr.getHostAddress();
+                if (addr instanceof Inet4Address
+                        && !addr.isLoopbackAddress()
+                        && !hostAddress.startsWith("192.168")
+                        && !hostAddress.startsWith("172.")
+                        && !hostAddress.startsWith("169.")) {
+                    if (addr.isSiteLocalAddress()) {
+                        siteLocalAddress = hostAddress;
+                    } else {
+                        return hostAddress;
+                    }
+                }
+            }
+        }
+        return siteLocalAddress == null ? "" : siteLocalAddress;
     }
 }
