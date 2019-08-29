@@ -43,7 +43,7 @@ public class MessageSender implements Runnable {
     @Override
     public void run() {
         if (ACK == message.getMessageBehavior()) {
-            Integer sessionKey = message.getToUserId();
+            Integer sessionKey = message.getFromUserId();
             session = SessionManager.getSession(sessionKey);
             if (session == null) {
                 throw new ChatException();
