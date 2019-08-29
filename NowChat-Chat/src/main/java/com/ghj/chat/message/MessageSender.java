@@ -103,6 +103,7 @@ public class MessageSender implements Runnable {
                     });
                     break;
                 case SERVER:
+                    //在这里如果接收失败更改消息状态
                     MessageManager.getInstance().putMessage(buildAckMessage(Code.ACK_SEND_SUCCESS, true, message));
                     MessageManager.getInstance().putMessage(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
                 default:
