@@ -17,49 +17,46 @@ message Message {
     //消息去向
     int32 toUserId = 3;
 
-    //notify
-    int32 toGroupId = 4;
-
     //消息类型 音频  视频  文字 图片...
-    int32 messageTypeId = 5;
+    int32 messageTypeId = 4;
 
     //消息内容
-    string content = 6;
+    string content = 5;
 
     //token
-    string token = 7;
+    string token = 6;
 
     //消息行为 登录  登录 注册  普通消息...
-    MessageBehavior messageBehavior = 8;
+    MessageBehavior messageBehavior = 7;
 
     //消息去向 个人 群组 服务端
-    MessageDirect messageDirect = 9;
+    MessageDirect messageDirect = 8;
 
     //设备id
-    int64 deviceId = 10;
+    int64 deviceId = 9;
 
     //关联群组  群消息使用
-    int32 associatedGroupId = 11;
+    int32 associatedGroupId = 10;
 
     //去注册中心注册时的ip
-    string ip = 12;
+    string ip = 11;
 
     //去注册中心注册时的端口
-    int32 port = 13;
+    int32 port = 12;
 
     //1.群发消息去向 2.notify消息
-    repeated int32 toUserIds = 14;
+    repeated int32 toUserIds = 13;
 
     //匹配消息id 对应ack消息
-    int64 matchMessageId = 15;
+    int64 matchMessageId = 14;
 
     //通知消息 有时会有多个匹配消息
-    repeated int64 matchMessageIds = 16;
+    repeated int64 matchMessageIds = 15;
 
     //ack消息-对应匹配消息的状态码
-    int32 code = 17;
+    int32 code = 16;
 
-    ConnectType connectType = 18;
+    ConnectType connectType = 17;
 
     //消息行为
     enum MessageBehavior {
