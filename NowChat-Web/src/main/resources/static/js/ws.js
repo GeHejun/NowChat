@@ -152,7 +152,6 @@ function onMessage(evt) {
                         var avatar = res.mine.headPortrait;
                         var message = {
                             "fromUserId":fromUserId,
-                            "toUserId":toUserId,
                             "id":id,
                             "messageTypeId":messageTypeId,
                             "content":content,
@@ -161,7 +160,14 @@ function onMessage(evt) {
                             "deviceId":deviceId,
                             "name":username,
                             "headPortrait":avatar
+                        };
+                        if (res.to.type == 'friend')  {
+                            var key = "toUserId";
+                        } else {
+                            var key = "toGroupId";
                         }
+                        var value = toUserId;
+                        message[key] = value;
                         //监听到上述消息后，就可以轻松地发送socket了，如：
                         sendMessage(message);
                     });
@@ -171,7 +177,7 @@ function onMessage(evt) {
                     layim.getMessage({
                         username: buffer.name //消息来源用户名
                         ,avatar: buffer.headPortrait //消息来源用户头像
-                        ,id: buffer.fromUserId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                        ,id: buffer.messageDirect == 1 ? buffer.fromUserId : buffer.toGroupId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
                         ,type: buffer.messageDirect == 1 ? "friend" :"group" //聊天窗口来源类型，从发送消息传递的to里面获取
                         ,content: buffer.content //消息内容
                         ,cid: buffer.id //消息id，可不传。除非你要对消息进行一些操作（如撤回）

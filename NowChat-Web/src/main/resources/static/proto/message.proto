@@ -14,7 +14,7 @@ message Message {
     //消息去向
     int32 toUserId = 3;
 
-    //notify
+    //群聊消息
     int32 toGroupId = 4;
 
     //消息类型 音频  视频  文字 图片...

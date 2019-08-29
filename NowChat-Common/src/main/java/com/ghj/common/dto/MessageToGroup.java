@@ -11,4 +11,6 @@ import lombok.Data;
 @Builder
 public class MessageToGroup extends AbstractMessage {
     private Integer toGroupId;
+
+    private Integer toUserId;
 }

@@ -10,7 +10,7 @@ public class Constant {
 
     public static final String ENCRYPT_DECRYPT_KEY = "ENCRYPT_DECRYPT_KEY";
 
-    public static final String USER_TOKEN_KEY = "_USER_TOKEN_KEY";
+    public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY_";
 
     public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
 
@@ -92,7 +92,7 @@ public class Constant {
 
     public static final int MAX_AGGREGATED_CONTENT_LENGTH = 64 * 1024;
 
-    public static final String SYSTEM_PREFIX = "NOW-CHAT:USER:";
+    public static final String SYSTEM_PREFIX = "NOW-CHAT_USER_";
 
     public static final String REDIS_IP = "redis.ip";
 
@@ -100,7 +100,9 @@ public class Constant {
 
     public static final String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
 
-    public static final int MAX_CONNECT_NUM = 10000;
+    //public static final int MAX_CONNECT_NUM = 10000;
 
-    public static final String KEY_CODE = "code";
+    public static final String CODE_KEY = "code";
+
+    public static final String DATA_KEY = "data";
 }

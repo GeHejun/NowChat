@@ -12,6 +12,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.net.InetSocketAddress;
+import java.util.Objects;
 
 /**
  * @author GeHejun
@@ -37,11 +38,14 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     SessionManager.putSession(message.getFromUserId(), session);
                     incrementOnLineUser(channel,message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
-                    MessageManager.getInstance().putMessage(ackMessage);
                 } catch (Exception e) {
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
-                    channelHandlerContext.channel().writeAndFlush(ackMessage);
+                    if (Objects.isNull(SessionManager.getSession(message.getFromUserId()))) {
+                        channel.writeAndFlush(ackMessage);
+                    }
+                    break;
                 }
+                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case PING:
                 try {
@@ -79,7 +83,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
     }
 
     public void validateUser(MessageProto.Message message) {
-        String token = RedisPoolUtil.get(Constant.SYSTEM_PREFIX + message.getFromUserId() + "_" + Constant.USER_TOKEN_KEY);
+        String token = RedisPoolUtil.get(Constant.SYSTEM_PREFIX  + Constant.USER_TOKEN_KEY + message.getFromUserId());
         if (StringUtils.isEmpty(token)) {
             throw new UserException();
         }

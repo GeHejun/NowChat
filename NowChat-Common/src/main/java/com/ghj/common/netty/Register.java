@@ -3,9 +3,7 @@ package com.ghj.common.netty;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ghj.common.base.Constant;
-import com.ghj.common.base.Result;
 import com.ghj.common.exception.ServerException;
-import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.Bootstrap;
@@ -17,7 +15,7 @@ import java.net.InetSocketAddress;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.ghj.common.base.Constant.KEY_CODE;
+import static com.ghj.common.base.Constant.CODE_KEY;
 
 /**
  * @author gehj
@@ -41,7 +39,7 @@ public class Register {
                 }
                 MessageProto.Message message = (MessageProto.Message) o;
                 JSONObject result = (JSONObject) JSON.parse(message.getContent());
-                if (RETRY_COUNT.intValue() > 0 &&  Constant.REGISTER_SUCCESS_CODE != Integer.parseInt(result.get(KEY_CODE).toString())) {
+                if (RETRY_COUNT.intValue() > 0 &&  Constant.REGISTER_SUCCESS_CODE != Integer.parseInt(result.get(CODE_KEY).toString())) {
                     reRegister(registerIp, connector, connectType, messageBehavior, channelFuture);
                 }
             }

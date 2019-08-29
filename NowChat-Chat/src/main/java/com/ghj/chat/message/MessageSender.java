@@ -1,5 +1,8 @@
 package com.ghj.chat.message;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ghj.chat.Session;
 import com.ghj.chat.SessionManager;
 import com.ghj.chat.constant.Route;
@@ -8,8 +11,6 @@ import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.dto.MessageToGroup;
 import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.exception.ChatException;
-import com.ghj.common.mq.SendUtil;
-import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.OKHttpUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
@@ -19,8 +20,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Objects;
 
+import static com.ghj.common.base.Constant.DATA_KEY;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.ACK;
 
 
@@ -63,7 +65,7 @@ public class MessageSender implements Runnable {
                     abstractMessage = MessageToUser.builder().build();
                     break;
                 case GROUP:
-                    Integer toGroupId= message.getToUserId();
+                    Integer toGroupId= message.getToGroupId();
                     OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
@@ -71,23 +73,24 @@ public class MessageSender implements Runnable {
                                     .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
                                     .setMatchMessageId(message.getId())
                                     .setToUserId(message.getFromUserId())
-                                    .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId())
+                                    .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
                                     .setMessageBehavior(ACK)
-                                    .setFromUserId(message.getToUserId())
                                     .build();
                             MessageManager.getInstance().putMessage(ackMessage);
                         }
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             String result = response.body().string();
-                            List<Integer> toIds = JSONUtil.toList(result, Integer.class);
-                            toIds.remove(message.getFromUserId());
+                            JSONObject jsonObject = (JSONObject)JSON.parse(result);
+                            JSONArray toIds = jsonObject.getJSONArray(DATA_KEY);
                             toIds.forEach(id -> {
-                                session = SessionManager.getSession(id);
-                                if (session == null) {
-                                    throw new ChatException();
+                                if (!Objects.equals(id, message.getFromUserId())) {
+                                    session = SessionManager.getSession(Integer.parseInt(id.toString()));
+                                    if (session == null) {
+                                        throw new ChatException();
+                                    }
+                                    session.getChannel().writeAndFlush(message);
                                 }
-                                session.getChannel().writeAndFlush(message);
                             });
                             abstractMessage = MessageToGroup.builder().build();
                         }
@@ -99,7 +102,6 @@ public class MessageSender implements Runnable {
                 default:
             }
         }
-
         //SendUtil.sendForQueue(abstractMessage);
     }
 

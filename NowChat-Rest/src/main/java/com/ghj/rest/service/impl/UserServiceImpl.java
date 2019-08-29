@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new UserException();
         }
         String token = UUID.randomUUID().toString().replace("-","");
-        redisTemplate.opsForValue().set(Constant.SYSTEM_PREFIX + user.getId() + "_" + Constant.USER_TOKEN_KEY, token);
+        redisTemplate.opsForValue().set(Constant.SYSTEM_PREFIX + Constant.USER_TOKEN_KEY + user.getId() , token);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
         userResponse.setToken(token);
