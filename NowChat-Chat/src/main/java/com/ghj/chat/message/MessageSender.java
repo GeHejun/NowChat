@@ -70,8 +70,9 @@ public class MessageSender implements Runnable {
                             MessageProto.Message ackMessage = MessageProto.Message.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
                                     .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
                                     .setMatchMessageId(message.getId())
-                                    .setToUserId(message.getFromUserId())
+                                    .setFromUserId(message.getFromUserId())
                                     .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId())
+                                    .setMessageBehavior(ACK)
                                     .build();
                             MessageManager.getInstance().putMessage(ackMessage);
                         }
