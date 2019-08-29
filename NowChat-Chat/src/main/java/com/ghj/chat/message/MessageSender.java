@@ -9,6 +9,7 @@ import com.ghj.chat.constant.Route;
 import com.ghj.common.base.Code;
 import com.ghj.common.dto.PersistentMessage;
 import com.ghj.common.exception.ChatException;
+import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.OKHttpUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
@@ -18,6 +19,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import static com.ghj.common.base.Constant.DATA_KEY;
@@ -56,10 +60,11 @@ public class MessageSender implements Runnable {
                     session = SessionManager.getSession(sessionKey);
                     if (session == null) {
                         //保存离线消息
-                        throw new ChatException();
+                        //throw new ChatException();
+                        persistentMessage = buildPersistentMessage(message, false, false);
                     }
                     session.getChannel().writeAndFlush(message);
-                    //persistentMessage = PersistentMessage.builder().id(message.getId()).build();
+                    persistentMessage = buildPersistentMessage(message, true, false);
                     break;
                 case GROUP:
                     Integer toGroupId= message.getToGroupId();
@@ -80,16 +85,20 @@ public class MessageSender implements Runnable {
                             String result = response.body().string();
                             JSONObject jsonObject = (JSONObject)JSON.parse(result);
                             JSONArray toIds = jsonObject.getJSONArray(DATA_KEY);
-                            toIds.forEach(id -> {
+                            List<Integer> offLineUserIds = new ArrayList<>(toIds.size());
+                            List<Integer> onLineUserIds = new ArrayList<>(toIds.size());
+                            for (Integer id : toIds.toJavaList(Integer.class)) {
                                 if (!Objects.equals(id, message.getFromUserId())) {
                                     session = SessionManager.getSession(Integer.parseInt(id.toString()));
                                     if (session == null) {
-                                        throw new ChatException();
+                                        offLineUserIds.add(id);
+                                        continue;
                                     }
                                     session.getChannel().writeAndFlush(message);
+                                    onLineUserIds.add(id);
                                 }
-                            });
-                            persistentMessage = PersistentMessage.builder().build();
+                            }
+                            persistentMessage = buildPersistentMessage(message, true, true);
                         }
                     });
                     break;
@@ -99,7 +108,7 @@ public class MessageSender implements Runnable {
                 default:
             }
         }
-        //SendUtil.sendForQueue(abstractMessage);
+        SendUtil.sendForQueue(persistentMessage);
     }
 
     public MessageProto.Message buildAckMessage(Code code, boolean isAckSender, MessageProto.Message message) {
@@ -111,5 +120,28 @@ public class MessageSender implements Runnable {
                 .setAssociatedGroupId(message.getAssociatedGroupId())
                 .setMatchMessageId(message.getId())
                 .build();
+    }
+
+    public PersistentMessage buildPersistentMessage(MessageProto.Message message, Boolean status, Boolean isGroup) {
+        if (isGroup) {
+            return PersistentMessage.builder()
+                    .id(message.getId())
+                    .fromUserId(message.getFromUserId())
+                    .messageTypeId(message.getMessageTypeId())
+                    .postMessage(message.getContent())
+                    .toGroupId(message.getToGroupId())
+                    .sendTime(new Date())
+                    .build();
+        } else {
+            return PersistentMessage.builder()
+                    .id(message.getId())
+                    .fromUserId(message.getFromUserId())
+                    .messageTypeId(message.getMessageTypeId())
+                    .postMessage(message.getContent())
+                    .status(status)
+                    .toUserId(message.getToUserId())
+                    .sendTime(new Date())
+                    .build();
+        }
     }
 }

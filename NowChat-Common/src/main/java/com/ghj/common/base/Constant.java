@@ -12,11 +12,11 @@ public class Constant {
 
     public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY_";
 
-    public static final String EXCHANGE_A = "MY-MQ-EXCHANGE_SAVE_MESSAGE";
+    public static final String EXCHANGE_A = "EXCHANGE_SAVE_MESSAGE";
 
     public static final String QUEUE_A = "QUEUE_SAVE_MESSAGE";
 
-    public static final String ROUTING_KEY_A = "SPRING-BOOT-ROUTING_KEY_SAVE_MESSAGE";
+    public static final String ROUTING_KEY_A = "ROUTING_KEY_SAVE_MESSAGE";
 
     public static final String ON_LINE_USER_COUNT = "ON_LINE_USER_COUNT";
 

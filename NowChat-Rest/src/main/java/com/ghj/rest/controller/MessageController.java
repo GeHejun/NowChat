@@ -27,7 +27,7 @@ public class MessageController {
 
     @RequestMapping("/queryMessageList")
     @ResponseBody
-    public Result queryMessagePage(@NotNull Integer userId,
+    public Result queryMessagePage(@NotNull @RequestParam("userId") Integer userId,
                                    @RequestParam(defaultValue = "1") Integer pageIndex,
                                    @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<MessageResponse> pageInfo = messageService.listMessagePage(userId, pageIndex, pageSize);
@@ -44,7 +44,7 @@ public class MessageController {
 
     @RequestMapping("/queryMessage")
     @ResponseBody
-    public Result queryMessagePage(@NotNull Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
+    public Result queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
         List<MessageResponse> messageResponseList = messageService.queryMessageByToUserIdWithStatus(toUserId, status);
         return Result.defaultSuccess(messageResponseList);
     }

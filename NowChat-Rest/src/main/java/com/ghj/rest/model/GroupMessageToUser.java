@@ -8,11 +8,11 @@ import java.util.Date;
  * @author 
  */
 public class GroupMessageToUser implements Serializable {
-    private Integer id;
+    private Long id;
 
     private Integer userId;
 
-    private Integer groupMessageId;
+    private Long groupMessageId;
 
     private Boolean sate;
 
@@ -20,11 +20,11 @@ public class GroupMessageToUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,11 +36,11 @@ public class GroupMessageToUser implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getGroupMessageId() {
+    public Long getGroupMessageId() {
         return groupMessageId;
     }
 
-    public void setGroupMessageId(Integer groupMessageId) {
+    public void setGroupMessageId(Long groupMessageId) {
         this.groupMessageId = groupMessageId;
     }
 

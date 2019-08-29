@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author gehj
@@ -15,7 +16,7 @@ import java.util.Date;
 @Builder
 public class PersistentMessage {
 
-    private Integer id;
+    private Long id;
 
     /**
      * 接收状态
@@ -45,4 +46,9 @@ public class PersistentMessage {
     private Integer toGroupId;
 
     private Integer toUserId;
+
+    private List<Integer> onLineUserIds;
+
+    private List<Integer> offLineUserIds;
+
 }

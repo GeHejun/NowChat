@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ghj.rest.dao.MessageMapper">
   <resultMap id="BaseResultMap" type="com.ghj.rest.model.Message">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="LONG" property="id" />
     <result column="status" jdbcType="BIT" property="status" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
     <result column="message_type_id" jdbcType="INTEGER" property="messageTypeId" />
@@ -18,23 +18,23 @@
   <sql id="Blob_Column_List">
     post_message
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </delete>
   <insert id="insert" parameterType="com.ghj.rest.model.Message">
     insert into message (id, `status`, send_time, 
       message_type_id, from_user_id, to_user_id, 
       post_message)
-    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{sendTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=LONG}, #{status,jdbcType=BIT}, #{sendTime,jdbcType=TIMESTAMP},
       #{messageTypeId,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER}, 
       #{postMessage,jdbcType=LONGVARCHAR})
   </insert>
@@ -65,7 +65,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=LONG},
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
@@ -109,7 +109,7 @@
         post_message = #{postMessage,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ghj.rest.model.Message">
     update message
@@ -119,7 +119,7 @@
       from_user_id = #{fromUserId,jdbcType=INTEGER},
       to_user_id = #{toUserId,jdbcType=INTEGER},
       post_message = #{postMessage,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=Long}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.Message">
     update message
@@ -128,6 +128,6 @@
       message_type_id = #{messageTypeId,jdbcType=INTEGER},
       from_user_id = #{fromUserId,jdbcType=INTEGER},
       to_user_id = #{toUserId,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
 </mapper>

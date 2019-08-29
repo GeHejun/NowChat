@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ghj.rest.dao.GroupMessageMapper">
   <resultMap id="BaseResultMap" type="com.ghj.rest.model.GroupMessage">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="LONG" property="id" />
     <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
   </resultMap>
@@ -15,22 +15,22 @@
   <sql id="Blob_Column_List">
     content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from goup_message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from goup_message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </delete>
   <insert id="insert" parameterType="com.ghj.rest.model.GroupMessage">
     insert into goup_message (id, from_user_id, send_time, 
       content)
-    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, #{sendTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=LONG}, #{fromUserId,jdbcType=INTEGER}, #{sendTime,jdbcType=TIMESTAMP},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.GroupMessage">
@@ -51,7 +51,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=LONG},
       </if>
       <if test="fromUserId != null">
         #{fromUserId,jdbcType=INTEGER},
@@ -68,7 +68,7 @@
     update goup_message
     <set>
       <if test="fromUserId != null">
-        from_user_id = #{fromUserId,jdbcType=INTEGER},
+        from_user_id = #{fromUserId,jdbcType=LONG},
       </if>
       <if test="sendTime != null">
         send_time = #{sendTime,jdbcType=TIMESTAMP},
@@ -84,12 +84,12 @@
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.GroupMessage">
     update goup_message
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       send_time = #{sendTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
 </mapper>

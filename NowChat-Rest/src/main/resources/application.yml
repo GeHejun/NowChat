@@ -5,13 +5,18 @@ spring:
   application:
     name: rest
   redis:
-    host: 127.0.0.1
+    host: 172.16.219.130
     port: 6379
   datasource:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/im
+  rabbitmq:
+    port: 5672
+    username: ghj
+    password: ghj
+    host: 172.16.219.130
 
 fdfs:
   soTimeout: 1500
