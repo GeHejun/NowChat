@@ -1,15 +1,19 @@
 package com.ghj.common.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 /**
  * @author gehj
- * @date 2019/6/2811:34
+ * @version 1.0
+ * @description TODO
+ * @date 2019/8/29 18:59
  */
 @Data
-public class AbstractMessage  {
+@Builder
+public class PersistentMessage {
 
     private Integer id;
 
@@ -37,4 +41,8 @@ public class AbstractMessage  {
      * 消息内容
      */
     private String postMessage;
+
+    private Integer toGroupId;
+
+    private Integer toUserId;
 }

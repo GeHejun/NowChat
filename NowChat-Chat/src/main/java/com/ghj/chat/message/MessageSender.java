@@ -7,9 +7,7 @@ import com.ghj.chat.Session;
 import com.ghj.chat.SessionManager;
 import com.ghj.chat.constant.Route;
 import com.ghj.common.base.Code;
-import com.ghj.common.dto.AbstractMessage;
-import com.ghj.common.dto.MessageToGroup;
-import com.ghj.common.dto.MessageToUser;
+import com.ghj.common.dto.PersistentMessage;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.OKHttpUtil;
@@ -36,7 +34,7 @@ public class MessageSender implements Runnable {
 
     Session session;
 
-    AbstractMessage abstractMessage;
+    PersistentMessage persistentMessage;
 
     public MessageSender(MessageProto.Message message) {
         this.message = message;
@@ -51,7 +49,6 @@ public class MessageSender implements Runnable {
                 throw new ChatException();
             }
             session.getChannel().writeAndFlush(message);
-            abstractMessage = MessageToUser.builder().build();
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
@@ -62,7 +59,7 @@ public class MessageSender implements Runnable {
                         throw new ChatException();
                     }
                     session.getChannel().writeAndFlush(message);
-                    abstractMessage = MessageToUser.builder().build();
+                    //persistentMessage = PersistentMessage.builder().id(message.getId()).build();
                     break;
                 case GROUP:
                     Integer toGroupId= message.getToGroupId();
@@ -92,7 +89,7 @@ public class MessageSender implements Runnable {
                                     session.getChannel().writeAndFlush(message);
                                 }
                             });
-                            abstractMessage = MessageToGroup.builder().build();
+                            persistentMessage = PersistentMessage.builder().build();
                         }
                     });
                     break;

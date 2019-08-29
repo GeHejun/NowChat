@@ -1,16 +1,10 @@
 package com.ghj.rest.mq;
 
-import com.ghj.common.base.Constant;
-import com.ghj.common.dto.AbstractMessage;
-import com.ghj.common.dto.MessageToGroup;
-import com.ghj.common.dto.MessageToUser;
 import com.ghj.common.util.JSONUtil;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.service.MessageService;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;

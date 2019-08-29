@@ -1,7 +1,6 @@
 package com.ghj.common.mq;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.dto.AbstractMessage;
 import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.PropertiesUtil;
 import com.rabbitmq.client.Channel;
