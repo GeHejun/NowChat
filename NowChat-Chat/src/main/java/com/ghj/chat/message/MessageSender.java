@@ -43,7 +43,7 @@ public class MessageSender implements Runnable {
     @Override
     public void run() {
         if (ACK == message.getMessageBehavior()) {
-            Integer sessionKey = message.getFromUserId();
+            Integer sessionKey = message.getToUserId();
             session = SessionManager.getSession(sessionKey);
             if (session == null) {
                 throw new ChatException();
@@ -70,7 +70,7 @@ public class MessageSender implements Runnable {
                             MessageProto.Message ackMessage = MessageProto.Message.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
                                     .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
                                     .setMatchMessageId(message.getId())
-                                    .setFromUserId(message.getFromUserId())
+                                    .setToUserId(message.getFromUserId())
                                     .setId(new SnowFlakeIdGenerator(message.getDeviceId(), 29L).nextId())
                                     .setMessageBehavior(ACK)
                                     .build();
