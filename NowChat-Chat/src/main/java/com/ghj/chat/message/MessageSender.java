@@ -77,8 +77,8 @@ public class MessageSender implements Runnable {
                             MessageManager.getInstance().putMessage(ackMessage);
                         }
                         @Override
-                        public void onResponse(Call call, Response response) {
-                            String result = response.body().toString();
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String result = response.body().string();
                             List<Integer> toIds = JSONUtil.toList(result, Integer.class);
                             toIds.remove(message.getFromUserId());
                             toIds.forEach(id -> {
