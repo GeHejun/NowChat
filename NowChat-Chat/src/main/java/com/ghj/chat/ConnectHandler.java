@@ -37,14 +37,12 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     SessionManager.putSession(message.getFromUserId(), session);
                     incrementOnLineUser(channel,message);
                     ackMessage = buildAckMessage(Code.LOGIN_SUCCESS, message);
-                } catch (UserException e) {
+                    MessageManager.getInstance().putMessage(ackMessage);
+                }  catch (RuntimeException e) {
+                    SessionManager.removeSession(message.getFromUserId());
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
-                    channelHandlerContext.channel().writeAndFlush(ackMessage);
-                    break;
-                } catch (RuntimeException e) {
-                    ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
+                    channel.writeAndFlush(ackMessage);
                 }
-                MessageManager.getInstance().putMessage(ackMessage);
                 break;
             case PING:
                 try {

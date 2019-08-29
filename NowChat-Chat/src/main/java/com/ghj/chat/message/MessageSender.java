@@ -63,7 +63,7 @@ public class MessageSender implements Runnable {
                     abstractMessage = MessageToUser.builder().build();
                     break;
                 case GROUP:
-                    Integer toGroupId= message.getToGroupId();
+                    Integer toGroupId= message.getToUserId();
                     OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
