@@ -1,7 +1,9 @@
 package com.ghj.common.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersistentMessage {
 
     private Long id;
@@ -26,7 +30,7 @@ public class PersistentMessage {
     /**
      * 发送时间
      */
-    private Date sendTime;
+    private String sendTime;
 
     /**
      * 消息类型ID

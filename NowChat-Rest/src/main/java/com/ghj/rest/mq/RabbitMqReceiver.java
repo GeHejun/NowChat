@@ -1,24 +1,25 @@
 package com.ghj.rest.mq;
 
+import com.alibaba.fastjson.JSON;
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.PersistentMessage;
-import com.ghj.common.util.JSONUtil;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.service.GroupMessageService;
 import com.ghj.rest.service.GroupMessageToUserService;
 import com.ghj.rest.service.MessageService;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 @Component
-@RabbitListener(queues = Constant.QUEUE_A)
 public class RabbitMqReceiver {
 
     @Resource
@@ -31,9 +32,16 @@ public class RabbitMqReceiver {
     GroupMessageService groupMessageService;
 
     @RabbitHandler
-    public void process(String content) {
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    exchange = @Exchange(value = Constant.EXCHANGE_A, type = ExchangeTypes.TOPIC),
+                    value = @Queue(value = Constant.QUEUE_A),
+                    key = Constant.ROUTING_KEY_A
+            )
+    )
+    public void process(byte[] bytes) {
         try {
-            PersistentMessage message = JSONUtil.toBean(content, PersistentMessage.class);
+            PersistentMessage message = JSON.parseObject(new String(bytes, "UTF-8"), PersistentMessage.class);
             if (Objects.isNull(message.getToGroupId())) {
                 Message nativeMessage = new Message();
                 nativeMessage.setId(message.getId());
@@ -42,6 +50,7 @@ public class RabbitMqReceiver {
                 nativeMessage.setPostMessage(message.getPostMessage());
                 nativeMessage.setSendTime(new Date());
                 nativeMessage.setToUserId(message.getToUserId());
+                nativeMessage.setStatus(nativeMessage.getStatus());
                 messageService.insertMessage(nativeMessage);
             } else {
                 GroupMessage groupMessage = new GroupMessage();
@@ -59,9 +68,8 @@ public class RabbitMqReceiver {
                     groupMessageToUserService.insert(groupMessageToUser);
                 });
             }
-
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -70,7 +78,7 @@ public class RabbitMqReceiver {
         groupMessageToUser.setGroupMessageId(message.getId());
         groupMessageToUser.setSate(isReceive);
         groupMessageToUser.setUserId(id);
-        groupMessageToUser.setSendTime(message.getSendTime());
+        groupMessageToUser.setSendTime(groupMessageToUser.getSendTime());
         return groupMessageToUser;
     }
 }

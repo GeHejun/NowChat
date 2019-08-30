@@ -1,8 +1,8 @@
 package com.ghj.common.mq;
 
+import com.alibaba.fastjson.JSON;
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.PersistentMessage;
-import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.PropertiesUtil;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -28,7 +28,7 @@ public class SendUtil {
                 Channel channel = connection.createChannel();
                 // 声明（创建）队列
                 channel.queueDeclare(Constant.QUEUE_A, true, false, false, null);
-                channel.basicPublish(Constant.EXCHANGE_A, Constant.ROUTING_KEY_A, null, JSONUtil.toJSONString(message).getBytes());
+                channel.basicPublish(Constant.EXCHANGE_A, Constant.ROUTING_KEY_A, null, JSON.toJSONString(message).getBytes());
                 //关闭通道和连接
                 channel.close();
                 connection.close();

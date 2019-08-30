@@ -1,5 +1,6 @@
 package com.ghj.common.util;
 
+import com.alibaba.fastjson.JSON;
 import org.omg.PortableInterceptor.INACTIVE;
 import redis.clients.jedis.Jedis;
 
@@ -123,7 +124,7 @@ public class RedisPoolUtil {
         Long result = null;
         try {
             jedis = RedisPool.getJedis();
-            result = jedis.hset(key,id, JSONUtil.toJSONString(value));
+            result = jedis.hset(key,id, JSON.toJSONString(value));
         } catch (Exception e) {
             RedisPool.returnBrokenResource(jedis);
         }

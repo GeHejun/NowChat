@@ -1,10 +1,10 @@
 package com.ghj.registry;
 
 
+import com.alibaba.fastjson.JSON;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
-import com.ghj.common.util.JSONUtil;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.SnowFlakeIdGenerator;
@@ -70,14 +70,14 @@ public class BrokeHandler extends SimpleChannelInboundHandler {
             ackMessage = MessageProto.Message.newBuilder()
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
-                    .setContent(JSONUtil.toJSONString(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
+                    .setContent(JSON.toJSONString(Result.defaultSuccess(Code.REGISTER_SUCCESS)))
                     .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
         } catch (Exception e) {
             ackMessage = MessageProto.Message.newBuilder()
                     .setMessageDirect(MessageProto.Message.MessageDirect.SERVER)
                     .setMessageBehavior(MessageProto.Message.MessageBehavior.ACK)
-                    .setContent(JSONUtil.toJSONString(Result.defaultSuccess(Code.REGISTER_FAILURE)))
+                    .setContent(JSON.toJSONString(Result.defaultSuccess(Code.REGISTER_FAILURE)))
                     .setId(new SnowFlakeIdGenerator(MachineSerialNumber.get(), MachineSerialNumber.get()).nextId())
                     .build();
             e.printStackTrace();
