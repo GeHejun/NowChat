@@ -9,38 +9,51 @@
     <link rel="stylesheet" href="layui/css/layui.css"/>
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
+<style>
+    .loginBackground {
+        width: 300px;
+        height: 400px;
+        background: darkgray;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -200px 0 0 -150px;
+        border-radius: 10px;
+        border-radius: 2px;
+    }
+</style>
 <body>
+<div class="loginBackground">
+    <blockquote class="layui-elem-quote layui-text">
+        欢迎登录NOW-CHAT
+    </blockquote>
 
-<blockquote class="layui-elem-quote layui-text">
-    欢迎登录NOW-CHAT
-</blockquote>
-
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>请输入用户名和密码</legend>
-</fieldset>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend style="font-size: 15px">请输入用户名和密码</legend>
+    </fieldset>
 
 
-<form class="layui-form" action="" lay-filter="loginForm">
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
-        <div class="layui-input-block">
-            <input type="text" name="loginName" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                   class="layui-input">
+    <form class="layui-form" action="" lay-filter="loginForm">
+        <div class="layui-form-item" style="width: 250px">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="loginName" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                       class="layui-input">
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-block">
-            <input type="password" name="password" lay-verify="password"
-                   placeholder="请输入密码" autocomplete="off" class="layui-input">
+        <div class="layui-form-item" style="width: 250px">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" lay-verify="password"
+                       placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
         </div>
-    </div>
 
-    <div class="layui-form-item">
-        <button class="layui-btn" lay-submit="" lay-filter="loginSubmit">提交</button>
-    </div>
-</form>
-
+        <div class="layui-form-item">
+            <button class="layui-btn" lay-submit="" lay-filter="loginSubmit">提交</button>
+        </div>
+    </form>
+</div>
 <script src="layui/layui.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
