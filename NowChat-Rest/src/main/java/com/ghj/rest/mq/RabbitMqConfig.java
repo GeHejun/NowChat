@@ -24,8 +24,7 @@ import static com.ghj.common.base.Constant.QUEUE_A;
 @Configuration
 public class RabbitMqConfig {
 
-
-    @Value("${spring.rabbitmq.address}")
+    @Value("${spring.rabbitmq.host}")
     private String host;
 
     @Value("${spring.rabbitmq.port}")

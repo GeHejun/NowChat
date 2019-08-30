@@ -1,7 +1,7 @@
 layui.use('layim', function(layim){
 var deviceId = parseInt(10*Math.random() + 1);
 var websocket;
-let wsUri = "ws://127.0.0.1:9998/";
+let wsUri = "ws://10.30.21.24:9998/";
 var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;

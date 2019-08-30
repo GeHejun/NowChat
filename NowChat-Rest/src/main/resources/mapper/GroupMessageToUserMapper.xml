@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ghj.rest.dao.GroupMessageToUserMapper">
   <resultMap id="BaseResultMap" type="com.ghj.rest.model.GroupMessageToUser">
-    <id column="id" jdbcType="LONG" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="group_message_id" jdbcType="LONG" property="groupMessageId" />
+    <result column="group_message_id" jdbcType="BIGINT" property="groupMessageId" />
     <result column="sate" jdbcType="BIT" property="sate" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
   </resultMap>
@@ -15,16 +15,16 @@
     select 
     <include refid="Base_Column_List" />
     from group_message_to_user
-    where id = #{id,jdbcType=LONG}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from group_message_to_user
-    where id = #{id,jdbcType=LONG}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.ghj.rest.model.GroupMessageToUser">
     insert into group_message_to_user (id, user_id, group_message_id, 
       sate, send_time)
-    values (#{id,jdbcType=LONG}, #{userId,jdbcType=INTEGER}, #{groupMessageId,jdbcType=LONG},
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=INTEGER}, #{groupMessageId,jdbcType=BIGINT},
       #{sate,jdbcType=BIT}, #{sendTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.GroupMessageToUser">
@@ -48,13 +48,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=LONG},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="groupMessageId != null">
-        #{groupMessageId,jdbcType=LONG},
+        #{groupMessageId,jdbcType=BIGINT},
       </if>
       <if test="sate != null">
         #{sate,jdbcType=BIT},
@@ -71,7 +71,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="groupMessageId != null">
-        group_message_id = #{groupMessageId,jdbcType=LONG},
+        group_message_id = #{groupMessageId,jdbcType=BIGINT},
       </if>
       <if test="sate != null">
         sate = #{sate,jdbcType=BIT},
@@ -80,14 +80,14 @@
         send_time = #{sendTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=LONG}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.GroupMessageToUser">
     update group_message_to_user
     set user_id = #{userId,jdbcType=INTEGER},
-      group_message_id = #{groupMessageId,jdbcType=LONG},
+      group_message_id = #{groupMessageId,jdbcType=BIGINT},
       sate = #{sate,jdbcType=BIT},
       send_time = #{sendTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=LONG}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
