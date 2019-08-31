@@ -105,4 +105,8 @@ public class Constant {
     public static final String CODE_KEY = "code";
 
     public static final String DATA_KEY = "data";
+
+    public static final String Message_TO_GROUP = "group";
+
+    public static final String Message_TO_PERSONAL = "friend";
 }

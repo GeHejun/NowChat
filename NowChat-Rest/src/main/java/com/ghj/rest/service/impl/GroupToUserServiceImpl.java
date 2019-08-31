@@ -1,8 +1,11 @@
 package com.ghj.rest.service.impl;
 
 import com.ghj.common.dto.response.GroupToUserResponse;
+import com.ghj.rest.dao.GroupMessageMapper;
+import com.ghj.rest.dao.GroupMessageToUserMapper;
 import com.ghj.rest.dao.GroupToUserMapper;
 import com.ghj.rest.model.GroupToUser;
+import com.ghj.rest.service.GroupMessageService;
 import com.ghj.rest.service.GroupToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,8 @@ public class GroupToUserServiceImpl implements GroupToUserService {
 
     @Resource
     GroupToUserMapper groupToUserMapper;
+
+
 
     @Override
     public List<GroupToUserResponse> findGroupByUserId(Integer userId) {
@@ -36,4 +41,5 @@ public class GroupToUserServiceImpl implements GroupToUserService {
         groupToUserList.stream().forEach(groupToUser -> userIds.add(groupToUser.getToUserId()));
         return userIds;
     }
+
 }

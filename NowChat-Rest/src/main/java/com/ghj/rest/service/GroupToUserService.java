@@ -10,4 +10,6 @@ public interface GroupToUserService {
     List<GroupToUserResponse> findGroupByUserId(Integer userId);
 
     List<Integer> findUserIdByGroupId(Integer groupId);
+
+
 }

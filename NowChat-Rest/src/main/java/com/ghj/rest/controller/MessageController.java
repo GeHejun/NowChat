@@ -44,7 +44,7 @@ public class MessageController {
 
     @RequestMapping("/queryMessage")
     @ResponseBody
-    public Result queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
+    public Result<List<MessageResponse>> queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
         List<MessageResponse> messageResponseList = messageService.queryMessageByToUserIdWithStatus(toUserId, status);
         return Result.defaultSuccess(messageResponseList);
     }

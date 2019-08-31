@@ -8,5 +8,4 @@ public class Route {
 
     public static String GET_GROUP_MEMBER = "http://localhost:8085/groupToUser/findUserIdByGroupId?groupId=";
 
-
 }

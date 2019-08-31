@@ -78,4 +78,13 @@ public interface RestService {
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     @ResponseBody
     Result<UserResponse> login(@NotNull @RequestParam("loginName") String loginName, @NotNull @RequestParam("password") String password);
+
+    @RequestMapping("/listMessageByToUserIdAndStatus")
+    @ResponseBody
+    Result<List<GroupMessageToUserResponse>> listMessageByToUserIdAndStatus(@RequestParam("toUserId") @NotNull Integer toUserId, @RequestParam(value = "status", defaultValue = "false") Boolean status);
+
+    @RequestMapping("/queryMessage")
+    @ResponseBody
+    Result<List<MessageResponse>> queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status);
+
 }

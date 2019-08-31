@@ -2,6 +2,7 @@ package com.ghj.web.service;
 
 import com.ghj.web.vo.MainFrameVO;
 import com.ghj.web.vo.MemberVO;
+import com.ghj.web.vo.MessageVO;
 import com.ghj.web.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,6 @@ public interface MainFrameService {
     MainFrameVO initMainFrame(Integer id);
 
     MemberVO initMembers(Integer groupId);
+
+    List<MessageVO> initOffLineMessages(Integer toUserId, Boolean status);
 }

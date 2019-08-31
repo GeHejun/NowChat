@@ -1,10 +1,7 @@
 package com.ghj.web.controller;
 
 import com.ghj.web.service.MainFrameService;
-import com.ghj.web.vo.MainFrameVO;
-import com.ghj.web.vo.MemberVO;
-import com.ghj.web.vo.ResultVO;
-import com.ghj.web.vo.UserVO;
+import com.ghj.web.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +40,12 @@ public class MainFrameController {
     public ResultVO<MemberVO> initMembers(@NotNull @RequestParam("id") Integer groupId) {
         MemberVO memberVO = mainFrameService.initMembers(groupId);
         return ResultVO.defaultSuccess(memberVO);
+    }
+
+    @RequestMapping("/initOffLineMessages")
+    @ResponseBody
+    public ResultVO<List<MessageVO>> initOffLineMessages(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam("status") Boolean status) {
+        List<MessageVO> messageVOList = mainFrameService.initOffLineMessages(toUserId, status);
+        return ResultVO.defaultSuccess(messageVOList);
     }
 }

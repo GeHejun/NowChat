@@ -1,7 +1,7 @@
 layui.use('layim', function(layim){
 var deviceId = parseInt(10*Math.random() + 1);
 var websocket;
-let wsUri = "ws://10.30.21.24:9998/";
+let wsUri = "ws://127.0.0.1:9998/";
 var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;
@@ -28,7 +28,7 @@ function connect(url) {
     websocket = new WebSocket(url);
     websocket.onopen = function (evt) {
         let message = {
-            "id": loginMsgId,
+            "id": user.id + loginMsgId,
             "loginName": user.name,
             "fromUserId": user.id,
             "messageTypeId": 0,
@@ -68,7 +68,7 @@ function onMessage(evt) {
                 websocket.close();
                 let url = "ws://" + buffer.ip + ":" + buffer.port;
                 connect(url);
-            } else if (buffer.matchMessageId == loginMsgId) {
+            } else if (buffer.matchMessageId == user.id + loginMsgId) {
                     //基础配置
                     layim.config({
                         //初始化接口
@@ -109,7 +109,47 @@ function onMessage(evt) {
 
                     //监听在线状态的切换事件
                     layim.on('online', function(data){
+                        $.ajax({
+                            url: "/index/initOffLineMessages",
+                            data: {"toUserId":user.id},
+                            type: "Post",
+                            dataType: "json",
+                            success: function (data) {
+                                var messageList = data.data;
+                                for (let i = 0; i < messageList.length; i++) {
+                                    var message = messageList[i];
+                                    layim.getMessage({
+                                        username: message.username //消息来源用户名
+                                        ,avatar: message.avatar //消息来源用户头像
+                                        ,id: message.id //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                                        ,type: message.type //聊天窗口来源类型，从发送消息传递的to里面获取
+                                        ,content: message.content //消息内容
+                                        ,cid: message.cid //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                                        ,mine: false //是否我发送的消息，如果为true，则会显示在右方
+                                        ,fromid: message.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                                        ,timestamp: message.timestamp //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                                        ,mine: false
+                                    });
+                                }
+                            },
+                            error: function (data) {
+                            }
+                        });
+                        $.ajax({
+                            url: "/security/validateUser",
+                            data: data.field,
+                            type: "Post",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.code == 0) {
+                                    localStorage.setItem("user",JSON.stringify(data.data))
+                                    location.href="index.html";
+                                }
 
+                            },
+                            error: function (data) {
+                            }
+                        });
                     });
 
                     layim.on('members', function(data){
@@ -143,7 +183,7 @@ function onMessage(evt) {
                         var messageDirect = res.to.type == 'friend' ? 1 : 2;
                         var fromUserId = res.mine.id; //包含我发送的消息及我的信息
                         var toUserId = res.to.id; //对方的信息
-                        var id = new Snowflake(1, 1, 0).nextId();
+                        var id = createRandomId();
                         var messageTypeId = 1;
                         var content = res.mine.content;
                         var messageBehavior = 3;
@@ -192,4 +232,9 @@ function onMessage(evt) {
     });
 }
 });
+
+function createRandomId() {
+    return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
+}
+
 

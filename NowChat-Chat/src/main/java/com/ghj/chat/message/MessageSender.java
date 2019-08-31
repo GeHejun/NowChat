@@ -54,6 +54,7 @@ public class MessageSender implements Runnable {
                 throw new ChatException();
             }
             session.getChannel().writeAndFlush(message);
+
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
@@ -66,6 +67,7 @@ public class MessageSender implements Runnable {
                     }
                     session.getChannel().writeAndFlush(message);
                     persistentMessage = buildPersistentMessage(message, true, false, null, null);
+                    SendUtil.sendForQueue(persistentMessage);
                     break;
                 case GROUP:
                     Integer toGroupId= message.getToGroupId();
@@ -100,6 +102,7 @@ public class MessageSender implements Runnable {
                                 }
                             }
                             persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
+                            SendUtil.sendForQueue(persistentMessage);
                         }
                     });
                     break;
@@ -109,7 +112,7 @@ public class MessageSender implements Runnable {
                     MessageManager.getInstance().putMessage(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
                 default:
             }
-            SendUtil.sendForQueue(persistentMessage);
+
         }
 
     }
@@ -136,6 +139,7 @@ public class MessageSender implements Runnable {
                     .sendTime(Instant.now().toString())
                     .onLineUserIds(onLineUserIds)
                     .offLineUserIds(offLineUserIds)
+                    .status(status)
                     .build();
         } else {
             return PersistentMessage.builder()

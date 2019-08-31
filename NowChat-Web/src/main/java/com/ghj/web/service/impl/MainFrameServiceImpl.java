@@ -1,5 +1,6 @@
 package com.ghj.web.service.impl;
 
+import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.*;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
@@ -79,6 +80,42 @@ public class MainFrameServiceImpl implements MainFrameService {
         return MemberVO.builder().list(userVOList).build();
     }
 
+    @Override
+    public List<MessageVO> initOffLineMessages(Integer toUserId, Boolean status) {
+        List<GroupMessageToUserResponse> groupMessageToUserResponseList = restService.listMessageByToUserIdAndStatus(toUserId, status).getData();
+        List<MessageResponse> messageResponseList = restService.queryMessagePage(toUserId, status).getData();
+        List<MessageVO> messageVOList = new ArrayList<>(messageResponseList.size() + groupMessageToUserResponseList.size());
+        groupMessageToUserResponseList.forEach(groupMessageToUserResponse -> {
+            UserResponse userResponse = restService.queryUser(groupMessageToUserResponse.getFromUserId()).getData();
+            MessageVO messageVO = MessageVO.builder()
+                    .avatar(userResponse.getHeadPortrait())
+                    .cid(groupMessageToUserResponse.getGroupMessageId())
+                    .content(groupMessageToUserResponse.getContent())
+                    .id(groupMessageToUserResponse.getToGroupId().toString())
+                    .fromid(groupMessageToUserResponse.getFromUserId().toString())
+                    .timestamp(groupMessageToUserResponse.getSendTime())
+                    .username(userResponse.getNickName())
+                    .type(Constant.Message_TO_GROUP)
+                    .build();
+            messageVOList.add(messageVO);
+        });
+        messageResponseList.forEach(messageResponse -> {
+            UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
+            MessageVO messageVO = MessageVO.builder()
+                    .avatar(userResponse.getHeadPortrait())
+                    .cid(messageResponse.getId())
+                    .fromid(messageResponse.getFromUserId().toString())
+                    .content(messageResponse.getPostMessage())
+                    .id(messageResponse.getFromUserId().toString())
+                    .timestamp(messageResponse.getSendTime())
+                    .username(userResponse.getNickName())
+                    .type(Constant.Message_TO_PERSONAL)
+                    .build();
+            messageVOList.add(messageVO);
+        });
+        return messageVOList;
+    }
+
     public UserVO buildUserVO(UserResponse userResponse) {
         UserVO userVO = UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
@@ -89,4 +126,6 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .build();
         return userVO;
     }
+
+
 }

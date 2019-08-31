@@ -55,9 +55,10 @@ public class RabbitMqReceiver {
             } else {
                 GroupMessage groupMessage = new GroupMessage();
                 groupMessage.setId(message.getId());
-                groupMessage.setFromUserId( message.getFromUserId());
+                groupMessage.setFromUserId(message.getToGroupId());
                 groupMessage.setContent(message.getPostMessage());
                 groupMessage.setSendTime(new Date());
+                groupMessage.setToGroupId(message.getToGroupId());
                 groupMessageService.insert(groupMessage);
                 message.getOnLineUserIds().forEach(id -> {
                     GroupMessageToUser groupMessageToUser = buildGroupMessageToUser(message, id, true);
@@ -78,7 +79,7 @@ public class RabbitMqReceiver {
         groupMessageToUser.setGroupMessageId(message.getId());
         groupMessageToUser.setSate(isReceive);
         groupMessageToUser.setUserId(id);
-        groupMessageToUser.setSendTime(groupMessageToUser.getSendTime());
+        groupMessageToUser.setSendTime(new Date());
         return groupMessageToUser;
     }
 }

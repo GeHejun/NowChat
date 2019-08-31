@@ -35,4 +35,6 @@ public class GroupToUserController {
     public Result<List<Integer>> findUserIdByGroupId(@RequestParam("groupId") @NotNull Integer groupId) {
         return Result.defaultSuccess(groupToUserService.findUserIdByGroupId(groupId));
     }
+
+
 }

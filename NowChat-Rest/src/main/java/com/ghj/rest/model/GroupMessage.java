@@ -17,6 +17,8 @@ public class GroupMessage implements Serializable {
 
     private String content;
 
+    private Integer toGroupId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -51,6 +53,14 @@ public class GroupMessage implements Serializable {
         this.content = content;
     }
 
+    public void setToGroupId(Integer toGroupId) {
+        this.toGroupId = toGroupId;
+    }
+
+    public Integer getToGroupId() {
+        return toGroupId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -66,7 +76,8 @@ public class GroupMessage implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getFromUserId() == null ? other.getFromUserId() == null : this.getFromUserId().equals(other.getFromUserId()))
             && (this.getSendTime() == null ? other.getSendTime() == null : this.getSendTime().equals(other.getSendTime()))
-            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()));
+            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
+            && (this.getToGroupId() == null ? other.getToGroupId() == null : this.getToGroupId().equals(other.getToGroupId()));
     }
 
     @Override
@@ -77,6 +88,7 @@ public class GroupMessage implements Serializable {
         result = prime * result + ((getFromUserId() == null) ? 0 : getFromUserId().hashCode());
         result = prime * result + ((getSendTime() == null) ? 0 : getSendTime().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
+        result = prime * result + ((getToGroupId() == null) ? 0 : getToGroupId().hashCode());
         return result;
     }
 
@@ -90,8 +102,11 @@ public class GroupMessage implements Serializable {
         sb.append(", fromUserId=").append(fromUserId);
         sb.append(", sendTime=").append(sendTime);
         sb.append(", content=").append(content);
+        sb.append(", toGroupId=").append(toGroupId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
     }
+
+
 }
