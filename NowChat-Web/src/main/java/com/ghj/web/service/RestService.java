@@ -1,12 +1,10 @@
 package com.ghj.web.service;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -86,5 +84,13 @@ public interface RestService {
     @RequestMapping("/queryMessage")
     @ResponseBody
     Result<List<MessageResponse>> queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status);
+
+    @RequestMapping(value = "/checkUser")
+    @ResponseBody
+    Result<Boolean> checkUser(@NotNull @RequestParam("loginName") String loginName);
+
+    @RequestMapping(value = "/register")
+    @ResponseBody
+    Result<UserResponse> register(@RequestBody UserRequest userRequest);
 
 }

@@ -1,6 +1,7 @@
 package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.DesEncryptDecrypt;
@@ -64,6 +65,26 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByPrimaryKey(id);
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
+
+    @Override
+    public Boolean checkUser(String loginName) {
+        User user = userMapper.selectUserByLoginName(loginName);
+        if (Objects.isNull(user)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public UserResponse register(UserRequest userRequest) {
+        User user = new User();
+        BeanUtils.copyProperties(userRequest, user);
+        int id = userMapper.insert(user);
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        userResponse.setId(id);
         return userResponse;
     }
 }

@@ -2,6 +2,7 @@ package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.web.service.RestService;
@@ -31,5 +32,15 @@ public class SecurityServiceImpl implements SecurityService {
                 .token(userResponse.getToken())
                 .build();
         return userVO;
+    }
+
+    @Override
+    public Boolean checkUser(String loginName) {
+        return restService.checkUser(loginName).getData();
+    }
+
+    @Override
+    public UserResponse register(UserRequest userRequest) {
+        return restService.register(userRequest).getData();
     }
 }

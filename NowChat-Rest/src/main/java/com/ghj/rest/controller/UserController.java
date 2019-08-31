@@ -3,18 +3,17 @@ package com.ghj.rest.controller;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.rest.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 
 /**
@@ -44,5 +43,19 @@ public class UserController {
     public Result<UserResponse> queryUser(@NotNull @RequestParam("id") Integer id) {
         UserResponse userResponse = userService.getUserById(id);
         return Result.defaultSuccess(userResponse);
+    }
+
+    @RequestMapping(value = "/checkUser")
+    @ResponseBody
+    public Result<Boolean> checkUser(@NotNull @RequestParam("loginName") String loginName) {
+        return Result.defaultSuccess(userService.checkUser(loginName));
+    }
+
+
+
+    @RequestMapping(value = "/register")
+    @ResponseBody
+    public Result<UserResponse> register(@RequestBody UserRequest userRequest) {
+        return Result.defaultSuccess(userService.register(userRequest));
     }
 }
