@@ -1,6 +1,7 @@
 package com.ghj.rest.service.impl;
 
 
+import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.dao.MessageMapper;
 import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.model.Message;
@@ -27,17 +28,16 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public PageInfo<MessageResponse> listMessagePage(Integer userId, Integer pageIndex, Integer pageSize) {
+    public HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer toUserId, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Message> messageList = messageMapper.listMessageBytoUserId(userId);
-        List<MessageResponse> messageResponseList = new ArrayList<>(messageList.size());
-        messageList.forEach(message -> {
-            MessageResponse messageResponse = new MessageResponse();
-            BeanUtils.copyProperties(message, messageResponse);
-            messageResponseList.add(messageResponse);
-        });
-        PageInfo<MessageResponse> pageInfo = new PageInfo<>(messageResponseList);
-        return pageInfo;
+        List<Message> messageList = messageMapper.listMessageByToUserId(toUserId);
+        PageInfo<MessageResponse> pageInfo = new PageInfo<>(buildMessageResponseList(messageList));
+        HistoryMessage<MessageResponse> historyMessage = new HistoryMessage<>();
+        historyMessage.setPageNum(pageInfo.getPageNum());
+        historyMessage.setPageSize(pageInfo.getPageSize());
+        historyMessage.setData(pageInfo.getList());
+        historyMessage.setTotal(pageInfo.getTotal());
+        return historyMessage;
     }
 
     @Override
@@ -56,6 +56,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<MessageResponse> queryMessageByToUserIdWithStatus(Integer toUserId, Boolean status) {
         List<Message> messageList = messageMapper.listMessageByToUserIdWithStatus(toUserId, status);
+        return buildMessageResponseList(messageList);
+    }
+
+
+    List<MessageResponse> buildMessageResponseList(List<Message> messageList) {
         List<MessageResponse> messageResponseList = new ArrayList<>(messageList.size());
         messageList.forEach(message -> {
             MessageResponse messageResponse = new MessageResponse();
@@ -64,4 +69,6 @@ public class MessageServiceImpl implements MessageService {
         });
         return messageResponseList;
     }
+
+
 }

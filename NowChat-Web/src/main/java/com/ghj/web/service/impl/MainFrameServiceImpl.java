@@ -5,6 +5,7 @@ import com.ghj.common.dto.response.*;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
 import com.ghj.web.vo.*;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -82,49 +83,77 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     @Override
     public List<MessageVO> initOffLineMessages(Integer toUserId, Boolean status) {
-        List<GroupMessageToUserResponse> groupMessageToUserResponseList = restService.listMessageByToUserIdAndStatus(toUserId, status).getData();
-        List<MessageResponse> messageResponseList = restService.queryMessagePage(toUserId, status).getData();
+        List<GroupMessageToUserResponse> groupMessageToUserResponseList = restService.listGroupMessageByToUserIdAndStatus(toUserId, status).getData();
+        List<MessageResponse> messageResponseList = restService.queryMessageWithToUserIdAndStatus(toUserId, status).getData();
         List<MessageVO> messageVOList = new ArrayList<>(messageResponseList.size() + groupMessageToUserResponseList.size());
         groupMessageToUserResponseList.forEach(groupMessageToUserResponse -> {
-            UserResponse userResponse = restService.queryUser(groupMessageToUserResponse.getFromUserId()).getData();
-            MessageVO messageVO = MessageVO.builder()
-                    .avatar(userResponse.getHeadPortrait())
-                    .cid(groupMessageToUserResponse.getGroupMessageId())
-                    .content(groupMessageToUserResponse.getContent())
-                    .id(groupMessageToUserResponse.getToGroupId().toString())
-                    .fromid(groupMessageToUserResponse.getFromUserId().toString())
-                    .timestamp(groupMessageToUserResponse.getSendTime())
-                    .username(userResponse.getNickName())
-                    .type(Constant.Message_TO_GROUP)
-                    .build();
-            messageVOList.add(messageVO);
+            messageVOList.add(buildGroupMessageVO(groupMessageToUserResponse));
         });
         messageResponseList.forEach(messageResponse -> {
-            UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
-            MessageVO messageVO = MessageVO.builder()
-                    .avatar(userResponse.getHeadPortrait())
-                    .cid(messageResponse.getId())
-                    .fromid(messageResponse.getFromUserId().toString())
-                    .content(messageResponse.getPostMessage())
-                    .id(messageResponse.getFromUserId().toString())
-                    .timestamp(messageResponse.getSendTime())
-                    .username(userResponse.getNickName())
-                    .type(Constant.Message_TO_PERSONAL)
-                    .build();
-            messageVOList.add(messageVO);
+            messageVOList.add(buildMessageVO(messageResponse));
         });
         return messageVOList;
     }
 
-    public UserVO buildUserVO(UserResponse userResponse) {
-        UserVO userVO = UserVO.builder()
+    @Override
+    public HistoryMessageVO initHistoryMessage(Integer toUserId,  String type, Integer pageIndex, Integer pageSize) {
+        if (Constant.Message_TO_PERSONAL.equals(type)) {
+            HistoryMessage<MessageResponse> historyMessage = restService.queryHistoryMessageListForPage(toUserId, pageIndex, pageSize).getData();
+            List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
+            historyMessage.getData().forEach(messageResponse -> {
+                messageVOList.add(buildMessageVO(messageResponse));
+            });
+            return HistoryMessageVO.builder().data(messageVOList)
+                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).build();
+        } else {
+            HistoryMessage<GroupMessageToUserResponse> historyMessage = restService.queryHistoryGroupMessageListForPage(toUserId, pageIndex, pageSize).getData();
+            List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
+            historyMessage.getData().forEach(groupMessageToUserResponse -> {
+                messageVOList.add(buildGroupMessageVO(groupMessageToUserResponse));
+            });
+            return HistoryMessageVO.builder().data(messageVOList)
+                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).build();
+        }
+    }
+
+
+
+    private UserVO buildUserVO(UserResponse userResponse) {
+        return UserVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .id(userResponse.getId().toString())
                 .status(restService.queryUserStateById(userResponse.getUserStateId()).getData().getName())
                 .username(userResponse.getNickName())
                 .sign(userResponse.getSignature())
                 .build();
-        return userVO;
+    }
+
+    private MessageVO buildMessageVO(MessageResponse messageResponse) {
+        UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
+        return MessageVO.builder()
+                .avatar(userResponse.getHeadPortrait())
+                .cid(messageResponse.getId())
+                .fromid(messageResponse.getFromUserId().toString())
+                .content(messageResponse.getPostMessage())
+                .id(messageResponse.getFromUserId().toString())
+                .timestamp(messageResponse.getSendTime())
+                .username(userResponse.getNickName())
+                .type(Constant.Message_TO_PERSONAL)
+                .build();
+    }
+
+    private MessageVO buildGroupMessageVO(GroupMessageToUserResponse groupMessageToUserResponse) {
+        UserResponse userResponse = restService.queryUser(groupMessageToUserResponse.getFromUserId()).getData();
+        return MessageVO.builder()
+                .avatar(userResponse.getHeadPortrait())
+                .cid(groupMessageToUserResponse.getGroupMessageId())
+                .content(groupMessageToUserResponse.getContent())
+                .id(groupMessageToUserResponse.getToGroupId().toString())
+                .fromid(groupMessageToUserResponse.getFromUserId().toString())
+                .timestamp(groupMessageToUserResponse.getSendTime())
+                .username(userResponse.getNickName())
+                .type(Constant.Message_TO_GROUP)
+                .build();
     }
 
 

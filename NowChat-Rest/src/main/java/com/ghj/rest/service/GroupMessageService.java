@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.model.GroupMessage;
 
 /**
@@ -9,4 +10,6 @@ import com.ghj.rest.model.GroupMessage;
 public interface GroupMessageService {
 
     void insert(GroupMessage groupMessage);
+
+    HistoryMessage queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize);
 }

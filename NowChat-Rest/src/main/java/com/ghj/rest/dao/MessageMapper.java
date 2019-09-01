@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface MessageMapper extends MyBatisBaseDao<Message, Integer> {
 
-    List<Message> listMessageBytoUserId(Integer userId);
+    List<Message> listMessageByToUserId(@Param("toUserId") Integer toUserId);
 
     List<Message> listMessageByToUserIdWithStatus(@Param("toUserId") Integer toUserId,@Param("status") Boolean status);
 }

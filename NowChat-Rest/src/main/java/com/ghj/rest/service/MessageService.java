@@ -1,6 +1,7 @@
 package com.ghj.rest.service;
 
 
+import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.model.Message;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2019/6/2517:47
  */
 public interface MessageService {
-    PageInfo<MessageResponse> listMessagePage(Integer userId, Integer pageIndex, Integer pageSize);
+    HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer userId, Integer pageIndex, Integer pageSize);
 
     MessageResponse queryMessageById(Integer id);
 

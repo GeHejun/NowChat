@@ -1,6 +1,7 @@
 package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageInfo;
@@ -25,26 +26,26 @@ public class MessageController {
     @Resource
     MessageService messageService;
 
-    @RequestMapping("/queryMessageList")
+    @RequestMapping("/queryHistoryMessageListForPage")
     @ResponseBody
-    public Result queryMessagePage(@NotNull @RequestParam("userId") Integer userId,
-                                   @RequestParam(defaultValue = "1") Integer pageIndex,
-                                   @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<MessageResponse> pageInfo = messageService.listMessagePage(userId, pageIndex, pageSize);
-        return Result.defaultSuccess(pageInfo);
+    public Result<HistoryMessage> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
+                                                          @RequestParam(defaultValue = "1") Integer pageIndex,
+                                                          @RequestParam(defaultValue = "10") Integer pageSize) {
+        HistoryMessage<MessageResponse> historyMessage = messageService.queryHistoryMessageListForPage(toUserId, pageIndex, pageSize);
+        return Result.defaultSuccess(historyMessage);
     }
 
     @RequestMapping("/queryMessage/{id}")
     @ResponseBody
-    public Result queryMessagePage(@PathVariable Integer id) {
+    public Result<MessageResponse> queryMessagePage(@PathVariable Integer id) {
         MessageResponse messageResponse = messageService.queryMessageById(id);
         return Result.defaultSuccess(messageResponse);
     }
 
 
-    @RequestMapping("/queryMessage")
+    @RequestMapping("/queryMessageWithToUserIdAndStatus")
     @ResponseBody
-    public Result<List<MessageResponse>> queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
+    public Result<List<MessageResponse>> queryMessageWithToUserIdAndStatus(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status) {
         List<MessageResponse> messageResponseList = messageService.queryMessageByToUserIdWithStatus(toUserId, status);
         return Result.defaultSuccess(messageResponseList);
     }

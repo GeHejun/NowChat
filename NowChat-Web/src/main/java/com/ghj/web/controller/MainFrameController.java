@@ -48,4 +48,15 @@ public class MainFrameController {
         List<MessageVO> messageVOList = mainFrameService.initOffLineMessages(toUserId, status);
         return ResultVO.defaultSuccess(messageVOList);
     }
+
+    @RequestMapping("/initHistoryMessage")
+    @ResponseBody
+    public ResultVO<HistoryMessageVO> initHistoryMessage(@NotNull @RequestParam("toUserId") Integer toUserId,
+                                                        @NotNull @RequestParam("type") String type,
+                                                        @NotNull @RequestParam(defaultValue = "1") Integer pageIndex,
+                                                        @NotNull @RequestParam(defaultValue = "10") Integer pageSize) {
+        HistoryMessageVO historyMessageVO = mainFrameService.initHistoryMessage(toUserId, type, pageIndex, pageSize);
+        return ResultVO.defaultSuccess(historyMessageVO);
+    }
+
 }

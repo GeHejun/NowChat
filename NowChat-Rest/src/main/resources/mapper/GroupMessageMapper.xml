@@ -24,6 +24,14 @@
     from goup_message
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectGroupMessageByToGroupId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from goup_message
+    where to_group_id = #{toGroupId,jdbcType=INTEGER} order by send_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from goup_message
     where id = #{id,jdbcType=BIGINT}

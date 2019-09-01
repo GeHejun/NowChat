@@ -77,20 +77,32 @@ public interface RestService {
     @ResponseBody
     Result<UserResponse> login(@NotNull @RequestParam("loginName") String loginName, @NotNull @RequestParam("password") String password);
 
-    @RequestMapping("/listMessageByToUserIdAndStatus")
+    @RequestMapping("/groupMessageToUser/listGroupMessageByToUserIdAndStatus")
     @ResponseBody
-    Result<List<GroupMessageToUserResponse>> listMessageByToUserIdAndStatus(@RequestParam("toUserId") @NotNull Integer toUserId, @RequestParam(value = "status", defaultValue = "false") Boolean status);
+    Result<List<GroupMessageToUserResponse>> listGroupMessageByToUserIdAndStatus(@RequestParam("toUserId") @NotNull Integer toUserId, @RequestParam(value = "status", defaultValue = "false") Boolean status);
 
-    @RequestMapping("/queryMessage")
+    @RequestMapping("/message/queryMessageWithToUserIdAndStatus")
     @ResponseBody
-    Result<List<MessageResponse>> queryMessagePage(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status);
+    Result<List<MessageResponse>> queryMessageWithToUserIdAndStatus(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status);
 
-    @RequestMapping(value = "/checkUser")
+    @RequestMapping(value = "/user/checkUser")
     @ResponseBody
     Result<Boolean> checkUser(@NotNull @RequestParam("loginName") String loginName);
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/user/register")
     @ResponseBody
     Result<UserResponse> register(@RequestBody UserRequest userRequest);
+
+    @RequestMapping("/message/queryHistoryMessageListForPage")
+    @ResponseBody
+    Result<HistoryMessage> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
+                                   @RequestParam(defaultValue = "1") Integer pageIndex,
+                                   @RequestParam(defaultValue = "10") Integer pageSize);
+
+    @RequestMapping("/groupMessage/queryHistoryGroupMessageListForPage")
+    @ResponseBody
+    Result<HistoryMessage> queryHistoryGroupMessageListForPage(@NotNull @RequestParam("toUserId") Integer toGroupId,
+                                                                      @RequestParam(defaultValue = "1") Integer pageIndex,
+                                                                      @RequestParam(defaultValue = "10") Integer pageSize);
 
 }
