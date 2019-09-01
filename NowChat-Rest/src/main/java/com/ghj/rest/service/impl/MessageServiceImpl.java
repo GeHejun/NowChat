@@ -28,9 +28,9 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
-    public HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer toUserId, Integer pageIndex, Integer pageSize) {
+    public HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer fromUserId, Integer toUserId, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
-        List<Message> messageList = messageMapper.selectMessageByToUserId(toUserId);
+        List<Message> messageList = messageMapper.selectMessageByToUserId(fromUserId,toUserId);
         PageInfo<MessageResponse> pageInfo = new PageInfo<>(buildMessageResponseList(messageList));
         HistoryMessage<MessageResponse> historyMessage = new HistoryMessage<>();
         historyMessage.setPageNum(pageInfo.getPageNum());

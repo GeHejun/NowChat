@@ -51,11 +51,12 @@ public class MainFrameController {
 
     @RequestMapping("/initHistoryMessage")
     @ResponseBody
-    public ResultVO<HistoryMessageVO> initHistoryMessage(@NotNull @RequestParam("toUserId") Integer toUserId,
-                                                        @NotNull @RequestParam("type") String type,
-                                                        @NotNull @RequestParam(defaultValue = "1") Integer pageIndex,
-                                                        @NotNull @RequestParam(defaultValue = "10") Integer pageSize) {
-        HistoryMessageVO historyMessageVO = mainFrameService.initHistoryMessage(toUserId, type, pageIndex, pageSize);
+    public ResultVO<HistoryMessageVO> initHistoryMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+                                                         @NotNull @RequestParam("toUserId") Integer toUserId,
+                                                         @NotNull @RequestParam("type") String type,
+                                                         @NotNull @RequestParam(defaultValue = "1") Integer pageIndex,
+                                                         @NotNull @RequestParam(defaultValue = "10") Integer pageSize) {
+        HistoryMessageVO historyMessageVO = mainFrameService.initHistoryMessage(fromUserId, toUserId, type, pageIndex, pageSize);
         return ResultVO.defaultSuccess(historyMessageVO);
     }
 

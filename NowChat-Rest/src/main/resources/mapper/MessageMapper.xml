@@ -40,7 +40,14 @@
     ,
     <include refid="Blob_Column_List" />
     from message
-    where to_user_id = #{toUserId,jdbcType=INTEGER} order by send_time desc
+    where to_user_id = #{toUserId,jdbcType=INTEGER} and from_user_id = #{fromUserId, jdbcType=INTEGER}
+    union all
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where to_user_id = #{fromUserId,jdbcType=INTEGER} and from_user_id = #{toUserId, jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from message

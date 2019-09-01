@@ -96,7 +96,9 @@ public interface RestService {
 
     @RequestMapping("/message/queryHistoryMessageListForPage")
     @ResponseBody
-    Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
+    Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(
+            @NotNull @RequestParam("fromUserId") Integer fromUserId,
+            @NotNull @RequestParam("toUserId") Integer toUserId,
                                    @RequestParam(defaultValue = "1") Integer pageIndex,
                                    @RequestParam(defaultValue = "10") Integer pageSize);
 

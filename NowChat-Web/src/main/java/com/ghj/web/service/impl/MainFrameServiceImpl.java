@@ -97,9 +97,9 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     @Override
-    public HistoryMessageVO initHistoryMessage(Integer toUserId,  String type, Integer pageIndex, Integer pageSize) {
+    public HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId,  String type, Integer pageIndex, Integer pageSize) {
         if (Constant.Message_TO_PERSONAL.equals(type)) {
-            HistoryMessage<MessageResponse> historyMessage = restService.queryHistoryMessageListForPage(toUserId, pageIndex, pageSize).getData();
+            HistoryMessage<MessageResponse> historyMessage = restService.queryHistoryMessageListForPage(fromUserId, toUserId, pageIndex, pageSize).getData();
             List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
             historyMessage.getData().forEach(messageResponse -> {
                 messageVOList.add(buildMessageVO(messageResponse));

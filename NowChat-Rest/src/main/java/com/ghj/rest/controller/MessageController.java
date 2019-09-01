@@ -28,10 +28,12 @@ public class MessageController {
 
     @RequestMapping("/queryHistoryMessageListForPage")
     @ResponseBody
-    public Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
+    public Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(
+            @NotNull @RequestParam("toUserId") Integer fromUserId,
+            @NotNull @RequestParam("toUserId") Integer toUserId,
                                                           @RequestParam(defaultValue = "1") Integer pageIndex,
                                                           @RequestParam(defaultValue = "10") Integer pageSize) {
-        HistoryMessage<MessageResponse> historyMessage = messageService.queryHistoryMessageListForPage(toUserId, pageIndex, pageSize);
+        HistoryMessage<MessageResponse> historyMessage = messageService.queryHistoryMessageListForPage(fromUserId, toUserId, pageIndex, pageSize);
         return Result.defaultSuccess(historyMessage);
     }
 

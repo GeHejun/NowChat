@@ -25,5 +25,5 @@ public interface MainFrameService {
 
     List<MessageVO> initOffLineMessages(Integer toUserId, Boolean status);
 
-    HistoryMessageVO initHistoryMessage(Integer toUserId, String type, Integer pageIndex, Integer pageSize);
+    HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId, String type, Integer pageIndex, Integer pageSize);
 }

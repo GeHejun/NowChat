@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2019/6/2517:47
  */
 public interface MessageService {
-    HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer userId, Integer pageIndex, Integer pageSize);
+    HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer fromUserId, Integer userId, Integer pageIndex, Integer pageSize);
 
     MessageResponse queryMessageById(Integer id);
 
