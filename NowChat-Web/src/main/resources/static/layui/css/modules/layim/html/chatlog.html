@@ -56,33 +56,64 @@
         //开始请求聊天记录
         var param = location.search //获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
 
+
         $.ajax({
             url: "/index/initHistoryMessage",
-            data: {fromUserId: param.split('&')[0].split('=')[1],toUserId: user.id, type: param.split('&')[1].split('=')[1],pageIndex:1,pageSize:10},
+            data: {
+                fromUserId: param.split('&')[0].split('=')[1],
+                toUserId: user.id,
+                type: param.split('&')[1].split('=')[1],
+                pageIndex: 1,
+                pageSize: 10
+            },
             type: "Post",
             dataType: "json",
             success: function (data) {
-                if (data.code == 0) {
-                    var html = laytpl(LAY_tpl.value).render({
-                        data: data.data
-                    });
-                    $('#LAY_view').html(html);
-                    laypage.render({
-                        elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-                        , count: 50 //数据总数，从服务端得到
-                    });
+                var res = data;
+                if (res.code != 0) {
+                    return layer.msg(res.msg);
                 }
-
+                laypage.render({
+                    elem: 'LAY_page'
+                    , count: res.data.total
+                    , limit: res.data.pageNum
+                    , prev: '<i class="layui-icon">&#58970;</i>'
+                    , next: '<i class="layui-icon">&#xe65b;</i>'
+                    , layout: ['prev', 'next']
+                    , curr: res.data.pageNum
+                    , jump: function (obj, first) {
+                        //obj包含了当前分页的所有参数，比如：
+                        if (first) {
+                            var page = res.data.pageNum;
+                        } else {
+                            var page = obj.curr;
+                        }
+                        $.ajax({
+                            url: "/index/initHistoryMessage",
+                            data: {
+                                fromUserId: param.split('&')[0].split('=')[1],
+                                toUserId: user.id,
+                                type: param.split('&')[1].split('=')[1],
+                                pageIndex: page,
+                                pageSize: 10
+                            },
+                            type: "Post",
+                            dataType: "json",
+                            success: function (data) {
+                                var res = eval(data);
+                                var html = laytpl(LAY_tpl.value).render({
+                                    data: res.data.data
+                                });
+                                $('#LAY_view').html(html);
+                            }
+                        });
+                    }
+                });
             },
             error: function (data) {
             }
-        })
 
-
-        //console.log(param)
-
-
-
+        });
     });
 </script>
 </body>

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Builder
 public class HistoryMessageVO {
-    Integer size;
+    Long total;
     Integer pageNum;
     Integer pageSize;
     List<MessageVO> data;

@@ -34,7 +34,7 @@
     from message
     where to_user_id = #{toUserId,jdbcType=INTEGER} and status = #{status, jdbcType=BIT} order by send_time desc
   </select>
-  <select id="selectMessageByToUserId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectMessageByToUserId" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,

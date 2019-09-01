@@ -105,7 +105,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 messageVOList.add(buildMessageVO(messageResponse));
             });
             return HistoryMessageVO.builder().data(messageVOList)
-                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).build();
+                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).total(historyMessage.getTotal()).build();
         } else {
             HistoryMessage<GroupMessageToUserResponse> historyMessage = restService.queryHistoryGroupMessageListForPage(toUserId, pageIndex, pageSize).getData();
             List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
@@ -113,7 +113,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 messageVOList.add(buildGroupMessageVO(groupMessageToUserResponse));
             });
             return HistoryMessageVO.builder().data(messageVOList)
-                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).build();
+                    .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).total(historyMessage.getTotal()).build();
         }
     }
 
