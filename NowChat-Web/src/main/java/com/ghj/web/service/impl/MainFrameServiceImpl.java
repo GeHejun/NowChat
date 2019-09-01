@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -129,7 +130,8 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     private MessageVO buildMessageVO(MessageResponse messageResponse) {
-        UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
+        Integer id = messageResponse.getFromUserId();
+        UserResponse userResponse = restService.queryUser(id).getData();
         return MessageVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .cid(messageResponse.getId())
@@ -143,7 +145,8 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     private MessageVO buildGroupMessageVO(GroupMessageToUserResponse groupMessageToUserResponse) {
-        UserResponse userResponse = restService.queryUser(groupMessageToUserResponse.getFromUserId()).getData();
+        Integer id = groupMessageToUserResponse.getFromUserId();
+        UserResponse userResponse = restService.queryUser(id).getData();
         return MessageVO.builder()
                 .avatar(userResponse.getHeadPortrait())
                 .cid(groupMessageToUserResponse.getGroupMessageId())

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class GroupMessageToUserServiceImpl implements GroupMessageToUserService {
@@ -33,10 +34,16 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
     public void insert(GroupMessageToUser groupMessageToUser) {
         groupMessageToUserMapper.insert(groupMessageToUser);
     }
-    //TODO  群聊消息表应该缺少一个对应的组ID
+
+
     @Override
     public List<GroupMessageToUserResponse> listMessageByToUserIdAndStatus(Integer toUserId, Boolean status) {
         List<GroupMessageToUser> groupMessageToUsers = groupMessageToUserMapper.selectMessageByToUserIdAndStatus(toUserId, status);
+        //TODO 暂时在这里把消息置为已读
+        groupMessageToUsers.forEach(groupMessageToUser -> {
+            groupMessageToUser.setSate(Boolean.TRUE);
+            groupMessageToUserMapper.updateByPrimaryKey(groupMessageToUser);
+        });
         return buildGroupMessageToUserResponseList(groupMessageToUsers);
     }
 
@@ -48,7 +55,9 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
             GroupMessageToUserResponse groupMessageToUserResponse = new GroupMessageToUserResponse();
             BeanUtils.copyProperties(groupMessageToUser, groupMessageToUserResponse);
             GroupMessage groupMessage = groupMessageMapper.selectByPrimaryKey(groupMessageToUser.getGroupMessageId());
-            groupMessageToUserResponse.setFromUserId(groupMessage.getFromUserId());
+            if (!Objects.isNull(groupMessage)) {
+                groupMessageToUserResponse.setFromUserId(groupMessage.getFromUserId());
+            }
             groupMessageToUserResponseList.add(groupMessageToUserResponse);
         });
         return groupMessageToUserResponseList;

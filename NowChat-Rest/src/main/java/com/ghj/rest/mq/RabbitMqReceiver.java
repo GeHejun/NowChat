@@ -50,7 +50,7 @@ public class RabbitMqReceiver {
                 nativeMessage.setPostMessage(message.getPostMessage());
                 nativeMessage.setSendTime(new Date());
                 nativeMessage.setToUserId(message.getToUserId());
-                nativeMessage.setStatus(nativeMessage.getStatus());
+                nativeMessage.setStatus(message.getStatus());
                 messageService.insertMessage(nativeMessage);
             } else {
                 GroupMessage groupMessage = new GroupMessage();

@@ -64,9 +64,10 @@ public class MessageSender implements Runnable {
                         //保存离线消息
                         //throw new ChatException();
                         persistentMessage = buildPersistentMessage(message, false, false, null, null);
+                    } else {
+                        session.getChannel().writeAndFlush(message);
+                        persistentMessage = buildPersistentMessage(message, true, false, null, null);
                     }
-                    session.getChannel().writeAndFlush(message);
-                    persistentMessage = buildPersistentMessage(message, true, false, null, null);
                     SendUtil.sendForQueue(persistentMessage);
                     break;
                 case GROUP:

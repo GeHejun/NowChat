@@ -5,6 +5,7 @@ import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
+import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.SecurityService;
 import com.ghj.web.vo.ResultVO;
 import com.ghj.web.vo.UserVO;
@@ -43,6 +44,7 @@ public class SecurityController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResultVO<UserResponse> register(@RequestBody UserRequest userRequest) {
         try {
+            userRequest.setPassWord(DesEncryptDecrypt.getInstance().encrypt(userRequest.getPassWord()));
             UserResponse userResponse = securityService.register(userRequest);
             return ResultVO.defaultSuccess(userResponse);
         } catch (UserException e) {

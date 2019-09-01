@@ -44,7 +44,7 @@ public class MainFrameController {
 
     @RequestMapping("/initOffLineMessages")
     @ResponseBody
-    public ResultVO<List<MessageVO>> initOffLineMessages(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam("status") Boolean status) {
+    public ResultVO<List<MessageVO>> initOffLineMessages(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(name = "status", defaultValue = "false") Boolean status) {
         List<MessageVO> messageVOList = mainFrameService.initOffLineMessages(toUserId, status);
         return ResultVO.defaultSuccess(messageVOList);
     }

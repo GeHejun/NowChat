@@ -26,15 +26,15 @@
     from message
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="listMessageByToUserIdWithStatus"  resultMap="ResultMapWithBLOBs">
+  <select id="selectMessageByToUserIdWithStatus"  resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from message
-    where to_user_id = #{toUserId,jdbcType=INTEGER} and status = {status, jdbcType=BIT}
+    where to_user_id = #{toUserId,jdbcType=INTEGER} and status = #{status, jdbcType=BIT} order by send_time desc
   </select>
-  <select id="listMessageByToUserId">
+  <select id="selectMessageByToUserId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,

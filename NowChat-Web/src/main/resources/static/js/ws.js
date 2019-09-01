@@ -101,14 +101,15 @@ function onMessage(evt) {
                         }]
                         ,initSkin: '5.jpg' //1-5 设置初始背景
                         ,notice: true //是否开启桌面消息提醒，默认false
-                        ,msgbox: layui.cache.dir + 'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
-                        ,find: layui.cache.dir + 'css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-                        ,chatLog: layui.cache.dir + 'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
+
+                        ,msgbox: layui.cache.dir+'css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
+                        ,find: layui.cache.dir+'layui/css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
+                        ,chatLog: layui.cache.dir+'css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 
                     });
 
-                    //监听在线状态的切换事件
-                    layim.on('online', function(data){
+
+                    layim.on('ready', function(options){
                         $.ajax({
                             url: "/index/initOffLineMessages",
                             data: {"toUserId":user.id},
@@ -131,25 +132,15 @@ function onMessage(evt) {
                                         ,mine: false
                                     });
                                 }
+                                //
                             },
                             error: function (data) {
                             }
                         });
-                        $.ajax({
-                            url: "/security/validateUser",
-                            data: data.field,
-                            type: "Post",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.code == 0) {
-                                    localStorage.setItem("user",JSON.stringify(data.data))
-                                    location.href="index.html";
-                                }
-
-                            },
-                            error: function (data) {
-                            }
-                        });
+                    });
+                    //监听在线状态的切换事件
+                    layim.on('online', function(data){
+                      //getOffLineMessage();
                     });
 
                     layim.on('members', function(data){
@@ -236,5 +227,7 @@ function onMessage(evt) {
 function createRandomId() {
     return (Math.random()*10000000).toString(16).substr(0,4)+(new Date()).getTime()+Math.random().toString().substr(2,5);
 }
+
+
 
 

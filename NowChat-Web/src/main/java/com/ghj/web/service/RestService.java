@@ -58,6 +58,7 @@ public interface RestService {
     @ResponseBody
     Result<UserResponse> queryUser(@NotNull @RequestParam("id") Integer id);
 
+
     /**
      * 查询状态信息
      * @param id
@@ -95,7 +96,7 @@ public interface RestService {
 
     @RequestMapping("/message/queryHistoryMessageListForPage")
     @ResponseBody
-    Result<HistoryMessage> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
+    Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(@NotNull @RequestParam("toUserId") Integer toUserId,
                                    @RequestParam(defaultValue = "1") Integer pageIndex,
                                    @RequestParam(defaultValue = "10") Integer pageSize);
 
