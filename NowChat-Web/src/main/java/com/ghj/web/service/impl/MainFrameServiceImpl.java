@@ -98,7 +98,7 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     @Override
     public HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId,  String type, Integer pageIndex, Integer pageSize) {
-        if (Constant.Message_TO_PERSONAL.equals(type)) {
+        if (Constant.MESSAGE_TO_PERSONAL.equals(type)) {
             HistoryMessage<MessageResponse> historyMessage = restService.queryHistoryMessageListForPage(fromUserId, toUserId, pageIndex, pageSize).getData();
             List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
             historyMessage.getData().forEach(messageResponse -> {
@@ -140,7 +140,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .id(messageResponse.getFromUserId().toString())
                 .timestamp(messageResponse.getSendTime())
                 .username(userResponse.getNickName())
-                .type(Constant.Message_TO_PERSONAL)
+                .type(Constant.MESSAGE_TO_PERSONAL)
                 .build();
     }
 
@@ -155,7 +155,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .fromid(groupMessageToUserResponse.getFromUserId().toString())
                 .timestamp(groupMessageToUserResponse.getSendTime())
                 .username(userResponse.getNickName())
-                .type(Constant.Message_TO_GROUP)
+                .type(Constant.MESSAGE_TO_GROUP)
                 .build();
     }
 

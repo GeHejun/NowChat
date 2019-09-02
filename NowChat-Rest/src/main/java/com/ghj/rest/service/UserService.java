@@ -35,4 +35,11 @@ public interface UserService {
      * @return
      */
     UserResponse register(UserRequest userRequest);
+
+    /**
+     * 通过用户账号添加用户
+     * @param loginName
+     * @return
+     */
+    UserResponse queryUserByLoginName(String loginName);
 }

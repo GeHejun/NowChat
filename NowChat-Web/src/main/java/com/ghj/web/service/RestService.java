@@ -19,15 +19,29 @@ import java.util.List;
  */
 @FeignClient(name = "rest")
 public interface RestService {
-
+    /**
+     * 通过用户查询群
+     * @param userId
+     * @return
+     */
     @RequestMapping("/groupToUser/findGroupByUserId")
     @ResponseBody
     Result<List<GroupToUserResponse>> findGroupsByUserId(@NotNull @RequestParam("userId") Integer userId);
 
+    /**
+     * 通过群组查询成员
+     * @param groupId
+     * @return
+     */
     @RequestMapping("/groupToUser/findUserIdByGroupId")
     @ResponseBody
     Result<List<Integer>> findUserIdByGroupId(@RequestParam("groupId") @NotNull Integer groupId);
 
+    /**
+     * 通过群组查询群组
+     * @param id
+     * @return
+     */
     @RequestMapping("/userGroup/findGroupById")
     @ResponseBody
     Result<UserGroupResponse> findGroupById(@RequestParam("id") @NotNull Integer id);
@@ -144,5 +158,24 @@ public interface RestService {
     Result<HistoryMessage> queryHistoryGroupMessageListForPage(@NotNull @RequestParam("toUserId") Integer toGroupId,
                                                                       @RequestParam(defaultValue = "1") Integer pageIndex,
                                                                       @RequestParam(defaultValue = "10") Integer pageSize);
+
+
+    /**
+     * 通过登录名查询用户
+     * @param loginName
+     * @return
+     */
+    @RequestMapping(value = "/queryUserByLoginName")
+    @ResponseBody
+    Result<UserResponse> queryUserByLoginName(@NotNull @RequestParam("loginName") String loginName);
+
+    /**
+     * 通过名称查询群组
+     * @param name
+     * @return
+     */
+    @RequestMapping("/findGroupByName")
+    @ResponseBody
+    Result<UserGroupResponse> findGroupByName(@RequestParam("name") @NotNull String name);
 
 }

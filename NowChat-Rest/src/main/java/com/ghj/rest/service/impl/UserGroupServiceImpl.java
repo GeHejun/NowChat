@@ -23,4 +23,12 @@ public class UserGroupServiceImpl implements UserGroupService {
         BeanUtils.copyProperties(userGroup, userGroupResponse);
         return userGroupResponse;
     }
+
+    @Override
+    public UserGroupResponse findGroupByName(String name) {
+        UserGroup userGroup = userGroupMapper.selectGroupByName(name);
+        UserGroupResponse userGroupResponse = new UserGroupResponse();
+        BeanUtils.copyProperties(userGroup, userGroupResponse);
+        return userGroupResponse;
+    }
 }

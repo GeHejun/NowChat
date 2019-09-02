@@ -58,6 +58,10 @@ public class Constant {
 
     public static final String REGISTER_FAILURE = "服务端注册失败";
 
+    public static final String USER_NO_EXISTS = "用户不存在";
+
+    public static final String GROUP_NO_EXISTS = "群组不存在";
+
     public static final int SUCCESS_CODE = 2000;
 
     public static final int LOGIN_SUCCESS_CODE = 2001;
@@ -90,6 +94,10 @@ public class Constant {
 
     public static final int REGISTER_FAILURE_CODE = 4007;
 
+    public static final int USER_NO_EXISTS_CODE = 4008;
+
+    public static final int GROUP_NO_EXISTS_CODE = 4009;
+
     public static final int MAX_AGGREGATED_CONTENT_LENGTH = 64 * 1024;
 
     public static final String SYSTEM_PREFIX = "NOW-CHAT_USER_";
@@ -106,7 +114,7 @@ public class Constant {
 
     public static final String DATA_KEY = "data";
 
-    public static final String Message_TO_GROUP = "group";
+    public static final String MESSAGE_TO_GROUP = "group";
 
-    public static final String Message_TO_PERSONAL = "friend";
+    public static final String MESSAGE_TO_PERSONAL = "friend";
 }

@@ -6,11 +6,15 @@ import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.SecurityService;
+import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.ResultVO;
 import com.ghj.web.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
+
+import static com.ghj.common.base.Constant.*;
 
 /**
  * @author GeHejun
@@ -49,6 +53,26 @@ public class SecurityController {
             return ResultVO.defaultSuccess(userResponse);
         } catch (UserException e) {
             return ResultVO.failure(Constant.REGISTER_FAILURE_CODE, Constant.REGISTER_FAILURE);
+        }
+    }
+
+    @RequestMapping("/findUser")
+    public ResultVO<UserVO> findUser(@NotNull @RequestParam("name") String loginName) {
+        try {
+            UserVO userVO = securityService.findUser(loginName);
+            return ResultVO.defaultSuccess(userVO);
+        } catch (UserException e) {
+            return ResultVO.failure(USER_NO_EXISTS_CODE,USER_NO_EXISTS);
+        }
+    }
+
+    @RequestMapping("/findGroup")
+    public ResultVO<GroupVO> findGroup(@NotNull @RequestParam("name") String name) {
+        try {
+            GroupVO groupVO = securityService.findGroup(name);
+            return ResultVO.defaultSuccess(groupVO);
+        } catch (UserException e) {
+            return ResultVO.failure(GROUP_NO_EXISTS_CODE,GROUP_NO_EXISTS);
         }
     }
 }

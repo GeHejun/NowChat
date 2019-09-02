@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author GeHejun
+ */
 @Controller
 @RequestMapping("/userGroup")
 public class UserGroupController {
+
     @Resource
     UserGroupService userGroupService;
 
@@ -23,4 +27,11 @@ public class UserGroupController {
     public Result<UserGroupResponse> findGroupById(@RequestParam("id") @NotNull Integer id) {
         return Result.defaultSuccess(userGroupService.findGroupById(id));
     }
+
+    @RequestMapping("/findGroupByName")
+    @ResponseBody
+    public Result<UserGroupResponse> findGroupByName(@RequestParam("name") @NotNull String name) {
+        return Result.defaultSuccess(userGroupService.findGroupByName(name));
+    }
+
 }

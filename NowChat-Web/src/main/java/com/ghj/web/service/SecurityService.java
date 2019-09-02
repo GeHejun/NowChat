@@ -3,6 +3,7 @@ package com.ghj.web.service;
 
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
+import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.UserVO;
 
 /**
@@ -30,4 +31,18 @@ public interface SecurityService {
      * @return
      */
     UserResponse register(UserRequest userRequest);
+
+    /**
+     * 通过用户名查找用户
+     * @param loginName
+     * @return
+     */
+    UserVO findUser(String loginName);
+
+    /**
+     * 通过群名称查询群
+     * @param name
+     * @return
+     */
+    GroupVO findGroup(String name);
 }

@@ -86,4 +86,12 @@ public class UserServiceImpl implements UserService {
         userResponse.setId(id);
         return userResponse;
     }
+
+    @Override
+    public UserResponse queryUserByLoginName(String loginName) {
+        User user = userMapper.selectUserByLoginName(loginName);
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
 }

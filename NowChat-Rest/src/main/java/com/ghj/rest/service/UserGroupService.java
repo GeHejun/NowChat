@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.UserGroupResponse;
 
 /**
@@ -12,4 +13,11 @@ public interface UserGroupService {
      * @return
      */
     UserGroupResponse findGroupById(Integer id);
+
+    /**
+     * 通过群名称查询群
+     * @param name
+     * @return
+     */
+    UserGroupResponse findGroupByName(String name);
 }

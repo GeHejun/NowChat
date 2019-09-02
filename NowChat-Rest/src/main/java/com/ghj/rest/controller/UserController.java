@@ -58,4 +58,11 @@ public class UserController {
     public Result<UserResponse> register(@RequestBody UserRequest userRequest) {
         return Result.defaultSuccess(userService.register(userRequest));
     }
+
+    @RequestMapping(value = "/queryUserByLoginName")
+    @ResponseBody
+    public Result<UserResponse> queryUserByLoginName(@NotNull @RequestParam("loginName") String loginName) {
+        UserResponse userResponse = userService.queryUserByLoginName(loginName);
+        return Result.defaultSuccess(userResponse);
+    }
 }
