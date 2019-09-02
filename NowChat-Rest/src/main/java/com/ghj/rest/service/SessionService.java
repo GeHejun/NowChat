@@ -9,5 +9,10 @@ import java.util.List;
  * @date 2019/6/2511:31
  */
 public interface SessionService {
+    /**
+     * 通过用户查找会话
+     * @param userId
+     * @return
+     */
     List<SessionResponse> listSessionByUserId(Integer userId);
 }

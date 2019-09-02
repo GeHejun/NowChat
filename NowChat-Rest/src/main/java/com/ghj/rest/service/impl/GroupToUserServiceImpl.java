@@ -1,11 +1,8 @@
 package com.ghj.rest.service.impl;
 
 import com.ghj.common.dto.response.GroupToUserResponse;
-import com.ghj.rest.dao.GroupMessageMapper;
-import com.ghj.rest.dao.GroupMessageToUserMapper;
 import com.ghj.rest.dao.GroupToUserMapper;
 import com.ghj.rest.model.GroupToUser;
-import com.ghj.rest.service.GroupMessageService;
 import com.ghj.rest.service.GroupToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -14,6 +11,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author GeHejun
+ */
 @Service
 public class GroupToUserServiceImpl implements GroupToUserService {
 

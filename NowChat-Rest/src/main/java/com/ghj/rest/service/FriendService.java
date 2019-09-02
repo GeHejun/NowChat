@@ -9,5 +9,10 @@ import java.util.List;
  * @date 2019/6/2511:36
  */
 public interface FriendService {
+    /**
+     * 根据用户id查询好友列表
+     * @param userId
+     * @return
+     */
     List<FriendResponse> listFriendsByUserId(Integer userId);
 }

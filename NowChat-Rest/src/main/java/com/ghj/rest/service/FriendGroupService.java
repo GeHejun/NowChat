@@ -10,5 +10,10 @@ import com.ghj.common.dto.response.FriendGroupResponse;
  */
 public interface FriendGroupService {
 
+    /**
+     * 根据分组id获取分组
+     * @param id
+     * @return
+     */
     FriendGroupResponse queryGroupById(Integer id);
 }

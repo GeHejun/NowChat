@@ -21,9 +21,29 @@ public interface MainFrameService {
      */
     MainFrameVO initMainFrame(Integer id);
 
+    /**
+     * 初始化群成员信息
+     * @param groupId
+     * @return
+     */
     MemberVO initMembers(Integer groupId);
 
+    /**
+     * 获取离线消息
+     * @param toUserId
+     * @param status
+     * @return
+     */
     List<MessageVO> initOffLineMessages(Integer toUserId, Boolean status);
 
+    /**
+     * 查询历史消息
+     * @param fromUserId
+     * @param toUserId
+     * @param type
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId, String type, Integer pageIndex, Integer pageSize);
 }

@@ -1,7 +1,6 @@
 package com.ghj.web.controller;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
@@ -9,12 +8,13 @@ import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.SecurityService;
 import com.ghj.web.vo.ResultVO;
 import com.ghj.web.vo.UserVO;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * @author GeHejun
+ */
 @RestController
 @RequestMapping("/security")
 public class SecurityController {

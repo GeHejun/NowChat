@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author GeHejun
+ */
 @Service
 public class UserGroupServiceImpl implements UserGroupService {
     @Resource

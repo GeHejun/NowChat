@@ -78,22 +78,52 @@ public interface RestService {
     @ResponseBody
     Result<UserResponse> login(@NotNull @RequestParam("loginName") String loginName, @NotNull @RequestParam("password") String password);
 
+    /**
+     * 通过接收人和状态查询群消息列表
+     * @param toUserId
+     * @param status
+     * @return
+     */
     @RequestMapping("/groupMessageToUser/listGroupMessageByToUserIdAndStatus")
     @ResponseBody
     Result<List<GroupMessageToUserResponse>> listGroupMessageByToUserIdAndStatus(@RequestParam("toUserId") @NotNull Integer toUserId, @RequestParam(value = "status", defaultValue = "false") Boolean status);
 
+    /**
+     * 通过接收人和状态查询好友消息列表
+     * @param toUserId
+     * @param status
+     * @return
+     */
     @RequestMapping("/message/queryMessageWithToUserIdAndStatus")
     @ResponseBody
     Result<List<MessageResponse>> queryMessageWithToUserIdAndStatus(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(defaultValue = "false") @NotNull Boolean status);
 
+    /**
+     * 检查用户名是否可用
+     * @param loginName
+     * @return
+     */
     @RequestMapping(value = "/user/checkUser")
     @ResponseBody
     Result<Boolean> checkUser(@NotNull @RequestParam("loginName") String loginName);
 
+    /**
+     * 注册新用户
+     * @param userRequest
+     * @return
+     */
     @RequestMapping(value = "/user/register")
     @ResponseBody
     Result<UserResponse> register(@RequestBody UserRequest userRequest);
 
+    /**
+     * 分页查询好友历史消息
+     * @param fromUserId
+     * @param toUserId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/message/queryHistoryMessageListForPage")
     @ResponseBody
     Result<HistoryMessage<MessageResponse>> queryHistoryMessageListForPage(
@@ -102,6 +132,13 @@ public interface RestService {
                                    @RequestParam(defaultValue = "1") Integer pageIndex,
                                    @RequestParam(defaultValue = "10") Integer pageSize);
 
+    /**
+     * 分页查询群历史消息
+     * @param toGroupId
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/groupMessage/queryHistoryGroupMessageListForPage")
     @ResponseBody
     Result<HistoryMessage> queryHistoryGroupMessageListForPage(@NotNull @RequestParam("toUserId") Integer toGroupId,

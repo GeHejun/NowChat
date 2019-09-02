@@ -1,11 +1,15 @@
 package com.ghj.rest.service;
 
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.UserStateResponse;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.NotNull;
-
+/**
+ * @author GeHejun
+ */
 public interface UserStateService {
+    /**
+     * 通过用户状态id查询用户状态
+     * @param id
+     * @return
+     */
     UserStateResponse queryUserStateById(Integer id);
 }
