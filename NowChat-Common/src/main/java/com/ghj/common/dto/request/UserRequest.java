@@ -34,7 +34,7 @@ public class UserRequest {
     /**
      * 性别
      */
-    private Boolean sex;
+    private Integer sex;
 
     /**
      * 生日

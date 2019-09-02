@@ -18,12 +18,10 @@
             <div class="layui-inline">
                 <input type="text" name="loginName" id="loginName" required lay-verify="required" placeholder="请输入用户名"
                        autocomplete="off" class="layui-input">
-            </div>
-            <!--判断用户名是否可用的图标 -->
-            <div class="layui-inline">
                 <i class="layui-icon" hidden id="ri" style="color: green; font-weight: bold"></i>
                 <i class="layui-icon" hidden id="le" style="color: red; font-weight: bold">ဆ</i>
             </div>
+
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">真实姓名: </label>
@@ -59,7 +57,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">手机号: </label>
             <div class="layui-inline">
-                <input type="tel" name="telephone" id="telephone" required lay-verify="required | phone"
+                <input type="tel" name="telephone" id="telephone" required lay-verify="phone"
                        placeholder="手机号" autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -68,7 +66,7 @@
             <label class="layui-form-label">邮箱: </label>
             <div class="layui-inline">
                 <input type="text" name="email" id="email" required  lay-verify="email"
-                       placeholder="手机号" autocomplete="off" class="layui-input">
+                       placeholder="邮箱" autocomplete="off" class="layui-input">
             </div>
         </div>
 
@@ -105,13 +103,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">住址: </label>
             <div class="layui-inline" style="width: 65px">
-                <select name="nationId">
+                <select id="nationId">
                     <option value="">请选择国家</option>
                     <option value="0" selected="">中国</option>
                 </select>
             </div>
             <div class="layui-inline" style="width: 65px">
-                <select name="proviceId">
+                <select id="proviceId">
                     <option value="">请选择省份</option>
                     <option value="0">河南</option>
                     <option value="1">北京</option>
@@ -119,7 +117,7 @@
                 </select>
             </div>
             <div class="layui-inline" style="width: 65px">
-                <select name="cityId">
+                <select id="cityId">
                     <option value="">请选择城市</option>
                     <option value="0">周口</option>
                     <option value="1">北京</option>
@@ -157,12 +155,11 @@
             $.ajax({
                 url: '/security/checkUser',
                 type: 'post',
-                dataType: 'text',
+                dataType: 'json',
                 data: {loginName: loginName},
-
                 //验证用户名是否可用
                 success: function (data) {
-                    var isOk = data.data;
+                    var isOk = eval(data).data;
                     if (isOk) {
                         //layer.msg('可以注册')
                         $('#ri').removeAttr('hidden');
@@ -180,28 +177,29 @@
             $.ajax({
                 url: '/security/register',
                 type: 'post',
-                data: {
+                data: JSON.stringify({
                     loginName: $('#loginName').val(),
-                    password: $('#password').val(),
+                    passWord: $('#password').val(),
                     telephone: $('#telephone').val(),
                     birthday: $('#birthday').val(),
                     sex: $("input[type='radio']:checked").val(),
                     signature:$('#signature').val(),
+                    nickName:$("#nickName").val(),
                     name: $('#name').val(),
                     email: $('#email').val(),
                     schoolTag: $('#schoolTag').val(),
-                    nationId: $('#nationId option:selected').text(),
-                    proviceId: $('#proviceId option:selected').text(),
-                    cityId: $('#cityId option:selected').text()
-
-                },
-                dataType: 'text',
+                    nationId: $('#nationId option:selected').val(),
+                    proviceId: $('#proviceId option:selected').val(),
+                    cityId: $('#cityId option:selected').val()
+                }),
+                dataType: 'json',
+                contentType: "application/json;charset-UTF-8",
                 //判断注册状态
                 success: function (data) {
                     if (data == 1) {
-                        layer.msg('注册成功')
-                    } else {
                         layer.msg('注册失败')
+                    } else {
+                        layer.msg('注册成功')
                     }
                 }
             })

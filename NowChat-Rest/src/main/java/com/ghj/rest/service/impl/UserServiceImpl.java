@@ -71,9 +71,9 @@ public class UserServiceImpl implements UserService {
     public Boolean checkUser(String loginName) {
         User user = userMapper.selectUserByLoginName(loginName);
         if (Objects.isNull(user)) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

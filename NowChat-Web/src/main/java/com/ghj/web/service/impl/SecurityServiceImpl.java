@@ -5,7 +5,9 @@ import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
 import com.ghj.common.dto.response.UserResponse;
+import com.ghj.common.dto.response.UserStateResponse;
 import com.ghj.common.exception.UserException;
+import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.RestService;
 import com.ghj.web.service.SecurityService;
 import com.ghj.web.vo.GroupVO;
@@ -44,6 +46,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public UserResponse register(UserRequest userRequest) {
+        userRequest.setPassWord(DesEncryptDecrypt.getInstance().encrypt(userRequest.getPassWord()));
+        userRequest.setUserStateId(restService.queryStateByName(Constant.OFF_LINE).getData().getId());
         return restService.register(userRequest).getData();
     }
 

@@ -6,6 +6,7 @@ import com.ghj.rest.service.UserStateService;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -25,7 +26,18 @@ public class UserStateController {
     UserStateService userStateService;
 
     @RequestMapping("/queryUserStateById")
-    public Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam("id") Integer id) {
+    public Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam(name = "id") Integer id) {
         return Result.defaultSuccess(userStateService.queryUserStateById(id));
+    }
+
+    /**
+     * 查询状态通过名称
+     * @param name
+     * @return
+     */
+    @RequestMapping("/queryStateByName")
+    @ResponseBody
+    public Result<UserStateResponse> queryStateByName(String name) {
+        return Result.defaultSuccess(userStateService.queryStateByName(name));
     }
 }

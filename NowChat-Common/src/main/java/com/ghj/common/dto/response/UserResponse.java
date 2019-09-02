@@ -43,7 +43,7 @@ public class UserResponse {
     /**
      * 性别
      */
-    private Boolean sex;
+    private Integer sex;
 
     /**
      * 生日

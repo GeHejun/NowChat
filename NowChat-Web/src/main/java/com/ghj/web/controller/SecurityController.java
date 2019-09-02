@@ -45,10 +45,10 @@ public class SecurityController {
             return ResultVO.failure(Constant.REGISTER_FAILURE_CODE, Constant.REGISTER_FAILURE);
         }
     }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResultVO<UserResponse> register(@RequestBody UserRequest userRequest) {
         try {
-            userRequest.setPassWord(DesEncryptDecrypt.getInstance().encrypt(userRequest.getPassWord()));
             UserResponse userResponse = securityService.register(userRequest);
             return ResultVO.defaultSuccess(userResponse);
         } catch (UserException e) {

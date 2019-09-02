@@ -10,5 +10,6 @@ import lombok.Data;
  */
 @Data
 public class UserStateResponse {
+    private Integer id;
     private String name;
 }

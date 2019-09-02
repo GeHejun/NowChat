@@ -80,7 +80,7 @@ public interface RestService {
      */
     @RequestMapping("/state/queryUserStateById")
     @ResponseBody
-    Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam("id") Integer id);
+    Result<UserStateResponse> queryUserStateById(@NotNull @RequestParam(name = "id", defaultValue = "1") Integer id);
 
     /**
      * 登录验证
@@ -178,4 +178,12 @@ public interface RestService {
     @ResponseBody
     Result<UserGroupResponse> findGroupByName(@RequestParam("name") @NotNull String name);
 
+    /**
+     * 查询状态通过名称
+     * @param name
+     * @return
+     */
+    @RequestMapping("/queryStateByName")
+    @ResponseBody
+    Result<UserStateResponse> queryStateByName(String name);
 }

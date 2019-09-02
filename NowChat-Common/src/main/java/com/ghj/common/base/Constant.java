@@ -117,4 +117,6 @@ public class Constant {
     public static final String MESSAGE_TO_GROUP = "group";
 
     public static final String MESSAGE_TO_PERSONAL = "friend";
+
+    public static final String OFF_LINE = "offline";
 }

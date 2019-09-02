@@ -21,4 +21,12 @@ public class UserStateServiceImpl implements UserStateService {
         BeanUtils.copyProperties(userState, userStateResponse);
         return userStateResponse;
     }
+
+    @Override
+    public UserStateResponse queryStateByName(String name) {
+        UserState userState = userStateMapper.selectStateByName(name);
+        UserStateResponse userStateResponse = new UserStateResponse();
+        BeanUtils.copyProperties(userState, userStateResponse);
+        return userStateResponse;
+    }
 }

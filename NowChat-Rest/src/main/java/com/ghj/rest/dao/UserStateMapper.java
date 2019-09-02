@@ -5,6 +5,13 @@ import org.springframework.stereotype.Repository;
 
 /**
  * UserStateMapper继承基类
+ * @author GeHejun
  */
 public interface UserStateMapper extends MyBatisBaseDao<UserState, Integer> {
+    /**
+     * 通过状态名称查询状态
+     * @param name
+     * @return
+     */
+    UserState selectStateByName(String name);
 }

@@ -12,4 +12,6 @@ public interface UserStateService {
      * @return
      */
     UserStateResponse queryUserStateById(Integer id);
+
+    UserStateResponse queryStateByName(String name);
 }
