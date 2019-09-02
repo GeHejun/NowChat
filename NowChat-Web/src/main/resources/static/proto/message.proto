@@ -71,6 +71,8 @@ message Message {
         PROXY_REGISTER = 8;
         CLIENT_ROUTE = 9;
         PROXY_ROUTE = 10;
+        FRIEND_VALIDATE_MESSAGE = 11;
+        GROUP_VALIDATION_MESSAGE = 12;
 
     }
 
