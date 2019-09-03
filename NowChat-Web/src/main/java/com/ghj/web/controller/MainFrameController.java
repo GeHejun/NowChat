@@ -35,6 +35,11 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(mainFrameVO);
     }
 
+    /**
+     * 通过群ID查询群成员
+     * @param groupId
+     * @return
+     */
     @RequestMapping("/initMembers")
     @ResponseBody
     public ResultVO<MemberVO> initMembers(@NotNull @RequestParam("id") Integer groupId) {
@@ -42,6 +47,12 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(memberVO);
     }
 
+    /**
+     * 查询离线信息
+     * @param toUserId
+     * @param status
+     * @return
+     */
     @RequestMapping("/initOffLineMessages")
     @ResponseBody
     public ResultVO<List<MessageVO>> initOffLineMessages(@NotNull @RequestParam("toUserId") Integer toUserId, @RequestParam(name = "status", defaultValue = "false") Boolean status) {
@@ -49,6 +60,15 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(messageVOList);
     }
 
+    /**
+     * 历史消息
+     * @param fromUserId
+     * @param toUserId
+     * @param type
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/initHistoryMessage")
     @ResponseBody
     public ResultVO<HistoryMessageVO> initHistoryMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId,
