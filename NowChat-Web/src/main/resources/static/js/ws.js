@@ -99,6 +99,7 @@ function onMessage(evt) {
                             ,title: '代码'
                             ,icon: '&#xe64e;'
                         }]
+                        ,title:"NOW-CHAT"
                         ,initSkin: '5.jpg' //1-5 设置初始背景
                         ,notice: true //是否开启桌面消息提醒，默认false
                         ,msgbox: '/layui/css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
@@ -108,7 +109,7 @@ function onMessage(evt) {
                     });
 
 
-                    layim.on('ready', function(options){
+                    layim.on('ready', function(){
                         $.ajax({
                             url: "/index/initOffLineMessages",
                             data: {"toUserId":user.id},
@@ -128,7 +129,6 @@ function onMessage(evt) {
                                         ,mine: false //是否我发送的消息，如果为true，则会显示在右方
                                         ,fromid: message.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
                                         ,timestamp: message.timestamp //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
-                                        ,mine: false
                                     });
                                 }
                                 //
@@ -139,7 +139,6 @@ function onMessage(evt) {
                     });
                     //监听在线状态的切换事件
                     layim.on('online', function(data){
-                      //getOffLineMessage();
                     });
 
                     layim.on('members', function(data){
@@ -163,23 +162,17 @@ function onMessage(evt) {
                         });
                     });
 
-                    //监听查看群员
-                    layim.on('members', function(data){
-
-                    });
-
-
                     layim.on('sendMessage', function(res){
                         var messageDirect = res.to.type == 'friend' ? 1 : 2;
                         var fromUserId = res.mine.id; //包含我发送的消息及我的信息
                         var toUserId = res.to.id; //对方的信息
-                        var id = createRandomId();
+                        var id = new Snowflake().nextId();
                         var messageTypeId = 1;
                         var content = res.mine.content;
                         var messageBehavior = 3;
                         var deviceId = deviceId;
                         var username = res.mine.username;
-                        var avatar = res.mine.headPortrait;
+                        var avatar = res.mine.avatar;
                         var message = {
                             "fromUserId":fromUserId,
                             "id":id,
@@ -214,7 +207,6 @@ function onMessage(evt) {
                         ,mine: false //是否我发送的消息，如果为true，则会显示在右方
                         ,fromid: buffer.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
                         ,timestamp: new Date() //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
-                        ,mine: false
                     });
                 }
             }
@@ -222,10 +214,6 @@ function onMessage(evt) {
     });
 }
 });
-
-function createRandomId() {
-    return (Math.random()*10000000).toString(16).substr(0,4)+(new Date()).getTime()+Math.random().toString().substr(2,5);
-}
 
 
 

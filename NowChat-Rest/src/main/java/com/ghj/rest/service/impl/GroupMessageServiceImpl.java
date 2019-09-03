@@ -1,5 +1,6 @@
 package com.ghj.rest.service.impl;
 
+import com.ghj.common.dto.response.GroupMessageResponse;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.dao.GroupMessageMapper;
 import com.ghj.rest.model.GroupMessage;
@@ -9,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,15 +30,26 @@ public class GroupMessageServiceImpl implements GroupMessageService {
 
 
     @Override
-    public HistoryMessage queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize) {
+    public HistoryMessage<GroupMessageResponse> queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
         List<GroupMessage> groupMessageList = groupMessageMapper.selectGroupMessageByToGroupId(toGroupId);
         PageInfo<GroupMessage> pageInfo = new PageInfo<>(groupMessageList);
-        HistoryMessage historyMessage = new HistoryMessage();
+        List<GroupMessageResponse> groupMessageResponseList = new ArrayList<>();
+        pageInfo.getList().stream().forEach(groupMessage -> {
+                    GroupMessageResponse groupMessageResponse = GroupMessageResponse.builder()
+                            .id(groupMessage.getId())
+                            .content(groupMessage.getContent())
+                            .fromUserId(groupMessage.getFromUserId())
+                            .sendTime(groupMessage.getSendTime())
+                            .toGroupId(groupMessage.getToGroupId()).build();
+                    groupMessageResponseList.add(groupMessageResponse);
+                }
+        );
+        HistoryMessage<GroupMessageResponse> historyMessage = new HistoryMessage();
         historyMessage.setPageNum(pageInfo.getPageNum());
         historyMessage.setPageSize(pageInfo.getPageSize());
         historyMessage.setTotal(pageInfo.getTotal());
-        historyMessage.setData(groupMessageList);
+        historyMessage.setData(groupMessageResponseList);
         return historyMessage;
     }
 }

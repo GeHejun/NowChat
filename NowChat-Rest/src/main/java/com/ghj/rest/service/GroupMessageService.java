@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.dto.response.GroupMessageResponse;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.model.GroupMessage;
 
@@ -21,5 +22,5 @@ public interface GroupMessageService {
      * @param pageSize
      * @return
      */
-    HistoryMessage queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize);
+    HistoryMessage<GroupMessageResponse> queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize);
 }

@@ -21,7 +21,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from goup_message
+    from group_message
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectGroupMessageByToGroupId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
@@ -29,21 +29,21 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from goup_message
-    where to_group_id = #{toGroupId,jdbcType=INTEGER}
+    from group_message
+    where to_group_id = #{toGroupId,jdbcType=INTEGER} order by send_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from goup_message
+    delete from group_message
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.ghj.rest.model.GroupMessage">
-    insert into goup_message (id, from_user_id, send_time, 
+    insert into group_message (id, from_user_id, send_time,
       content, to_group_id)
     values (#{id,jdbcType=BIGINT}, #{fromUserId,jdbcType=INTEGER}, #{sendTime,jdbcType=TIMESTAMP},
       #{content,jdbcType=LONGVARCHAR}, #{toGroupId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.GroupMessage">
-    insert into goup_message
+    insert into group_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -80,7 +80,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.model.GroupMessage">
-    update goup_message
+    update group_message
     <set>
       <if test="fromUserId != null">
         from_user_id = #{fromUserId,jdbcType=BIGINT},
@@ -98,7 +98,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ghj.rest.model.GroupMessage">
-    update goup_message
+    update group_message
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       to_group_id = #{toGroupId,jdbcType=INTEGER},
@@ -106,7 +106,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.GroupMessage">
-    update goup_message
+    update group_message
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       to_group_id = #{toGroupId,jdbcType=INTEGER},
       send_time = #{sendTime,jdbcType=TIMESTAMP}

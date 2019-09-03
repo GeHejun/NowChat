@@ -106,7 +106,7 @@ public class User implements Serializable {
     /**
      * 省份ID
      */
-    private Integer proviceId;
+    private Integer provinceId;
 
     /**
      * 城市ID
@@ -290,11 +290,11 @@ public class User implements Serializable {
     }
 
     public Integer getProviceId() {
-        return proviceId;
+        return provinceId;
     }
 
-    public void setProviceId(Integer proviceId) {
-        this.proviceId = proviceId;
+    public void setProviceId(Integer provinceId) {
+        this.provinceId = provinceId;
     }
 
     public Integer getCityId() {
@@ -443,7 +443,7 @@ public class User implements Serializable {
         sb.append(", schoolTag=").append(schoolTag);
         sb.append(", vocation=").append(vocation);
         sb.append(", nationId=").append(nationId);
-        sb.append(", proviceId=").append(proviceId);
+        sb.append(", provinceId=").append(provinceId);
         sb.append(", cityId=").append(cityId);
         sb.append(", userStateId=").append(userStateId);
         sb.append(", friendshipPolicyId=").append(friendshipPolicyId);

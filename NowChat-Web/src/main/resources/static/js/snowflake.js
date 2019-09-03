@@ -1,41 +1,41 @@
 var Snowflake = /** @class */ (function() {
     function Snowflake(_workerId, _dataCenterId, _sequence) {
-        this.twepoch = 1288834974657n;
-        //this.twepoch = 0n;
-        this.workerIdBits = 5n;
-        this.dataCenterIdBits = 5n;
-        this.maxWrokerId = -1n ^ (-1n << this.workerIdBits); // 值为：31
-        this.maxDataCenterId = -1n ^ (-1n << this.dataCenterIdBits); // 值为：31
-        this.sequenceBits = 12n;
+        // this.twepoch = 1288834974657;
+        this.twepoch = 0;
+        this.workerIdBits = 5;
+        this.dataCenterIdBits = 5;
+        this.maxWrokerId = -1 ^ (-1 << this.workerIdBits); // 值为：31
+        this.maxDataCenterId = -1 ^ (-1 << this.dataCenterIdBits); // 值为：31
+        this.sequenceBits = 12;
         this.workerIdShift = this.sequenceBits; // 值为：12
         this.dataCenterIdShift = this.sequenceBits + this.workerIdBits; // 值为：17
         this.timestampLeftShift = this.sequenceBits + this.workerIdBits + this.dataCenterIdBits; // 值为：22
-        this.sequenceMask = -1n ^ (-1n << this.sequenceBits); // 值为：4095
-        this.lastTimestamp = -1n;
+        this.sequenceMask = -1 ^ (-1 << this.sequenceBits); // 值为：4095
+        this.lastTimestamp = -1;
         //设置默认值,从环境变量取
-        this.workerId = 1n;
-        this.dataCenterId = 1n;
-        this.sequence = 0n;
+        this.workerId = 1;
+        this.dataCenterId = 1;
+        this.sequence = 0;
         if (this.workerId > this.maxWrokerId || this.workerId < 0) {
-            throw new Error('_workerId must max than 0 and small than maxWrokerId-[' + this.maxWrokerId + ']');
+            throw new Error('config.worker_id must max than 0 and small than maxWrokerId-[' + this.maxWrokerId + ']');
         }
         if (this.dataCenterId > this.maxDataCenterId || this.dataCenterId < 0) {
-            throw new Error('_dataCenterId must max than 0 and small than maxDataCenterId-[' + this.maxDataCenterId + ']');
+            throw new Error('config.data_center_id must max than 0 and small than maxDataCenterId-[' + this.maxDataCenterId + ']');
         }
-
-        this.workerId = BigInt(_workerId);
-        this.dataCenterId = BigInt(_dataCenterId);
-        this.sequence = BigInt(_sequence);
+        this.workerId = _workerId;
+        this.dataCenterId = _dataCenterId;
+        this.sequence = _sequence;
     }
     Snowflake.prototype.tilNextMillis = function(lastTimestamp) {
         var timestamp = this.timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = this.timeGen();
         }
-        return BigInt(timestamp);
+        return timestamp;
     };
     Snowflake.prototype.timeGen = function() {
-        return BigInt(Date.now());
+        //new Date().getTime() === Date.now()
+        return Date.now();
     };
     Snowflake.prototype.nextId = function() {
         var timestamp = this.timeGen();
@@ -44,18 +44,33 @@ var Snowflake = /** @class */ (function() {
                 (this.lastTimestamp - timestamp));
         }
         if (this.lastTimestamp === timestamp) {
-            this.sequence = (this.sequence + 1n) & this.sequenceMask;
-            if (this.sequence === 0n) {
+            this.sequence = (this.sequence + 1) & this.sequenceMask;
+            if (this.sequence === 0) {
                 timestamp = this.tilNextMillis(this.lastTimestamp);
             }
         } else {
-            this.sequence = 0n;
+            this.sequence = 0;
         }
         this.lastTimestamp = timestamp;
-        return ((timestamp - this.twepoch) << this.timestampLeftShift) |
-            (this.dataCenterId << this.dataCenterIdShift) |
+        var shiftNum = (this.dataCenterId << this.dataCenterIdShift) |
             (this.workerId << this.workerIdShift) |
-            this.sequence;
+            this.sequence; // dataCenterId:1,workerId:1,sequence:0  shiftNum:135168
+        var nfirst = new bigInt(String(timestamp - this.twepoch), 10);
+        nfirst = nfirst.shiftLeft(this.timestampLeftShift);
+        var nnextId = nfirst.or(new bigInt(String(shiftNum), 10)).toString(10);
+        return nnextId;
     };
     return Snowflake;
 }());
+var tempSnowflake = new Snowflake(1, 1, 0);
+var tempIds = [];
+console.time();
+for (var i = 0; i < 10000; i++) {
+    var tempId = tempSnowflake.nextId();
+    console.log(tempId);
+    if (tempIds.indexOf(tempId) < 0) {
+        tempIds.push(tempId);
+    }
+}
+console.log(tempIds.length);
+console.timeEnd();

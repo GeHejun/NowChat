@@ -13,7 +13,7 @@ public class City implements Serializable {
 
     private String code;
 
-    private Integer proviceId;
+    private Integer provinceId;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,11 +42,11 @@ public class City implements Serializable {
     }
 
     public Integer getProviceId() {
-        return proviceId;
+        return provinceId;
     }
 
-    public void setProviceId(Integer proviceId) {
-        this.proviceId = proviceId;
+    public void setProviceId(Integer provinceId) {
+        this.provinceId = provinceId;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class City implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", code=").append(code);
-        sb.append(", proviceId=").append(proviceId);
+        sb.append(", provinceId=").append(provinceId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

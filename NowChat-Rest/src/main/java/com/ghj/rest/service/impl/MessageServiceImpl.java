@@ -31,11 +31,11 @@ public class MessageServiceImpl implements MessageService {
     public HistoryMessage<MessageResponse> queryHistoryMessageListForPage(Integer fromUserId, Integer toUserId, Integer pageIndex, Integer pageSize) {
         PageHelper.startPage(pageIndex, pageSize);
         List<Message> messageList = messageMapper.selectMessageByToUserId(fromUserId,toUserId);
-        PageInfo<MessageResponse> pageInfo = new PageInfo<>(buildMessageResponseList(messageList));
+        PageInfo<Message> pageInfo = new PageInfo<>(messageList);
         HistoryMessage<MessageResponse> historyMessage = new HistoryMessage<>();
         historyMessage.setPageNum(pageInfo.getPageNum());
         historyMessage.setPageSize(pageInfo.getPageSize());
-        historyMessage.setData(pageInfo.getList());
+        historyMessage.setData(buildMessageResponseList(messageList));
         historyMessage.setTotal(pageInfo.getTotal());
         return historyMessage;
     }

@@ -155,7 +155,7 @@ public interface RestService {
      */
     @RequestMapping("/groupMessage/queryHistoryGroupMessageListForPage")
     @ResponseBody
-    Result<HistoryMessage> queryHistoryGroupMessageListForPage(@NotNull @RequestParam("toUserId") Integer toGroupId,
+    Result<HistoryMessage<GroupMessageResponse>> queryHistoryGroupMessageListForPage(@NotNull @RequestParam("toUserId") Integer toGroupId,
                                                                       @RequestParam(defaultValue = "1") Integer pageIndex,
                                                                       @RequestParam(defaultValue = "10") Integer pageSize);
 

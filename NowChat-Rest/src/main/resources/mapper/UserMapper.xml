@@ -21,7 +21,7 @@
     <result column="school_tag" jdbcType="VARCHAR" property="schoolTag" />
     <result column="vocation" jdbcType="VARCHAR" property="vocation" />
     <result column="nation_id" jdbcType="INTEGER" property="nationId" />
-    <result column="provice_id" jdbcType="INTEGER" property="proviceId" />
+    <result column="province_id" jdbcType="INTEGER" property="provinceId" />
     <result column="city_id" jdbcType="INTEGER" property="cityId" />
     <result column="user_state_id" jdbcType="INTEGER" property="userStateId" />
     <result column="friendship_policy_id" jdbcType="INTEGER" property="friendshipPolicyId" />
@@ -32,7 +32,7 @@
   <sql id="Base_Column_List">
     id, login_name, nick_name, pass_word, signature, sex, birthday, telephone, `name`, 
     email, intro, head_portrait, zodiac, age, constellation, blood_type, school_tag, 
-    vocation, nation_id, provice_id, city_id, user_state_id, friendship_policy_id, friend_policy_question, 
+    vocation, nation_id, province_id, city_id, user_state_id, friendship_policy_id, friend_policy_question,
     friend_policy_answer, friend_policy_password
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -58,7 +58,7 @@
       email, intro, head_portrait, 
       zodiac, age, constellation, 
       blood_type, school_tag, vocation, 
-      nation_id, provice_id, city_id, 
+      nation_id, province_id, city_id,
       user_state_id, friendship_policy_id, friend_policy_question, 
       friend_policy_answer, friend_policy_password
       )
@@ -68,7 +68,7 @@
       #{email,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{headPortrait,jdbcType=VARCHAR}, 
       #{zodiac,jdbcType=CHAR}, #{age,jdbcType=INTEGER}, #{constellation,jdbcType=CHAR}, 
       #{bloodType,jdbcType=VARCHAR}, #{schoolTag,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, 
-      #{nationId,jdbcType=INTEGER}, #{proviceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{nationId,jdbcType=INTEGER}, #{provinceId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
       #{userStateId,jdbcType=INTEGER}, #{friendshipPolicyId,jdbcType=INTEGER}, #{friendPolicyQuestion,jdbcType=VARCHAR}, 
       #{friendPolicyAnswer,jdbcType=VARCHAR}, #{friendPolicyPassword,jdbcType=VARCHAR}
       )
@@ -133,8 +133,8 @@
       <if test="nationId != null">
         nation_id,
       </if>
-      <if test="proviceId != null">
-        provice_id,
+      <if test="provinceId != null">
+        province_id,
       </if>
       <if test="cityId != null">
         city_id,
@@ -213,8 +213,8 @@
       <if test="nationId != null">
         #{nationId,jdbcType=INTEGER},
       </if>
-      <if test="proviceId != null">
-        #{proviceId,jdbcType=INTEGER},
+      <if test="provinceId != null">
+        #{provinceId,jdbcType=INTEGER},
       </if>
       <if test="cityId != null">
         #{cityId,jdbcType=INTEGER},
@@ -293,8 +293,8 @@
       <if test="nationId != null">
         nation_id = #{nationId,jdbcType=INTEGER},
       </if>
-      <if test="proviceId != null">
-        provice_id = #{proviceId,jdbcType=INTEGER},
+      <if test="provinceId != null">
+        province_id = #{provinceId,jdbcType=INTEGER},
       </if>
       <if test="cityId != null">
         city_id = #{cityId,jdbcType=INTEGER},
@@ -337,7 +337,7 @@
       school_tag = #{schoolTag,jdbcType=VARCHAR},
       vocation = #{vocation,jdbcType=VARCHAR},
       nation_id = #{nationId,jdbcType=INTEGER},
-      provice_id = #{proviceId,jdbcType=INTEGER},
+      province_id = #{provinceId,jdbcType=INTEGER},
       city_id = #{cityId,jdbcType=INTEGER},
       user_state_id = #{userStateId,jdbcType=INTEGER},
       friendship_policy_id = #{friendshipPolicyId,jdbcType=INTEGER},

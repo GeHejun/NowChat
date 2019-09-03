@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * goup_message
+ * group_message
  * @author 
  */
 public class GroupMessage implements Serializable {

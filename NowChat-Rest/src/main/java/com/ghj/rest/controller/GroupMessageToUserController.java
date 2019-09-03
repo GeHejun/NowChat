@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+/**
+ * @author GeHejun
+ */
 @Controller
 @RequestMapping("/groupMessageToUser")
 public class GroupMessageToUserController {

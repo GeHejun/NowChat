@@ -55,7 +55,7 @@ public class RabbitMqReceiver {
             } else {
                 GroupMessage groupMessage = new GroupMessage();
                 groupMessage.setId(message.getId());
-                groupMessage.setFromUserId(message.getToGroupId());
+                groupMessage.setFromUserId(message.getFromUserId());
                 groupMessage.setContent(message.getPostMessage());
                 groupMessage.setSendTime(new Date());
                 groupMessage.setToGroupId(message.getToGroupId());

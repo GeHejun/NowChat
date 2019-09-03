@@ -53,8 +53,11 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
             GroupMessage groupMessage = groupMessageMapper.selectByPrimaryKey(groupMessageToUser.getGroupMessageId());
             if (!Objects.isNull(groupMessage)) {
                 groupMessageToUserResponse.setFromUserId(groupMessage.getFromUserId());
+                groupMessageToUserResponse.setContent(groupMessage.getContent());
+                groupMessageToUserResponse.setSendTime(groupMessage.getSendTime());
+                groupMessageToUserResponse.setToGroupId(groupMessage.getToGroupId());
+                groupMessageToUserResponseList.add(groupMessageToUserResponse);
             }
-            groupMessageToUserResponseList.add(groupMessageToUserResponse);
         });
         return groupMessageToUserResponseList;
     }

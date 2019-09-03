@@ -25,7 +25,7 @@ CREATE TABLE `city` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
-  `provice_id` int(11) DEFAULT NULL,
+  `province_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -75,10 +75,10 @@ CREATE TABLE `friendship_policy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
---  Table structure for `goup_message`
+--  Table structure for `group_message`
 -- ----------------------------
-DROP TABLE IF EXISTS `goup_message`;
-CREATE TABLE `goup_message` (
+DROP TABLE IF EXISTS `group_message`;
+CREATE TABLE `group_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` text,
   `from_user_id` int(11) DEFAULT NULL,
@@ -165,10 +165,10 @@ CREATE TABLE `nation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
---  Table structure for `provice`
+--  Table structure for `province`
 -- ----------------------------
-DROP TABLE IF EXISTS `provice`;
-CREATE TABLE `provice` (
+DROP TABLE IF EXISTS `province`;
+CREATE TABLE `province` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `code` varchar(255) DEFAULT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE `user` (
   `school_tag` varchar(20) DEFAULT NULL COMMENT '毕业学校',
   `vocation` varchar(30) DEFAULT NULL COMMENT '职业',
   `nation_id` int(11) DEFAULT NULL COMMENT '国家ID',
-  `provice_id` int(11) DEFAULT NULL COMMENT '省份ID',
+  `province_id` int(11) DEFAULT NULL COMMENT '省份ID',
   `city_id` int(11) DEFAULT NULL COMMENT '城市ID',
   `user_state_id` int(11) DEFAULT NULL COMMENT '用户状态ID',
   `friendship_policy_id` int(11) DEFAULT NULL COMMENT '好友策略ID',

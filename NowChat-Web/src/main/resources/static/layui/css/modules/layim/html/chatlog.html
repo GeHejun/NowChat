@@ -51,7 +51,6 @@
 
         //聊天记录的分页此处不做演示，你可以采用laypage，不了解的同学见文档：http://www.layui.com/doc/modules/laypage.html
         //执行一个laypage实例
-        console.log("-------------chatLog----------")
 
         //开始请求聊天记录
         var param = location.search //获得URL参数。该窗口url会携带会话id和type，他们是你请求聊天记录的重要凭据
@@ -76,11 +75,6 @@
                 laypage.render({
                     elem: 'LAY_page'
                     , count: res.data.total
-                    , limit: res.data.pageNum
-                    , prev: '<i class="layui-icon">&#58970;</i>'
-                    , next: '<i class="layui-icon">&#xe65b;</i>'
-                    , layout: ['prev', 'next']
-                    , curr: res.data.pageNum
                     , jump: function (obj, first) {
                         //obj包含了当前分页的所有参数，比如：
                         if (first) {

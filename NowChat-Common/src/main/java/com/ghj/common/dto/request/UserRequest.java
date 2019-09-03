@@ -104,7 +104,7 @@ public class UserRequest {
     /**
      * 省份ID
      */
-    private Integer proviceId;
+    private Integer provinceId;
 
     /**
      * 城市ID

@@ -3,10 +3,10 @@ package com.ghj.rest.model;
 import java.io.Serializable;
 
 /**
- * provice
+ * province
  * @author 
  */
-public class Provice implements Serializable {
+public class Province implements Serializable {
     private Integer id;
 
     private String name;
@@ -60,7 +60,7 @@ public class Provice implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Provice other = (Provice) that;
+        Province other = (Province) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))

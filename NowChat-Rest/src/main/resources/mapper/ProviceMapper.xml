@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ghj.rest.dao.ProviceMapper">
-  <resultMap id="BaseResultMap" type="com.ghj.rest.model.Provice">
+  <resultMap id="BaseResultMap" type="com.ghj.rest.model.Province">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -13,21 +13,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from provice
+    from province
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from provice
+    delete from province
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.ghj.rest.model.Provice">
-    insert into provice (id, `name`, code, 
+  <insert id="insert" parameterType="com.ghj.rest.model.Province">
+    insert into province (id, `name`, code,
       nation_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{nationId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ghj.rest.model.Provice">
-    insert into provice
+  <insert id="insertSelective" parameterType="com.ghj.rest.model.Province">
+    insert into province
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -57,8 +57,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.model.Provice">
-    update provice
+  <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.model.Province">
+    update province
     <set>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
@@ -72,8 +72,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.Provice">
-    update provice
+  <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.Province">
+    update province
     set `name` = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       nation_id = #{nationId,jdbcType=INTEGER}
