@@ -1,49 +1,8 @@
-layui.use('layim', function(layim){
+let wsUri = "ws://127.0.0.1:9998/";
 var deviceId = parseInt(10*Math.random() + 1);
 var websocket;
-let wsUri = "ws://127.0.0.1:9998/";
-var user = JSON.parse(localStorage.getItem('user'));
 let routeMsgId = 10000;
 let loginMsgId = 20000;
-route(wsUri);
-
-
-function route(url) {
-    websocket = new WebSocket(url);
-    websocket.onopen = function () {
-        let message = {
-            "messageBehavior": 9,
-            "messageDirect": 4,
-            "deviceId": deviceId,
-            "id": routeMsgId,
-        }
-        sendMessage(message);
-    };
-    websocket.onmessage = function (evt) {
-        onMessage(evt)
-    };
-}
-
-function connect(url) {
-    websocket = new WebSocket(url);
-    websocket.onopen = function (evt) {
-        let message = {
-            "id": user.id + loginMsgId,
-            "loginName": user.name,
-            "fromUserId": user.id,
-            "messageTypeId": 0,
-            "messageBehavior": 1,
-            "messageDirect": 3,
-            "deviceId": deviceId,
-            "token": user.token
-        };
-        sendMessage(message);
-    };
-    websocket.onmessage = function (evt) {
-        onMessage(evt)
-    };
-
-}
 
 function sendMessage(message) {
     protobuf.load("/proto/message.proto", function (err, root) {
@@ -54,6 +13,43 @@ function sendMessage(message) {
         websocket.send(buffer);
     });
 }
+layui.use('layim', function(layim){
+var user = JSON.parse(localStorage.getItem('user'));
+    route(wsUri);
+    function route(url) {
+        websocket = new WebSocket(url);
+        websocket.onopen = function () {
+            let message = {
+                "messageBehavior": 9,
+                "messageDirect": 4,
+                "deviceId": deviceId,
+                "id": routeMsgId,
+            }
+            sendMessage(message);
+        };
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+    }
+    function connect(url) {
+        websocket = new WebSocket(url);
+        websocket.onopen = function (evt) {
+            let message = {
+                "id": user.id + loginMsgId,
+                "loginName": user.name,
+                "fromUserId": user.id,
+                "messageTypeId": 0,
+                "messageBehavior": 1,
+                "messageDirect": 3,
+                "deviceId": deviceId,
+                "token": user.token
+            };
+            sendMessage(message);
+        };
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+    }
 
 function onMessage(evt) {
     protobuf.load("/proto/message.proto", function (err, root) {
@@ -197,6 +193,11 @@ function onMessage(evt) {
 
             } else {
                 if (buffer.messageBehavior != 5)  {
+                    if (buffer.messageBehavior != 11) {
+                        layim.msgbox(5);
+                    } else if (buffer.messageBehavior != 12) {
+                        layim.msgbox(5);
+                    }
                     layim.getMessage({
                         username: buffer.name //消息来源用户名
                         ,avatar: buffer.headPortrait //消息来源用户头像
