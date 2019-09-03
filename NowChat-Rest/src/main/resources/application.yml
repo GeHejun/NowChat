@@ -11,7 +11,7 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/im
+    url: jdbc:mysql://localhost:3306/im?useUnicode=true&characterEncoding=UTF-8
   rabbitmq:
     port: 5672
     username: guest
