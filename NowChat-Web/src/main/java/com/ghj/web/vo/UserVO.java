@@ -27,4 +27,6 @@ public class UserVO {
 
     private String token;
 
+    private String nickName;
+
 }

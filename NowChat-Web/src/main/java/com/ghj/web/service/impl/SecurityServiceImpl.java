@@ -65,6 +65,8 @@ public class SecurityServiceImpl implements SecurityService {
             UserVO userVO = UserVO.builder()
                     .id(userResponse.getId().toString())
                     .username(userResponse.getName())
+                    .nickName(userResponse.getNickName())
+                    .avatar(userResponse.getHeadPortrait())
                     .token(userResponse.getToken())
                     .build();
             userVOList.add(userVO);
@@ -80,7 +82,9 @@ public class SecurityServiceImpl implements SecurityService {
         }
         List<GroupVO> groupVOList = new ArrayList<>(userGroupResponseList.size());
         userGroupResponseList.stream().forEach(userGroupResponse -> {
-            GroupVO groupVO = GroupVO.builder().avatar(userGroupResponse.getIcon()).groupname(userGroupResponse.getName())
+            GroupVO groupVO = GroupVO.builder().avatar(userGroupResponse.getIcon())
+                    .groupname(userGroupResponse.getName())
+                    .adminId(userGroupResponse.getAdminId().toString())
                     .id(userGroupResponse.getId().toString()).build();
             groupVOList.add(groupVO);
         });

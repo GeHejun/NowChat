@@ -165,7 +165,7 @@ public interface RestService {
      * @param loginName
      * @return
      */
-    @RequestMapping(value = "/queryUserByNickName")
+    @RequestMapping("/user/queryUserByNickName")
     @ResponseBody
     Result<List<UserResponse>> queryUserByNickName(@NotNull @RequestParam("nickName") String loginName);
 
@@ -174,7 +174,7 @@ public interface RestService {
      * @param name
      * @return
      */
-    @RequestMapping("/findGroupByName")
+    @RequestMapping("/userGroup/findGroupByName")
     @ResponseBody
     Result<List<UserGroupResponse>> findGroupByName(@RequestParam("name") @NotNull String name);
 
@@ -183,7 +183,7 @@ public interface RestService {
      * @param name
      * @return
      */
-    @RequestMapping("/queryStateByName")
+    @RequestMapping("/state/queryStateByName")
     @ResponseBody
     Result<UserStateResponse> queryStateByName(String name);
 }

@@ -9,4 +9,5 @@ public class GroupVO {
     String id;
     String avatar;
     String groupname;
+    String adminId;
 }

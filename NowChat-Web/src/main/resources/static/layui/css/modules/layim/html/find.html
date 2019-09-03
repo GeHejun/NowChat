@@ -32,7 +32,7 @@
             </select>
         </div>
         <div class="layui-input-inline" style="width: 250px">
-            <input type="text" name="nickName" id="nickName" required lay-verify="required" placeholder="用户名"
+            <input type="text" name="name" id="name" required lay-verify="required" placeholder="用户名"
                    autocomplete="off" class="layui-input">
         </div>
         <div class="layui-input-inline">
@@ -48,49 +48,43 @@
 <script src="../../../../../js/jquery-3.4.1.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    var url = '/security/findFriendByNickName';
-    $("#type").change(function () {
-        if ($("#type").val() == 1) {
-            url = "/security/findGroupByName";
-        } else {
-            url = '/security/findFriendByNickName';
-        }
-    });
-    layui.use(['form', 'layedit', 'laydate', 'jquery'], function () {
+    layui.use(['form', 'jquery', 'layer'], function () {
         layer = layui.layer
             , form = layui.form
             , $ = layui.jquery;
-
-
         //监听提交
-        form.on('submit(searchSubmit)', function (data) {
+        form.on('submit(searchSubmit)', function () {
+            if ($("#type").val() == 1) {
+                url = "/security/findGroup";
+            } else {
+                url = '/security/findUser';
+            }
             $.ajax({
                 url: url,
-                data: {
-                    name: $("#loginName").val()
-                },
-                type: "Post",
+                data: {name: $("#name").val()},
+                type: "POST",
                 dataType: "json",
                 success: function (data) {
                     $.each(data.data, function (index, item) {
+                        $("#itemList").empty();
                         let html = null;
                         if ($("#type").val() == 1) {
-                            html =  "<li>" +
-                                        "<div>" +
-                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
-                                            "<div style='text-align: center'>群名称:" + item.name + "</div>" +
-                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
-                                        "</div>" +
-                                    "</li>";
+                            html = "<li>" +
+                                "<div>" +
+                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
+                                "<div style='text-align: center'>群名称:" + item.name + "</div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.id, 0)'></div>" +
+                                "</div>" +
+                                "</li>";
                         } else {
-                            html =  "<li>" +
-                                        "<div>" +
-                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
-                                            "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
-                                            "<div style='text-align: center'>姓名:" + item.name + "</div>" +
-                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
-                                        "</div>" +
-                                    "</li>";
+                            html = "<li>" +
+                                "<div>" +
+                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
+                                "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
+                                "<div style='text-align: center'>姓名:" + item.username + "</div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.adminId, 1)'></div>" +
+                                "</div>" +
+                                "</li>";
                         }
 
                         $("#itemList").append(html);
@@ -102,7 +96,17 @@
             });
             return false;
         });
+
+
     });
+
+    function addFriendOrGroup(id, type) {
+        if (type == 0) {
+
+        } else {
+
+        }
+    }
 </script>
 
 </body>
