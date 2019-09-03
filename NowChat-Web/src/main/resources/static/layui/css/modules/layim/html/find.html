@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="../../../layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <style>
-        .itemList li{display: inline-block; vertical-align: middle; width: 80px; height: 80px; padding: 20px;}
+        .itemList li {
+            display: inline-block;
+            vertical-align: middle;
+            width: 80px;
+            height: 80px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -51,10 +57,9 @@
         }
     });
     layui.use(['form', 'layedit', 'laydate', 'jquery'], function () {
-            layer = layui.layer
+        layer = layui.layer
             , form = layui.form
             , $ = layui.jquery;
-
 
 
         //监听提交
@@ -70,22 +75,22 @@
                     $.each(data.data, function (index, item) {
                         let html = null;
                         if ($("#type").val() == 1) {
-                            html = "<li>" +
-                                "<div>" +
-                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
-                                "<div style='text-align: center'>群名称:" + item.name + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
-                                "</div>" +
-                                "</li>";
+                            html =  "<li>" +
+                                        "<div>" +
+                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
+                                            "<div style='text-align: center'>群名称:" + item.name + "</div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
+                                        "</div>" +
+                                    "</li>";
                         } else {
-                            html = "<li>" +
-                                "<div>" +
-                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
-                                "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
-                                "<div style='text-align: center'>姓名:" + item.name + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
-                                "</div>" +
-                                "</li>";
+                            html =  "<li>" +
+                                        "<div>" +
+                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
+                                            "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
+                                            "<div style='text-align: center'>姓名:" + item.name + "</div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
+                                        "</div>" +
+                                    "</li>";
                         }
 
                         $("#itemList").append(html);
