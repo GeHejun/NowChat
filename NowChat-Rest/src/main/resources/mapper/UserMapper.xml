@@ -41,6 +41,12 @@
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectUserByNickName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where nick_name like CONCAT(CONCAT('%', #{nickName,jdbcType=VARCHAR}), '%');
+  </select>
   <select id="selectUserByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

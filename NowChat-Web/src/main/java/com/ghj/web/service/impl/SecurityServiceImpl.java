@@ -13,8 +13,11 @@ import com.ghj.web.service.SecurityService;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.UserVO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -52,24 +55,36 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public UserVO findUser(String loginName) {
-        UserResponse userResponse = restService.queryUserByLoginName(loginName).getData();
-        if (Objects.isNull(userResponse)) {
+    public List<UserVO> findUser(String nickName) {
+        List<UserResponse> userResponseList = restService.queryUserByNickName(nickName).getData();
+        if (CollectionUtils.isEmpty(userResponseList)) {
             throw new RuntimeException();
         }
-        UserVO userVO = UserVO.builder()
-                .id(userResponse.getId().toString())
-                .username(userResponse.getName())
-                .token(userResponse.getToken())
-                .build();
-        return userVO;
+        List<UserVO> userVOList = new ArrayList<>(userResponseList.size());
+        userResponseList.stream().forEach(userResponse -> {
+            UserVO userVO = UserVO.builder()
+                    .id(userResponse.getId().toString())
+                    .username(userResponse.getName())
+                    .token(userResponse.getToken())
+                    .build();
+            userVOList.add(userVO);
+        });
+        return userVOList;
     }
 
     @Override
-    public GroupVO findGroup(String name) {
-        UserGroupResponse userGroupResponse = restService.findGroupByName(name).getData();
-        GroupVO groupVO = GroupVO.builder().avatar(userGroupResponse.getIcon()).groupname(userGroupResponse.getName())
-                .id(userGroupResponse.getId().toString()).build();
-        return groupVO;
+    public List<GroupVO> findGroup(String name) {
+        List<UserGroupResponse> userGroupResponseList = restService.findGroupByName(name).getData();
+        if (CollectionUtils.isEmpty(userGroupResponseList)) {
+            throw new RuntimeException();
+        }
+        List<GroupVO> groupVOList = new ArrayList<>(userGroupResponseList.size());
+        userGroupResponseList.stream().forEach(userGroupResponse -> {
+            GroupVO groupVO = GroupVO.builder().avatar(userGroupResponse.getIcon()).groupname(userGroupResponse.getName())
+                    .id(userGroupResponse.getId().toString()).build();
+            groupVOList.add(groupVO);
+        });
+
+        return groupVOList;
     }
 }

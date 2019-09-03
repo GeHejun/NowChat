@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
+import java.util.List;
+
 import static com.ghj.common.base.Constant.*;
 
 /**
@@ -57,20 +59,20 @@ public class SecurityController {
     }
 
     @RequestMapping("/findUser")
-    public ResultVO<UserVO> findUser(@NotNull @RequestParam("name") String loginName) {
+    public ResultVO<List<UserVO>> findUser(@NotNull @RequestParam("name") String nickName) {
         try {
-            UserVO userVO = securityService.findUser(loginName);
-            return ResultVO.defaultSuccess(userVO);
+            List<UserVO> userVOList = securityService.findUser(nickName);
+            return ResultVO.defaultSuccess(userVOList);
         } catch (UserException e) {
             return ResultVO.failure(USER_NO_EXISTS_CODE,USER_NO_EXISTS);
         }
     }
 
     @RequestMapping("/findGroup")
-    public ResultVO<GroupVO> findGroup(@NotNull @RequestParam("name") String name) {
+    public ResultVO<List<GroupVO>> findGroup(@NotNull @RequestParam("name") String name) {
         try {
-            GroupVO groupVO = securityService.findGroup(name);
-            return ResultVO.defaultSuccess(groupVO);
+            List<GroupVO> groupVOList = securityService.findGroup(name);
+            return ResultVO.defaultSuccess(groupVOList);
         } catch (UserException e) {
             return ResultVO.failure(GROUP_NO_EXISTS_CODE,GROUP_NO_EXISTS);
         }

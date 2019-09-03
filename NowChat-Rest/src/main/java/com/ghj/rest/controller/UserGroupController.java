@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author GeHejun
@@ -30,7 +31,7 @@ public class UserGroupController {
 
     @RequestMapping("/findGroupByName")
     @ResponseBody
-    public Result<UserGroupResponse> findGroupByName(@RequestParam("name") @NotNull String name) {
+    public Result<List<UserGroupResponse>> findGroupByName(@RequestParam("name") @NotNull String name) {
         return Result.defaultSuccess(userGroupService.findGroupByName(name));
     }
 

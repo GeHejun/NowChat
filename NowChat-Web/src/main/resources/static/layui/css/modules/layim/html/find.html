@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../../../layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <style>
+        .itemList li{display: inline-block; vertical-align: middle; width: 80px; height: 80px; padding: 20px;}
+    </style>
 </head>
 <body>
 
@@ -23,30 +26,13 @@
             </select>
         </div>
         <div class="layui-input-inline" style="width: 250px">
-            <input type="text" name="loginName" id="loginName" required lay-verify="required" placeholder="用户名"
+            <input type="text" name="nickName" id="nickName" required lay-verify="required" placeholder="用户名"
                    autocomplete="off" class="layui-input">
         </div>
         <div class="layui-input-inline">
             <input type="button" class="layui-btn" lay-submit lay-filter="searchSubmit" value="搜索">
         </div>
-        <ul class="site-doc-icon site-doc-anim">
-            <li>
-                <div class="layui-anim" data-anim="layui-anim-up">从最底部往上滑入</div>
-                <div class="code">layui-anim-up</div>
-            </li>
-            <li>
-                <div class="layui-anim" data-anim="layui-anim-upbit">微微往上滑入</div>
-                <div class="code">layui-anim-upbit</div>
-            </li>
-            <li>
-                <div class="layui-anim" data-anim="layui-anim-scale">平滑放大</div>
-                <div class="code">layui-anim-scale</div>
-            </li>
-            <li>
-                <div class="layui-anim" data-anim="layui-anim-scaleSpring">弹簧式放大</div>
-                <div class="code">layui-anim-scaleSpring</div>
-            </li>
-        </ul>
+        <ul class="itemList" id="itemList"></ul>
     </div>
 
 </form>
@@ -56,12 +42,12 @@
 <script src="../../../../../js/jquery-3.4.1.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    var url = '/security/findFriendByLoginName';
+    var url = '/security/findFriendByNickName';
     $("#type").change(function () {
         if ($("#type").val() == 1) {
             url = "/security/findGroupByName";
         } else {
-            url = '/security/findFriendByLoginName';
+            url = '/security/findFriendByNickName';
         }
     });
     layui.use(['form', 'layedit', 'laydate', 'jquery'], function () {
@@ -82,7 +68,27 @@
                 dataType: "json",
                 success: function (data) {
                     $.each(data.data, function (index, item) {
+                        let html = null;
+                        if ($("#type").val() == 1) {
+                            html = "<li>" +
+                                "<div>" +
+                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
+                                "<div style='text-align: center'>群名称:" + item.name + "</div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
+                                "</div>" +
+                                "</li>";
+                        } else {
+                            html = "<li>" +
+                                "<div>" +
+                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.headPortrait + "'/>" +
+                                "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
+                                "<div style='text-align: center'>姓名:" + item.name + "</div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn'></div>" +
+                                "</div>" +
+                                "</li>";
+                        }
 
+                        $("#itemList").append(html);
                     });
                 },
                 error: function (data) {

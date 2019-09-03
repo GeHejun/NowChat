@@ -16,6 +16,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 /**
@@ -88,10 +90,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse queryUserByLoginName(String loginName) {
-        User user = userMapper.selectUserByLoginName(loginName);
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        return userResponse;
+    public List<UserResponse> queryUserByNickName(String nickName) {
+        List<User> userList = userMapper.selectUserByNickName(nickName);
+        List<UserResponse> userResponseList = new ArrayList<>(userList.size());
+        userList.stream().forEach(user -> {
+            UserResponse userResponse = new UserResponse();
+            BeanUtils.copyProperties(user, userResponse);
+            userResponseList.add(userResponse);
+        });
+        return userResponseList;
     }
 }

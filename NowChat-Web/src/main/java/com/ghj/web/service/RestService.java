@@ -165,9 +165,9 @@ public interface RestService {
      * @param loginName
      * @return
      */
-    @RequestMapping(value = "/queryUserByLoginName")
+    @RequestMapping(value = "/queryUserByNickName")
     @ResponseBody
-    Result<UserResponse> queryUserByLoginName(@NotNull @RequestParam("loginName") String loginName);
+    Result<List<UserResponse>> queryUserByNickName(@NotNull @RequestParam("nickName") String loginName);
 
     /**
      * 通过名称查询群组
@@ -176,7 +176,7 @@ public interface RestService {
      */
     @RequestMapping("/findGroupByName")
     @ResponseBody
-    Result<UserGroupResponse> findGroupByName(@RequestParam("name") @NotNull String name);
+    Result<List<UserGroupResponse>> findGroupByName(@RequestParam("name") @NotNull String name);
 
     /**
      * 查询状态通过名称

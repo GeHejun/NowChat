@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author GeHejun
@@ -25,10 +27,14 @@ public class UserGroupServiceImpl implements UserGroupService {
     }
 
     @Override
-    public UserGroupResponse findGroupByName(String name) {
-        UserGroup userGroup = userGroupMapper.selectGroupByName(name);
-        UserGroupResponse userGroupResponse = new UserGroupResponse();
-        BeanUtils.copyProperties(userGroup, userGroupResponse);
-        return userGroupResponse;
+    public List<UserGroupResponse> findGroupByName(String name) {
+        List<UserGroup> userGroupList = userGroupMapper.selectGroupByName(name);
+        List<UserGroupResponse> userGroupResponseList = new ArrayList<>(userGroupList.size());
+        userGroupList.stream().forEach(userGroup -> {
+            UserGroupResponse userGroupResponse = new UserGroupResponse();
+            BeanUtils.copyProperties(userGroup, userGroupResponse);
+            userGroupResponseList.add(userGroupResponse);
+        });
+        return userGroupResponseList;
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -59,10 +60,10 @@ public class UserController {
         return Result.defaultSuccess(userService.register(userRequest));
     }
 
-    @RequestMapping(value = "/queryUserByLoginName")
+    @RequestMapping(value = "/queryUserByNickName")
     @ResponseBody
-    public Result<UserResponse> queryUserByLoginName(@NotNull @RequestParam("loginName") String loginName) {
-        UserResponse userResponse = userService.queryUserByLoginName(loginName);
-        return Result.defaultSuccess(userResponse);
+    public Result<List<UserResponse>> queryUserByLoginName(@NotNull @RequestParam("nickName") String nickName) {
+        List<UserResponse> userResponseList = userService.queryUserByNickName(nickName);
+        return Result.defaultSuccess(userResponseList);
     }
 }

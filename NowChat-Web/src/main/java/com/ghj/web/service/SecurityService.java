@@ -6,6 +6,8 @@ import com.ghj.common.dto.response.UserResponse;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.UserVO;
 
+import java.util.List;
+
 /**
  * @author GeHejun
  */
@@ -34,15 +36,15 @@ public interface SecurityService {
 
     /**
      * 通过用户名查找用户
-     * @param loginName
+     * @param nickName
      * @return
      */
-    UserVO findUser(String loginName);
+    List<UserVO> findUser(String nickName);
 
     /**
      * 通过群名称查询群
      * @param name
      * @return
      */
-    GroupVO findGroup(String name);
+    List<GroupVO> findGroup(String name);
 }

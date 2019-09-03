@@ -3,6 +3,8 @@ package com.ghj.rest.service;
 import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.UserGroupResponse;
 
+import java.util.List;
+
 /**
  * @author GeHejun
  */
@@ -19,5 +21,5 @@ public interface UserGroupService {
      * @param name
      * @return
      */
-    UserGroupResponse findGroupByName(String name);
+    List<UserGroupResponse> findGroupByName(String name);
 }

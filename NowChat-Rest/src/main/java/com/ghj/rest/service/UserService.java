@@ -2,6 +2,9 @@ package com.ghj.rest.service;
 
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
+
+import java.util.List;
+
 /**
  * @author GeHejun
  * @date 2019-06-24
@@ -38,8 +41,8 @@ public interface UserService {
 
     /**
      * 通过用户账号添加用户
-     * @param loginName
+     * @param nickName
      * @return
      */
-    UserResponse queryUserByLoginName(String loginName);
+    List<UserResponse> queryUserByNickName(String nickName);
 }
