@@ -69,22 +69,22 @@
                         $("#itemList").empty();
                         let html = null;
                         if ($("#type").val() == 1) {
-                            html = "<li>" +
-                                "<div>" +
-                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
-                                "<div style='text-align: center'>群名称:" + item.name + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.id, 0)'></div>" +
-                                "</div>" +
-                                "</li>";
+                            html =  "<li>" +
+                                        "<div>" +
+                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
+                                            "<div style='text-align: center'>群名称:" + item.name + "</div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.id, 0)'></div>" +
+                                        "</div>" +
+                                    "</li>";
                         } else {
-                            html = "<li>" +
-                                "<div>" +
-                                "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
-                                "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
-                                "<div style='text-align: center'>姓名:" + item.username + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.adminId, 1)'></div>" +
-                                "</div>" +
-                                "</li>";
+                            html =  "<li>" +
+                                        "<div>" +
+                                            "<img style='border-radius: 50%' width='100%' height='100%' src='" + item.avatar + "'/>" +
+                                            "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
+                                            "<div style='text-align: center'>姓名:" + item.username + "</div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup(item.adminId, 1)'></div>" +
+                                        "</div>" +
+                                    "</li>";
                         }
                         $("#itemList").append(html);
                     });
