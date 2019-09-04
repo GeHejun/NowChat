@@ -62,4 +62,11 @@ public interface MainFrameService {
      * @return
      */
     void readMessage(Integer fromUserId, Integer toUserId, String type);
+
+    /**
+     * 初始化消息盒子
+     * @param toUserId
+     * @return
+     */
+    List<MessageBoxVO> initMessageBoxVO(Integer toUserId);
 }

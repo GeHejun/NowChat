@@ -9,8 +9,10 @@ import com.ghj.web.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -129,6 +131,24 @@ public class MainFrameServiceImpl implements MainFrameService {
                 throw new MessageException();
             }
         }
+    }
+
+    @Override
+    public List<MessageBoxVO> initMessageBoxVO(Integer toUserId) {
+        List<MessageResponse> messageResponseList = restService.queryAddFriendValidationMessage(toUserId).getData();
+        messageResponseList.stream().forEach(messageResponse -> {
+            UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
+//            MessageBoxVO messageBoxVO = MessageBoxVO.builder()
+//                    .userVO(buildUserVO(userResponse))
+//                    .from(messageResponse.getFromUserId())
+//                    .id(messageResponse.getId())
+//                    .time(messageResponse.getSendTime())
+//                    .build();
+        });
+        List<GroupMessageToUserResponse> groupMessageToUserResponseList = restService.queryAddGroupValidationMessage(toUserId).getData();
+        List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
+        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
+        return null;
     }
 
 

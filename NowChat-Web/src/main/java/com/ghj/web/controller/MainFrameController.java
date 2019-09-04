@@ -107,4 +107,15 @@ public class MainFrameController {
         mainFrameService.readMessage(fromUserId, toUserId, type);
     }
 
+    /**
+     * 初始化消息盒子
+     * @return
+     */
+    @RequestMapping("/initMessageBoxVO")
+    @ResponseBody
+    public ResultVO<List<MessageBoxVO>> initMessageBoxVO(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        List<MessageBoxVO> messageBoxVOList =  mainFrameService.initMessageBoxVO(toUserId);
+        return ResultVO.defaultSuccess(messageBoxVOList);
+    }
+
 }
