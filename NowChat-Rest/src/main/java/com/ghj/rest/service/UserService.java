@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 
@@ -45,4 +46,11 @@ public interface UserService {
      * @return
      */
     List<UserResponse> queryUserByNickName(String nickName);
+
+    /**
+     * 查询用户状态
+     * @param userId
+     * @return
+     */
+    Boolean queryUserState(Integer userId);
 }

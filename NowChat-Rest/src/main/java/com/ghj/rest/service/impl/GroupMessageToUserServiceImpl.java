@@ -35,11 +35,6 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
     @Override
     public List<GroupMessageToUserResponse> listMessageByToUserIdAndStatus(Integer toUserId, Boolean status) {
         List<GroupMessageToUser> groupMessageToUsers = groupMessageToUserMapper.selectMessageByToUserIdAndStatus(toUserId, status);
-        //TODO 暂时在这里把消息置为已读
-        groupMessageToUsers.forEach(groupMessageToUser -> {
-            groupMessageToUser.setSate(Boolean.TRUE);
-            groupMessageToUserMapper.updateByPrimaryKey(groupMessageToUser);
-        });
         return buildGroupMessageToUserResponseList(groupMessageToUsers);
     }
 

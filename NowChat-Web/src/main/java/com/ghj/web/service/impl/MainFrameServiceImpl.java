@@ -112,6 +112,10 @@ public class MainFrameServiceImpl implements MainFrameService {
         }
     }
 
+    @Override
+    public Boolean initFriendState(Integer userId) {
+        return restService.queryUserState(userId).getData();
+    }
 
 
     private UserVO buildUserVO(UserResponse userResponse) {

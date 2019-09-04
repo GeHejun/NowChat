@@ -1,5 +1,6 @@
 package com.ghj.web.controller;
 
+import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,31 @@ public class MainFrameController {
                                                          @NotNull @RequestParam(defaultValue = "10") Integer pageSize) {
         HistoryMessageVO historyMessageVO = mainFrameService.initHistoryMessage(fromUserId, toUserId, type, pageIndex, pageSize);
         return ResultVO.defaultSuccess(historyMessageVO);
+    }
+
+    /**
+     * 初始化好友状态
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/initFriendState")
+    @ResponseBody
+    public ResultVO<Boolean> initFriendState(@NotNull @RequestParam("userId") Integer userId) {
+        Boolean friendState = mainFrameService.initFriendState(userId);
+        return ResultVO.defaultSuccess(friendState);
+    }
+
+    /**
+     * 查询离线信息
+     * @param toUserId
+     * @param status
+     * @return
+     */
+    @RequestMapping("/readMessage")
+    @ResponseBody
+    public ResultVO<List<MessageVO>> readMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId, @NotNull @RequestParam("toUserId") Integer toUserId) {
+        List<MessageVO> messageVOList = mainFrameService.readMessage(toUserId, status);
+        return ResultVO.defaultSuccess(messageVOList);
     }
 
 }

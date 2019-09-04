@@ -111,9 +111,7 @@ layui.use('layim', function (layim) {
                     //每次窗口打开或切换，即更新对方的状态
                     layim.on('chatChange', function (res) {
                         //标注成已读
-                        $.post('/message/read', {
-                          type: 1
-                        });
+                        $.post('/message/read', {type:res.data.type, formUserId:res.data.id, toUserId:user.id});
                         //查询好友状态
                         var type = res.data.type;
                         if (type === 'friend') {
@@ -129,7 +127,6 @@ layui.use('layim', function (layim) {
                                     } else {
                                         layim.setChatStatus('<span style="color:#FF5722;">离线</span>');
                                     }
-
                                 },
                                 error: function (data) {
                                 }

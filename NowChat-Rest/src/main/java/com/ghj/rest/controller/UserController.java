@@ -64,4 +64,15 @@ public class UserController {
         List<UserResponse> userResponseList = userService.queryUserByNickName(nickName);
         return Result.defaultSuccess(userResponseList);
     }
+
+    /**
+     * 查询用户状态
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/queryUserState")
+    @ResponseBody
+    public Result<Boolean> queryUserState(@NotNull @RequestParam("userId") Integer userId) {
+        return Result.defaultSuccess(userService.queryUserState(userId));
+    }
 }

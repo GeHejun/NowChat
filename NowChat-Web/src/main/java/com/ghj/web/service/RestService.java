@@ -186,4 +186,13 @@ public interface RestService {
     @RequestMapping("/state/queryStateByName")
     @ResponseBody
     Result<UserStateResponse> queryStateByName(String name);
+
+    /**
+     * 查询用户状态
+     * @param userId
+     * @return
+     */
+    @RequestMapping("/user/queryUserState")
+    @ResponseBody
+    Result<Boolean> queryUserState(Integer userId);
 }

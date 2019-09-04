@@ -46,4 +46,11 @@ public interface MainFrameService {
      * @return
      */
     HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId, String type, Integer pageIndex, Integer pageSize);
+
+    /**
+     * 查询好友状态
+     * @param userId
+     * @return
+     */
+    Boolean initFriendState(Integer userId);
 }

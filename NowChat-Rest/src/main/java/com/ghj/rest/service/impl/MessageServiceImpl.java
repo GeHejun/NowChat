@@ -56,11 +56,6 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<MessageResponse> queryMessageByToUserIdWithStatus(Integer toUserId, Boolean status) {
         List<Message> messageList = messageMapper.selectMessageByToUserIdWithStatus(toUserId, status);
-        //TODO 暂时在这里把消息置为已读
-        messageList.forEach(message -> {
-            message.setStatus(Boolean.TRUE);
-            messageMapper.updateByPrimaryKey(message);
-        });
         return buildMessageResponseList(messageList);
     }
 

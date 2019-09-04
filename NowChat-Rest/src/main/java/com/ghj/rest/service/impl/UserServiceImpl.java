@@ -5,6 +5,7 @@ import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.DesEncryptDecrypt;
+import com.ghj.common.util.StringUtils;
 import com.ghj.rest.dao.UserMapper;
 import com.ghj.rest.model.User;
 import com.ghj.rest.service.UserService;
@@ -99,5 +100,11 @@ public class UserServiceImpl implements UserService {
             userResponseList.add(userResponse);
         });
         return userResponseList;
+    }
+
+    @Override
+    public Boolean queryUserState(Integer userId) {
+        String token = (String) redisTemplate.opsForHash().get(Constant.ON_LINE_USER_LIST, userId);
+        return StringUtils.isNotEmpty(token);
     }
 }
