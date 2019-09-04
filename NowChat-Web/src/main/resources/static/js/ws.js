@@ -1,8 +1,9 @@
 let wsUri = "ws://127.0.0.1:9998/";
-var deviceId = parseInt(10*Math.random() + 1);
+var deviceId = parseInt(10 * Math.random() + 1);
 var websocket;
 let routeMsgId = 10000;
 let loginMsgId = 20000;
+let msgBoxNum = 0;
 
 function sendMessage(message) {
     protobuf.load("/proto/message.proto", function (err, root) {
@@ -13,9 +14,11 @@ function sendMessage(message) {
         websocket.send(buffer);
     });
 }
-layui.use('layim', function(layim){
-var user = JSON.parse(localStorage.getItem('user'));
+
+layui.use('layim', function (layim) {
+    var user = JSON.parse(localStorage.getItem('user'));
     route(wsUri);
+
     function route(url) {
         websocket = new WebSocket(url);
         websocket.onopen = function () {
@@ -31,6 +34,7 @@ var user = JSON.parse(localStorage.getItem('user'));
             onMessage(evt)
         };
     }
+
     function connect(url) {
         websocket = new WebSocket(url);
         websocket.onopen = function (evt) {
@@ -51,64 +55,81 @@ var user = JSON.parse(localStorage.getItem('user'));
         };
     }
 
-function onMessage(evt) {
-    protobuf.load("/proto/message.proto", function (err, root) {
-        if (err) throw err;
-        let WSMessage = root.lookup("com.ghj.protocol.MessageProto.Message");
-        let reader = new FileReader();
-        reader.readAsArrayBuffer(evt.data);
-        reader.onload = function (e) {
-            let buf = new Uint8Array(reader.result);
-            let buffer = WSMessage.decode(buf);
-            if (buffer.matchMessageId == routeMsgId) {
-                websocket.close();
-                let url = "ws://" + buffer.ip + ":" + buffer.port;
-                connect(url);
-            } else if (buffer.matchMessageId == user.id + loginMsgId) {
+    function onMessage(evt) {
+        protobuf.load("/proto/message.proto", function (err, root) {
+            if (err) throw err;
+            let WSMessage = root.lookup("com.ghj.protocol.MessageProto.Message");
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(evt.data);
+            reader.onload = function (e) {
+                let buf = new Uint8Array(reader.result);
+                let buffer = WSMessage.decode(buf);
+                if (buffer.matchMessageId == routeMsgId) {
+                    websocket.close();
+                    let url = "ws://" + buffer.ip + ":" + buffer.port;
+                    connect(url);
+                } else if (buffer.matchMessageId == user.id + loginMsgId) {
                     //基础配置
                     layim.config({
                         //初始化接口
                         init: {
                             url: '/index/initMainFrame'
-                            ,data: {id:user.id}
+                            , data: {id: user.id}
                         }
-                        ,members: {
+                        , members: {
                             url: '/index/initMembers/'
-                            ,data: {}
+                            , data: {}
                         }
                         //上传图片接口
-                        ,uploadImage: {
+                        , uploadImage: {
                             url: '/upload/image' //（返回的数据格式见下文）
-                            ,type: '' //默认post
+                            , type: '' //默认post
                         }
 
                         //上传文件接口
-                        ,uploadFile: {
+                        , uploadFile: {
                             url: '/upload/file' //（返回的数据格式见下文）
-                            ,type: '' //默认post
+                            , type: '' //默认post
                         }
-                        ,isAudio: true //开启聊天工具栏音频
-                        ,isVideo: true //开启聊天工具栏视频
+                        , isAudio: true //开启聊天工具栏音频
+                        , isVideo: true //开启聊天工具栏视频
                         //扩展工具栏
-                        ,tool: [{
+                        , tool: [{
                             alias: 'code'
-                            ,title: '代码'
-                            ,icon: '&#xe64e;'
+                            , title: '代码'
+                            , icon: '&#xe64e;'
                         }]
-                        ,title:"NOW-CHAT"
-                        ,initSkin: '5.jpg' //1-5 设置初始背景
-                        ,notice: true //是否开启桌面消息提醒，默认false
-                        ,msgbox: '/layui/css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
-                        ,find: '/layui/css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
-                        ,chatLog: '/layui/css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
+                        , title: "NOW-CHAT"
+                        , initSkin: '5.jpg' //1-5 设置初始背景
+                        , notice: true //是否开启桌面消息提醒，默认false
+                        , msgbox: '/layui/css/modules/layim/html/msgbox.html' //消息盒子页面地址，若不开启，剔除该项即可
+                        , find: '/layui/css/modules/layim/html/find.html' //发现页面地址，若不开启，剔除该项即可
+                        , chatLog: '/layui/css/modules/layim/html/chatlog.html' //聊天记录页面地址，若不开启，剔除该项即可
 
                     });
 
+                    //每次窗口打开或切换，即更新对方的状态
+                    layim.on('chatChange', function (res) {
+                        var type = res.data.type;
+                        if (type === 'friend') {
+                            //请求在线状态
+                            layim.setChatStatus('<span style="color:#FF5722;">在线</span>'); //模拟标注好友在线状态
+                        } else if (type === 'group') {
+                            //模拟系统消息
+                            layim.getMessage({
+                                system: true //系统消息
+                                , id: 111111111
+                                , type: "group"
+                                , content: '贤心加入群聊'
+                            });
+                        }
+                    });
 
-                    layim.on('ready', function(){
+
+                    layim.on('ready', function () {
                         $.ajax({
                             url: "/index/initOffLineMessages",
-                            data: {"toUserId":user.id},
+                            data: {"toUserId": user.id},
                             type: "Post",
                             dataType: "json",
                             success: function (data) {
@@ -117,14 +138,14 @@ function onMessage(evt) {
                                     var message = messageList[i];
                                     layim.getMessage({
                                         username: message.username //消息来源用户名
-                                        ,avatar: message.avatar //消息来源用户头像
-                                        ,id: message.id //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
-                                        ,type: message.type //聊天窗口来源类型，从发送消息传递的to里面获取
-                                        ,content: message.content //消息内容
-                                        ,cid: message.cid //消息id，可不传。除非你要对消息进行一些操作（如撤回）
-                                        ,mine: false //是否我发送的消息，如果为true，则会显示在右方
-                                        ,fromid: message.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
-                                        ,timestamp: message.timestamp //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                                        , avatar: message.avatar //消息来源用户头像
+                                        , id: message.id //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                                        , type: message.type //聊天窗口来源类型，从发送消息传递的to里面获取
+                                        , content: message.content //消息内容
+                                        , cid: message.cid //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                                        , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                                        , fromid: message.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                                        , timestamp: message.timestamp //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
                                     });
                                 }
                                 //
@@ -134,31 +155,31 @@ function onMessage(evt) {
                         });
                     });
                     //监听在线状态的切换事件
-                    layim.on('online', function(data){
+                    layim.on('online', function (data) {
                     });
 
-                    layim.on('members', function(data){
+                    layim.on('members', function (data) {
                         console.log(data);
                     });
 
                     //监听签名修改
-                    layim.on('sign', function(value){
+                    layim.on('sign', function (value) {
 
                     });
 
                     //监听自定义工具栏点击，以添加代码为例
-                    layim.on('tool(code)', function(insert){
+                    layim.on('tool(code)', function (insert) {
                         layer.prompt({
                             title: '插入代码'
-                            ,formType: 2
-                            ,shade: 0
-                        }, function(text, index){
+                            , formType: 2
+                            , shade: 0
+                        }, function (text, index) {
                             layer.close(index);
                             insert('[pre class=layui-code]' + text + '[/pre]'); //将内容插入到编辑器
                         });
                     });
 
-                    layim.on('sendMessage', function(res){
+                    layim.on('sendMessage', function (res) {
                         var messageDirect = res.to.type == 'friend' ? 1 : 2;
                         var fromUserId = res.mine.id; //包含我发送的消息及我的信息
                         var toUserId = res.to.id; //对方的信息
@@ -170,17 +191,17 @@ function onMessage(evt) {
                         var username = res.mine.username;
                         var avatar = res.mine.avatar;
                         var message = {
-                            "fromUserId":fromUserId,
-                            "id":id,
-                            "messageTypeId":messageTypeId,
-                            "content":content,
-                            "messageBehavior":messageBehavior,
-                            "messageDirect":messageDirect,
-                            "deviceId":deviceId,
-                            "name":username,
-                            "headPortrait":avatar
+                            "fromUserId": fromUserId,
+                            "id": id,
+                            "messageTypeId": messageTypeId,
+                            "content": content,
+                            "messageBehavior": messageBehavior,
+                            "messageDirect": messageDirect,
+                            "deviceId": deviceId,
+                            "name": username,
+                            "headPortrait": avatar
                         };
-                        if (res.to.type == 'friend')  {
+                        if (res.to.type == 'friend') {
                             var key = "toUserId";
                         } else {
                             var key = "toGroupId";
@@ -191,29 +212,30 @@ function onMessage(evt) {
                         sendMessage(message);
                     });
 
-            } else {
-                if (buffer.messageBehavior != 5)  {
-                    if (buffer.messageBehavior != 11) {
-                        layim.msgbox(5);
-                    } else if (buffer.messageBehavior != 12) {
-                        layim.msgbox(5);
+                } else {
+                    if (buffer.messageBehavior != 5) {
+                        if (buffer.messageBehavior == 11) {
+                            msgBoxNum++;
+                            layim.msgbox(msgBoxNum);
+                        } else {
+                            layim.getMessage({
+                                username: buffer.name //消息来源用户名
+                                , avatar: buffer.headPortrait //消息来源用户头像
+                                , id: buffer.messageDirect == 1 ? buffer.fromUserId : buffer.toGroupId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
+                                , type: buffer.messageDirect == 1 ? "friend" : "group" //聊天窗口来源类型，从发送消息传递的to里面获取
+                                , content: buffer.content //消息内容
+                                , cid: buffer.id //消息id，可不传。除非你要对消息进行一些操作（如撤回）
+                                , mine: false //是否我发送的消息，如果为true，则会显示在右方
+                                , fromid: buffer.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
+                                , timestamp: new Date() //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
+                            });
+                        }
+
                     }
-                    layim.getMessage({
-                        username: buffer.name //消息来源用户名
-                        ,avatar: buffer.headPortrait //消息来源用户头像
-                        ,id: buffer.messageDirect == 1 ? buffer.fromUserId : buffer.toGroupId //消息的来源ID（如果是私聊，则是用户id，如果是群聊，则是群组id）
-                        ,type: buffer.messageDirect == 1 ? "friend" :"group" //聊天窗口来源类型，从发送消息传递的to里面获取
-                        ,content: buffer.content //消息内容
-                        ,cid: buffer.id //消息id，可不传。除非你要对消息进行一些操作（如撤回）
-                        ,mine: false //是否我发送的消息，如果为true，则会显示在右方
-                        ,fromid: buffer.fromUserId //消息的发送者id（比如群组中的某个消息发送者），可用于自动解决浏览器多窗口时的一些问题
-                        ,timestamp: new Date() //服务端时间戳毫秒数。注意：如果你返回的是标准的 unix 时间戳，记得要 *1000
-                    });
                 }
             }
-        }
-    });
-}
+        });
+    }
 });
 
 

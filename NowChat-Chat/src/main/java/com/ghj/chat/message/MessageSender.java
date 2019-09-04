@@ -27,98 +27,165 @@ import java.util.Objects;
 
 import static com.ghj.common.base.Constant.DATA_KEY;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.ACK;
+import static com.ghj.protocol.MessageProto.Message.MessageBehavior.MESSAGE;
 
 
 /**
+ * 消息处理类
+ *
  * @author GeHejun
  * @date 2019/6/24 13:30
  */
 public class MessageSender implements Runnable {
 
-    public MessageProto.Message message;
+    /**
+     * 消息
+     */
+    private MessageProto.Message message;
 
-    Session session;
-
-    PersistentMessage persistentMessage;
-
-    public MessageSender(MessageProto.Message message) {
+    /**
+     * 初始化消息
+     *
+     * @param message
+     */
+    private MessageSender(MessageProto.Message message) {
         this.message = message;
     }
 
+    /**
+     * 处理消息
+     */
     @Override
     public void run() {
         if (ACK == message.getMessageBehavior()) {
-            Integer sessionKey = message.getToUserId();
-            session = SessionManager.getSession(sessionKey);
-            if (session == null) {
-                throw new ChatException();
-            }
-            session.getChannel().writeAndFlush(message);
-
+            dealAckMessage(message);
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
-                    Integer sessionKey = message.getToUserId();
-                    session = SessionManager.getSession(sessionKey);
-                    if (session == null) {
-                        //保存离线消息
-                        //throw new ChatException();
-                        persistentMessage = buildPersistentMessage(message, false, false, null, null);
-                    } else {
-                        session.getChannel().writeAndFlush(message);
-                        persistentMessage = buildPersistentMessage(message, true, false, null, null);
-                    }
-                    SendUtil.sendForQueue(persistentMessage);
+                    dealPersonalMessage(message);
                     break;
                 case GROUP:
-                    Integer toGroupId= message.getToGroupId();
-                    OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            MessageProto.Message ackMessage = MessageProto.Message.newBuilder().setCode(Code.GROUP_MEMBER_REQUEST_FAILURE.getCode())
-                                    .setContent(Code.GROUP_MEMBER_REQUEST_FAILURE.getMessage())
-                                    .setMatchMessageId(message.getId())
-                                    .setToUserId(message.getFromUserId())
-                                    .setId(new SnowFlakeIdGenerator(message.getDeviceId(), MachineSerialNumber.get()).nextId())
-                                    .setMessageBehavior(ACK)
-                                    .build();
-                            MessageManager.getInstance().putMessage(ackMessage);
-                        }
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            String result = response.body().string();
-                            JSONObject jsonObject = (JSONObject)JSON.parse(result);
-                            JSONArray toIds = jsonObject.getJSONArray(DATA_KEY);
-                            List<Integer> offLineUserIds = new ArrayList<>(toIds.size());
-                            List<Integer> onLineUserIds = new ArrayList<>(toIds.size());
-                            for (Integer id : toIds.toJavaList(Integer.class)) {
-                                if (!Objects.equals(id, message.getFromUserId())) {
-                                    session = SessionManager.getSession(Integer.parseInt(id.toString()));
-                                    if (session == null) {
-                                        offLineUserIds.add(id);
-                                        continue;
-                                    }
-                                    session.getChannel().writeAndFlush(message);
-                                    onLineUserIds.add(id);
-                                }
-                            }
-                            persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
-                            SendUtil.sendForQueue(persistentMessage);
-                        }
-                    });
+                    if (MESSAGE == message.getMessageBehavior()) {
+                        dealGroupMessage(message);
+                    } else {
+                        dealGroupValidateMessage(message);
+                    }
                     break;
                 case SERVER:
-                    //在这里如果接收失败更改消息状态
-                    MessageManager.getInstance().putMessage(buildAckMessage(Code.ACK_SEND_SUCCESS, true, message));
-                    MessageManager.getInstance().putMessage(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
+                    dealServerMessage(message);
                 default:
             }
-
         }
-
     }
 
-    public MessageProto.Message buildAckMessage(Code code, boolean isAckSender, MessageProto.Message message) {
+    /**
+     * 处理群验证消息
+     *
+     * @param message
+     */
+    private void dealGroupValidateMessage(MessageProto.Message message) {
+        List<Integer> offLineUserIds = new ArrayList<>();
+        List<Integer> onLineUserIds = new ArrayList<>();
+        Session session = SessionManager.getSession(message.getToUserId());
+        if (session == null) {
+            offLineUserIds.add(message.getToUserId());
+        } else {
+            onLineUserIds.add(message.getToUserId());
+            session.getChannel().writeAndFlush(message);
+        }
+        PersistentMessage persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
+        SendUtil.sendForQueue(persistentMessage);
+    }
+
+    /**
+     * 处理反馈到服务端消息（tome）
+     *
+     * @param message
+     */
+    private void dealServerMessage(MessageProto.Message message) {
+        //在这里如果接收失败更改消息状态
+        MessageManager.getInstance().putMessage(buildAckMessage(Code.ACK_SEND_SUCCESS, true, message));
+        MessageManager.getInstance().putMessage(buildAckMessage(Code.MESSAGE_RECEIVER_SUCCESS, false, message));
+    }
+
+    /**
+     * 处理点对点聊天消息
+     *
+     * @param message
+     */
+    private void dealPersonalMessage(MessageProto.Message message) {
+        PersistentMessage persistentMessage;
+        Integer sessionKey = message.getToUserId();
+        Session session = SessionManager.getSession(sessionKey);
+        if (session == null) {
+            persistentMessage = buildPersistentMessage(message, false, false, null, null);
+        } else {
+            session.getChannel().writeAndFlush(message);
+            persistentMessage = buildPersistentMessage(message, true, false, null, null);
+        }
+        SendUtil.sendForQueue(persistentMessage);
+    }
+
+    /**
+     * 处理群发消息
+     *
+     * @param message
+     */
+    private void dealGroupMessage(MessageProto.Message message) {
+        Integer toGroupId = message.getToGroupId();
+        OKHttpUtil.get(Route.GET_GROUP_MEMBER + toGroupId, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                MessageManager.getInstance().putMessage(buildAckMessage(Code.GROUP_MEMBER_REQUEST_FAILURE, true, message));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                JSONObject jsonObject = (JSONObject) JSON.parse(result);
+                JSONArray toIds = jsonObject.getJSONArray(DATA_KEY);
+                List<Integer> offLineUserIds = new ArrayList<>(toIds.size());
+                List<Integer> onLineUserIds = new ArrayList<>(toIds.size());
+                for (Integer id : toIds.toJavaList(Integer.class)) {
+                    if (!Objects.equals(id, message.getFromUserId())) {
+                        Session session = SessionManager.getSession(Integer.parseInt(id.toString()));
+                        if (session == null) {
+                            offLineUserIds.add(id);
+                            continue;
+                        }
+                        session.getChannel().writeAndFlush(message);
+                        onLineUserIds.add(id);
+                    }
+                }
+                PersistentMessage persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
+                SendUtil.sendForQueue(persistentMessage);
+            }
+        });
+    }
+
+    /**
+     * 处理反馈消息（tome）
+     *
+     * @param message
+     */
+    private void dealAckMessage(MessageProto.Message message) {
+        Integer sessionKey = message.getToUserId();
+        Session session = SessionManager.getSession(sessionKey);
+        if (session == null) {
+            throw new ChatException();
+        }
+        session.getChannel().writeAndFlush(message);
+    }
+
+    /**
+     * 构建反馈消息
+     *
+     * @param code
+     * @param isAckSender
+     * @param message
+     * @return
+     */
+    private MessageProto.Message buildAckMessage(Code code, boolean isAckSender, MessageProto.Message message) {
         return MessageProto.Message.newBuilder()
                 .setCode(code.getCode())
                 .setContent(code.getMessage())
@@ -126,10 +193,21 @@ public class MessageSender implements Runnable {
                 .setToUserId(isAckSender ? message.getFromUserId() : message.getToUserId())
                 .setAssociatedGroupId(message.getAssociatedGroupId())
                 .setMatchMessageId(message.getId())
+                .setMessageBehavior(ACK)
                 .build();
     }
 
-    public PersistentMessage buildPersistentMessage(MessageProto.Message message, Boolean status, Boolean isGroup , List<Integer> onLineUserIds, List<Integer> offLineUserIds) {
+    /**
+     * 构建持久化消息
+     *
+     * @param message
+     * @param status
+     * @param isGroup
+     * @param onLineUserIds
+     * @param offLineUserIds
+     * @return
+     */
+    private PersistentMessage buildPersistentMessage(MessageProto.Message message, Boolean status, Boolean isGroup, List<Integer> onLineUserIds, List<Integer> offLineUserIds) {
         if (isGroup) {
             return PersistentMessage.builder()
                     .id(message.getId())
