@@ -110,10 +110,31 @@ layui.use('layim', function (layim) {
 
                     //每次窗口打开或切换，即更新对方的状态
                     layim.on('chatChange', function (res) {
+                        //标注成已读
+                        $.post('/message/read', {
+                          type: 1
+                        });
+                        //查询好友状态
                         var type = res.data.type;
                         if (type === 'friend') {
-                            //请求在线状态
-                            layim.setChatStatus('<span style="color:#FF5722;">在线</span>'); //模拟标注好友在线状态
+                            $.ajax({
+                                url: "/index/initFriendState",
+                                data: {"userId": user.id},
+                                type: "Post",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.data == true) {
+                                        //请求在线状态
+                                        layim.setChatStatus('<span style="color:#FF5722;">在线</span>');
+                                    } else {
+                                        layim.setChatStatus('<span style="color:#FF5722;">离线</span>');
+                                    }
+
+                                },
+                                error: function (data) {
+                                }
+                            });
+                            //模拟标注好友在线状态
                         } else if (type === 'group') {
                             //模拟系统消息
                             layim.getMessage({
