@@ -46,6 +46,14 @@
         (to_user_id = #{fromUserId,jdbcType=INTEGER} and from_user_id = #{toUserId, jdbcType=INTEGER})
         order by send_time desc
     </select>
+    <select id="selectMessageByFromUserIdAndToUserIdWithStatus" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from message
+        where from_user_id = #{fromUserId, jdbcType=INTEGER} and to_user_id = #{toUserId,jdbcType=INTEGER} and status = #{status, jdbcType=BIT}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from message
     where id = #{id,jdbcType=BIGINT}

@@ -3,6 +3,7 @@ package com.ghj.web.service;
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
+import com.ghj.web.vo.ResultVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -195,4 +196,24 @@ public interface RestService {
     @RequestMapping("/user/queryUserState")
     @ResponseBody
     Result<Boolean> queryUserState(Integer userId);
+
+    /**
+     * 消息标记为已读 好友消息
+     * @param fromUserId
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/message/readFriendMessage")
+    @ResponseBody
+    Result<Boolean> readFriendMessage(Integer fromUserId, Integer toUserId);
+
+    /**
+     * 群消息标记为已读
+     * @param groupId
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/groupMessageToUser/readGroupMessage")
+    @ResponseBody
+    Result<Boolean> readGroupMessage(Integer groupId, Integer toUserId);
 }

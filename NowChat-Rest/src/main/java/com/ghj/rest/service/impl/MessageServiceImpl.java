@@ -59,6 +59,20 @@ public class MessageServiceImpl implements MessageService {
         return buildMessageResponseList(messageList);
     }
 
+    @Override
+    public Boolean readFriendMessage(Integer fromUserId, Integer toUserId) {
+        try {
+            List<Message> messageList = messageMapper.selectMessageByFromUserIdAndToUserIdWithStatus(fromUserId, toUserId, false);
+            messageList.stream().forEach(message -> {
+                message.setStatus(true);
+                messageMapper.updateByPrimaryKey(message);
+            });
+        } catch (RuntimeException e) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
 
     List<MessageResponse> buildMessageResponseList(List<Message> messageList) {
         List<MessageResponse> messageResponseList = new ArrayList<>(messageList.size());

@@ -2,6 +2,7 @@ package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.*;
+import com.ghj.common.exception.MessageException;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
 import com.ghj.web.vo.*;
@@ -115,6 +116,19 @@ public class MainFrameServiceImpl implements MainFrameService {
     @Override
     public Boolean initFriendState(Integer userId) {
         return restService.queryUserState(userId).getData();
+    }
+
+    @Override
+    public void readMessage(Integer fromUserId, Integer toUserId, String type) {
+        if (Constant.MESSAGE_TO_PERSONAL.equals(type)) {
+            if (!restService.readFriendMessage(fromUserId, toUserId).getData()) {
+                throw new MessageException();
+            }
+        } else {
+            if (!restService.readGroupMessage(fromUserId, toUserId).getData()) {
+                throw new MessageException();
+            }
+        }
     }
 
 

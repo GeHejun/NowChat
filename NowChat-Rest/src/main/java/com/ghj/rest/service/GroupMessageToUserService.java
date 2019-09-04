@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.rest.model.GroupMessageToUser;
 
@@ -24,5 +25,11 @@ public interface GroupMessageToUserService {
      */
     List<GroupMessageToUserResponse> listMessageByToUserIdAndStatus(Integer toUserId, Boolean status);
 
-
+    /**
+     *  已读
+     * @param groupId
+     * @param toUserId
+     * @return
+     */
+    Boolean readGroupMessage(Integer groupId, Integer toUserId);
 }

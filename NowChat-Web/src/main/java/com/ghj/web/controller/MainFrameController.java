@@ -94,16 +94,17 @@ public class MainFrameController {
     }
 
     /**
-     * 查询离线信息
+     * 消息标记为已读状态
+     * @param fromUserId
      * @param toUserId
-     * @param status
+     * @param type
      * @return
      */
     @RequestMapping("/readMessage")
-    @ResponseBody
-    public ResultVO<List<MessageVO>> readMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId, @NotNull @RequestParam("toUserId") Integer toUserId) {
-        List<MessageVO> messageVOList = mainFrameService.readMessage(toUserId, status);
-        return ResultVO.defaultSuccess(messageVOList);
+    public void readMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+                                                 @NotNull @RequestParam("toUserId") Integer toUserId,
+                                                 @NotNull @RequestParam("type") String type) {
+        mainFrameService.readMessage(fromUserId, toUserId, type);
     }
 
 }

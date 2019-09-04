@@ -51,4 +51,17 @@ public class MessageController {
         List<MessageResponse> messageResponseList = messageService.queryMessageByToUserIdWithStatus(toUserId, status);
         return Result.defaultSuccess(messageResponseList);
     }
+
+    /**
+     * 消息标记为已读 好友消息
+     * @param fromUserId
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/readFriendMessage")
+    @ResponseBody
+    public Result<Boolean> readFriendMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId,@NotNull @RequestParam("toUserId") Integer toUserId) {
+        return Result.defaultSuccess(messageService.readFriendMessage(fromUserId, toUserId));
+    }
+
 }

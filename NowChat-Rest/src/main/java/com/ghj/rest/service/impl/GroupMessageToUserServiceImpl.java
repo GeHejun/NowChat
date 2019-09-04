@@ -5,6 +5,7 @@ import com.ghj.rest.dao.GroupMessageMapper;
 import com.ghj.rest.dao.GroupMessageToUserMapper;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
+import com.ghj.rest.model.Message;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,22 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
         return buildGroupMessageToUserResponseList(groupMessageToUsers);
     }
 
-
+    @Override
+    public Boolean readGroupMessage(Integer groupId, Integer toUserId) {
+        try {
+            List<GroupMessage> groupMessageList = groupMessageMapper.selectGroupMessageByToGroupId(groupId);
+            groupMessageList.stream().forEach(groupMessage -> {
+                List<GroupMessageToUser> groupMessageToUserList = groupMessageToUserMapper.selectMessageByGroupMessageIdAndToUserIdWithStatus(groupMessage.getId(), toUserId, false);
+                groupMessageToUserList.stream().forEach(groupMessageToUser -> {
+                    groupMessageToUser.setSate(true);
+                    groupMessageToUserMapper.updateByPrimaryKey(groupMessageToUser);
+                });
+            });
+        } catch (RuntimeException e) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 
     List<GroupMessageToUserResponse> buildGroupMessageToUserResponseList(List<GroupMessageToUser> groupMessageToUsers) {
         List<GroupMessageToUserResponse> groupMessageToUserResponseList = new ArrayList<>(groupMessageToUsers.size());

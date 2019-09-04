@@ -32,5 +32,16 @@ public class GroupMessageToUserController {
         return Result.defaultSuccess(groupMessageToUserService.listMessageByToUserIdAndStatus(toUserId, status));
     }
 
+    /**
+     * 群消息标记为已读
+     * @param groupId
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/readGroupMessage")
+    @ResponseBody
+    public Result<Boolean> readGroupMessage(@NotNull @RequestParam("groupId") Integer groupId,@NotNull @RequestParam("toUserId") Integer toUserId) {
+        return Result.defaultSuccess(groupMessageToUserService.readGroupMessage(groupId, toUserId));
+    }
 
 }

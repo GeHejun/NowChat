@@ -53,4 +53,13 @@ public interface MainFrameService {
      * @return
      */
     Boolean initFriendState(Integer userId);
+
+    /**
+     * 消息标记为已读
+     * @param fromUserId
+     * @param toUserId
+     * @param type
+     * @return
+     */
+    void readMessage(Integer fromUserId, Integer toUserId, String type);
 }

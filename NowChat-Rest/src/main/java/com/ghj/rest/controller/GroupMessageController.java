@@ -29,4 +29,6 @@ public class GroupMessageController {
         HistoryMessage<GroupMessageResponse> historyMessage = groupMessageService.queryHistoryGroupMessageListForPage(toGroupId, pageIndex, pageSize);
         return Result.defaultSuccess(historyMessage);
     }
+
+
 }
