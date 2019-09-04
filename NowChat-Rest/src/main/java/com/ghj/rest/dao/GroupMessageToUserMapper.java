@@ -16,4 +16,5 @@ public interface GroupMessageToUserMapper extends MyBatisBaseDao<GroupMessageToU
     List<GroupMessageToUser> selectMessageByToUserIdAndStatus(@Param("toUserId") Integer toUserId, @Param("status") Boolean status);
 
     List<GroupMessageToUser> selectMessageByGroupMessageIdAndToUserIdWithStatus(@Param("groupMessageId") Long groupMessageId, @Param("toUserId") Integer toUserId, @Param("status") Boolean status);
+
 }

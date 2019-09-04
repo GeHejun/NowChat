@@ -2,6 +2,7 @@ package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.GroupMessageResponse;
+import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.service.GroupMessageService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author GeHejun
@@ -29,6 +31,7 @@ public class GroupMessageController {
         HistoryMessage<GroupMessageResponse> historyMessage = groupMessageService.queryHistoryGroupMessageListForPage(toGroupId, pageIndex, pageSize);
         return Result.defaultSuccess(historyMessage);
     }
+
 
 
 }

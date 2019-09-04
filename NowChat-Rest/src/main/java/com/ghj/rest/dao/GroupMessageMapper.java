@@ -10,4 +10,7 @@ import java.util.List;
  */
 public interface GroupMessageMapper extends MyBatisBaseDao<GroupMessage, Long> {
     List<GroupMessage> selectGroupMessageByToGroupId(@Param("toGroupId") Integer toGroupId);
+
+
+    List<GroupMessage> selectGroupMessageByToGroupIdAndMessageTypeId(Integer id);
 }

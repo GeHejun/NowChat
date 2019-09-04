@@ -15,4 +15,6 @@ public interface MessageMapper extends MyBatisBaseDao<Message, Integer> {
     List<Message> selectMessageByToUserIdWithStatus(@Param("toUserId") Integer toUserId,@Param("status") Boolean status);
 
     List<Message> selectMessageByFromUserIdAndToUserIdWithStatus(@Param("fromUserId") Integer fromUserId, @Param("toUserId") Integer toUserId, @Param("status") Boolean status);
+
+    List<Message> queryAddFriendValidationMessage(@Param("toUserId") Integer toUserId,@Param("messageTypeId") Integer messageTypeId);
 }

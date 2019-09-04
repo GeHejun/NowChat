@@ -24,4 +24,6 @@ public class GroupMessageResponse {
     private String content;
 
     private Integer toGroupId;
+
+    private Integer messageTypeId;
 }

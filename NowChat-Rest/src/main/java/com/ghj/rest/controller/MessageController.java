@@ -64,4 +64,15 @@ public class MessageController {
         return Result.defaultSuccess(messageService.readFriendMessage(fromUserId, toUserId));
     }
 
+    /**
+     * 查询加好友验证消息
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/queryAddFriendValidationMessage")
+    @ResponseBody
+    public Result<List<MessageResponse>> queryAddFriendValidationMessage(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        return Result.defaultSuccess(messageService.queryAddFriendValidationMessage(toUserId));
+    }
+
 }

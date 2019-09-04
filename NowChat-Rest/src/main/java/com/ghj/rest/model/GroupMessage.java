@@ -19,6 +19,16 @@ public class GroupMessage implements Serializable {
 
     private Integer toGroupId;
 
+    private Integer messageTypeId;
+
+    public void setMessageTypeId(Integer messageTypeId) {
+        this.messageTypeId = messageTypeId;
+    }
+
+    public Integer getMessageTypeId() {
+        return messageTypeId;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {

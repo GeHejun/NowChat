@@ -233,13 +233,15 @@ public interface RestService {
      */
     @RequestMapping("/groupMessageToUser/queryAddGroupValidationMessage")
     @ResponseBody
-    Result<List<GroupMessageToUserResponse>> queryAddGroupValidationMessage(Integer toUserId);
+    Result<List<GroupMessageToUserResponse>> queryAddGroupValidationMessage(Integer toGroupId);
 
     /**
      *
      * @param toUserId
      * @return
      */
+    @RequestMapping("/message/queryUnreadFriendMessage")
+    @ResponseBody
     Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(Integer toUserId);
 
     /**
@@ -247,5 +249,7 @@ public interface RestService {
      * @param toUserId
      * @return
      */
+    @RequestMapping("/groupMessageToUser/queryUnreadGroupMessage")
+    @ResponseBody
     Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(Integer toUserId);
 }

@@ -44,4 +44,10 @@ public class GroupMessageToUserController {
         return Result.defaultSuccess(groupMessageToUserService.readGroupMessage(groupId, toUserId));
     }
 
+    @RequestMapping("/queryAddGroupValidationMessage")
+    @ResponseBody
+    public Result<List<GroupMessageToUserResponse>> queryAddGroupValidationMessage(Integer toUserId) {
+        return Result.defaultSuccess(groupMessageToUserService.queryAddGroupValidationMessage(toUserId));
+    }
+
 }

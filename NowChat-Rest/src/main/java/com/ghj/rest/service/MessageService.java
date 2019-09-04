@@ -2,6 +2,7 @@ package com.ghj.rest.service;
 
 
 import com.ghj.common.base.Code;
+import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.rest.model.Message;
@@ -52,4 +53,6 @@ public interface MessageService {
      * @return
      */
     Boolean readFriendMessage(Integer fromUserId, Integer toUserId);
+
+    List<MessageResponse> queryAddFriendValidationMessage(Integer toUserId);
 }

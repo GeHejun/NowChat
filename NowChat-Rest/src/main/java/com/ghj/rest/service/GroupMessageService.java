@@ -1,8 +1,13 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.GroupMessageResponse;
+import com.ghj.common.dto.response.GroupMessageToUserResponse;
+import com.ghj.common.dto.response.GroupToUserResponse;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.model.GroupMessage;
+
+import java.util.List;
 
 /**
  * @author gehj
@@ -23,4 +28,5 @@ public interface GroupMessageService {
      * @return
      */
     HistoryMessage<GroupMessageResponse> queryHistoryGroupMessageListForPage(Integer toGroupId, Integer pageIndex, Integer pageSize);
+
 }

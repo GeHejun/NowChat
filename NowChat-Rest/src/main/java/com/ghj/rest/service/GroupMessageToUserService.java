@@ -32,4 +32,7 @@ public interface GroupMessageToUserService {
      * @return
      */
     Boolean readGroupMessage(Integer groupId, Integer toUserId);
+
+
+    List<GroupMessageToUserResponse> queryAddGroupValidationMessage(Integer toUserId);
 }
