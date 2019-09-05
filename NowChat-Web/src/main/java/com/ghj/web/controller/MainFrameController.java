@@ -1,6 +1,5 @@
 package com.ghj.web.controller;
 
-import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;

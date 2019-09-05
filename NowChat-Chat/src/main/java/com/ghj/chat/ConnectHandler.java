@@ -4,7 +4,6 @@ import com.ghj.chat.message.MessageManager;
 import com.ghj.common.base.Code;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.UserException;
-import com.ghj.common.mq.SendUtil;
 import com.ghj.common.util.*;
 import com.ghj.protocol.MessageProto;
 import io.netty.channel.Channel;
@@ -43,8 +42,8 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                     ackMessage = buildAckMessage(Code.LOGIN_FAILURE, message);
                     if (Objects.isNull(SessionManager.getSession(message.getFromUserId()))) {
                         channel.writeAndFlush(ackMessage);
+                        break;
                     }
-                    break;
                 }
                 MessageManager.getInstance().putMessage(ackMessage);
                 break;
@@ -97,7 +96,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
 
     public synchronized void incrementOnLineUser(Channel channel, MessageProto.Message message) {
         InetSocketAddress socketAddress = (InetSocketAddress)channel.localAddress();
-        RedisPoolUtil.hset(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()), message.getFromUserId()+"_"+message.getToken());
+        RedisPoolUtil.lpush(Constant.ON_LINE_USER_LIST, String.valueOf(message.getFromUserId()));
         RedisPoolUtil.increment(Constant.ON_LINE_USER_COUNT+"_"+socketAddress.getAddress()+"_"+socketAddress.getPort());
     }
 

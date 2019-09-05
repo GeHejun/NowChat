@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean queryUserState(Integer userId) {
-        String token = (String) redisTemplate.opsForHash().get(Constant.ON_LINE_USER_LIST, userId);
+        String token = (String) redisTemplate.opsForValue().get(Constant.SYSTEM_PREFIX + Constant.USER_TOKEN_KEY + userId);
         return StringUtils.isNotEmpty(token);
     }
 }

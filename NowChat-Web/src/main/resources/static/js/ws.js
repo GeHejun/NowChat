@@ -111,7 +111,7 @@ layui.use('layim', function (layim) {
                     //每次窗口打开或切换，即更新对方的状态
                     layim.on('chatChange', function (res) {
                         //标注成已读
-                        $.post('/message/read', {type:res.data.type, formUserId:res.data.id, toUserId:user.id});
+                        $.post('/index/readMessage', {type:res.data.type, fromUserId:res.data.id, toUserId:user.id});
                         //查询好友状态
                         var type = res.data.type;
                         if (type === 'friend') {
@@ -133,13 +133,13 @@ layui.use('layim', function (layim) {
                             });
                             //模拟标注好友在线状态
                         } else if (type === 'group') {
-                            //模拟系统消息
-                            layim.getMessage({
-                                system: true //系统消息
-                                , id: 111111111
-                                , type: "group"
-                                , content: '贤心加入群聊'
-                            });
+                            // //模拟系统消息
+                            // layim.getMessage({
+                            //     system: true //系统消息
+                            //     , id: 111111111
+                            //     , type: "group"
+                            //     , content: '贤心加入群聊'
+                            // });
                         }
                     });
 

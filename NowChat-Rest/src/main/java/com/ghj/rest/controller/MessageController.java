@@ -72,7 +72,7 @@ public class MessageController {
      */
     @RequestMapping("/queryUnreadFriendMessage")
     @ResponseBody
-    public Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(Integer toUserId) {
+    public Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(@NotNull @RequestParam("toUserId") Integer toUserId) {
         return Result.defaultSuccess(messageService.queryUnreadFriendMessage(toUserId));
     }
 

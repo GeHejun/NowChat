@@ -3,11 +3,9 @@ package com.ghj.web.service;
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
-import com.ghj.web.vo.ResultVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -195,7 +193,7 @@ public interface RestService {
      */
     @RequestMapping("/user/queryUserState")
     @ResponseBody
-    Result<Boolean> queryUserState(Integer userId);
+    Result<Boolean> queryUserState(@NotNull @RequestParam("userId") Integer userId);
 
     /**
      * 消息标记为已读 好友消息
@@ -205,7 +203,7 @@ public interface RestService {
      */
     @RequestMapping("/message/readFriendMessage")
     @ResponseBody
-    Result<Boolean> readFriendMessage(Integer fromUserId, Integer toUserId);
+    Result<Boolean> readFriendMessage(@NotNull @RequestParam("fromUserId") Integer fromUserId,@NotNull @RequestParam("toUserId") Integer toUserId);
 
     /**
      * 群消息标记为已读
@@ -215,7 +213,7 @@ public interface RestService {
      */
     @RequestMapping("/groupMessageToUser/readGroupMessage")
     @ResponseBody
-    Result<Boolean> readGroupMessage(Integer groupId, Integer toUserId);
+    Result<Boolean> readGroupMessage(@NotNull @RequestParam("groupId") Integer groupId,@NotNull @RequestParam("toUserId") Integer toUserId);
 
     /**
      * 查询好友未读消息条数
@@ -224,7 +222,7 @@ public interface RestService {
      */
     @RequestMapping("/message/queryUnreadFriendMessage")
     @ResponseBody
-    Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(Integer toUserId);
+    Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(@NotNull @RequestParam("toUserId") Integer toUserId);
 
     /**
      * 查询群组未读消息条数
@@ -233,5 +231,5 @@ public interface RestService {
      */
     @RequestMapping("/groupMessageToUser/queryUnreadGroupMessage")
     @ResponseBody
-    Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(Integer toUserId);
+    Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(@NotNull @RequestParam("toUserId") Integer toUserId);
 }
