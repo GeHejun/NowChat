@@ -9,7 +9,6 @@ import com.ghj.web.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -135,12 +134,13 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     @Override
     public List<MessageBoxVO> initMessageBoxVO(Integer toUserId) {
-        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
-        List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
-        unreadMessageResponseList.addAll(unreadFriendMessageResponseList);
-        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
-        unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
-        return buildMessageBoxVO(unreadMessageResponseList);
+//        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
+//        List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
+//        unreadMessageResponseList.addAll(unreadFriendMessageResponseList);
+//        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
+//        unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
+//        return buildMessageBoxVO(unreadMessageResponseList);
+        return null;
     }
 
     public List<MessageBoxVO> buildMessageBoxVO(List<UnreadMessageResponse> unreadMessageResponseList) {
@@ -148,11 +148,11 @@ public class MainFrameServiceImpl implements MainFrameService {
         unreadMessageResponseList.stream().forEach(unreadMessageResponse -> {
             UserResponse userResponse = restService.queryUser(unreadMessageResponse.getFromUserId()).getData();
             MessageBoxVO messageBoxVO = MessageBoxVO.builder()
-                    .userVO(buildUserVO(userResponse))
+                    .user(buildUserVO(userResponse))
                     .from(unreadMessageResponse.getFromUserId())
                     .uid(unreadMessageResponse.getToUserId())
+                    .content(unreadMessageResponse.getContent())
                     .from_group(unreadMessageResponse.getToGroupId())
-                    .time(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(unreadMessageResponse.getSendTime()))
                     .type(Objects.isNull(unreadMessageResponse.getToGroupId()) ? 1 : 2).build();
             messageBoxVOList.add(messageBoxVO);
         });

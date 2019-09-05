@@ -2,8 +2,9 @@ package com.ghj.common.dto.response;
 
 import lombok.Data;
 
-import java.util.Date;
-
+/**
+ * @author GeHejun
+ */
 @Data
 public class UnreadMessageResponse {
 
@@ -14,8 +15,6 @@ public class UnreadMessageResponse {
     private Integer toUserId;
 
     private String type;
-
-    private Date sendTime;
 
     private Integer count;
 

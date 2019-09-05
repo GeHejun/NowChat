@@ -2,8 +2,6 @@ package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.GroupMessageToUserResponse;
-import com.ghj.common.dto.response.GroupToUserResponse;
-import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.stereotype.Controller;
@@ -50,7 +48,7 @@ public class GroupMessageToUserController {
      * @param toUserId
      * @return
      */
-    @RequestMapping("/groupMessageToUser/queryUnreadGroupMessage")
+    @RequestMapping("/queryUnreadGroupMessage")
     @ResponseBody
     public Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(@NotNull @RequestParam("toUserId") Integer toUserId) {
         return Result.defaultSuccess(groupMessageToUserService.queryUnreadGroupMessage(toUserId));

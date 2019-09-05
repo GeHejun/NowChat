@@ -33,5 +33,5 @@ public class MessageBoxVO {
 
     private String time;
 
-    private UserVO userVO;
+    private UserVO user;
 }
