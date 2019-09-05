@@ -1,12 +1,10 @@
 package com.ghj.rest.service;
 
 
-import com.ghj.common.base.Code;
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.MessageResponse;
+import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.model.Message;
-import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -54,4 +52,5 @@ public interface MessageService {
      */
     Boolean readFriendMessage(Integer fromUserId, Integer toUserId);
 
+    List<UnreadMessageResponse> queryUnreadFriendMessage(Integer toUserId);
 }

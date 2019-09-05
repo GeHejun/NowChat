@@ -17,4 +17,8 @@ public class UnreadMessageResponse {
 
     private Date sendTime;
 
+    private Integer count;
+
+    private String content;
+
 }

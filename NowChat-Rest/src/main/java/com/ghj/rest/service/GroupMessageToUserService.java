@@ -1,7 +1,7 @@
 package com.ghj.rest.service;
 
-import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.GroupMessageToUserResponse;
+import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.model.GroupMessageToUser;
 
 import java.util.List;
@@ -33,4 +33,5 @@ public interface GroupMessageToUserService {
      */
     Boolean readGroupMessage(Integer groupId, Integer toUserId);
 
+    List<UnreadMessageResponse> queryUnreadGroupMessage(Integer toUserId);
 }

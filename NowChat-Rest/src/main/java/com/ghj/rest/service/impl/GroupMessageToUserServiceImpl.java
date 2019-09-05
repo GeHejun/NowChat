@@ -1,18 +1,18 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.GroupMessageToUserResponse;
+import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.dao.GroupMessageMapper;
 import com.ghj.rest.dao.GroupMessageToUserMapper;
-import com.ghj.rest.dao.MessageTypeMapper;
-import com.ghj.rest.dao.UserGroupMapper;
-import com.ghj.rest.model.*;
+import com.ghj.rest.model.GroupMessage;
+import com.ghj.rest.model.GroupMessageToUser;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,11 +28,6 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
     @Resource
     GroupMessageMapper groupMessageMapper;
 
-    @Resource
-    MessageTypeMapper messageTypeMapper;
-
-    @Resource
-    UserGroupMapper userGroupMapper;
 
     @Override
     public void insert(GroupMessageToUser groupMessageToUser) {
@@ -61,6 +56,33 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public List<UnreadMessageResponse> queryUnreadGroupMessage(Integer toUserId) {
+        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
+        List<GroupMessageToUser> groupMessageToUsers = groupMessageToUserMapper.selectMessageByToUserIdAndStatus(toUserId, false);
+        HashMap<Integer, List<GroupMessageToUser>> groupMessageHashMap = new HashMap<>(16);
+        groupMessageToUsers.stream().forEach(groupMessageToUser -> {
+            List<GroupMessageToUser> groupMessageToUserList;
+            GroupMessage groupMessage = groupMessageMapper.selectByPrimaryKey(groupMessageToUser.getGroupMessageId());
+            if (groupMessageHashMap.containsKey(groupMessage.getToGroupId())) {
+                groupMessageToUserList = groupMessageHashMap.get(groupMessage.getToGroupId());
+                groupMessageToUserList.add(groupMessageToUser);
+            } else {
+                groupMessageToUserList = new ArrayList<>();
+                groupMessageToUserList.add(groupMessageToUser);
+                groupMessageHashMap.put(groupMessage.getToGroupId(), groupMessageToUserList);
+            }
+        });
+        groupMessageHashMap.forEach((k, v)->{
+            UnreadMessageResponse unreadMessageResponse = new UnreadMessageResponse();
+            unreadMessageResponse.setToGroupId(k);
+            unreadMessageResponse.setToUserId(toUserId);
+            unreadMessageResponse.setCount(v.size());
+            unreadMessageResponseList.add(unreadMessageResponse);
+        });
+        return unreadMessageResponseList;
     }
 
 

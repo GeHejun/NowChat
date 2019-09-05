@@ -1,13 +1,11 @@
 package com.ghj.rest.service.impl;
 
 
-import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.HistoryMessage;
-import com.ghj.rest.dao.MessageMapper;
 import com.ghj.common.dto.response.MessageResponse;
-import com.ghj.rest.dao.MessageTypeMapper;
+import com.ghj.common.dto.response.UnreadMessageResponse;
+import com.ghj.rest.dao.MessageMapper;
 import com.ghj.rest.model.Message;
-import com.ghj.rest.model.MessageType;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author gehj
@@ -28,9 +28,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource
     MessageMapper messageMapper;
-
-    @Resource
-    MessageTypeMapper messageTypeMapper;
 
 
     @Override
@@ -79,6 +76,20 @@ public class MessageServiceImpl implements MessageService {
         return Boolean.TRUE;
     }
 
+    @Override
+    public List<UnreadMessageResponse> queryUnreadFriendMessage(Integer toUserId) {
+        List<Message> messageList = messageMapper.selectMessageByToUserIdWithStatus(toUserId, false);
+        Map<Integer, List<Message>> messageMap = messageList.stream().collect(Collectors.groupingBy(Message::getFromUserId));
+        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
+        messageMap.forEach((k, v)->{
+            UnreadMessageResponse unreadMessageResponse = new UnreadMessageResponse();
+            unreadMessageResponse.setFromUserId(k);
+            unreadMessageResponse.setToUserId(toUserId);
+            unreadMessageResponse.setCount(v.size());
+            unreadMessageResponseList.add(unreadMessageResponse);
+        });
+        return unreadMessageResponseList;
+    }
 
 
     List<MessageResponse> buildMessageResponseList(List<Message> messageList) {

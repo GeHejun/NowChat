@@ -4,6 +4,7 @@ import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.common.dto.response.GroupToUserResponse;
 import com.ghj.common.dto.response.HistoryMessage;
+import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,17 @@ public class GroupMessageToUserController {
     @ResponseBody
     public Result<Boolean> readGroupMessage(@NotNull @RequestParam("groupId") Integer groupId,@NotNull @RequestParam("toUserId") Integer toUserId) {
         return Result.defaultSuccess(groupMessageToUserService.readGroupMessage(groupId, toUserId));
+    }
+
+    /**
+     * 查询群组未读消息条数
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/groupMessageToUser/queryUnreadGroupMessage")
+    @ResponseBody
+    public Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        return Result.defaultSuccess(groupMessageToUserService.queryUnreadGroupMessage(toUserId));
     }
 
 
