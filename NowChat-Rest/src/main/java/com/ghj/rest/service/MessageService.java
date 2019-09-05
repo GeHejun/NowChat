@@ -54,5 +54,4 @@ public interface MessageService {
      */
     Boolean readFriendMessage(Integer fromUserId, Integer toUserId);
 
-    List<MessageResponse> queryAddFriendValidationMessage(Integer toUserId);
 }

@@ -135,17 +135,6 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     @Override
     public List<MessageBoxVO> initMessageBoxVO(Integer toUserId) {
-        List<MessageResponse> messageResponseList = restService.queryAddFriendValidationMessage(toUserId).getData();
-        messageResponseList.stream().forEach(messageResponse -> {
-            UserResponse userResponse = restService.queryUser(messageResponse.getFromUserId()).getData();
-//            MessageBoxVO messageBoxVO = MessageBoxVO.builder()
-//                    .userVO(buildUserVO(userResponse))
-//                    .from(messageResponse.getFromUserId())
-//                    .id(messageResponse.getId())
-//                    .time(messageResponse.getSendTime())
-//                    .build();
-        });
-        List<GroupMessageToUserResponse> groupMessageToUserResponseList = restService.queryAddGroupValidationMessage(toUserId).getData();
         List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
         List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
         return null;

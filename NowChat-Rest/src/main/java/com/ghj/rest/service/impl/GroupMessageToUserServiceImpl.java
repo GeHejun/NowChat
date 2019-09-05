@@ -5,10 +5,8 @@ import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.rest.dao.GroupMessageMapper;
 import com.ghj.rest.dao.GroupMessageToUserMapper;
 import com.ghj.rest.dao.MessageTypeMapper;
-import com.ghj.rest.model.GroupMessage;
-import com.ghj.rest.model.GroupMessageToUser;
-import com.ghj.rest.model.Message;
-import com.ghj.rest.model.MessageType;
+import com.ghj.rest.dao.UserGroupMapper;
+import com.ghj.rest.model.*;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -32,6 +30,9 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
 
     @Resource
     MessageTypeMapper messageTypeMapper;
+
+    @Resource
+    UserGroupMapper userGroupMapper;
 
     @Override
     public void insert(GroupMessageToUser groupMessageToUser) {
@@ -62,14 +63,8 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
         return Boolean.TRUE;
     }
 
-    @Override
-    public List<GroupMessageToUserResponse> queryAddGroupValidationMessage(Integer toUserId) {
-        MessageType messageType = messageTypeMapper.selectByName(Constant.VALIDATION_MESSAGE_NAME);
-        groupMessageMapper.selectGroupMessageByToGroupIdAndMessageTypeId(messageType.getId());
-        return null;
-    }
 
-    List<GroupMessageToUserResponse> buildGroupMessageToUserResponseList(List<GroupMessageToUser> groupMessageToUsers) {
+    private List<GroupMessageToUserResponse> buildGroupMessageToUserResponseList(List<GroupMessageToUser> groupMessageToUsers) {
         List<GroupMessageToUserResponse> groupMessageToUserResponseList = new ArrayList<>(groupMessageToUsers.size());
         groupMessageToUsers.forEach(groupMessageToUser -> {
             GroupMessageToUserResponse groupMessageToUserResponse = new GroupMessageToUserResponse();

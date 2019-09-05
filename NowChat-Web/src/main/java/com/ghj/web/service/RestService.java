@@ -218,25 +218,7 @@ public interface RestService {
     Result<Boolean> readGroupMessage(Integer groupId, Integer toUserId);
 
     /**
-     * 查询加好友验证消息
-     * @param toUserId
-     * @return
-     */
-    @RequestMapping("/message/queryAddFriendValidationMessage")
-    @ResponseBody
-    Result<List<MessageResponse>> queryAddFriendValidationMessage(Integer toUserId);
-
-    /**
-     * 查询加群验证消息
-     * @param toUserId
-     * @return
-     */
-    @RequestMapping("/groupMessageToUser/queryAddGroupValidationMessage")
-    @ResponseBody
-    Result<List<GroupMessageToUserResponse>> queryAddGroupValidationMessage(Integer toGroupId);
-
-    /**
-     *
+     * 查询好友未读消息条数
      * @param toUserId
      * @return
      */
@@ -245,7 +227,7 @@ public interface RestService {
     Result<List<UnreadMessageResponse>> queryUnreadFriendMessage(Integer toUserId);
 
     /**
-     *
+     * 查询群组未读消息条数
      * @param toUserId
      * @return
      */

@@ -48,7 +48,7 @@ public class MessageSender implements Runnable {
      *
      * @param message
      */
-    private MessageSender(MessageProto.Message message) {
+    public MessageSender(MessageProto.Message message) {
         this.message = message;
     }
 
@@ -65,11 +65,7 @@ public class MessageSender implements Runnable {
                     dealPersonalMessage(message);
                     break;
                 case GROUP:
-                    if (MESSAGE == message.getMessageBehavior()) {
-                        dealGroupMessage(message);
-                    } else {
-                        dealGroupValidateMessage(message);
-                    }
+                    dealGroupMessage(message);
                     break;
                 case SERVER:
                     dealServerMessage(message);
@@ -78,24 +74,6 @@ public class MessageSender implements Runnable {
         }
     }
 
-    /**
-     * 处理群验证消息
-     *
-     * @param message
-     */
-    private void dealGroupValidateMessage(MessageProto.Message message) {
-        List<Integer> offLineUserIds = new ArrayList<>();
-        List<Integer> onLineUserIds = new ArrayList<>();
-        Session session = SessionManager.getSession(message.getToUserId());
-        if (session == null) {
-            offLineUserIds.add(message.getToUserId());
-        } else {
-            onLineUserIds.add(message.getToUserId());
-            session.getChannel().writeAndFlush(message);
-        }
-        PersistentMessage persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
-        SendUtil.sendForQueue(persistentMessage);
-    }
 
     /**
      * 处理反馈到服务端消息（tome）

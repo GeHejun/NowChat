@@ -6,7 +6,7 @@
     <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
     <result column="from_user_name" jdbcType="VARCHAR" property="fromUserName" />
     <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
-    <result column="state" jdbcType="BIT" property="state" />
+    <result column="status" jdbcType="BIT" property="status" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
     <result column="user_group_id" jdbcType="INTEGER" property="userGroupId" />
   </resultMap>
@@ -14,7 +14,7 @@
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, from_user_id, from_user_name, to_user_id, `state`, send_time, user_group_id
+    id, from_user_id, from_user_name, to_user_id, `status`, send_time, user_group_id
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -33,10 +33,10 @@
   </delete>
   <insert id="insert" parameterType="com.ghj.rest.model.GroupMessageUserToUser">
     insert into group_message_user_to_user (id, from_user_id, from_user_name, 
-      to_user_id, `state`, send_time, 
+      to_user_id, `status`, send_time, 
       user_group_id, content)
     values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, #{fromUserName,jdbcType=VARCHAR}, 
-      #{toUserId,jdbcType=INTEGER}, #{state,jdbcType=BIT}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{toUserId,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{sendTime,jdbcType=TIMESTAMP}, 
       #{userGroupId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.GroupMessageUserToUser">
@@ -54,8 +54,8 @@
       <if test="toUserId != null">
         to_user_id,
       </if>
-      <if test="state != null">
-        `state`,
+      <if test="status != null">
+        `status`,
       </if>
       <if test="sendTime != null">
         send_time,
@@ -80,8 +80,8 @@
       <if test="toUserId != null">
         #{toUserId,jdbcType=INTEGER},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=BIT},
+      <if test="status != null">
+        #{status,jdbcType=BIT},
       </if>
       <if test="sendTime != null">
         #{sendTime,jdbcType=TIMESTAMP},
@@ -106,8 +106,8 @@
       <if test="toUserId != null">
         to_user_id = #{toUserId,jdbcType=INTEGER},
       </if>
-      <if test="state != null">
-        `state` = #{state,jdbcType=BIT},
+      <if test="status != null">
+        `status` = #{status,jdbcType=BIT},
       </if>
       <if test="sendTime != null">
         send_time = #{sendTime,jdbcType=TIMESTAMP},
@@ -126,7 +126,7 @@
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       from_user_name = #{fromUserName,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=INTEGER},
-      `state` = #{state,jdbcType=BIT},
+      `status` = #{status,jdbcType=BIT},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       user_group_id = #{userGroupId,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR}
@@ -137,7 +137,7 @@
     set from_user_id = #{fromUserId,jdbcType=INTEGER},
       from_user_name = #{fromUserName,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=INTEGER},
-      `state` = #{state,jdbcType=BIT},
+      `status` = #{status,jdbcType=BIT},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       user_group_id = #{userGroupId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

@@ -120,5 +120,4 @@ public class Constant {
 
     public static final String OFF_LINE = "offline";
 
-    public static final String VALIDATION_MESSAGE_NAME = "VALIDATION_MESSAGE";
 }

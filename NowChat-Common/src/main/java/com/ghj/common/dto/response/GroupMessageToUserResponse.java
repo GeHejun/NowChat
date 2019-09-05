@@ -11,7 +11,7 @@ public class GroupMessageToUserResponse {
 
     private Long groupMessageId;
 
-    private Boolean sate;
+    private Boolean status;
 
     private Date sendTime;
 

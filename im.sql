@@ -94,7 +94,7 @@ CREATE TABLE `group_message_to_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `group_message_id` int(11) DEFAULT NULL,
-  `sate` bit(1) DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL,
   `send_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -109,7 +109,7 @@ CREATE TABLE `group_message_user_to_user` (
   `from_user_name` varchar(255) DEFAULT NULL,
   `to_user_id` int(11) DEFAULT NULL,
   `content` text,
-  `state` bit(1) DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL,
   `send_time` datetime DEFAULT NULL,
   `user_group_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -234,5 +234,6 @@ CREATE TABLE `user_state` (
   `name` varchar(25) NOT NULL COMMENT '状态名字',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 SET FOREIGN_KEY_CHECKS = 1;

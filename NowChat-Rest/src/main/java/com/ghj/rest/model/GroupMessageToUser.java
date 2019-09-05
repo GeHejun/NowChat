@@ -14,7 +14,7 @@ public class GroupMessageToUser implements Serializable {
 
     private Long groupMessageId;
 
-    private Boolean sate;
+    private Boolean status;
 
     private Date sendTime;
 
@@ -45,11 +45,11 @@ public class GroupMessageToUser implements Serializable {
     }
 
     public Boolean getSate() {
-        return sate;
+        return status;
     }
 
-    public void setSate(Boolean sate) {
-        this.sate = sate;
+    public void setSate(Boolean status) {
+        this.status = status;
     }
 
     public Date getSendTime() {
@@ -100,7 +100,7 @@ public class GroupMessageToUser implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", groupMessageId=").append(groupMessageId);
-        sb.append(", sate=").append(sate);
+        sb.append(", status=").append(status);
         sb.append(", sendTime=").append(sendTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

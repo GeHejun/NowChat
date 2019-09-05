@@ -79,12 +79,6 @@ public class MessageServiceImpl implements MessageService {
         return Boolean.TRUE;
     }
 
-    @Override
-    public List<MessageResponse> queryAddFriendValidationMessage(Integer toUserId) {
-        MessageType messageType = messageTypeMapper.selectByName(Constant.VALIDATION_MESSAGE_NAME);
-        List<Message> messageList = messageMapper.queryAddFriendValidationMessage(toUserId, messageType.getId());
-        return buildMessageResponseList(messageList);
-    }
 
 
     List<MessageResponse> buildMessageResponseList(List<Message> messageList) {
