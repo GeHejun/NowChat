@@ -1,6 +1,7 @@
 package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.*;
 import com.ghj.common.exception.MessageException;
 import com.ghj.web.service.MainFrameService;
@@ -96,7 +97,7 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     @Override
-    public HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId,  String type, Integer pageIndex, Integer pageSize) {
+    public HistoryMessageVO initHistoryMessage(Integer fromUserId, Integer toUserId, String type, Integer pageIndex, Integer pageSize) {
         if (Constant.MESSAGE_TO_PERSONAL.equals(type)) {
             HistoryMessage<MessageResponse> historyMessage = restService.queryHistoryMessageListForPage(fromUserId, toUserId, pageIndex, pageSize).getData();
             List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
@@ -108,7 +109,7 @@ public class MainFrameServiceImpl implements MainFrameService {
         } else {
             HistoryMessage<GroupMessageResponse> historyMessage = restService.queryHistoryGroupMessageListForPage(fromUserId, pageIndex, pageSize).getData();
             List<MessageVO> messageVOList = new ArrayList<>(historyMessage.getData().size());
-            historyMessage.getData().forEach(groupMessageResponse -> messageVOList.add(buildGroupMessageVO( groupMessageResponse)));
+            historyMessage.getData().forEach(groupMessageResponse -> messageVOList.add(buildGroupMessageVO(groupMessageResponse)));
             return HistoryMessageVO.builder().data(messageVOList)
                     .pageNum(historyMessage.getPageNum()).pageSize(historyMessage.getPageSize()).total(historyMessage.getTotal()).build();
         }
@@ -140,23 +141,43 @@ public class MainFrameServiceImpl implements MainFrameService {
 //        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
 //        unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
 //        return buildMessageBoxVO(unreadMessageResponseList);
-        return null;
-    }
-
-    public List<MessageBoxVO> buildMessageBoxVO(List<UnreadMessageResponse> unreadMessageResponseList) {
-        List<MessageBoxVO> messageBoxVOList = new ArrayList<>(unreadMessageResponseList.size());
-        unreadMessageResponseList.stream().forEach(unreadMessageResponse -> {
-            UserResponse userResponse = restService.queryUser(unreadMessageResponse.getFromUserId()).getData();
-            MessageBoxVO messageBoxVO = MessageBoxVO.builder()
-                    .user(buildUserVO(userResponse))
-                    .from(unreadMessageResponse.getFromUserId())
-                    .uid(unreadMessageResponse.getToUserId())
-                    .content(unreadMessageResponse.getContent())
-                    .from_group(unreadMessageResponse.getToGroupId())
-                    .type(Objects.isNull(unreadMessageResponse.getToGroupId()) ? 1 : 2).build();
-            messageBoxVOList.add(messageBoxVO);
+        List<SystemMessageResponse> systemMessageResponseList = restService.queryValidationMessage(toUserId).getData();
+        List<MessageBoxVO> messageBoxVOList = new ArrayList<>(systemMessageResponseList.size());
+        systemMessageResponseList.forEach(systemMessageResponse -> {
+            messageBoxVOList.add(buildMessageBoxVO(systemMessageResponse));
         });
         return messageBoxVOList;
+    }
+
+    @Override
+    public Integer initMessageBoxNum(Integer toUserId) {
+        return restService.queryUnreadValidationMessageNum(toUserId).getData();
+    }
+
+    @Override
+    public Boolean readValidationMessage(Integer toUserId) {
+        return restService.readValidationMessage(toUserId).getData();
+    }
+
+    public MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
+        String messageTypeName = restService.queryMessageTypeNameById(systemMessageResponse.getMessageTypeId()).getData();
+        UserResponse userResponse = restService.queryUser(systemMessageResponse.getFromUserId()).getData();
+        Integer type = 0;
+        String content = userResponse.getNickName() + "申请添加你为好友";
+        if (Constant.FRIEND_VALIDATION_MESSAGE.equals(messageTypeName)) {
+            type = 1;
+            UserGroupResponse userGroupResponse = restService.findGroupById(systemMessageResponse.getToGroupId()).getData();
+            content = userResponse.getNickName() + "申请加入群" + userGroupResponse.getName();
+        }
+        MessageBoxVO messageBoxVO = MessageBoxVO.builder()
+                .user(buildUserVO(userResponse))
+                .from(systemMessageResponse.getFromUserId())
+                .uid(systemMessageResponse.getToUserId())
+                .content(content)
+                .from_group(systemMessageResponse.getToGroupId())
+                .type(type).build();
+
+        return messageBoxVO;
     }
 
 

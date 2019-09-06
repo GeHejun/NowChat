@@ -1,5 +1,7 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
+
 /**
  * @author gehj
  * @version 1.0
@@ -9,4 +11,6 @@ package com.ghj.rest.service;
 public interface MessageTypeService {
 
     Integer queryMessageTypeByName(String name);
+
+    String queryMessageTypeNameById(Integer id);
 }

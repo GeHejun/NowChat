@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="SystemMessageMapper.SystemMessageMapper">
-  <resultMap id="BaseResultMap" type="com.ghj.rest.SystemMessage">
-    <id column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.ghj.rest.dao.SystemMessageMapper">
+  <resultMap id="BaseResultMap" type="com.ghj.rest.model.SystemMessage">
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="from_user_id" jdbcType="INTEGER" property="fromUserId" />
     <result column="to_user_id" jdbcType="INTEGER" property="toUserId" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
@@ -14,25 +14,43 @@
   <sql id="Base_Column_List">
     id, from_user_id, to_user_id, send_time, `status`, content, to_group_id, message_type_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from system_message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectUnreadValidationMessageNum" resultType="java.lang.Integer">
+    select
+    count(1)
+    from system_message
+    where status = #{status, jdbcType=BIT} and to_user_id = #{toUserId, jdbcType=INTEGER}
+  </select>
+  <select id="selectValidationMessage" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from system_message
+    where to_user_id = #{toUserId,jdbcType=INTEGER} order by send_time desc
+  </select>
+  <select id="selectValidationMessageByToUserIdWithStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from system_message
+    where to_user_id = #{toUserId,jdbcType=INTEGER} and status = #{status, jdbcType=BIT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from system_message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.ghj.rest.SystemMessage">
+  <insert id="insert" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message (id, from_user_id, to_user_id, 
       send_time, `status`, content, 
       to_group_id, message_type_id)
-    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER},
       #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, 
       #{toGroupId,jdbcType=INTEGER}, #{messageTypeId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ghj.rest.SystemMessage">
+  <insert id="insertSelective" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -62,7 +80,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="fromUserId != null">
         #{fromUserId,jdbcType=INTEGER},
@@ -87,11 +105,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.SystemMessage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.model.SystemMessage">
     update system_message
     <set>
       <if test="fromUserId != null">
-        from_user_id = #{fromUserId,jdbcType=INTEGER},
+        from_user_id = #{fromUserId,jdbcType=BIGINT},
       </if>
       <if test="toUserId != null">
         to_user_id = #{toUserId,jdbcType=INTEGER},
@@ -114,9 +132,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ghj.rest.SystemMessage">
+  <update id="updateByPrimaryKey" parameterType="com.ghj.rest.model.SystemMessage">
     update system_message
-    set from_user_id = #{fromUserId,jdbcType=INTEGER},
+    set from_user_id = #{fromUserId,jdbcType=BIGINT},
       to_user_id = #{toUserId,jdbcType=INTEGER},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=BIT},

@@ -3,7 +3,7 @@ var deviceId = parseInt(10 * Math.random() + 1);
 var websocket;
 let routeMsgId = 10000;
 let loginMsgId = 20000;
-let msgBoxNum = 0;
+
 
 function sendMessage(message) {
     protobuf.load("/proto/message.proto", function (err, root) {
@@ -233,8 +233,18 @@ layui.use('layim', function (layim) {
                 } else {
                     if (buffer.messageBehavior != 5) {
                         if (buffer.messageBehavior == 11) {
-                            msgBoxNum++;
-                            layim.msgbox(msgBoxNum);
+                            $.ajax({
+                                url: "/index/initMessageBoxNum",
+                                data: {"toUserId": user.id},
+                                type: "Post",
+                                dataType: "json",
+                                success: function (data) {
+                                    layim.msgbox(data.data);
+                                },
+                                error: function (data) {
+                                }
+                            });
+
                         } else {
                             layim.getMessage({
                                 username: buffer.name //消息来源用户名

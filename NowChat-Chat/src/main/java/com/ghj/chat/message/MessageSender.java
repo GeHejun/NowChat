@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.ghj.common.base.Constant.DATA_KEY;
-import static com.ghj.protocol.MessageProto.Message.MessageBehavior.ACK;
+import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
 
 
 /**
@@ -95,10 +95,10 @@ public class MessageSender implements Runnable {
         Integer sessionKey = message.getToUserId();
         Session session = SessionManager.getSession(sessionKey);
         if (session == null) {
-            persistentMessage = buildPersistentMessage(message, false, false, null, null, Constant.MESSAGE);
+            persistentMessage = buildPersistentMessage(message, false, false, null, null, MESSAGE == message.getMessageBehavior() ? Constant.MESSAGE : MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
         } else {
             session.getChannel().writeAndFlush(message);
-            persistentMessage = buildPersistentMessage(message, true, false, null, null, Constant.MESSAGE);
+            persistentMessage = buildPersistentMessage(message, true, false, null, null, MESSAGE == message.getMessageBehavior() ? Constant.MESSAGE : MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
         }
         SendUtil.sendForQueue(persistentMessage);
     }
@@ -115,7 +115,6 @@ public class MessageSender implements Runnable {
             public void onFailure(Call call, IOException e) {
                 MessageManager.getInstance().putMessage(buildAckMessage(Code.GROUP_MEMBER_REQUEST_FAILURE, true, message));
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
@@ -208,6 +207,7 @@ public class MessageSender implements Runnable {
                     .toUserId(message.getToUserId())
                     .sendTime(Instant.now().toString())
                     .type(type)
+                    .toGroupId(message.getToGroupId())
                     .build();
         }
     }

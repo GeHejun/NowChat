@@ -240,7 +240,7 @@ CREATE TABLE `user_state` (
 -- ----------------------------
 DROP TABLE IF EXISTS `system_message`;
 CREATE TABLE `system_message` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `from_user_id` int(11) DEFAULT NULL COMMENT '来源-如果为空代表是系统消息',
   `to_user_id` int(11) NOT NULL COMMENT '发送目的',
   `send_time` datetime NOT NULL,

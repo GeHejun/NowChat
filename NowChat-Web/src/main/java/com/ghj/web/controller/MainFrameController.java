@@ -117,4 +117,27 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(messageBoxVOList);
     }
 
+
+    /**
+     * 初始化消息盒子
+     * @return
+     */
+    @RequestMapping("/initMessageBoxNum")
+    @ResponseBody
+    public ResultVO<Integer> initMessageBoxNum(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        Integer messageBoxNum = mainFrameService.initMessageBoxNum(toUserId);
+        return ResultVO.defaultSuccess(messageBoxNum);
+    }
+
+    /**
+     * 初始化消息盒子
+     * @return
+     */
+    @RequestMapping("/readValidationMessage")
+    @ResponseBody
+    public ResultVO<Boolean> readValidationMessage(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        Boolean isSuccess = mainFrameService.readValidationMessage(toUserId);
+        return ResultVO.defaultSuccess(isSuccess);
+    }
+
 }

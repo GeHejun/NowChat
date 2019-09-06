@@ -109,11 +109,9 @@ layui.use(['layim', 'flow'], function(){
   });
 
   //打开页面即把消息标记为已读
-  /*
-  $.post('/message/read', {
-    type: 1
-  });
-  */
+
+  $.post('/message/readValidationMessage', {toUserId:parent.layui.layim.cache().mine.id});
+
 
   //操作
   var active = {

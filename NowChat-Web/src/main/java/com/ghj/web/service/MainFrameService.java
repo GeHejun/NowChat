@@ -69,4 +69,13 @@ public interface MainFrameService {
      * @return
      */
     List<MessageBoxVO> initMessageBoxVO(Integer toUserId);
+
+    /**
+     * 初始化消息盒子未读消息
+     * @param toUserId
+     * @return
+     */
+    Integer initMessageBoxNum(Integer toUserId);
+
+    Boolean readValidationMessage(Integer toUserId);
 }

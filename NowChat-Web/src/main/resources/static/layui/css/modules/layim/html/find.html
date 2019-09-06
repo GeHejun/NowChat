@@ -50,9 +50,10 @@
 <script src="../../../../../js/snowflake.js"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
-    layui.use(['form', 'jquery', 'layer'], function () {
+    layui.use(['form', 'jquery', 'layer', 'layim'], function () {
         layer = layui.layer
             , form = layui.form
+            , layim = layui.layim
             , $ = layui.jquery;
         //监听提交
         form.on('submit(searchSubmit)', function () {
@@ -78,7 +79,7 @@
                                         "<div>" +
                                             "<img style='border-radius: 50%' width='80px' height='80px' src='" + item.avatar + "'/>" +
                                             "<div style='text-align: center'>群名称:" + item.groupname + "</div>" +
-                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup("+item.adminId+", 1, "+item.id+")'></div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup("+item.adminId+",1, "+item.id+")'></div>" +
                                         "</div>" +
                                     "</li>";
                         } else {
@@ -100,72 +101,58 @@
             });
             return false;
         });
-
-        function addFriendOrGroup(id, type, groupId) {
-
-            layim.add({
-                type: type == 0 ?'friend':'group' //friend：申请加好友、group：申请加群
-                ,username: 'xxx' //好友昵称，若申请加群，参数为：groupname
-                ,avatar: 'a.jpg' //头像
-                ,submit: function(group, remark, index){ //一般在此执行Ajax和WS，以通知对方
-                    console.log(group); //获取选择的好友分组ID，若为添加群，则不返回值
-                    console.log(remark); //获取附加信息
-                    layer.close(index); //关闭改面板
-
-                    var message;
-                    if (type == 0) {
-                        var messageDirect = 1;
-                        var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
-                        var toUserId = id; //对方的信息
-                        var id = new Snowflake().nextId();
-                        var messageTypeId = 1;
-                        var messageBehavior = 11;
-                        var deviceId = parent.deviceId;
-                        var username = parent.layui.layim.cache().mine.username;
-                        var avatar = parent.layui.layim.cache().mine.avatar;
-                        message = {
-                            "fromUserId":fromUserId,
-                            "id":id,
-                            "messageTypeId":messageTypeId,
-                            "messageBehavior":messageBehavior,
-                            "messageDirect":messageDirect,
-                            "deviceId":deviceId,
-                            "name":username,
-                            "headPortrait":avatar,
-                            "toUserId":toUserId,
-                        };
-                    } else {
-                        var messageDirect = 2;
-                        var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
-                        var toUserId = id; //对方的信息
-                        var id = new Snowflake().nextId();
-                        var messageTypeId = 1;
-                        var messageBehavior = 11;
-                        var deviceId = parent.deviceId;
-                        var username = parent.layui.layim.cache().mine.username;
-                        var avatar = parent.layui.layim.cache().mine.avatar;
-                        var toGroupId = groupId;
-                        message = {
-                            "fromUserId":fromUserId,
-                            "id":id,
-                            "messageTypeId":messageTypeId,
-                            "messageBehavior":messageBehavior,
-                            "messageDirect":messageDirect,
-                            "deviceId":deviceId,
-                            "name":username,
-                            "headPortrait":avatar,
-                            "toUserId":toUserId,
-                            "toGroupId":toGroupId
-                        };
-                    }
-                    parent.sendMessage(message);
-                }
-            });
-
-        }
-
-
     });
+
+    function addFriendOrGroup(id, type, groupId) {
+                var message;
+                if (type == 0) {
+                    var messageDirect = 1;
+                    var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
+                    var toUserId = id; //对方的信息
+                    var id = new Snowflake().nextId();
+                    var messageTypeId = 1;
+                    var messageBehavior = 11;
+                    var deviceId = parent.deviceId;
+                    var username = parent.layui.layim.cache().mine.username;
+                    var avatar = parent.layui.layim.cache().mine.avatar;
+                    message = {
+                        "fromUserId": fromUserId,
+                        "id": id,
+                        "messageTypeId": messageTypeId,
+                        "messageBehavior": messageBehavior,
+                        "messageDirect": messageDirect,
+                        "deviceId": deviceId,
+                        "name": username,
+                        "headPortrait": avatar,
+                        "toUserId": toUserId,
+                    };
+                } else {
+                    var messageDirect = 2;
+                    var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
+                    var toUserId = id; //对方的信息
+                    var id = new Snowflake().nextId();
+                    var messageTypeId = 1;
+                    var messageBehavior = 11;
+                    var deviceId = parent.deviceId;
+                    var username = parent.layui.layim.cache().mine.username;
+                    var avatar = parent.layui.layim.cache().mine.avatar;
+                    var toGroupId = groupId;
+                    message = {
+                        "fromUserId": fromUserId,
+                        "id": id,
+                        "messageTypeId": messageTypeId,
+                        "messageBehavior": messageBehavior,
+                        "messageDirect": messageDirect,
+                        "deviceId": deviceId,
+                        "name": username,
+                        "headPortrait": avatar,
+                        "toUserId": toUserId,
+                        "toGroupId": toGroupId
+                    };
+                }
+                parent.sendMessage(message);
+            }
+
 
 
 

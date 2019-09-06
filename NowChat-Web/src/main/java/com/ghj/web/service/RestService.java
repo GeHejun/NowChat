@@ -3,6 +3,7 @@ package com.ghj.web.service;
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
+import com.ghj.web.vo.ResultVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -232,4 +233,43 @@ public interface RestService {
     @RequestMapping("/groupMessageToUser/queryUnreadGroupMessage")
     @ResponseBody
     Result<List<UnreadMessageResponse>> queryUnreadGroupMessage(@NotNull @RequestParam("toUserId") Integer toUserId);
+
+    /**
+     *
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/systemMessage/queryUnreadValidationMessageNum")
+    @ResponseBody
+    ResultVO<Integer> queryUnreadValidationMessageNum(@NotNull @RequestParam("toUserId")Integer toUserId);
+
+
+    /**
+     *
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/systemMessage/queryValidationMessage")
+    @ResponseBody
+    Result<List<SystemMessageResponse>> queryValidationMessage(@NotNull @RequestParam("toUserId")Integer toUserId);
+
+    /**
+     *
+     * @param toUserId
+     * @return
+     */
+    @RequestMapping("/systemMessage/readValidationMessage")
+    @ResponseBody
+    Result<Boolean> readValidationMessage(@NotNull @RequestParam("toUserId")Integer toUserId);
+
+
+    @RequestMapping("/messageType/queryMessageTypeIdByName")
+    @ResponseBody
+    Result<Integer> queryMessageTypeIdByName(@RequestParam("name") String name);
+
+    @RequestMapping("/queryMessageTypeNameById")
+    @ResponseBody
+    Result<String> queryMessageTypeNameById(@RequestParam("id") Integer id);
+
+
 }

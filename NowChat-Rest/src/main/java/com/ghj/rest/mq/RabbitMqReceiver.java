@@ -7,10 +7,7 @@ import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
 import com.ghj.rest.model.Message;
 import com.ghj.rest.model.SystemMessage;
-import com.ghj.rest.service.GroupMessageService;
-import com.ghj.rest.service.GroupMessageToUserService;
-import com.ghj.rest.service.MessageService;
-import com.ghj.rest.service.MessageTypeService;
+import com.ghj.rest.service.*;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
@@ -33,6 +30,9 @@ public class RabbitMqReceiver {
     
     @Resource
     MessageTypeService messageTypeService;
+
+    @Resource
+    SystemMessageService systemMessageService;
 
 
 
@@ -77,13 +77,16 @@ public class RabbitMqReceiver {
                 }
             } else {
                 Integer messageTypeId = messageTypeService.queryMessageTypeByName(message.getType());
-                if (Constant.FRIEND_VALIDATION_MESSAGE.equals(message.getType())) {
-                    SystemMessage systemMessage = new SystemMessage();
-                    systemMessage.setContent("");
-                }
-                if (Constant.GROUP_VALIDATION_MESSAGE.equals(message.getType())) {
-
-                }
+                SystemMessage systemMessage = new SystemMessage();
+                systemMessage.setMessageTypeId(messageTypeId);
+                systemMessage.setContent(message.getPostMessage());
+                systemMessage.setFromUserId(message.getFromUserId());
+                systemMessage.setId(message.getId());
+                systemMessage.setSendTime(new Date());
+                systemMessage.setStatus(message.getStatus());
+                systemMessage.setToGroupId(message.getToGroupId());
+                systemMessage.setToUserId(message.getToUserId());
+                systemMessageService.insertSystemMessage(systemMessage);
             }
         } catch (Exception e) {
             e.printStackTrace();

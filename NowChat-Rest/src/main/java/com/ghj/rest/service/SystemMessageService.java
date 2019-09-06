@@ -1,6 +1,10 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
+import com.ghj.common.dto.response.SystemMessageResponse;
 import com.ghj.rest.model.SystemMessage;
+
+import java.util.List;
 
 /**
  * @author gehj
@@ -14,4 +18,10 @@ public interface SystemMessageService {
      * @param systemMessage
      */
     void insertSystemMessage(SystemMessage systemMessage);
+
+    Integer queryUnreadValidationMessageNum(Integer toUserId);
+
+    List<SystemMessageResponse> queryValidationMessage(Integer toUserId);
+
+    Boolean readValidationMessage(Integer toUserId);
 }
