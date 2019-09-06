@@ -6,8 +6,6 @@ package com.ghj.common.base;
  */
 public class Constant {
 
-    public static final Long PING_ADD_TIME = 1000L;
-
     public static final String ENCRYPT_DECRYPT_KEY = "ENCRYPT_DECRYPT_KEY";
 
     public static final String USER_TOKEN_KEY = "USER_TOKEN_KEY_";
@@ -21,6 +19,20 @@ public class Constant {
     public static final String ON_LINE_USER_COUNT = "ON_LINE_USER_COUNT";
 
     public static final String ON_LINE_USER_LIST = "ON_LINE_USER_LIST";
+
+    public static final String SYSTEM_PREFIX = "NOW-CHAT_USER_";
+
+    public static final String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
+
+    public static final String FRIEND_VALIDATION_MESSAGE = "FRIEND_VALIDATION_MESSAGE";
+
+    public static final String GROUP_VALIDATION_MESSAGE = "GROUP_VALIDATION_MESSAGE";
+
+    public static final String SYSTEM_MESSAGE = "SYSTEM_MESSAGE";
+
+    public static final String ON_LINE = "ON_LINE";
+
+    public static final String OFF_LINE = "OFF_LINE";
 
     public static final String SUCCESS = "成功";
 
@@ -49,10 +61,6 @@ public class Constant {
     public static final String GROUP_MEMBER_REQUEST_FAILURE = "组成员请求失败";
 
     public static final String MESSAGE_RECEIVER_SUCCESS = "消息已经成功接收";
-
-    public static final String REGISTRY_IP = "registry.ip";
-
-    public static final String REGISTRY_PORT = "registry.port";
 
     public static final String REGISTER_SUCCESS = "服务端注册成功";
 
@@ -100,13 +108,7 @@ public class Constant {
 
     public static final int MAX_AGGREGATED_CONTENT_LENGTH = 64 * 1024;
 
-    public static final String SYSTEM_PREFIX = "NOW-CHAT_USER_";
-
-    public static final String REDIS_IP = "redis.ip";
-
-    public static final String REDIS_PORT  = "redis.port";
-
-    public static final String DISTRIBUTED_SESSION = "DISTRIBUTED_SESSION_";
+    public static final Long PING_ADD_TIME = 1000L;
 
     //public static final int MAX_CONNECT_NUM = 10000;
 
@@ -118,6 +120,12 @@ public class Constant {
 
     public static final String MESSAGE_TO_PERSONAL = "friend";
 
-    public static final String OFF_LINE = "offline";
+    public static final String REDIS_IP = "redis.ip";
+
+    public static final String REDIS_PORT  = "redis.port";
+
+    public static final String REGISTRY_IP = "registry.ip";
+
+    public static final String REGISTRY_PORT = "registry.port";
 
 }

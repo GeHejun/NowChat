@@ -236,13 +236,18 @@ CREATE TABLE `user_state` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Table structure for validation_message
+-- Table structure for system_message
 -- ----------------------------
-DROP TABLE IF EXISTS `validation_message`;
-CREATE TABLE `validation_message` (
-  `id` bigint(20) NOT NULL,
-  `from_user_id` int(11) DEFAULT NULL,
-  `to_user_id` int(11) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+DROP TABLE IF EXISTS `system_message`;
+CREATE TABLE `system_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_user_id` int(11) DEFAULT NULL COMMENT '来源-如果为空代表是系统消息',
+  `to_user_id` int(11) NOT NULL COMMENT '发送目的',
+  `send_time` datetime NOT NULL,
+  `status` bit(1) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `to_group_id` int(11) DEFAULT NULL,
+  `message_type_id` int(11) NOT NULL COMMENT '消息类型',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
