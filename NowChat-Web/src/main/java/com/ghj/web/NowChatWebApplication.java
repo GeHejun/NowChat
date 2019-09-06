@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-import javax.activation.DataSource;
-
 /**
  * @author gehj
  * @date 2019/6/24 19:05

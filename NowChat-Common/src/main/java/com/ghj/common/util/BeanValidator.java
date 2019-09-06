@@ -1,14 +1,9 @@
 package com.ghj.common.util;
 
-import org.springframework.util.CollectionUtils;
-
 //import javax.validation.ConstraintViolation;
 //import javax.validation.Validation;
 //import javax.validation.ValidationException;
 //import javax.validation.Validator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 /**
  * @author GeHejun
  * @date 2019-06-24

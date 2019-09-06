@@ -1,7 +1,6 @@
 package com.ghj.proxy;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.exception.ServerException;
 import com.ghj.common.netty.BootstrapGenerator;
 import com.ghj.common.util.MachineSerialNumber;
 import com.ghj.common.util.PropertiesUtil;

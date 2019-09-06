@@ -30,6 +30,8 @@ public class Constant {
 
     public static final String SYSTEM_MESSAGE = "SYSTEM_MESSAGE";
 
+    public static final String MESSAGE = "MESSAGE";
+
     public static final String ON_LINE = "ON_LINE";
 
     public static final String OFF_LINE = "OFF_LINE";
@@ -110,7 +112,7 @@ public class Constant {
 
     public static final Long PING_ADD_TIME = 1000L;
 
-    //public static final int MAX_CONNECT_NUM = 10000;
+    public static final int MAX_CONNECT_NUM = 10000;
 
     public static final String CODE_KEY = "code";
 
@@ -122,7 +124,7 @@ public class Constant {
 
     public static final String REDIS_IP = "redis.ip";
 
-    public static final String REDIS_PORT  = "redis.port";
+    public static final String REDIS_PORT = "redis.port";
 
     public static final String REGISTRY_IP = "registry.ip";
 

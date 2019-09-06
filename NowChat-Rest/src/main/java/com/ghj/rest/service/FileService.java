@@ -1,7 +1,5 @@
 package com.ghj.rest.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * @author gehj
  * @date 2019/6/2718:19

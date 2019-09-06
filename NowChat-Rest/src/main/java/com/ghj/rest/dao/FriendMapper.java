@@ -2,7 +2,6 @@ package com.ghj.rest.dao;
 
 import com.ghj.rest.model.Friend;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

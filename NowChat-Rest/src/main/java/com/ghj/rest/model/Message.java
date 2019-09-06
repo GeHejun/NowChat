@@ -1,7 +1,5 @@
 package com.ghj.rest.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 

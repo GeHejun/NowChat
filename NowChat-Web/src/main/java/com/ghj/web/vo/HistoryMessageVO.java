@@ -1,6 +1,5 @@
 package com.ghj.web.vo;
 
-import com.ghj.common.dto.response.MessageResponse;
 import lombok.Builder;
 import lombok.Data;
 

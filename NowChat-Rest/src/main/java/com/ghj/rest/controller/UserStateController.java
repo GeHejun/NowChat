@@ -3,7 +3,6 @@ package com.ghj.rest.controller;
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.UserStateResponse;
 import com.ghj.rest.service.UserStateService;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;

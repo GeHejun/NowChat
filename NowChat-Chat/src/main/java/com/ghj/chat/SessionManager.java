@@ -1,12 +1,9 @@
 package com.ghj.chat;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.util.NettyAttrUtil;
 import com.ghj.common.util.RedisPoolUtil;
-import com.ghj.common.util.ThreadPoolManager;
 
 import java.net.InetSocketAddress;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 

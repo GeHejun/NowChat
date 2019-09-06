@@ -6,16 +6,16 @@ import com.ghj.common.dto.PersistentMessage;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
 import com.ghj.rest.model.Message;
+import com.ghj.rest.model.SystemMessage;
 import com.ghj.rest.service.GroupMessageService;
 import com.ghj.rest.service.GroupMessageToUserService;
 import com.ghj.rest.service.MessageService;
+import com.ghj.rest.service.MessageTypeService;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -30,6 +30,11 @@ public class RabbitMqReceiver {
 
     @Resource
     GroupMessageService groupMessageService;
+    
+    @Resource
+    MessageTypeService messageTypeService;
+
+
 
     @RabbitHandler
     @RabbitListener(
@@ -42,32 +47,43 @@ public class RabbitMqReceiver {
     public void process(byte[] bytes) {
         try {
             PersistentMessage message = JSON.parseObject(new String(bytes, "UTF-8"), PersistentMessage.class);
-            if (Objects.isNull(message.getToGroupId())) {
-                Message nativeMessage = new Message();
-                nativeMessage.setId(message.getId());
-                nativeMessage.setFromUserId(message.getFromUserId());
-                nativeMessage.setMessageTypeId(nativeMessage.getMessageTypeId());
-                nativeMessage.setPostMessage(message.getPostMessage());
-                nativeMessage.setSendTime(new Date());
-                nativeMessage.setToUserId(message.getToUserId());
-                nativeMessage.setStatus(message.getStatus());
-                messageService.insertMessage(nativeMessage);
+            if (Constant.MESSAGE.equals(message.getType())) {
+                if (Objects.isNull(message.getToGroupId())) {
+                    Message nativeMessage = new Message();
+                    nativeMessage.setId(message.getId());
+                    nativeMessage.setFromUserId(message.getFromUserId());
+                    nativeMessage.setMessageTypeId(nativeMessage.getMessageTypeId());
+                    nativeMessage.setPostMessage(message.getPostMessage());
+                    nativeMessage.setSendTime(new Date());
+                    nativeMessage.setToUserId(message.getToUserId());
+                    nativeMessage.setStatus(message.getStatus());
+                    messageService.insertMessage(nativeMessage);
+                } else {
+                    GroupMessage groupMessage = new GroupMessage();
+                    groupMessage.setId(message.getId());
+                    groupMessage.setFromUserId(message.getFromUserId());
+                    groupMessage.setContent(message.getPostMessage());
+                    groupMessage.setSendTime(new Date());
+                    groupMessage.setToGroupId(message.getToGroupId());
+                    groupMessageService.insert(groupMessage);
+                    message.getOnLineUserIds().forEach(id -> {
+                        GroupMessageToUser groupMessageToUser = buildGroupMessageToUser(message, id, true);
+                        groupMessageToUserService.insert(groupMessageToUser);
+                    });
+                    message.getOffLineUserIds().forEach(id -> {
+                        GroupMessageToUser groupMessageToUser = buildGroupMessageToUser(message, id, false);
+                        groupMessageToUserService.insert(groupMessageToUser);
+                    });
+                }
             } else {
-                GroupMessage groupMessage = new GroupMessage();
-                groupMessage.setId(message.getId());
-                groupMessage.setFromUserId(message.getFromUserId());
-                groupMessage.setContent(message.getPostMessage());
-                groupMessage.setSendTime(new Date());
-                groupMessage.setToGroupId(message.getToGroupId());
-                groupMessageService.insert(groupMessage);
-                message.getOnLineUserIds().forEach(id -> {
-                    GroupMessageToUser groupMessageToUser = buildGroupMessageToUser(message, id, true);
-                    groupMessageToUserService.insert(groupMessageToUser);
-                });
-                message.getOffLineUserIds().forEach(id -> {
-                    GroupMessageToUser groupMessageToUser = buildGroupMessageToUser(message, id, false);
-                    groupMessageToUserService.insert(groupMessageToUser);
-                });
+                Integer messageTypeId = messageTypeService.queryMessageTypeByName(message.getType());
+                if (Constant.FRIEND_VALIDATION_MESSAGE.equals(message.getType())) {
+                    SystemMessage systemMessage = new SystemMessage();
+                    systemMessage.setContent("");
+                }
+                if (Constant.GROUP_VALIDATION_MESSAGE.equals(message.getType())) {
+
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

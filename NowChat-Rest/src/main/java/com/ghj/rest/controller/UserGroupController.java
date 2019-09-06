@@ -2,7 +2,6 @@ package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.UserGroupResponse;
-import com.ghj.rest.model.UserGroup;
 import com.ghj.rest.service.UserGroupService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

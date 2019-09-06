@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,5 +53,10 @@ public class PersistentMessage {
     private List<Integer> onLineUserIds;
 
     private List<Integer> offLineUserIds;
+
+    /**
+     * 消息类型 群验证消息-好友验证消息-普通消息
+     */
+    private String type;
 
 }

@@ -1,10 +1,7 @@
 package com.ghj.common.util;
 
 import com.alibaba.fastjson.JSON;
-import org.omg.PortableInterceptor.INACTIVE;
 import redis.clients.jedis.Jedis;
-
-import java.util.List;
 
 /**
  * @author gehj

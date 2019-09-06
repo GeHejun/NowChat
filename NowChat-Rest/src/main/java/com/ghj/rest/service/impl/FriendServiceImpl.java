@@ -1,7 +1,7 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.rest.dao.FriendMapper;
 import com.ghj.common.dto.response.FriendResponse;
+import com.ghj.rest.dao.FriendMapper;
 import com.ghj.rest.model.Friend;
 import com.ghj.rest.service.FriendService;
 import org.springframework.beans.BeanUtils;

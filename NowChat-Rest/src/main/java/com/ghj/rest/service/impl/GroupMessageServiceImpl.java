@@ -1,13 +1,9 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.GroupMessageResponse;
-import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.rest.dao.GroupMessageMapper;
-import com.ghj.rest.dao.MessageTypeMapper;
 import com.ghj.rest.model.GroupMessage;
-import com.ghj.rest.model.MessageType;
 import com.ghj.rest.service.GroupMessageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

@@ -4,7 +4,6 @@ import com.ghj.common.base.Constant;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
-import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.SecurityService;
 import com.ghj.web.vo.GroupVO;
 import com.ghj.web.vo.ResultVO;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
-
 import java.util.List;
 
 import static com.ghj.common.base.Constant.*;

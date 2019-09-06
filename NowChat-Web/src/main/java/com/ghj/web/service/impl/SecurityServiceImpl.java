@@ -5,7 +5,6 @@ import com.ghj.common.base.Result;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
 import com.ghj.common.dto.response.UserResponse;
-import com.ghj.common.dto.response.UserStateResponse;
 import com.ghj.common.exception.UserException;
 import com.ghj.common.util.DesEncryptDecrypt;
 import com.ghj.web.service.RestService;
@@ -18,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {

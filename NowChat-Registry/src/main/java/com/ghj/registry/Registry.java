@@ -1,10 +1,8 @@
 package com.ghj.registry;
 
-import com.ghj.common.base.Constant;
-import com.ghj.common.util.RedisPoolUtil;
-import io.netty.channel.Channel;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author gehj

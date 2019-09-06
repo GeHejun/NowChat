@@ -1,19 +1,8 @@
 package com.ghj.rest.service.impl;
 
-import com.ghj.common.exception.FileException;
-import com.ghj.common.util.StringUtils;
 import com.ghj.rest.service.FileService;
 import com.github.tobato.fastdfs.domain.StorePath;
-import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
 
 /**
  * @author gehj

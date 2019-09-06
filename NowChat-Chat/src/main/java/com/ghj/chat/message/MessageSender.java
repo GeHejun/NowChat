@@ -7,6 +7,7 @@ import com.ghj.chat.Session;
 import com.ghj.chat.SessionManager;
 import com.ghj.chat.constant.Route;
 import com.ghj.common.base.Code;
+import com.ghj.common.base.Constant;
 import com.ghj.common.dto.PersistentMessage;
 import com.ghj.common.exception.ChatException;
 import com.ghj.common.mq.SendUtil;
@@ -21,13 +22,11 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import static com.ghj.common.base.Constant.DATA_KEY;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.ACK;
-import static com.ghj.protocol.MessageProto.Message.MessageBehavior.MESSAGE;
 
 
 /**
@@ -96,10 +95,10 @@ public class MessageSender implements Runnable {
         Integer sessionKey = message.getToUserId();
         Session session = SessionManager.getSession(sessionKey);
         if (session == null) {
-            persistentMessage = buildPersistentMessage(message, false, false, null, null);
+            persistentMessage = buildPersistentMessage(message, false, false, null, null, Constant.MESSAGE);
         } else {
             session.getChannel().writeAndFlush(message);
-            persistentMessage = buildPersistentMessage(message, true, false, null, null);
+            persistentMessage = buildPersistentMessage(message, true, false, null, null, Constant.MESSAGE);
         }
         SendUtil.sendForQueue(persistentMessage);
     }
@@ -135,7 +134,7 @@ public class MessageSender implements Runnable {
                         onLineUserIds.add(id);
                     }
                 }
-                PersistentMessage persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds);
+                PersistentMessage persistentMessage = buildPersistentMessage(message, true, true, onLineUserIds, offLineUserIds, Constant.MESSAGE);
                 SendUtil.sendForQueue(persistentMessage);
             }
         });
@@ -185,7 +184,7 @@ public class MessageSender implements Runnable {
      * @param offLineUserIds
      * @return
      */
-    private PersistentMessage buildPersistentMessage(MessageProto.Message message, Boolean status, Boolean isGroup, List<Integer> onLineUserIds, List<Integer> offLineUserIds) {
+    private PersistentMessage buildPersistentMessage(MessageProto.Message message, Boolean status, Boolean isGroup, List<Integer> onLineUserIds, List<Integer> offLineUserIds, String type) {
         if (isGroup) {
             return PersistentMessage.builder()
                     .id(message.getId())
@@ -197,6 +196,7 @@ public class MessageSender implements Runnable {
                     .onLineUserIds(onLineUserIds)
                     .offLineUserIds(offLineUserIds)
                     .status(status)
+                    .type(type)
                     .build();
         } else {
             return PersistentMessage.builder()
@@ -207,6 +207,7 @@ public class MessageSender implements Runnable {
                     .status(status)
                     .toUserId(message.getToUserId())
                     .sendTime(Instant.now().toString())
+                    .type(type)
                     .build();
         }
     }
