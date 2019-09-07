@@ -10,6 +10,7 @@ import com.ghj.web.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -174,6 +175,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .uid(systemMessageResponse.getToUserId())
                 .content(content)
                 .from_group(systemMessageResponse.getToGroupId())
+                .time(SimpleDateFormat.getInstance().format(systemMessageResponse.getSendTime()))
                 .read(systemMessageResponse.getStatus() ? 1 : 0)
                 .type(type).build();
 

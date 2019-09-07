@@ -89,4 +89,9 @@ public class SecurityServiceImpl implements SecurityService {
 
         return groupVOList;
     }
+
+    @Override
+    public Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
+        return null;
+    }
 }

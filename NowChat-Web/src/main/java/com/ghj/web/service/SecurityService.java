@@ -1,6 +1,7 @@
 package com.ghj.web.service;
 
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.web.vo.GroupVO;
@@ -47,4 +48,6 @@ public interface SecurityService {
      * @return
      */
     List<GroupVO> findGroup(String name);
+
+    Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
 }

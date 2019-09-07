@@ -75,4 +75,17 @@ public class SecurityController {
             return ResultVO.failure(GROUP_NO_EXISTS_CODE,GROUP_NO_EXISTS);
         }
     }
+
+    @RequestMapping("/agreeFriend")
+    public ResultVO<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+                                         @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
+                                         @NotNull @RequestParam("toUserId") Integer toUserId,
+                                         @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
+        return ResultVO.defaultSuccess(securityService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+    }
+
+//    @RequestMapping("/refuseFriend")
+//    public ResultVO<Boolean> refuseFriend() {
+//        return ResultVO.defaultSuccess(securityService.refuseFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+//    }
 }
