@@ -9,10 +9,9 @@
     <result column="status" jdbcType="BIT" property="status" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="to_group_id" jdbcType="INTEGER" property="toGroupId" />
-    <result column="message_type_id" jdbcType="INTEGER" property="messageTypeId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, from_user_id, to_user_id, send_time, `status`, content, to_group_id, message_type_id
+    id, from_user_id, to_user_id, send_time, `status`, content, to_group_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -26,7 +25,7 @@
     from system_message
     where status = #{status, jdbcType=BIT} and to_user_id = #{toUserId, jdbcType=INTEGER}
   </select>
-  <select id="selectValidationMessage" parameterType="java.lang.Integer">
+  <select id="selectValidationMessage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from system_message
@@ -45,10 +44,10 @@
   <insert id="insert" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message (id, from_user_id, to_user_id, 
       send_time, `status`, content, 
-      to_group_id, message_type_id)
+      to_group_id)
     values (#{id,jdbcType=BIGINT}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER},
       #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, 
-      #{toGroupId,jdbcType=INTEGER}, #{messageTypeId,jdbcType=INTEGER})
+      #{toGroupId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message
@@ -74,9 +73,6 @@
       <if test="toGroupId != null">
         to_group_id,
       </if>
-      <if test="messageTypeId != null">
-        message_type_id,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -99,9 +95,6 @@
       </if>
       <if test="toGroupId != null">
         #{toGroupId,jdbcType=INTEGER},
-      </if>
-      <if test="messageTypeId != null">
-        #{messageTypeId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -126,9 +119,6 @@
       <if test="toGroupId != null">
         to_group_id = #{toGroupId,jdbcType=INTEGER},
       </if>
-      <if test="messageTypeId != null">
-        message_type_id = #{messageTypeId,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -139,8 +129,7 @@
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=BIT},
       content = #{content,jdbcType=VARCHAR},
-      to_group_id = #{toGroupId,jdbcType=INTEGER},
-      message_type_id = #{messageTypeId,jdbcType=INTEGER}
+      to_group_id = #{toGroupId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -39,7 +39,6 @@ public class SystemMessageImpl implements SystemMessageService {
         List<SystemMessageResponse> systemMessageResponseList = new ArrayList<>(systemMessageList.size());
         systemMessageList.stream().forEach(systemMessage -> {
             SystemMessageResponse systemMessageResponse = SystemMessageResponse.builder()
-                    .messageTypeId(systemMessage.getMessageTypeId())
                     .fromUserId(systemMessage.getFromUserId())
                     .id(systemMessage.getId())
                     .status(systemMessage.getStatus())

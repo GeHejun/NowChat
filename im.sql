@@ -247,7 +247,6 @@ CREATE TABLE `system_message` (
   `status` bit(1) NOT NULL,
   `content` varchar(255) NOT NULL,
   `to_group_id` int(11) DEFAULT NULL,
-  `message_type_id` int(11) NOT NULL COMMENT '消息类型',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

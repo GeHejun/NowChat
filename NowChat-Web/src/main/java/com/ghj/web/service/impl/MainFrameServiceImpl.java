@@ -160,11 +160,10 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     public MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
-        String messageTypeName = restService.queryMessageTypeNameById(systemMessageResponse.getMessageTypeId()).getData();
         UserResponse userResponse = restService.queryUser(systemMessageResponse.getFromUserId()).getData();
         Integer type = 0;
         String content = userResponse.getNickName() + "申请添加你为好友";
-        if (Constant.FRIEND_VALIDATION_MESSAGE.equals(messageTypeName)) {
+        if (!Objects.isNull(systemMessageResponse.getToGroupId())) {
             type = 1;
             UserGroupResponse userGroupResponse = restService.findGroupById(systemMessageResponse.getToGroupId()).getData();
             content = userResponse.getNickName() + "申请加入群" + userGroupResponse.getName();
@@ -175,6 +174,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .uid(systemMessageResponse.getToUserId())
                 .content(content)
                 .from_group(systemMessageResponse.getToGroupId())
+                .read(systemMessageResponse.getStatus() ? 1 : 0)
                 .type(type).build();
 
         return messageBoxVO;

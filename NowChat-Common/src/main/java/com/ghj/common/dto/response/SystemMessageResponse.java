@@ -28,9 +28,4 @@ public class SystemMessageResponse {
     private String content;
 
     private Integer toGroupId;
-
-    /**
-     * 消息类型
-     */
-    private Integer messageTypeId;
 }

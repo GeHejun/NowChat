@@ -28,11 +28,6 @@ public class SystemMessage implements Serializable {
 
     private Integer toGroupId;
 
-    /**
-     * 消息类型
-     */
-    private Integer messageTypeId;
-
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -91,13 +86,7 @@ public class SystemMessage implements Serializable {
         this.toGroupId = toGroupId;
     }
 
-    public Integer getMessageTypeId() {
-        return messageTypeId;
-    }
 
-    public void setMessageTypeId(Integer messageTypeId) {
-        this.messageTypeId = messageTypeId;
-    }
 
     @Override
     public boolean equals(Object that) {
@@ -117,8 +106,7 @@ public class SystemMessage implements Serializable {
             && (this.getSendTime() == null ? other.getSendTime() == null : this.getSendTime().equals(other.getSendTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
-            && (this.getToGroupId() == null ? other.getToGroupId() == null : this.getToGroupId().equals(other.getToGroupId()))
-            && (this.getMessageTypeId() == null ? other.getMessageTypeId() == null : this.getMessageTypeId().equals(other.getMessageTypeId()));
+            && (this.getToGroupId() == null ? other.getToGroupId() == null : this.getToGroupId().equals(other.getToGroupId()));
     }
 
     @Override
@@ -132,7 +120,6 @@ public class SystemMessage implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getToGroupId() == null) ? 0 : getToGroupId().hashCode());
-        result = prime * result + ((getMessageTypeId() == null) ? 0 : getMessageTypeId().hashCode());
         return result;
     }
 
@@ -149,7 +136,6 @@ public class SystemMessage implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", content=").append(content);
         sb.append(", toGroupId=").append(toGroupId);
-        sb.append(", messageTypeId=").append(messageTypeId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

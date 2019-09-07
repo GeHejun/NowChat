@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.ghj.common.base.Constant.DATA_KEY;
+import static com.ghj.common.base.Constant.*;
 import static com.ghj.protocol.MessageProto.Message.MessageBehavior.*;
 
 
@@ -61,7 +61,11 @@ public class MessageSender implements Runnable {
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
-                    dealPersonalMessage(message);
+                    if (VALIDATION_MESSAGE == message.getMessageBehavior()) {
+                        dealValidationMessage(message);
+                    } else {
+                        dealPersonalMessage(message);
+                    }
                     break;
                 case GROUP:
                     dealGroupMessage(message);
@@ -95,10 +99,25 @@ public class MessageSender implements Runnable {
         Integer sessionKey = message.getToUserId();
         Session session = SessionManager.getSession(sessionKey);
         if (session == null) {
-            persistentMessage = buildPersistentMessage(message, false, false, null, null, MESSAGE == message.getMessageBehavior() ? Constant.MESSAGE : MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
+            persistentMessage = buildPersistentMessage(message, false, false, null, null, Constant.MESSAGE );
         } else {
             session.getChannel().writeAndFlush(message);
-            persistentMessage = buildPersistentMessage(message, true, false, null, null, MESSAGE == message.getMessageBehavior() ? Constant.MESSAGE : MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
+            persistentMessage = buildPersistentMessage(message, true, false, null, null,  Constant.MESSAGE);
+        }
+        SendUtil.sendForQueue(persistentMessage);
+    }
+
+    /**
+     * 处理点对点聊天消息
+     *
+     * @param message
+     */
+    private void dealValidationMessage(MessageProto.Message message) {
+        PersistentMessage persistentMessage = buildPersistentMessage(message, false, false, null, null,  MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
+        Integer sessionKey = message.getToUserId();
+        Session session = SessionManager.getSession(sessionKey);
+        if (session != null) {
+            session.getChannel().writeAndFlush(message);
         }
         SendUtil.sendForQueue(persistentMessage);
     }
@@ -207,7 +226,7 @@ public class MessageSender implements Runnable {
                     .toUserId(message.getToUserId())
                     .sendTime(Instant.now().toString())
                     .type(type)
-                    .toGroupId(message.getToGroupId())
+                    .toGroupId(GROUP_VALIDATION_MESSAGE == type? message.getToGroupId() : null)
                     .build();
         }
     }

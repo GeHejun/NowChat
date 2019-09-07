@@ -27,9 +27,6 @@ public class RabbitMqReceiver {
 
     @Resource
     GroupMessageService groupMessageService;
-    
-    @Resource
-    MessageTypeService messageTypeService;
 
     @Resource
     SystemMessageService systemMessageService;
@@ -76,9 +73,7 @@ public class RabbitMqReceiver {
                     });
                 }
             } else {
-                Integer messageTypeId = messageTypeService.queryMessageTypeByName(message.getType());
                 SystemMessage systemMessage = new SystemMessage();
-                systemMessage.setMessageTypeId(messageTypeId);
                 systemMessage.setContent(message.getPostMessage());
                 systemMessage.setFromUserId(message.getFromUserId());
                 systemMessage.setId(message.getId());
