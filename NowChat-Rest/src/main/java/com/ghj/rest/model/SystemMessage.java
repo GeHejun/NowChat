@@ -28,6 +28,16 @@ public class SystemMessage implements Serializable {
 
     private Integer toGroupId;
 
+    private Integer fromFriendGroupId;
+
+    public void setFromFriendGroupId(Integer fromFriendGroupId) {
+        this.fromFriendGroupId = fromFriendGroupId;
+    }
+
+    public Integer getFromFriendGroupId() {
+        return fromFriendGroupId;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -106,7 +116,7 @@ public class SystemMessage implements Serializable {
             && (this.getSendTime() == null ? other.getSendTime() == null : this.getSendTime().equals(other.getSendTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
-            && (this.getToGroupId() == null ? other.getToGroupId() == null : this.getToGroupId().equals(other.getToGroupId()));
+            && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId())) && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId()));
     }
 
     @Override
@@ -120,6 +130,7 @@ public class SystemMessage implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getToGroupId() == null) ? 0 : getToGroupId().hashCode());
+        result = prime * result + ((getFromFriendGroupId() == null) ? 0 : getFromFriendGroupId().hashCode());
         return result;
     }
 
@@ -136,6 +147,7 @@ public class SystemMessage implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", content=").append(content);
         sb.append(", toGroupId=").append(toGroupId);
+        sb.append(", fromFriendGroupId=").append(fromFriendGroupId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

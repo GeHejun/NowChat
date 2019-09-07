@@ -9,9 +9,10 @@
     <result column="status" jdbcType="BIT" property="status" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="to_group_id" jdbcType="INTEGER" property="toGroupId" />
+    <result column="from_friend_group_id" jdbcType="INTEGER" property="fromFriendGroupId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, from_user_id, to_user_id, send_time, `status`, content, to_group_id
+    id, from_user_id, to_user_id, send_time, `status`, content, to_group_id, from_friend_group_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -44,10 +45,10 @@
   <insert id="insert" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message (id, from_user_id, to_user_id, 
       send_time, `status`, content, 
-      to_group_id)
+      to_group_id, from_friend_group_id)
     values (#{id,jdbcType=BIGINT}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER},
       #{sendTime,jdbcType=TIMESTAMP}, #{status,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, 
-      #{toGroupId,jdbcType=INTEGER})
+      #{toGroupId,jdbcType=INTEGER}, #{fromFriendGroupId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.SystemMessage">
     insert into system_message
@@ -73,6 +74,9 @@
       <if test="toGroupId != null">
         to_group_id,
       </if>
+      <if test="fromFriendGroupId != null">
+        from_friend_group_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -96,6 +100,10 @@
       <if test="toGroupId != null">
         #{toGroupId,jdbcType=INTEGER},
       </if>
+      <if test="fromFriendGroupId != null">
+        #{fromFriendGroupId, jdbcType=INTEGER},
+      </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ghj.rest.model.SystemMessage">
@@ -119,6 +127,9 @@
       <if test="toGroupId != null">
         to_group_id = #{toGroupId,jdbcType=INTEGER},
       </if>
+      <if test="fromFriendGroupId != null">
+        from_friend_group_id = #{fromFriendGroupId,jdbcType=INTEGER}
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -129,7 +140,8 @@
       send_time = #{sendTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=BIT},
       content = #{content,jdbcType=VARCHAR},
-      to_group_id = #{toGroupId,jdbcType=INTEGER}
+      to_group_id = #{toGroupId,jdbcType=INTEGER},
+      from_friend_group_id = #{fromFriendGroupId, jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

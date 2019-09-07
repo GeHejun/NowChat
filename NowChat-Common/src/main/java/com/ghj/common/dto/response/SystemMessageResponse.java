@@ -28,4 +28,6 @@ public class SystemMessageResponse {
     private String content;
 
     private Integer toGroupId;
+
+    private Integer fromFriendGroupId;
 }

@@ -227,6 +227,7 @@ public class MessageSender implements Runnable {
                     .sendTime(Instant.now().toString())
                     .type(type)
                     .toGroupId(GROUP_VALIDATION_MESSAGE == type? message.getToGroupId() : null)
+                    .fromFriendGroupId(message.getFromFriendGroupId())
                     .build();
         }
     }

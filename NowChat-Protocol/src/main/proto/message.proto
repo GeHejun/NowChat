@@ -61,6 +61,7 @@ message Message {
 
     ConnectType connectType = 18;
 
+
     //消息行为
     enum MessageBehavior {
         DEFAULT_M_B = 0;
@@ -98,6 +99,8 @@ message Message {
     string name = 19;
     //头像
     string headPortrait = 20;
+    //添加好友的选择的群
+    int32 fromFriendGroupId = 21;
 
 
 }

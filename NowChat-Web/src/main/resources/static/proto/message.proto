@@ -95,6 +95,8 @@ message Message {
     string name = 19;
     //头像
     string headPortrait = 20;
+    //添加好友的选择的群
+    int32 fromFriendGroupId = 21;
 
 
 }

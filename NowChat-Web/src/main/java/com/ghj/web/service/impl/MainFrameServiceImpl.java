@@ -167,7 +167,7 @@ public class MainFrameServiceImpl implements MainFrameService {
                 .from(systemMessageResponse.getFromUserId())
                 .uid(systemMessageResponse.getToUserId())
                 .content(systemMessageResponse.getContent())
-                .from_group(systemMessageResponse.getToGroupId())
+                .from_group(systemMessageResponse.getFromFriendGroupId())
                 .time(SimpleDateFormat.getInstance().format(systemMessageResponse.getSendTime()))
                 .read(systemMessageResponse.getStatus() ? 1 : 0)
                 .type(1).build();

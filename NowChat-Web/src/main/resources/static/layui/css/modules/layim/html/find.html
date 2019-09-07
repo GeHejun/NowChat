@@ -57,8 +57,6 @@
             , $ = layui.jquery;
         //监听提交
         form.on('submit(searchSubmit)', function () {
-
-
             if ($("#type").val() == 1) {
                 url = "/security/findGroup";
             } else {
@@ -104,8 +102,18 @@
     });
 
     function addFriendOrGroup(id, type, groupId, groupName) {
-                var message;
-                if (type == 0) {
+        if (type == 0) {
+            parent.layui.layim.add({
+                type: 'friend'
+                ,username: parent.layui.layim.cache().mine.username
+                ,avatar: parent.layui.layim.cache().mine.avatar
+                ,submit: function(group, remark, index){
+                    layer.msg('好友申请已发送，请等待对方确认', {
+                        icon: 1
+                        ,shade: 0.5
+                    }, function(){
+                        layer.close(index);
+                    });
                     var messageDirect = 1;
                     var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
                     var toUserId = id; //对方的信息
@@ -115,7 +123,7 @@
                     var deviceId = parent.deviceId;
                     var username = parent.layui.layim.cache().mine.username;
                     var avatar = parent.layui.layim.cache().mine.avatar;
-                    message = {
+                    var message = {
                         "fromUserId": fromUserId,
                         "id": id,
                         "messageTypeId": messageTypeId,
@@ -125,9 +133,24 @@
                         "name": username,
                         "headPortrait": avatar,
                         "toUserId": toUserId,
-                        "content":parent.layui.layim.cache().mine.username + "申请加你为好友"
+                        "content":parent.layui.layim.cache().mine.username + "申请加你为好友",
+                        "fromFriendGroupId":group,
                     };
-                } else {
+                    parent.sendMessage(message);
+                }
+            });
+        } else {
+            parent.layui.layim.add({
+                type: 'group'
+                ,username: groupName
+                ,avatar: ""
+                ,submit: function(group, remark, index){
+                    layer.msg('申请已发送，请等待管理员确认', {
+                        icon: 1
+                        ,shade: 0.5
+                    }, function(){
+                        layer.close(index);
+                    });
                     var messageDirect = 2;
                     var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
                     var toUserId = id; //对方的信息
@@ -138,7 +161,7 @@
                     var username = parent.layui.layim.cache().mine.username;
                     var avatar = parent.layui.layim.cache().mine.avatar;
                     var toGroupId = groupId;
-                    message = {
+                    var message = {
                         "fromUserId": fromUserId,
                         "id": id,
                         "messageTypeId": messageTypeId,
@@ -151,10 +174,13 @@
                         "toGroupId": toGroupId,
                         "content":parent.layui.layim.cache().mine.username + "申请加入群" + groupName
                     };
+                    parent.sendMessage(message);
                 }
-                parent.sendMessage(message);
-            }
+            });
 
+        }
+
+    }
 
 
 

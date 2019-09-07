@@ -84,6 +84,7 @@ public class RabbitMqReceiver {
                 systemMessage.setToUserId(message.getToUserId());
                 systemMessage.setFromUserId(message.getFromUserId());
                 systemMessage.setContent(message.getPostMessage());
+                systemMessage.setFromFriendGroupId(message.getFromFriendGroupId());
                 systemMessageService.insertSystemMessage(systemMessage);
             }
         } catch (Exception e) {

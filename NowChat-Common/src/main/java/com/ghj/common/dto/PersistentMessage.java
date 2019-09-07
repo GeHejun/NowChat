@@ -59,4 +59,6 @@ public class PersistentMessage {
      */
     private String type;
 
+    private Integer fromFriendGroupId;
+
 }
