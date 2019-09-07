@@ -79,7 +79,7 @@
                                         "<div>" +
                                             "<img style='border-radius: 50%' width='80px' height='80px' src='" + item.avatar + "'/>" +
                                             "<div style='text-align: center'>群名称:" + item.groupname + "</div>" +
-                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup("+item.adminId+",1, "+item.id+")'></div>" +
+                                            "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriendOrGroup("+item.adminId+",1, "+item.id+", "+item.groupname+")'></div>" +
                                         "</div>" +
                                     "</li>";
                         } else {
@@ -103,7 +103,7 @@
         });
     });
 
-    function addFriendOrGroup(id, type, groupId) {
+    function addFriendOrGroup(id, type, groupId, groupName) {
                 var message;
                 if (type == 0) {
                     var messageDirect = 1;
@@ -125,6 +125,7 @@
                         "name": username,
                         "headPortrait": avatar,
                         "toUserId": toUserId,
+                        "content":parent.layui.layim.cache().mine.username + "申请加你为好友"
                     };
                 } else {
                     var messageDirect = 2;
@@ -147,7 +148,8 @@
                         "name": username,
                         "headPortrait": avatar,
                         "toUserId": toUserId,
-                        "toGroupId": toGroupId
+                        "toGroupId": toGroupId,
+                        "content":parent.layui.layim.cache().mine.username + "申请加入群" + groupName
                     };
                 }
                 parent.sendMessage(message);

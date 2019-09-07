@@ -162,22 +162,15 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     public MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
         UserResponse userResponse = restService.queryUser(systemMessageResponse.getFromUserId()).getData();
-        Integer type = 0;
-        String content = userResponse.getNickName() + "申请添加你为好友";
-        if (!Objects.isNull(systemMessageResponse.getToGroupId())) {
-            type = 1;
-            UserGroupResponse userGroupResponse = restService.findGroupById(systemMessageResponse.getToGroupId()).getData();
-            content = userResponse.getNickName() + "申请加入群" + userGroupResponse.getName();
-        }
         MessageBoxVO messageBoxVO = MessageBoxVO.builder()
                 .user(buildUserVO(userResponse))
                 .from(systemMessageResponse.getFromUserId())
                 .uid(systemMessageResponse.getToUserId())
-                .content(content)
+                .content(systemMessageResponse.getContent())
                 .from_group(systemMessageResponse.getToGroupId())
                 .time(SimpleDateFormat.getInstance().format(systemMessageResponse.getSendTime()))
                 .read(systemMessageResponse.getStatus() ? 1 : 0)
-                .type(type).build();
+                .type(1).build();
 
         return messageBoxVO;
     }

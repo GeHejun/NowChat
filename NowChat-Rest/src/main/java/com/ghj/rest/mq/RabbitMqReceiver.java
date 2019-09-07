@@ -3,6 +3,8 @@ package com.ghj.rest.mq;
 import com.alibaba.fastjson.JSON;
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.PersistentMessage;
+import com.ghj.common.dto.response.UserGroupResponse;
+import com.ghj.common.dto.response.UserResponse;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
 import com.ghj.rest.model.Message;
@@ -30,6 +32,7 @@ public class RabbitMqReceiver {
 
     @Resource
     SystemMessageService systemMessageService;
+
 
 
 
@@ -75,12 +78,12 @@ public class RabbitMqReceiver {
             } else {
                 SystemMessage systemMessage = new SystemMessage();
                 systemMessage.setContent(message.getPostMessage());
-                systemMessage.setFromUserId(message.getFromUserId());
                 systemMessage.setId(message.getId());
                 systemMessage.setSendTime(new Date());
                 systemMessage.setStatus(message.getStatus());
-                systemMessage.setToGroupId(message.getToGroupId());
                 systemMessage.setToUserId(message.getToUserId());
+                systemMessage.setFromUserId(message.getFromUserId());
+                systemMessage.setContent(message.getPostMessage());
                 systemMessageService.insertSystemMessage(systemMessage);
             }
         } catch (Exception e) {
