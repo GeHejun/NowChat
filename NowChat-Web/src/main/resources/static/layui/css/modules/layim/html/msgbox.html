@@ -201,6 +201,7 @@
                             if (res.code != 0) {
                                 return layer.msg(res.msg);
                             }
+                            agreeOrRefuseValidationMessage(toUserId, 0)
                         })
                     }
                 });
@@ -210,18 +211,11 @@
             , refuse: function (othis) {
                 var li = othis.parents('li')
                     , uid = li.data('uid');
-
                 layer.confirm('确定拒绝吗？', function (index) {
-                    $.post('/security/refuseFriend', {
-                        uid: uid //对方用户ID
-                    }, function (res) {
-                        if (res.code != 0) {
-                            return layer.msg(res.msg);
-                        }
-                        layer.close(index);
-                        othis.parent().html('<em>已拒绝</em>');
-                    });
-                });
+                    layer.close(index);
+                    othis.parent().html('<em>已拒绝</em>');
+                    agreeOrRefuseValidationMessage(uid, 0)
+               });
             }
         };
 
@@ -229,6 +223,59 @@
             var othis = $(this), type = othis.data('type');
             active[type] ? active[type].call(this, othis) : '';
         });
+
+        function agreeOrRefuseValidationMessage(id, type) {
+            var message;
+            if (type == 0) {
+                var messageDirect = 1;
+                var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
+                var toUserId = id; //对方的信息
+                var id = new Snowflake().nextId();
+                var messageTypeId = 1;
+                var messageBehavior = 11;
+                var deviceId = parent.deviceId;
+                var username = parent.layui.layim.cache().mine.username;
+                var avatar = parent.layui.layim.cache().mine.avatar;
+                message = {
+                    "fromUserId": fromUserId,
+                    "id": id,
+                    "messageTypeId": messageTypeId,
+                    "messageBehavior": messageBehavior,
+                    "messageDirect": messageDirect,
+                    "deviceId": deviceId,
+                    "name": username,
+                    "headPortrait": avatar,
+                    "toUserId": toUserId,
+                    "content":parent.layui.layim.cache().mine.username + "同意了您的好友申请"
+                };
+            } else {
+                var messageDirect = 2;
+                var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息
+                var toUserId = id; //对方的信息
+                var id = new Snowflake().nextId();
+                var messageTypeId = 1;
+                var messageBehavior = 11;
+                var deviceId = parent.deviceId;
+                var username = parent.layui.layim.cache().mine.username;
+                var avatar = parent.layui.layim.cache().mine.avatar;
+                var toGroupId = groupId;
+                message = {
+                    "fromUserId": fromUserId,
+                    "id": id,
+                    "messageTypeId": messageTypeId,
+                    "messageBehavior": messageBehavior,
+                    "messageDirect": messageDirect,
+                    "deviceId": deviceId,
+                    "name": username,
+                    "headPortrait": avatar,
+                    "toUserId": toUserId,
+                    "toGroupId": toGroupId,
+                    "content":parent.layui.layim.cache().mine.username + "申请加入群" + groupName
+                };
+            }
+            parent.sendMessage(message);
+        }
+
     });
 </script>
 </body>
