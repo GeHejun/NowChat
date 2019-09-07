@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.FriendResponse;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface FriendService {
      * @return
      */
     List<FriendResponse> listFriendsByUserId(Integer userId);
+
+    Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
 }

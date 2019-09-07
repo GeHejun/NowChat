@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -29,5 +30,14 @@ public class FriendController {
     public Result<List<FriendResponse>> queryFriendList(@Valid @RequestParam("userId") Integer userId) {
         List<FriendResponse> friendResponseList = friendService.listFriendsByUserId(userId);
         return Result.defaultSuccess(friendResponseList);
+    }
+
+    @RequestMapping("/agreeFriend")
+    @ResponseBody
+    public Result<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+                                @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
+                                @NotNull @RequestParam("toUserId") Integer toUserId,
+                                @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
+        return Result.defaultSuccess(friendService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
     }
 }

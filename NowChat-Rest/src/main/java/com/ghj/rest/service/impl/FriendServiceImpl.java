@@ -6,6 +6,7 @@ import com.ghj.rest.model.Friend;
 import com.ghj.rest.service.FriendService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -31,5 +32,25 @@ public class FriendServiceImpl implements FriendService {
             friendResponseList.add(friendResponse);
         });
         return friendResponseList;
+    }
+
+    @Transactional(rollbackFor = RuntimeException.class)
+    @Override
+    public Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
+        try {
+            Friend toFriend = new Friend();
+            toFriend.setUserId(fromUserId);
+            toFriend.setFriendId(toUserId);
+            toFriend.setFriendGroupId(toFriendGroupId);
+            friendMapper.insert(toFriend);
+            Friend fromFriend = new Friend();
+            fromFriend.setUserId(toUserId);
+            fromFriend.setFriendId(fromUserId);
+            fromFriend.setFriendGroupId(fromFriendGroupId);
+            friendMapper.insert(fromFriend);
+        } catch (RuntimeException e) {
+            return  false;
+        }
+        return true;
     }
 }

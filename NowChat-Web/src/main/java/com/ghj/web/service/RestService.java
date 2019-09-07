@@ -272,4 +272,10 @@ public interface RestService {
     Result<String> queryMessageTypeNameById(@RequestParam("id") Integer id);
 
 
+    @RequestMapping("/agreeFriend")
+    @ResponseBody
+    Result<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+                                @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
+                                @NotNull @RequestParam("toUserId") Integer toUserId,
+                                @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId);
 }

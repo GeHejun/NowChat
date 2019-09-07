@@ -92,6 +92,6 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
-        return null;
+        return restService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId).getData();
     }
 }
