@@ -68,7 +68,7 @@ public class MessageSender implements Runnable {
                     }
                     break;
                 case GROUP:
-                    if (VALIDATION_MESSAGE == message.getMessageBehavior() || REPLY_VALIDATION_MESSAGE == message.getMessageBehavior()) {
+                    if (VALIDATION_MESSAGE == message.getMessageBehavior()) {
                         dealValidationMessage(message);
                     } else {
                         dealGroupMessage(message);
