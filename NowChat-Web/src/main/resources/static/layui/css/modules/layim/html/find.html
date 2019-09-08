@@ -10,18 +10,23 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <style>
         .itemList li {
+            text-align: left;
             display: inline-block;
             vertical-align: middle;
             width: 100px;
             height: 100px;
-            padding: 20px;
+            padding: 50px;
+        }
+        .search {
+            text-align: center;
+            padding: 50px;
         }
     </style>
 </head>
 <body>
 
 
-<form class="layui-form" action="">
+<form class="layui-form search" action="">
     <div class="layui-inline">
         <label class="layui-form-label">搜索选择框</label>
         <div class="layui-input-inline" style="width: 100px">
@@ -145,11 +150,11 @@
             , username: groupName
             , avatar: ""
             , submit: function (group, remark, index) {
-                layer.msg('申请已发送，请等待管理员确认', {
+                parent.layer.msg('申请已发送，请等待管理员确认', {
                     icon: 1
                     , shade: 0.5
                 }, function () {
-                    layer.close(index);
+                    parent.layer.close(index);
                 });
                 var messageDirect = 2;
                 var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息

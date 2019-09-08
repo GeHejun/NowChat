@@ -283,4 +283,8 @@ public interface RestService {
     @RequestMapping("/friend/refuseFriend")
     @ResponseBody
     Result<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId);
+
+    @RequestMapping("/groupToUser/agreeGroup")
+    @ResponseBody
+    Result<Boolean> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId);
 }

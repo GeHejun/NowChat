@@ -36,5 +36,10 @@ public class GroupToUserController {
         return Result.defaultSuccess(groupToUserService.findUserIdByGroupId(groupId));
     }
 
+    @RequestMapping("/agreeGroup")
+    @ResponseBody
+    public Result<Boolean> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId) {
+        return Result.defaultSuccess(groupToUserService.agreeGroup(validationMessageId, fromUserId, toGroupId));
+    }
 
 }

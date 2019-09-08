@@ -86,6 +86,14 @@ public class SecurityController {
         return ResultVO.defaultSuccess(securityService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
     }
 
+    @RequestMapping("/agreeGroup")
+    public ResultVO<Boolean> agreeGroup(
+            @NotNull @RequestParam("validationMessageId") Long validationMessageId,
+            @NotNull @RequestParam("fromUserId") Integer fromUserId,
+            @NotNull @RequestParam("toGroupId") Integer toGroupId) {
+        return ResultVO.defaultSuccess(securityService.agreeGroup(validationMessageId, fromUserId, toGroupId));
+    }
+
     @RequestMapping("/refuseFriend")
     public ResultVO<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId) {
         return ResultVO.defaultSuccess(securityService.refuseFriend(validationMessageId));

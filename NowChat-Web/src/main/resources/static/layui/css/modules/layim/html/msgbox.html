@@ -78,7 +78,8 @@
 <textarea title="消息模版" id="LAY_tpl" style="display:none;">
 {{# layui.each(d.data, function(index, item){
   if(item.from){ }}
-    <li data-uid="{{ item.from }}" data-id="{{ item.id }}" data-fromGroup="{{ item.from_group }}">
+    <li data-uid="{{ item.from }}" data-id="{{ item.id }}" data-toGroupId="{{ item.toGroupId }}"
+        data-toGroupId="{{ item.toGroupName }}" data-fromGroup="{{ item.from_group }}">
       <a href="/u/{{ item.from }}/" target="_blank">
         <img src="{{ item.user.avatar }}" class="layui-circle layim-msgbox-avatar">
       </a>
@@ -110,12 +111,6 @@
   {{# }
 }); }}
 </textarea>
-
-<!-- 
-上述模版采用了 laytpl 语法，不了解的同学可以去看下文档：http://www.layui.com/doc/modules/laytpl.html 
--->
-
-
 <script src="../../../../layui.js?v=1"></script>
 <script src="../../../../../js/jquery-3.4.1.js" charset="utf-8"></script>
 <script src="../../../../../js/BigInteger.js"></script>
@@ -176,59 +171,75 @@
                     , uid = li.data('uid')
                     , from_group = li.data('fromgroup')
                     , id = li.data('id')
+                    , toGroupId = li.data("togroupid")
+                    , toGroupName = li.data("togroupname")
                     , user = cache[uid];
-                //选择分组
-                parent.layui.layim.setFriendGroup({
-                    type: 'friend'
-                    , username: user.username
-                    , avatar: user.avatar
-                    , group: parent.layui.layim.cache().friend //获取好友分组数据
-                    , submit: function (group, index) {
-                        //将好友追加到主面板
-                        parent.layui.layim.addList({
-                            type: 'friend'
-                            , avatar: user.avatar //好友头像
-                            , username: user.username //好友昵称
-                            , groupid: group //所在的分组id
-                            , id: uid //好友ID
-                            , sign: user.sign //好友签名
-                        });
-                        parent.layer.close(index);
-                        othis.parent().html('已同意');
+                if (toGroupId == undefined) {
+                    //选择分组
+                    parent.layui.layim.setFriendGroup({
+                        type: 'friend'
+                        , username: user.username
+                        , avatar: user.avatar
+                        , group: parent.layui.layim.cache().friend //获取好友分组数据
+                        , submit: function (group, index) {
+                            //将好友追加到主面板
+                            parent.layui.layim.addList({
+                                type: 'friend'
+                                , avatar: user.avatar //好友头像
+                                , username: user.username //好友昵称
+                                , groupid: group //所在的分组id
+                                , id: uid //好友ID
+                                , sign: user.sign //好友签名
+                            });
+                            parent.layer.close(index);
+                            othis.parent().html('已同意');
 
-                        $.post('/security/agreeFriend', {
-                            fromUserId: uid //对方用户ID
-                            , fromFriendGroupId: from_group //对方设定的好友分组
-                            , toFriendGroupId: group //我设定的好友分组
-                            , toUserId: parent.layui.layim.cache().mine.id
-                            , validationMessageId: id
-                        }, function (res) {
-                            if (res.code != 0) {
-                                return layer.msg(res.msg);
-                            }
-                            agreeOrRefuseValidationMessage(uid, 0)
-                        })
-                    }
-                });
+                            $.post('/security/agreeFriend', {
+                                fromUserId: uid //对方用户ID
+                                , fromFriendGroupId: from_group //对方设定的好友分组
+                                , toFriendGroupId: group //我设定的好友分组
+                                , toUserId: parent.layui.layim.cache().mine.id
+                                , validationMessageId: id
+                            }, function (res) {
+                                if (res.code != 0) {
+                                    return layer.msg(res.msg);
+                                }
+                                agreeOrRefuseValidationMessage(uid)
+                            })
+                        }
+                    });
+                } else {
+                    layer.msg('已成功把'+toGroupName+'添加到群组里', {});
+                    $.post('/security/agreeGroup', {
+                        fromUserId: uid //对方用户ID
+                        , toGroupId: toGroupId //对方设定的好友分组
+                        , validationMessageId: id
+                    }, function (res) {
+                        if (res.code != 0) {
+                            return layer.msg(res.msg);
+                        }
+                        othis.parent().html('已同意');
+                        agreeOrRefuseValidationMessage(uid, toGroupId)
+                    });
+                }
             }
             //拒绝
             , refuse: function (othis) {
                 var li = othis.parents('li')
                     , uid = li.data('uid')
                     , id = li.data('id');
-                layer.confirm('确定拒绝吗？', function (index) {
-                    $.post('/security/refuseFriend', {
-                        validationMessageId: id
-                    }, function (res) {
-                        if (res.code != 0) {
-                            return layer.msg(res.msg);
-                        }
-                        layer.close(index);
-                        othis.parent().html('<em>已拒绝</em>');
-                        agreeOrRefuseValidationMessage(uid, 0)
-                    })
-
-                });
+                    layer.confirm('确定拒绝吗？', function (index) {
+                        $.post('/security/refuseFriend', {
+                            validationMessageId: id
+                        }, function (res) {
+                            if (res.code != 0) {
+                                return layer.msg(res.msg);
+                            }
+                            layer.close(index);
+                            othis.parent().html('<em>已拒绝</em>');
+                            agreeOrRefuseValidationMessage(uid)
+                        })
+                    });
             }
         };
 
@@ -237,9 +248,7 @@
             active[type] ? active[type].call(this, othis) : '';
         });
 
-        function agreeOrRefuseValidationMessage(toUserId, type, groupId) {
-            var message;
-            if (type == 0) {
+        function agreeOrRefuseValidationMessage(toUserId, groupId) {
                 var messageDirect = 1;
                 var toUserId = toUserId; //对方的信息
                 var id = new Snowflake().nextId();
@@ -248,28 +257,8 @@
                 var deviceId = parent.deviceId;
                 var username = parent.layui.layim.cache().mine.username;
                 var avatar = parent.layui.layim.cache().mine.avatar;
-                message = {
-                    "id": id,
-                    "messageTypeId": messageTypeId,
-                    "messageBehavior": messageBehavior,
-                    "messageDirect": messageDirect,
-                    "deviceId": deviceId,
-                    "name": username,
-                    "headPortrait": avatar,
-                    "toUserId": toUserId,
-                    "content": parent.layui.layim.cache().mine.username + "同意了您的好友申请"
-                };
-            } else {
-                var messageDirect = 2;
-                var toUserId = toUserId; //对方的信息
-                var id = new Snowflake().nextId();
-                var messageTypeId = 1;
-                var messageBehavior = 12;
-                var deviceId = parent.deviceId;
-                var username = parent.layui.layim.cache().mine.username;
-                var avatar = parent.layui.layim.cache().mine.avatar;
                 var toGroupId = groupId;
-                message = {
+                var message = {
                     "id": id,
                     "messageTypeId": messageTypeId,
                     "messageBehavior": messageBehavior,
@@ -278,10 +267,9 @@
                     "name": username,
                     "headPortrait": avatar,
                     "toUserId": toUserId,
-                    "toGroupId": toGroupId,
-                    "content": parent.layui.layim.cache().mine.username + "申请加入群" + groupName
+                    "content": parent.layui.layim.cache().mine.username + "同意了您的好友申请",
+                    "toGroupId":toGroupId
                 };
-            }
             parent.sendMessage(message);
         }
 

@@ -34,4 +34,8 @@ public class MessageBoxVO {
     private String time;
 
     private UserVO user;
+
+    private Integer toGroupId;
+
+    private String toGroupName;
 }

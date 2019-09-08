@@ -52,4 +52,6 @@ public interface SecurityService {
     Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
 
     Boolean refuseFriend(Long validationMessageId);
+
+    Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
 }

@@ -82,6 +82,7 @@ public class RabbitMqReceiver {
                 systemMessage.setSendTime(new Date());
                 systemMessage.setStatus(message.getStatus());
                 systemMessage.setToUserId(message.getToUserId());
+                systemMessage.setToGroupId(message.getToGroupId());
                 systemMessage.setFromUserId(message.getFromUserId());
                 systemMessage.setContent(message.getPostMessage());
                 systemMessage.setFromFriendGroupId(message.getFromFriendGroupId());
