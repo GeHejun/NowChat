@@ -13,7 +13,7 @@ import lombok.Data;
 @Builder
 public class MessageBoxVO {
 
-    private Long id;
+    private String id;
 
     private String content;
 

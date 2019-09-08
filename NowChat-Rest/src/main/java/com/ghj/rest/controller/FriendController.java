@@ -34,10 +34,19 @@ public class FriendController {
 
     @RequestMapping("/agreeFriend")
     @ResponseBody
-    public Result<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+    public Result<Boolean> agreeFriend(
+                                @NotNull @RequestParam("validationMessageId") Long validationMessageId,
+                                @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                 @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                 @NotNull @RequestParam("toUserId") Integer toUserId,
                                 @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
-        return Result.defaultSuccess(friendService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+        return Result.defaultSuccess(friendService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+    }
+
+    @RequestMapping("/refuseFriend")
+    @ResponseBody
+    public Result<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId) {
+        return Result.defaultSuccess(friendService.refuseFriend(validationMessageId));
+
     }
 }

@@ -36,7 +36,7 @@ public class UserStateController {
      */
     @RequestMapping("/queryStateByName")
     @ResponseBody
-    public Result<UserStateResponse> queryStateByName(String name) {
+    public Result<UserStateResponse> queryStateByName(@RequestParam("name") String name) {
         return Result.defaultSuccess(userStateService.queryStateByName(name));
     }
 }

@@ -28,6 +28,10 @@ public class Constant {
 
     public static final String GROUP_VALIDATION_MESSAGE = "GROUP_VALIDATION_MESSAGE";
 
+    public static final String REPLAY_FRIEND_VALIDATION_MESSAGE = "REPLAY_FRIEND_VALIDATION_MESSAGE";
+
+    public static final String REPLAY_GROUP_VALIDATION_MESSAGE = "REPLAY_GROUP_VALIDATION_MESSAGE";
+
     public static final String SYSTEM_MESSAGE = "SYSTEM_MESSAGE";
 
     public static final String MESSAGE = "MESSAGE";
@@ -113,6 +117,12 @@ public class Constant {
     public static final Long PING_ADD_TIME = 1000L;
 
     public static final int MAX_CONNECT_NUM = 10000;
+
+    public static final int PENDING_VALIDATION_MESSAGE = 1;
+
+    public static final int AGREE_VALIDATION_MESSAGE = 2;
+
+    public static final int REFUSE_VALIDATION_MESSAGE = 3;
 
     public static final String CODE_KEY = "code";
 

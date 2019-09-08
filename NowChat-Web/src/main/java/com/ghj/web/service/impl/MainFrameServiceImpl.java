@@ -161,17 +161,20 @@ public class MainFrameServiceImpl implements MainFrameService {
     }
 
     public MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
-        UserResponse userResponse = restService.queryUser(systemMessageResponse.getFromUserId()).getData();
+        UserResponse userResponse = null;
+        if (!Objects.isNull(systemMessageResponse.getFromUserId())) {
+            userResponse = restService.queryUser(systemMessageResponse.getFromUserId()).getData();
+        }
         MessageBoxVO messageBoxVO = MessageBoxVO.builder()
-                .user(buildUserVO(userResponse))
+                .id(systemMessageResponse.getId().toString())
+                .user(userResponse != null ? buildUserVO(userResponse) : null)
                 .from(systemMessageResponse.getFromUserId())
                 .uid(systemMessageResponse.getToUserId())
                 .content(systemMessageResponse.getContent())
                 .from_group(systemMessageResponse.getFromFriendGroupId())
                 .time(SimpleDateFormat.getInstance().format(systemMessageResponse.getSendTime()))
-                .read(systemMessageResponse.getStatus() ? 1 : 0)
-                .type(1).build();
-
+                .read(systemMessageResponse.getStatus() ? 0 : 1)
+                .type(systemMessageResponse.getHandleResult()).build();
         return messageBoxVO;
     }
 

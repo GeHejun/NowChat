@@ -185,7 +185,7 @@ public interface RestService {
      */
     @RequestMapping("/state/queryStateByName")
     @ResponseBody
-    Result<UserStateResponse> queryStateByName(String name);
+    Result<UserStateResponse> queryStateByName(@RequestParam("name")String name);
 
     /**
      * 查询用户状态
@@ -272,10 +272,15 @@ public interface RestService {
     Result<String> queryMessageTypeNameById(@RequestParam("id") Integer id);
 
 
-    @RequestMapping("/agreeFriend")
+    @RequestMapping("/friend/agreeFriend")
     @ResponseBody
-    Result<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+    Result<Boolean> agreeFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId,
+                                @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                 @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                 @NotNull @RequestParam("toUserId") Integer toUserId,
                                 @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId);
+
+    @RequestMapping("/friend/refuseFriend")
+    @ResponseBody
+    Result<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId);
 }

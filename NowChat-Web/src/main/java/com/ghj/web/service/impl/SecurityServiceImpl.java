@@ -91,7 +91,12 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
-        return restService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId).getData();
+    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
+        return restService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId).getData();
+    }
+
+    @Override
+    public Boolean refuseFriend(Long validationMessageId) {
+        return restService.refuseFriend(validationMessageId).getData();
     }
 }

@@ -11,7 +11,8 @@ import java.util.List;
  * @author GeHejun
  */
 @Repository
-public interface SystemMessageMapper extends MyBatisBaseDao<SystemMessage, Integer> {
+public interface SystemMessageMapper extends MyBatisBaseDao<SystemMessage, Long> {
+
     Integer selectUnreadValidationMessageNum(@Param("toUserId") Integer toUserId, @Param("status") Boolean status);
 
     List<SystemMessage> selectValidationMessage(@Param("toUserId") Integer toUserId);

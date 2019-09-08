@@ -49,5 +49,7 @@ public interface SecurityService {
      */
     List<GroupVO> findGroup(String name);
 
-    Boolean agreeFriend(Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
+    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
+
+    Boolean refuseFriend(Long validationMessageId);
 }

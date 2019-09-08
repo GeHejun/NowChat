@@ -72,6 +72,7 @@ message Message {
         CLIENT_ROUTE = 9;
         PROXY_ROUTE = 10;
         VALIDATION_MESSAGE = 11;
+        REPLY_VALIDATION_MESSAGE = 12;
 
     }
 

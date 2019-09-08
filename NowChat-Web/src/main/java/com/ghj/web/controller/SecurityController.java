@@ -77,15 +77,17 @@ public class SecurityController {
     }
 
     @RequestMapping("/agreeFriend")
-    public ResultVO<Boolean> agreeFriend(@NotNull @RequestParam("fromUserId") Integer fromUserId,
+    public ResultVO<Boolean> agreeFriend(
+                                         @NotNull @RequestParam("validationMessageId") Long validationMessageId,
+                                         @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                          @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                          @NotNull @RequestParam("toUserId") Integer toUserId,
                                          @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
-        return ResultVO.defaultSuccess(securityService.agreeFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+        return ResultVO.defaultSuccess(securityService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
     }
 
-//    @RequestMapping("/refuseFriend")
-//    public ResultVO<Boolean> refuseFriend() {
-//        return ResultVO.defaultSuccess(securityService.refuseFriend(fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
-//    }
+    @RequestMapping("/refuseFriend")
+    public ResultVO<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId) {
+        return ResultVO.defaultSuccess(securityService.refuseFriend(validationMessageId));
+    }
 }

@@ -47,6 +47,7 @@ public class SystemMessageImpl implements SystemMessageService {
                     .toUserId(systemMessage.getToUserId())
                     .content(systemMessage.getContent())
                     .fromFriendGroupId(systemMessage.getFromFriendGroupId())
+                    .handleResult(systemMessage.getHandleResult())
                     .build();
             systemMessageResponseList.add(systemMessageResponse);
         });

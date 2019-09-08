@@ -85,6 +85,7 @@ public class RabbitMqReceiver {
                 systemMessage.setFromUserId(message.getFromUserId());
                 systemMessage.setContent(message.getPostMessage());
                 systemMessage.setFromFriendGroupId(message.getFromFriendGroupId());
+                systemMessage.setHandleResult(Constant.PENDING_VALIDATION_MESSAGE);
                 systemMessageService.insertSystemMessage(systemMessage);
             }
         } catch (Exception e) {

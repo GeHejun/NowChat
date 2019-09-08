@@ -232,7 +232,7 @@ layui.use('layim', function (layim) {
 
                 } else {
                     if (buffer.messageBehavior != 5) {
-                        if (buffer.messageBehavior == 11) {
+                        if (buffer.messageBehavior == 11  || buffer.messageBehavior == 12) {
                             $.ajax({
                                 url: "/index/initMessageBoxNum",
                                 data: {"toUserId": user.id},
@@ -244,7 +244,6 @@ layui.use('layim', function (layim) {
                                 error: function (data) {
                                 }
                             });
-
                         } else {
                             layim.getMessage({
                                 username: buffer.name //消息来源用户名

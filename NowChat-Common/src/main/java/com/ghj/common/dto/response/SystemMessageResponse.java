@@ -30,4 +30,7 @@ public class SystemMessageResponse {
     private Integer toGroupId;
 
     private Integer fromFriendGroupId;
+
+    private Integer handleResult;
+
 }

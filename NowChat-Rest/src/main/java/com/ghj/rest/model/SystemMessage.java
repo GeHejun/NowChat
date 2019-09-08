@@ -30,6 +30,27 @@ public class SystemMessage implements Serializable {
 
     private Integer fromFriendGroupId;
 
+    private String remark;
+
+    private Integer handleResult;
+
+
+    public void setHandleResult(Integer handleResult) {
+        this.handleResult = handleResult;
+    }
+
+    public Integer getHandleResult() {
+        return handleResult;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
     public void setFromFriendGroupId(Integer fromFriendGroupId) {
         this.fromFriendGroupId = fromFriendGroupId;
     }
@@ -116,7 +137,9 @@ public class SystemMessage implements Serializable {
             && (this.getSendTime() == null ? other.getSendTime() == null : this.getSendTime().equals(other.getSendTime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
-            && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId())) && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId()));
+            && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId())) && (this.getFromFriendGroupId() == null ? other.getFromFriendGroupId() == null : this.getFromFriendGroupId().equals(other.getFromFriendGroupId()))
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
+            && (this.getHandleResult() == null ? other.getHandleResult() == null : this.getHandleResult().equals(other.getHandleResult()));
     }
 
     @Override
@@ -131,6 +154,8 @@ public class SystemMessage implements Serializable {
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getToGroupId() == null) ? 0 : getToGroupId().hashCode());
         result = prime * result + ((getFromFriendGroupId() == null) ? 0 : getFromFriendGroupId().hashCode());
+        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
+        result = prime * result + ((getHandleResult() == null) ? 0 : getHandleResult().hashCode());
         return result;
     }
 
@@ -148,6 +173,8 @@ public class SystemMessage implements Serializable {
         sb.append(", content=").append(content);
         sb.append(", toGroupId=").append(toGroupId);
         sb.append(", fromFriendGroupId=").append(fromFriendGroupId);
+        sb.append(", remark=").append(remark);
+        sb.append(", remark=").append(handleResult);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

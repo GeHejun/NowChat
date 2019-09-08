@@ -77,7 +77,7 @@
                                 "<div>" +
                                 "<img style='border-radius: 50%' width='80px' height='80px' src='" + item.avatar + "'/>" +
                                 "<div style='text-align: center'>群名称:" + item.groupname + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addGroup(" + item.adminId + ", " + item.id + ", " + item.groupname + ")'></div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addGroup(" + item.adminId + ", " + item.id + ", \"" + item.groupname + "\")'></div>" +
                                 "</div>" +
                                 "</li>";
                         } else {
@@ -86,7 +86,7 @@
                                 "<img style='border-radius: 50%' width='80px' height='80px' src='" + item.avatar + "'/>" +
                                 "<div style='text-align: center'>昵称:" + item.nickName + "</div>" +
                                 "<div style='text-align: center'>姓名:" + item.username + "</div>" +
-                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriend(" + item.id + ", " + item.nickName + ", " + item.avatar + ")'></div>" +
+                                "<div style='text-align: center'><input type='button' value='+' class='layui-btn' onclick='addFriend(\""+ item.avatar + "\", " + item.id + ", \"" + item.nickName + "\")'></div>" +
                                 "</div>" +
                                 "</li>";
                         }
@@ -99,18 +99,18 @@
         });
     });
     var validationToUserId;
-    function addFriend(toUserId, nickName, avatar) {
+    function addFriend(avatar, toUserId, nickName) {
         validationToUserId = toUserId;
         parent.layui.layim.add({
             type: 'friend'
             , username: nickName
             , avatar: avatar
             , submit: function (group, remark, index) {
-                layer.msg('好友申请已发送，请等待对方确认', {
+                parent.layer.msg('好友申请已发送，请等待对方确认', {
                     icon: 1
                     , shade: 0.5
                 }, function () {
-                    layer.close(index);
+                    parent.layer.close(index);
                 });
                 var messageDirect = 1;
                 var fromUserId = parent.layui.layim.cache().mine.id; //包含我发送的消息及我的信息

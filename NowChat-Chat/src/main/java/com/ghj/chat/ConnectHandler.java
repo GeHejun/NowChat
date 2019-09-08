@@ -59,6 +59,7 @@ public class ConnectHandler extends SimpleChannelInboundHandler {
                 break;
             case MESSAGE:
             case VALIDATION_MESSAGE:
+            case REPLY_VALIDATION_MESSAGE:
                 try {
                     MessageManager.getInstance().putMessage(message);
                     ackMessage = buildAckMessage(Code.MESSAGE_SEND_SUCCESS, message);

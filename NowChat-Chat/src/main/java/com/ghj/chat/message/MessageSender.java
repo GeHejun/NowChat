@@ -61,7 +61,8 @@ public class MessageSender implements Runnable {
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
-                    if (VALIDATION_MESSAGE == message.getMessageBehavior()) {
+                    if (VALIDATION_MESSAGE == message.getMessageBehavior()
+                            || REPLY_VALIDATION_MESSAGE == message.getMessageBehavior()) {
                         dealValidationMessage(message);
                     } else {
                         dealPersonalMessage(message);
@@ -113,7 +114,15 @@ public class MessageSender implements Runnable {
      * @param message
      */
     private void dealValidationMessage(MessageProto.Message message) {
-        PersistentMessage persistentMessage = buildPersistentMessage(message, false, false, null, null,  MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE );
+        String type = null;
+        if (VALIDATION_MESSAGE == message.getMessageBehavior()) {
+            type = MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? Constant.FRIEND_VALIDATION_MESSAGE : Constant.GROUP_VALIDATION_MESSAGE;
+        }
+        if (REPLY_VALIDATION_MESSAGE == message.getMessageBehavior()) {
+            type = MessageProto.Message.MessageDirect.PERSONAL == message.getMessageDirect() ? REPLAY_FRIEND_VALIDATION_MESSAGE : REPLAY_GROUP_VALIDATION_MESSAGE;
+
+        }
+        PersistentMessage persistentMessage = buildPersistentMessage(message, false, false, null, null,   type);
         Integer sessionKey = message.getToUserId();
         Session session = SessionManager.getSession(sessionKey);
         if (session != null) {
@@ -219,15 +228,15 @@ public class MessageSender implements Runnable {
         } else {
             return PersistentMessage.builder()
                     .id(message.getId())
-                    .fromUserId(message.getFromUserId())
+                    .fromUserId(REPLAY_FRIEND_VALIDATION_MESSAGE.equals(type) ? null :message.getFromUserId())
                     .messageTypeId(message.getMessageTypeId())
                     .postMessage(message.getContent())
                     .status(status)
                     .toUserId(message.getToUserId())
                     .sendTime(Instant.now().toString())
                     .type(type)
-                    .toGroupId(GROUP_VALIDATION_MESSAGE == type? message.getToGroupId() : null)
-                    .fromFriendGroupId(message.getFromFriendGroupId())
+                    .toGroupId(GROUP_VALIDATION_MESSAGE.equals(type)? message.getToGroupId() : null)
+                    .fromFriendGroupId(REPLAY_FRIEND_VALIDATION_MESSAGE.equals(type) ? null : message.getFromFriendGroupId())
                     .build();
         }
     }
