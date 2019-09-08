@@ -61,7 +61,8 @@ public class MessageSender implements Runnable {
         } else {
             switch (message.getMessageDirect()) {
                 case PERSONAL:
-                    if (VALIDATION_MESSAGE == message.getMessageBehavior() || REPLY_VALIDATION_MESSAGE == message.getMessageBehavior()) {
+                    if (VALIDATION_MESSAGE == message.getMessageBehavior()
+                            || REPLY_VALIDATION_MESSAGE == message.getMessageBehavior()) {
                         dealValidationMessage(message);
                     } else {
                         dealPersonalMessage(message);
