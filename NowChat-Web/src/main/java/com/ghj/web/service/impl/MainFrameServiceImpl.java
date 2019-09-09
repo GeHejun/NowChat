@@ -163,7 +163,7 @@ public class MainFrameServiceImpl implements MainFrameService {
         List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
         unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
         List<UnreadMessageNumVO> unreadMessageNumVOList = new ArrayList<>(unreadMessageResponseList.size());
-        unreadGroupMessageResponseList.stream().forEach(unreadMessageResponse -> {
+        unreadMessageResponseList.stream().forEach(unreadMessageResponse -> {
             UnreadMessageNumVO unreadMessageNumVO = new UnreadMessageNumVO();
             BeanUtils.copyProperties(unreadMessageResponse, unreadMessageNumVO);
             unreadMessageNumVOList.add(unreadMessageNumVO);

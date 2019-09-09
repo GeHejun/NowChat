@@ -189,7 +189,7 @@ layui.use(['layim','notice'], function () {
                         });
 
                         $.ajax({
-                            url: "/index/queryUnreadGroupMessage",
+                            url: "/index/initUnreadMessageNum",
                             data: {"toUserId": user.id},
                             type: "Post",
                             dataType: "json",
