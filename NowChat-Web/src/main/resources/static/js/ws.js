@@ -4,7 +4,6 @@ var websocket;
 let routeMsgId = 10000;
 let loginMsgId = 20000;
 
-
 function sendMessage(message) {
     protobuf.load("/proto/message.proto", function (err, root) {
         if (err) throw err;
@@ -14,6 +13,12 @@ function sendMessage(message) {
         websocket.send(buffer);
     });
 }
+
+layui.config({
+    base: './layui/lay/modules/'
+}).extend({
+    notice: 'notice'
+});
 
 layui.use(['layim','notice'], function () {
     var notice = layui.notice;
