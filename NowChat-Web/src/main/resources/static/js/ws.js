@@ -15,10 +15,28 @@ function sendMessage(message) {
     });
 }
 
-layui.use('layim', function (layim) {
-    var user = JSON.parse(localStorage.getItem('user'));
-    route(wsUri);
+layui.use(['layim','notice'], function () {
+    var notice = layui.notice;
+    var layim = layui.layim;
 
+    // 初始化配置，同一样式只需要配置一次，非必须初始化，有默认配置
+    notice.options = {
+        closeButton:true,//显示关闭按钮
+        debug:false,//启用debug
+        positionClass:"toast-top-right",//弹出的位置,
+        showDuration:"300",//显示的时间
+        hideDuration:"1000",//消失的时间
+        timeOut:"5000",//停留的时间
+        extendedTimeOut:"1000",//控制时间
+        showEasing:"swing",//显示时的动画缓冲方式
+        hideEasing:"linear",//消失时的动画缓冲方式
+        iconClass: 'toast-info', // 自定义图标，有内置，如不需要则传空 支持layui内置图标/自定义iconfont类名
+        onclick: null, // 点击关闭回调
+    };
+
+    var user = JSON.parse(localStorage.getItem('user'));
+
+    route(wsUri);
     function route(url) {
         websocket = new WebSocket(url);
         websocket.onopen = function () {
@@ -133,13 +151,6 @@ layui.use('layim', function (layim) {
                             });
                             //模拟标注好友在线状态
                         } else if (type === 'group') {
-                            // //模拟系统消息
-                            // layim.getMessage({
-                            //     system: true //系统消息
-                            //     , id: 111111111
-                            //     , type: "group"
-                            //     , content: '贤心加入群聊'
-                            // });
                         }
                     });
 
@@ -167,6 +178,22 @@ layui.use('layim', function (layim) {
                                     });
                                 }
                                 //
+                            },
+                            error: function (data) {
+                            }
+                        });
+
+                        $.ajax({
+                            url: "/index/queryUnreadGroupMessage",
+                            data: {"toUserId": user.id},
+                            type: "Post",
+                            dataType: "json",
+                            success: function (data) {
+                                var messageList = data.data;
+                                for (let i = 0; i < messageList.length; i++) {
+                                    var message = messageList[i];
+                                    notice.info(message.content);
+                                }
                             },
                             error: function (data) {
                             }
