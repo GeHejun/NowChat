@@ -78,4 +78,6 @@ public interface MainFrameService {
     Integer initMessageBoxNum(Integer toUserId);
 
     Boolean readValidationMessage(Integer toUserId);
+
+    List<UnreadMessageNumVO> initUnreadMessageNum(Integer toUserId);
 }

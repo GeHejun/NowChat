@@ -1,12 +1,12 @@
 package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
-import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.*;
 import com.ghj.common.exception.MessageException;
 import com.ghj.web.service.MainFrameService;
 import com.ghj.web.service.RestService;
 import com.ghj.web.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -136,12 +136,6 @@ public class MainFrameServiceImpl implements MainFrameService {
 
     @Override
     public List<MessageBoxVO> initMessageBoxVO(Integer toUserId) {
-//        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
-//        List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
-//        unreadMessageResponseList.addAll(unreadFriendMessageResponseList);
-//        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
-//        unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
-//        return buildMessageBoxVO(unreadMessageResponseList);
         List<SystemMessageResponse> systemMessageResponseList = restService.queryValidationMessage(toUserId).getData();
         List<MessageBoxVO> messageBoxVOList = new ArrayList<>(systemMessageResponseList.size());
         systemMessageResponseList.forEach(systemMessageResponse -> {
@@ -149,6 +143,7 @@ public class MainFrameServiceImpl implements MainFrameService {
         });
         return messageBoxVOList;
     }
+
 
     @Override
     public Integer initMessageBoxNum(Integer toUserId) {
@@ -160,7 +155,24 @@ public class MainFrameServiceImpl implements MainFrameService {
         return restService.readValidationMessage(toUserId).getData();
     }
 
-    public MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
+    @Override
+    public List<UnreadMessageNumVO> initUnreadMessageNum(Integer toUserId) {
+        List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
+        List<UnreadMessageResponse> unreadFriendMessageResponseList = restService.queryUnreadFriendMessage(toUserId).getData();
+        unreadMessageResponseList.addAll(unreadFriendMessageResponseList);
+        List<UnreadMessageResponse> unreadGroupMessageResponseList = restService.queryUnreadGroupMessage(toUserId).getData();
+        unreadMessageResponseList.addAll(unreadGroupMessageResponseList);
+        List<UnreadMessageNumVO> unreadMessageNumVOList = new ArrayList<>(unreadMessageResponseList.size());
+        unreadGroupMessageResponseList.stream().forEach(unreadMessageResponse -> {
+            UnreadMessageNumVO unreadMessageNumVO = new UnreadMessageNumVO();
+            BeanUtils.copyProperties(unreadMessageResponse, unreadMessageNumVO);
+            unreadMessageNumVOList.add(unreadMessageNumVO);
+        });
+        return unreadMessageNumVOList;
+    }
+
+
+    private MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
         UserResponse userResponse = null;
         String groupName = null;
         if (!Objects.isNull(systemMessageResponse.getFromUserId())) {

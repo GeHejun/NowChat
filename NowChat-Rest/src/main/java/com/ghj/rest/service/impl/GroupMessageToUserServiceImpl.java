@@ -4,8 +4,10 @@ import com.ghj.common.dto.response.GroupMessageToUserResponse;
 import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.dao.GroupMessageMapper;
 import com.ghj.rest.dao.GroupMessageToUserMapper;
+import com.ghj.rest.dao.UserGroupMapper;
 import com.ghj.rest.model.GroupMessage;
 import com.ghj.rest.model.GroupMessageToUser;
+import com.ghj.rest.model.UserGroup;
 import com.ghj.rest.service.GroupMessageToUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
 
     @Resource
     GroupMessageMapper groupMessageMapper;
+
+    @Resource
+    UserGroupMapper userGroupMapper;
 
 
     @Override
@@ -77,9 +82,12 @@ public class GroupMessageToUserServiceImpl implements GroupMessageToUserService 
         });
         groupMessageHashMap.forEach((k, v)->{
             UnreadMessageResponse unreadMessageResponse = new UnreadMessageResponse();
+            UserGroup userGroup = userGroupMapper.selectByPrimaryKey(k);
+            unreadMessageResponse.setFromUserName(userGroup.getName());
             unreadMessageResponse.setToGroupId(k);
             unreadMessageResponse.setToUserId(toUserId);
             unreadMessageResponse.setCount(v.size());
+            unreadMessageResponse.setContent(userGroup.getName()+"群有"+v.size()+"条消息未读");
             unreadMessageResponseList.add(unreadMessageResponse);
         });
         return unreadMessageResponseList;

@@ -5,7 +5,9 @@ import com.ghj.common.dto.response.HistoryMessage;
 import com.ghj.common.dto.response.MessageResponse;
 import com.ghj.common.dto.response.UnreadMessageResponse;
 import com.ghj.rest.dao.MessageMapper;
+import com.ghj.rest.dao.UserMapper;
 import com.ghj.rest.model.Message;
+import com.ghj.rest.model.User;
 import com.ghj.rest.service.MessageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,6 +30,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Resource
     MessageMapper messageMapper;
+
+    @Resource
+    UserMapper userMapper;
 
 
     @Override
@@ -83,9 +88,12 @@ public class MessageServiceImpl implements MessageService {
         List<UnreadMessageResponse> unreadMessageResponseList = new ArrayList<>();
         messageMap.forEach((k, v)->{
             UnreadMessageResponse unreadMessageResponse = new UnreadMessageResponse();
+            User user = userMapper.selectByPrimaryKey(k);
             unreadMessageResponse.setFromUserId(k);
+            unreadMessageResponse.setFromUserName(user.getNickName());
             unreadMessageResponse.setToUserId(toUserId);
             unreadMessageResponse.setCount(v.size());
+            unreadMessageResponse.setContent("您有"+user.getNickName()+"向您发来的"+v.size()+"条消息未读");
             unreadMessageResponseList.add(unreadMessageResponse);
         });
         return unreadMessageResponseList;

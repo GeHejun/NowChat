@@ -2,7 +2,6 @@ package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
 import com.ghj.common.dto.response.SystemMessageResponse;
-import com.ghj.rest.model.SystemMessage;
 import com.ghj.rest.service.SystemMessageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

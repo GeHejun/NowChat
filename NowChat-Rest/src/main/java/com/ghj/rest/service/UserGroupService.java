@@ -1,6 +1,5 @@
 package com.ghj.rest.service;
 
-import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.UserGroupResponse;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.ghj.rest.service;
 
-import com.ghj.common.base.Code;
 import com.ghj.common.dto.response.SystemMessageResponse;
 import com.ghj.rest.model.SystemMessage;
 

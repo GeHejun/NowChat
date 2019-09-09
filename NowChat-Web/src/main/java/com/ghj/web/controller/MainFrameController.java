@@ -140,4 +140,12 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(isSuccess);
     }
 
+    @RequestMapping("/initUnreadMessageNum")
+    @ResponseBody
+    public ResultVO<List<UnreadMessageNumVO>> initUnreadMessageNum(@NotNull @RequestParam("toUserId") Integer toUserId) {
+        return ResultVO.defaultSuccess(mainFrameService.initUnreadMessageNum(toUserId));
+    }
+
+
+
 }
