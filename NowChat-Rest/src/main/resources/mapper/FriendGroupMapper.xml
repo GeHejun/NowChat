@@ -25,6 +25,12 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
       )
   </insert>
+  <insert id="insertAndGetId" parameterType="com.ghj.rest.model.FriendGroup" useGeneratedKeys="true" keyProperty="id">
+       insert into friend_group (id, `name`, user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
   <insert id="insertSelective" parameterType="com.ghj.rest.model.FriendGroup">
     insert into friend_group
     <trim prefix="(" suffix=")" suffixOverrides=",">

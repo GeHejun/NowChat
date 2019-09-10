@@ -2,9 +2,11 @@ package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.GroupToUserResponse;
+import com.ghj.rest.dao.FriendGroupMapper;
 import com.ghj.rest.dao.GroupToUserMapper;
 import com.ghj.rest.dao.SystemMessageMapper;
 import com.ghj.rest.dao.UserMapper;
+import com.ghj.rest.model.FriendGroup;
 import com.ghj.rest.model.GroupToUser;
 import com.ghj.rest.model.SystemMessage;
 import com.ghj.rest.model.User;
@@ -32,6 +34,9 @@ public class GroupToUserServiceImpl implements GroupToUserService {
     @Resource
     SystemMessageMapper systemMessageMapper;
 
+    @Resource
+    FriendGroupMapper friendGroupMapper;
+
 
 
     @Override
@@ -55,8 +60,14 @@ public class GroupToUserServiceImpl implements GroupToUserService {
     }
 
     @Override
-    public Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId) {
+    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName) {
         try {
+            if (newFriendGroupName != null) {
+                FriendGroup friendGroup = new FriendGroup();
+                friendGroup.setName(newFriendGroupName);
+                friendGroup.setUserId(toGroupId);
+                toGroupId = friendGroupMapper.insertAndGetId(friendGroup);
+            }
             SystemMessage systemMessage = systemMessageMapper.selectByPrimaryKey(validationMessageId);
             systemMessage.setHandleResult(Constant.AGREE_VALIDATION_MESSAGE);
             systemMessageMapper.updateByPrimaryKey(systemMessage);
@@ -68,9 +79,9 @@ public class GroupToUserServiceImpl implements GroupToUserService {
             groupToUser.setGroupUserNick(user.getNickName());
             groupToUserMapper.insert(groupToUser);
          } catch (Exception e) {
-            return false;
+
         }
-        return true;
+        return toGroupId;
     }
 
 }

@@ -88,11 +88,12 @@ public class SecurityController {
     }
 
     @RequestMapping("/agreeGroup")
-    public ResultVO<Boolean> agreeGroup(
+    public ResultVO<Integer> agreeGroup(
             @NotNull @RequestParam("validationMessageId") Long validationMessageId,
             @NotNull @RequestParam("fromUserId") Integer fromUserId,
-            @NotNull @RequestParam("toGroupId") Integer toGroupId) {
-        return ResultVO.defaultSuccess(securityService.agreeGroup(validationMessageId, fromUserId, toGroupId));
+            @RequestParam("toGroupId") Integer toGroupId,
+            @RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return ResultVO.defaultSuccess(securityService.agreeGroup(validationMessageId, fromUserId, toGroupId, newFriendGroupName));
     }
 
     @RequestMapping("/refuseFriend")

@@ -53,7 +53,7 @@ public interface SecurityService {
 
     Boolean refuseFriend(Long validationMessageId);
 
-    Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
+    Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName);
 
     Boolean createGroup(GroupRequest groupRequest);
 }

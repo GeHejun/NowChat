@@ -182,15 +182,17 @@
                         , avatar: user.avatar
                         , group: parent.layui.layim.cache().friend //获取好友分组数据
                         , submit: function (group, index, newFriendGroupName) {
-                            //将好友追加到主面板
-                            parent.layui.layim.addList({
-                                type: 'friend'
-                                , avatar: user.avatar //好友头像
-                                , username: user.username //好友昵称
-                                , groupid: group //所在的分组id
-                                , id: uid //好友ID
-                                , sign: user.sign //好友签名
-                            });
+                            if (newFriendGroupName == undefined && group != undefined) {
+                                //将好友追加到主面板
+                                parent.layui.layim.addList({
+                                    type: 'friend'
+                                    , avatar: user.avatar //好友头像
+                                    , username: user.username //好友昵称
+                                    , groupid: group //所在的分组id
+                                    , id: uid //好友ID
+                                    , sign: user.sign //好友签名
+                                });
+                            }
                             parent.layer.close(index);
                             othis.parent().html('已同意');
 
@@ -200,11 +202,22 @@
                                 , toFriendGroupId: group //我设定的好友分组
                                 , toUserId: parent.layui.layim.cache().mine.id
                                 , validationMessageId: id
+                                , newFriendGroupName: newFriendGroupName
                             }, function (res) {
                                 if (res.code != 0) {
-                                    return layer.msg(res.msg);
+                                    return layer.msg(res.data);
+                                } else {
+                                    parent.layui.layim.addList({
+                                        type: 'friend'
+                                        , avatar: user.avatar //好友头像
+                                        , username: user.username //好友昵称
+                                        , groupid: res.data //所在的分组id
+                                        , id: uid //好友ID
+                                        , sign: user.sign //好友签名
+                                    });
+                                    agreeOrRefuseValidationMessage(uid)
                                 }
-                                agreeOrRefuseValidationMessage(uid)
+
                             })
                         }
                     });

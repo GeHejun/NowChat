@@ -102,8 +102,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId) {
-        return restService.agreeGroup(validationMessageId, fromUserId, toGroupId).getData();
+    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName) {
+        return restService.agreeGroup(validationMessageId, fromUserId, toGroupId, newFriendGroupName).getData();
     }
 
     @Override

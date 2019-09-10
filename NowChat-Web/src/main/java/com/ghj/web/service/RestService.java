@@ -287,7 +287,7 @@ public interface RestService {
 
     @RequestMapping("/groupToUser/agreeGroup")
     @ResponseBody
-    Result<Boolean> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId);
+    Result<Integer> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId, @RequestParam("toGroupId") Integer toGroupId, @RequestParam("newFriendGroupName") String newFriendGroupName);
 
     @RequestMapping("/userGroup/createGroup")
     @ResponseBody
