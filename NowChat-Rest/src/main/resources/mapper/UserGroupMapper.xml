@@ -43,6 +43,14 @@
       #{adminId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, 
       #{intro,jdbcType=VARCHAR})
   </insert>
+    <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id" parameterType="com.ghj.rest.model.UserGroup">
+    insert into user_group (id, `name`, create_time,
+      admin_id, icon, notice,
+      intro)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{adminId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR},
+      #{intro,jdbcType=VARCHAR})
+  </insert>
     <insert id="insertSelective" parameterType="com.ghj.rest.model.UserGroup">
         insert into user_group
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -43,6 +43,9 @@
         <div class="layui-input-inline">
             <input type="button" class="layui-btn" lay-submit lay-filter="searchSubmit" value="搜索">
         </div>
+        <div class="layui-input-inline">
+            <input type="button" class="layui-btn" lay-submit lay-filter="toCreateGroupSubmit" value="创建群聊">
+        </div>
         <ul class="itemList" id="itemList"></ul>
     </div>
 
@@ -100,6 +103,11 @@
                 },
                 error: function (data) {}
             });
+            return false;
+        });
+
+        form.on('submit(toCreateGroupSubmit)', function () {
+            parent.layer.iframeSrc("creategroup.html", 10);
             return false;
         });
     });

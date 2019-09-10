@@ -2,6 +2,7 @@ package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
 import com.ghj.common.dto.response.UserResponse;
@@ -103,5 +104,10 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId) {
         return restService.agreeGroup(validationMessageId, fromUserId, toGroupId).getData();
+    }
+
+    @Override
+    public Boolean createGroup(GroupRequest groupRequest) {
+        return restService.createGroup(groupRequest).getData();
     }
 }

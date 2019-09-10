@@ -171,6 +171,18 @@ public class MainFrameServiceImpl implements MainFrameService {
         return unreadMessageNumVOList;
     }
 
+    @Override
+    public List<UserVO> initFriend(Integer id) {
+        //查询朋友列表
+        List<FriendResponse> friendResponseList = restService.queryFriendList(id).getData();
+        List<UserVO> userVOList = new ArrayList<>(friendResponseList.size());
+        friendResponseList.stream().forEach(friendResponse -> {
+            UserVO userVO = UserVO.builder().id(friendResponse.getFriendId().toString()).nickName(friendResponse.getName()).build();
+            userVOList.add(userVO);
+        });
+        return userVOList;
+    }
+
 
     private MessageBoxVO buildMessageBoxVO(SystemMessageResponse systemMessageResponse) {
         UserResponse userResponse = null;

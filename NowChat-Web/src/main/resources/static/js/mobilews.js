@@ -16,15 +16,15 @@ function sendMessage(message) {
 
 layui.config({
     version: '20171011'
-}).use('mobile', function(){
+}).use('mobile', function () {
     var mobile = layui.mobile
-        ,layim = mobile.layim
-        ,layer = mobile.layer;
-
+        , layim = mobile.layim
+        , layer = mobile.layer;
 
     var user = JSON.parse(localStorage.getItem('user'));
 
     route(wsUri);
+
     function route(url) {
         websocket = new WebSocket(url);
         websocket.onopen = function () {
@@ -117,7 +117,7 @@ layui.config({
                     //每次窗口打开或切换，即更新对方的状态
                     layim.on('chatChange', function (res) {
                         //标注成已读
-                        $.post('/index/readMessage', {type:res.data.type, fromUserId:res.data.id, toUserId:user.id});
+                        $.post('/index/readMessage', {type: res.data.type, fromUserId: res.data.id, toUserId: user.id});
                         //查询好友状态
                         var type = res.data.type;
                         if (type === 'friend') {
@@ -247,7 +247,7 @@ layui.config({
 
                 } else {
                     if (buffer.messageBehavior != 5) {
-                        if (buffer.messageBehavior == 11  || buffer.messageBehavior == 12) {
+                        if (buffer.messageBehavior == 11 || buffer.messageBehavior == 12) {
                             $.ajax({
                                 url: "/index/initMessageBoxNum",
                                 data: {"toUserId": user.id},

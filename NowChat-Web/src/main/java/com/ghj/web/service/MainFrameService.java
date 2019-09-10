@@ -80,4 +80,6 @@ public interface MainFrameService {
     Boolean readValidationMessage(Integer toUserId);
 
     List<UnreadMessageNumVO> initUnreadMessageNum(Integer toUserId);
+
+    List<UserVO> initFriend(Integer id);
 }

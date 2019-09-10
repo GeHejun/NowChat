@@ -18,9 +18,13 @@ public interface UserGroupMapper extends MyBatisBaseDao<UserGroup, Integer> {
     List<UserGroup> selectGroupByName(@Param("name") String name);
 
     /**
-     * 通过群组查询群
+     * 通过群主查询群
      * @param toUserId
      * @return
      */
     List<UserGroup> selectGroupByAdminId(@Param("toUserId") Integer toUserId);
+
+
+    int insertAndGetId(UserGroup userGroup);
+
 }

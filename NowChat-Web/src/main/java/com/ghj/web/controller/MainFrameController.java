@@ -146,6 +146,16 @@ public class MainFrameController {
         return ResultVO.defaultSuccess(mainFrameService.initUnreadMessageNum(toUserId));
     }
 
+    /**
+     * 暂时写死用id 以后改成token
+     */
+    @RequestMapping("/initFriend")
+    @ResponseBody
+    public ResultVO<List<UserVO>> initFriend(@NotNull @RequestParam("id") Integer id) {
+        List<UserVO> userVOList = mainFrameService.initFriend(id);
+        return ResultVO.defaultSuccess(userVOList);
+    }
+
 
 
 }

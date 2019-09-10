@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>创建群组</title>
+    <link rel="stylesheet" href="../../../layui.css" media="all">
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item" pane="">
+        <div class="layui-input-inline">
+            <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入创建的群名称"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-block" id="friendList"></div>
+        <div class="layui-input-inline">
+            <input type="button" class="layui-btn" lay-submit lay-filter="createGroupSubmit" value="创建">
+        </div>
+    </div>
+</form>
+<script src="../../../../layui.js" charset="utf-8"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var user = JSON.parse(localStorage.getItem('user'));
+        $.ajax({
+            url: "/index/initFriend",
+            data: {id: user.id},
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                $("#friendList").empty();
+                $.each(data.data, function (index, item) {
+                    var html = "<input type='checkbox'  lay-skin='primary' name='friend' data-id='" + item.id + "' title='" + item.nickName + "' checked=''>"
+                    $("#friendList").append(html);
+                });
+            },
+            error: function (data) {
+            }
+        });
+        form.on('submit(createGroupSubmit)', function () {
+            var ids = [];
+            $("input:checkbox[name='friend']:checked").each(function (i) {
+                ids.push($(this).data('id'));
+            });
+            $.ajax({
+                url: "/security/createGroup",
+                data: JSON.stringify({adminId: user.id, friendIds: ids}),
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    parent.layer.close(data.data);
+                    parent.layer.close(10);
+                },
+                error: function (data) {
+                }
+            });
+        });
+        form.render();
+    });
+</script>
+</body>
+</html>

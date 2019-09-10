@@ -1,6 +1,7 @@
 package com.ghj.web.service;
 
 
+import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.web.vo.GroupVO;
@@ -53,4 +54,6 @@ public interface SecurityService {
     Boolean refuseFriend(Long validationMessageId);
 
     Boolean agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
+
+    Boolean createGroup(GroupRequest groupRequest);
 }

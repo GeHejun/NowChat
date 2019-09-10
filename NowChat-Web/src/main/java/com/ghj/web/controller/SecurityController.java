@@ -1,6 +1,7 @@
 package com.ghj.web.controller;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
 import com.ghj.common.exception.UserException;
@@ -97,5 +98,10 @@ public class SecurityController {
     @RequestMapping("/refuseFriend")
     public ResultVO<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId) {
         return ResultVO.defaultSuccess(securityService.refuseFriend(validationMessageId));
+    }
+
+    @RequestMapping("/createGroup")
+    public ResultVO<Boolean> createGroup(@RequestBody GroupRequest groupRequest) {
+        return ResultVO.defaultSuccess(securityService.createGroup(groupRequest));
     }
 }

@@ -1,6 +1,7 @@
 package com.ghj.web.service;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
 import com.ghj.web.vo.ResultVO;
@@ -287,4 +288,8 @@ public interface RestService {
     @RequestMapping("/groupToUser/agreeGroup")
     @ResponseBody
     Result<Boolean> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId);
+
+    @RequestMapping("/userGroup/createGroup")
+    @ResponseBody
+    Result<Boolean> createGroup(GroupRequest groupRequest);
 }

@@ -1,6 +1,7 @@
 package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
 import com.ghj.rest.service.UserGroupService;
 import org.springframework.stereotype.Controller;
@@ -35,5 +36,10 @@ public class UserGroupController {
     }
 
 
+    @RequestMapping("/userGroup/createGroup")
+    @ResponseBody
+    public Result<Boolean> createGroup(GroupRequest groupRequest) {
+        return Result.defaultSuccess(userGroupService.createGroup(groupRequest));
+    }
 
 }
