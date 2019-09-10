@@ -41,12 +41,12 @@
         });
         form.on('submit(createGroupSubmit)', function () {
             var ids = [];
-            $("input:checkbox[name='friend']:checked").each(function (i) {
+            $("input:checkbox[name='friend']:checked").each(function () {
                 ids.push($(this).data('id'));
             });
             $.ajax({
                 url: "/security/createGroup",
-                data: JSON.stringify({adminId: user.id, friendIds: ids}),
+                data: JSON.stringify({name:$("#name").val(),adminId: user.id, friendIds: ids}),
                 type: "POST",
                 dataType: "json",
                 success: function (data) {
