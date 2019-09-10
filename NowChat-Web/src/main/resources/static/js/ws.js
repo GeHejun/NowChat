@@ -1,4 +1,4 @@
-let wsUri = "ws://www.huichat.cn:9998/";
+let wsUri = "ws://127.0.0.1:9998/";
 var deviceId = parseInt(10 * Math.random() + 1);
 var websocket;
 let routeMsgId = 10000;

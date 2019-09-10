@@ -310,6 +310,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
       ,'<option value="{{ item.id }}">{{ item.groupname }}</option>'
       ,'{{# }); }}'
     ,'</select>'
+    ,'<input id="LAY_newFriendGroupName" placeholder="请输入新的好友分组"  class="layui-input"/>'
     ,'{{# } }}'
     ,'{{# if(d.data.type === "group"){ }}'
       ,'<p>请输入验证信息</p>'
