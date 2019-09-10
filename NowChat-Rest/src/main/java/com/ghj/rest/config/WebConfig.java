@@ -12,18 +12,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-    }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
 
-//        registry.addViewController("/").setViewName("forward:/index.html");
-//
-//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//
-//        WebMvcConfigurer.super.addViewControllers(registry);
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SecurityInterceptor())
+                //排除拦截
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/logout")
+                //拦截路径
+                .addPathPatterns("/**");
+    }
+
+
 }
