@@ -92,8 +92,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
-        return restService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId).getData();
+    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName) {
+        return restService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName).getData();
     }
 
     @Override
@@ -102,8 +102,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName) {
-        return restService.agreeGroup(validationMessageId, fromUserId, toGroupId, newFriendGroupName).getData();
+    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId) {
+        return restService.agreeGroup(validationMessageId, fromUserId, toGroupId).getData();
     }
 
     @Override

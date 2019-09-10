@@ -44,7 +44,7 @@
             <input type="button" class="layui-btn" lay-submit lay-filter="searchSubmit" value="搜索">
         </div>
         <div class="layui-input-inline">
-            <input type="button" class="layui-btn" lay-submit lay-filter="toCreateGroupSubmit" value="创建群聊">
+            <input type="button" class="layui-btn" onclick="toCreateGroup()" value="创建群聊">
         </div>
         <ul class="itemList" id="itemList"></ul>
     </div>
@@ -106,14 +106,25 @@
             return false;
         });
 
-        form.on('submit(toCreateGroupSubmit)', function () {
-            parent.layer.iframeSrc("creategroup.html", 10);
-            return false;
-        });
+
     });
-    var validationToUserId;
+    var createGroupIndex;
+    function toCreateGroup() {
+        createGroupIndex = parent.layer.open({
+            type: 2
+            ,title: '创建群组'
+            ,shade: false
+            ,maxmin: true
+            ,area: ['1000px', '520px']
+            ,skin: 'layui-box layui-layer-border'
+            ,resize: false
+            ,content: '/layui/css/modules/layim/html/creategroup.html'
+        });
+        return false;
+    };
+
     function addFriend(avatar, toUserId, nickName) {
-        validationToUserId = toUserId;
+        var validationToUserId = toUserId;
         parent.layui.layim.add({
             type: 'friend'
             , username: nickName
@@ -152,7 +163,7 @@
         });
     }
     function addGroup(toUserId, groupId, groupName) {
-        validationToUserId = toUserId;
+        var validationToUserId = toUserId;
         parent.layui.layim.add({
             type: 'group'
             , username: groupName

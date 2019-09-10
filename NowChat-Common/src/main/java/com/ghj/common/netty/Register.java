@@ -59,10 +59,10 @@ public class Register {
                 }
 
                 //获取本地ip地址
-//                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
-//                String ip = inetSocketAddress.getAddress().getHostAddress();
+                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
+                String ip = inetSocketAddress.getAddress().getHostAddress();
                 //获取ipv4的ip地址
-                String ip = getLocalIpv4Address();
+//                String ip = getLocalIpv4Address();
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {

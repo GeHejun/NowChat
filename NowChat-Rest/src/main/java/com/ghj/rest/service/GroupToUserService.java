@@ -23,7 +23,7 @@ public interface GroupToUserService {
      */
     List<Integer> findUserIdByGroupId(Integer groupId);
 
-    Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName);
+    Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
 
 
 }

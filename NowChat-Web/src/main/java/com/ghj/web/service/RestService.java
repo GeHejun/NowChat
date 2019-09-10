@@ -279,7 +279,8 @@ public interface RestService {
                                 @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                 @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                 @NotNull @RequestParam("toUserId") Integer toUserId,
-                                @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId);
+                                @RequestParam("toFriendGroupId") Integer toFriendGroupId,
+                                @RequestParam("newFriendGroupName") String newFriendGroupName);
 
     @RequestMapping("/friend/refuseFriend")
     @ResponseBody
@@ -287,7 +288,7 @@ public interface RestService {
 
     @RequestMapping("/groupToUser/agreeGroup")
     @ResponseBody
-    Result<Integer> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId, @RequestParam("toGroupId") Integer toGroupId, @RequestParam("newFriendGroupName") String newFriendGroupName);
+    Result<Integer> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId, @RequestParam("toGroupId") Integer toGroupId);
 
     @RequestMapping("/userGroup/createGroup")
     @ResponseBody

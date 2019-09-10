@@ -174,7 +174,7 @@
                     , toGroupId = li.data("togroupid")
                     , toGroupName = li.data("togroupname")
                     , user = cache[uid];
-                if (toGroupId == undefined) {
+                if (toGroupId == null) {
                     //选择分组
                     parent.layui.layim.setFriendGroup({
                         type: 'friend'
@@ -182,7 +182,7 @@
                         , avatar: user.avatar
                         , group: parent.layui.layim.cache().friend //获取好友分组数据
                         , submit: function (group, index, newFriendGroupName) {
-                            if (newFriendGroupName == undefined && group != undefined) {
+                            if (newFriendGroupName == null && group != null) {
                                 //将好友追加到主面板
                                 parent.layui.layim.addList({
                                     type: 'friend'

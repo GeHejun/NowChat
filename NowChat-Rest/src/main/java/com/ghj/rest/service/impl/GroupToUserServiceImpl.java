@@ -34,8 +34,6 @@ public class GroupToUserServiceImpl implements GroupToUserService {
     @Resource
     SystemMessageMapper systemMessageMapper;
 
-    @Resource
-    FriendGroupMapper friendGroupMapper;
 
 
 
@@ -60,14 +58,8 @@ public class GroupToUserServiceImpl implements GroupToUserService {
     }
 
     @Override
-    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName) {
+    public Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId) {
         try {
-            if (newFriendGroupName != null) {
-                FriendGroup friendGroup = new FriendGroup();
-                friendGroup.setName(newFriendGroupName);
-                friendGroup.setUserId(toGroupId);
-                toGroupId = friendGroupMapper.insertAndGetId(friendGroup);
-            }
             SystemMessage systemMessage = systemMessageMapper.selectByPrimaryKey(validationMessageId);
             systemMessage.setHandleResult(Constant.AGREE_VALIDATION_MESSAGE);
             systemMessageMapper.updateByPrimaryKey(systemMessage);

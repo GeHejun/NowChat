@@ -2,10 +2,12 @@ package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.FriendResponse;
+import com.ghj.rest.dao.FriendGroupMapper;
 import com.ghj.rest.dao.FriendMapper;
 import com.ghj.rest.dao.SystemMessageMapper;
 import com.ghj.rest.dao.UserMapper;
 import com.ghj.rest.model.Friend;
+import com.ghj.rest.model.FriendGroup;
 import com.ghj.rest.model.SystemMessage;
 import com.ghj.rest.model.User;
 import com.ghj.rest.service.FriendService;
@@ -33,6 +35,9 @@ public class FriendServiceImpl implements FriendService {
     @Resource
     SystemMessageMapper systemMessageMapper;
 
+    @Resource
+    FriendGroupMapper friendGroupMapper;
+
     @Override
     public List<FriendResponse> listFriendsByUserId(Integer userId) {
         List<Friend> friendList = friendMapper.listFriendListByUserId(userId);
@@ -47,8 +52,15 @@ public class FriendServiceImpl implements FriendService {
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId) {
+    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName) {
         try {
+            if (newFriendGroupName != null) {
+                FriendGroup friendGroup = new FriendGroup();
+                friendGroup.setName(newFriendGroupName);
+                friendGroup.setUserId(toUserId);
+                friendGroupMapper.insertAndGetId(friendGroup);
+                toFriendGroupId = friendGroup.getId();
+            }
             SystemMessage systemMessage = systemMessageMapper.selectByPrimaryKey(validationMessageId);
             systemMessage.setHandleResult(Constant.AGREE_VALIDATION_MESSAGE);
             systemMessageMapper.updateByPrimaryKey(systemMessage);

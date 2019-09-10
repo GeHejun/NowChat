@@ -311,7 +311,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
       ,'{{# }); }}'
     ,'</select>'
     ,'{{# if(d.type === "setGroup"){ }}'
-      ,'<input id="LAY_newFriendGroupName" placeholder="请输入新的好友分组"  class="layui-input"/>'
+      ,'<input id="LAY_newFriendGroupName" placeholder="选项中没有想要分组，可以创建新的好友分组"  class="layui-input"/>'
     ,'{{# } }}'
     ,'{{# } }}'
     ,'{{# if(d.data.type === "group"){ }}'
@@ -803,7 +803,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
         ,remarkElem = layero.find('#LAY_layimRemark')
         ,newFriendGroupName = layero.find("#LAY_newFriendGroupName")
         if(type){
-          data.submit && data.submit(groupElem.val(),  index, newFriendGroupName);
+          data.submit && data.submit(groupElem.val(),  index, newFriendGroupName.val());
         } else {
           data.submit && data.submit(groupElem.val(),  remarkElem.val(), index);
         }

@@ -39,8 +39,9 @@ public class FriendController {
                                 @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                 @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                 @NotNull @RequestParam("toUserId") Integer toUserId,
-                                @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
-        return Result.defaultSuccess(friendService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+                                @RequestParam("toFriendGroupId") Integer toFriendGroupId,
+                                @RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return Result.defaultSuccess(friendService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName));
     }
 
     @RequestMapping("/refuseFriend")

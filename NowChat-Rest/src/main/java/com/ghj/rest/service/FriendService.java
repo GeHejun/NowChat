@@ -16,7 +16,7 @@ public interface FriendService {
      */
     List<FriendResponse> listFriendsByUserId(Integer userId);
 
-    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
+    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName);
 
     Boolean refuseFriend(Long validationMessageId);
 }

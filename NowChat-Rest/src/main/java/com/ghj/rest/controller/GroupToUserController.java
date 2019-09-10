@@ -38,8 +38,8 @@ public class GroupToUserController {
 
     @RequestMapping("/agreeGroup")
     @ResponseBody
-    public Result<Integer> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId, @RequestParam("newFriendGroupName") String newFriendGroupName) {
-        return Result.defaultSuccess(groupToUserService.agreeGroup(validationMessageId, fromUserId, toGroupId, newFriendGroupName));
+    public Result<Integer> agreeGroup(@RequestParam("validationMessageId") Long validationMessageId,@RequestParam("fromUserId") Integer fromUserId,@RequestParam("toGroupId") Integer toGroupId) {
+        return Result.defaultSuccess(groupToUserService.agreeGroup(validationMessageId, fromUserId, toGroupId));
     }
 
 }

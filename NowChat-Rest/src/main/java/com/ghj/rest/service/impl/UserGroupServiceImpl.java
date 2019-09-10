@@ -59,7 +59,8 @@ public class UserGroupServiceImpl implements UserGroupService {
             userGroup.setAdminId(groupRequest.getAdminId());
             userGroup.setCreateTime(new Date());
             userGroup.setName(groupRequest.getName());
-            int groupId = userGroupMapper.insertAndGetId(userGroup);
+            userGroupMapper.insertAndGetId(userGroup);
+            Integer groupId = userGroup.getId();
             groupRequest.getFriendIds().forEach(id -> {
                 User user = userMapper.selectByPrimaryKey(id);
                 GroupToUser groupToUser = new GroupToUser();

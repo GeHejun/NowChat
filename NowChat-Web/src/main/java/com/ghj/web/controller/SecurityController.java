@@ -83,17 +83,17 @@ public class SecurityController {
                                          @NotNull @RequestParam("fromUserId") Integer fromUserId,
                                          @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
                                          @NotNull @RequestParam("toUserId") Integer toUserId,
-                                         @NotNull @RequestParam("toFriendGroupId") Integer toFriendGroupId) {
-        return ResultVO.defaultSuccess(securityService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId));
+                                         @RequestParam("toFriendGroupId") Integer toFriendGroupId,
+                                         @RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return ResultVO.defaultSuccess(securityService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName));
     }
 
     @RequestMapping("/agreeGroup")
     public ResultVO<Integer> agreeGroup(
             @NotNull @RequestParam("validationMessageId") Long validationMessageId,
             @NotNull @RequestParam("fromUserId") Integer fromUserId,
-            @RequestParam("toGroupId") Integer toGroupId,
-            @RequestParam("newFriendGroupName") String newFriendGroupName) {
-        return ResultVO.defaultSuccess(securityService.agreeGroup(validationMessageId, fromUserId, toGroupId, newFriendGroupName));
+            @RequestParam("toGroupId") Integer toGroupId) {
+        return ResultVO.defaultSuccess(securityService.agreeGroup(validationMessageId, fromUserId, toGroupId));
     }
 
     @RequestMapping("/refuseFriend")

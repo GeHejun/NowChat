@@ -49,11 +49,11 @@ public interface SecurityService {
      */
     List<GroupVO> findGroup(String name);
 
-    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId);
+    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName);
 
     Boolean refuseFriend(Long validationMessageId);
 
-    Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId, String newFriendGroupName);
+    Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
 
     Boolean createGroup(GroupRequest groupRequest);
 }
