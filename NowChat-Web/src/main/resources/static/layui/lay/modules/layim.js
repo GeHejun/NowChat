@@ -310,7 +310,9 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
       ,'<option value="{{ item.id }}">{{ item.groupname }}</option>'
       ,'{{# }); }}'
     ,'</select>'
-    ,'<input id="LAY_newFriendGroupName" placeholder="请输入新的好友分组"  class="layui-input"/>'
+    ,'{{# if(d.type === "setGroup"){ }}'
+      ,'<input id="LAY_newFriendGroupName" placeholder="请输入新的好友分组"  class="layui-input"/>'
+    ,'{{# } }}'
     ,'{{# } }}'
     ,'{{# if(d.data.type === "group"){ }}'
       ,'<p>请输入验证信息</p>'
@@ -799,10 +801,11 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
       ,yes: function(index, layero){
         var groupElem = layero.find('#LAY_layimGroup')
         ,remarkElem = layero.find('#LAY_layimRemark')
+        ,newFriendGroupName = layero.find("#LAY_newFriendGroupName")
         if(type){
-          data.submit && data.submit(groupElem.val(), index);
+          data.submit && data.submit(groupElem.val(),  index, newFriendGroupName);
         } else {
-          data.submit && data.submit(groupElem.val(), remarkElem.val(), index);
+          data.submit && data.submit(groupElem.val(),  remarkElem.val(), index);
         }
       }
     });
