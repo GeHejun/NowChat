@@ -311,7 +311,7 @@ layui.define(['layer', 'laytpl', 'upload'], function(exports){
       ,'{{# }); }}'
     ,'</select>'
     ,'{{# if(d.type === "setGroup"){ }}'
-      ,'<input id="LAY_newFriendGroupName" placeholder="选项中没有想要分组，可以创建新的好友分组"  class="layui-input"/>'
+      ,'<input id="LAY_newFriendGroupName" placeholder="可以在此创建新的好友分组"  class="layui-input"/>'
     ,'{{# } }}'
     ,'{{# } }}'
     ,'{{# if(d.data.type === "group"){ }}'
