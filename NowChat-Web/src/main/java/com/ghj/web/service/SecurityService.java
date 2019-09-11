@@ -1,6 +1,7 @@
 package com.ghj.web.service;
 
 
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
@@ -49,7 +50,7 @@ public interface SecurityService {
      */
     List<GroupVO> findGroup(String name);
 
-    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName);
+    Boolean agreeFriend(FriendRequest friendRequest);
 
     Boolean refuseFriend(Long validationMessageId);
 

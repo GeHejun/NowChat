@@ -2,6 +2,7 @@ package com.ghj.web.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
@@ -92,8 +93,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName) {
-        return restService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName).getData();
+    public Boolean agreeFriend(FriendRequest friendRequest) {
+        return restService.agreeFriend(friendRequest).getData();
     }
 
     @Override

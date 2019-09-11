@@ -134,7 +134,14 @@ layui.use(['layim','notice'], function () {
                     //每次窗口打开或切换，即更新对方的状态
                     layim.on('chatChange', function (res) {
                         //标注成已读
-                        $.post('/index/readMessage', {type:res.data.type, fromUserId:res.data.id, toUserId:user.id});
+                        $.post('/index/readMessage',
+                            {type:res.data.type, fromUserId:res.data.id, toUserId:user.id},
+                            function (res) {
+                            if (res.code != 0) {
+                                return layer.msg(res.msg);
+                            }
+                        });
+
                         //查询好友状态
                         var type = res.data.type;
                         if (type === 'friend') {

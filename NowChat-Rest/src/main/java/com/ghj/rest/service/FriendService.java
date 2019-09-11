@@ -1,5 +1,6 @@
 package com.ghj.rest.service;
 
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.response.FriendResponse;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface FriendService {
      */
     List<FriendResponse> listFriendsByUserId(Integer userId);
 
-    Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName);
+    Boolean agreeFriend(FriendRequest friendRequest);
 
     Boolean refuseFriend(Long validationMessageId);
 }

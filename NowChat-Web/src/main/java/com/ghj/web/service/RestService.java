@@ -1,6 +1,7 @@
 package com.ghj.web.service;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.*;
@@ -275,12 +276,7 @@ public interface RestService {
 
     @RequestMapping("/friend/agreeFriend")
     @ResponseBody
-    Result<Boolean> agreeFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId,
-                                @NotNull @RequestParam("fromUserId") Integer fromUserId,
-                                @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
-                                @NotNull @RequestParam("toUserId") Integer toUserId,
-                                @RequestParam("toFriendGroupId") Integer toFriendGroupId,
-                                @RequestParam("newFriendGroupName") String newFriendGroupName);
+    Result<Boolean> agreeFriend(@RequestBody FriendRequest friendRequest);
 
     @RequestMapping("/friend/refuseFriend")
     @ResponseBody

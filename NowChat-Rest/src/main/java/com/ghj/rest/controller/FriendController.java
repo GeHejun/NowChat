@@ -1,9 +1,11 @@
 package com.ghj.rest.controller;
 
 import com.ghj.common.base.Result;
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.rest.service.FriendService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,14 +36,8 @@ public class FriendController {
 
     @RequestMapping("/agreeFriend")
     @ResponseBody
-    public Result<Boolean> agreeFriend(
-                                @NotNull @RequestParam("validationMessageId") Long validationMessageId,
-                                @NotNull @RequestParam("fromUserId") Integer fromUserId,
-                                @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
-                                @NotNull @RequestParam("toUserId") Integer toUserId,
-                                @RequestParam("toFriendGroupId") Integer toFriendGroupId,
-                                @RequestParam("newFriendGroupName") String newFriendGroupName) {
-        return Result.defaultSuccess(friendService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName));
+    public Result<Boolean> agreeFriend(@RequestBody FriendRequest friendRequest) {
+        return Result.defaultSuccess(friendService.agreeFriend(friendRequest));
     }
 
     @RequestMapping("/refuseFriend")

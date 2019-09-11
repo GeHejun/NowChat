@@ -1,6 +1,7 @@
 package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.response.FriendResponse;
 import com.ghj.rest.dao.FriendGroupMapper;
 import com.ghj.rest.dao.FriendMapper;
@@ -52,30 +53,30 @@ public class FriendServiceImpl implements FriendService {
 
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public Boolean agreeFriend(Long validationMessageId, Integer fromUserId, Integer fromFriendGroupId, Integer toUserId, Integer toFriendGroupId, String newFriendGroupName) {
+    public Boolean agreeFriend(FriendRequest friendRequest) {
         try {
-            if (newFriendGroupName != null) {
+            if (friendRequest.getNewFriendGroupName() != null) {
                 FriendGroup friendGroup = new FriendGroup();
-                friendGroup.setName(newFriendGroupName);
-                friendGroup.setUserId(toUserId);
+                friendGroup.setName(friendRequest.getNewFriendGroupName());
+                friendGroup.setUserId(friendRequest.getToUserId());
                 friendGroupMapper.insertAndGetId(friendGroup);
-                toFriendGroupId = friendGroup.getId();
+                friendRequest.setToFriendGroupId(friendGroup.getId());
             }
-            SystemMessage systemMessage = systemMessageMapper.selectByPrimaryKey(validationMessageId);
+            SystemMessage systemMessage = systemMessageMapper.selectByPrimaryKey(friendRequest.getValidationMessageId());
             systemMessage.setHandleResult(Constant.AGREE_VALIDATION_MESSAGE);
             systemMessageMapper.updateByPrimaryKey(systemMessage);
-            User toUser = userMapper.selectByPrimaryKey(toUserId);
+            User toUser = userMapper.selectByPrimaryKey(friendRequest.getToUserId());
             Friend toFriend = new Friend();
-            toFriend.setUserId(fromUserId);
-            toFriend.setFriendId(toUserId);
+            toFriend.setUserId(friendRequest.getFromUserId());
+            toFriend.setFriendId(friendRequest.getToUserId());
             toFriend.setName(toUser.getName());
-            toFriend.setFriendGroupId(toFriendGroupId);
+            toFriend.setFriendGroupId(friendRequest.getToFriendGroupId());
             friendMapper.insert(toFriend);
-            User fromUser = userMapper.selectByPrimaryKey(fromUserId);
+            User fromUser = userMapper.selectByPrimaryKey(friendRequest.getFromUserId());
             Friend fromFriend = new Friend();
-            fromFriend.setUserId(toUserId);
-            fromFriend.setFriendId(fromUserId);
-            fromFriend.setFriendGroupId(fromFriendGroupId);
+            fromFriend.setUserId(friendRequest.getToUserId());
+            fromFriend.setFriendId(friendRequest.getFromUserId());
+            fromFriend.setFriendGroupId(friendRequest.getToFriendGroupId());
             fromFriend.setName(fromUser.getName());
             friendMapper.insert(fromFriend);
         } catch (RuntimeException e) {

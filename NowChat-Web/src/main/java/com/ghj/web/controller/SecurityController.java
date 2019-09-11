@@ -1,6 +1,7 @@
 package com.ghj.web.controller;
 
 import com.ghj.common.base.Constant;
+import com.ghj.common.dto.request.FriendRequest;
 import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.request.UserRequest;
 import com.ghj.common.dto.response.UserResponse;
@@ -78,14 +79,8 @@ public class SecurityController {
     }
 
     @RequestMapping("/agreeFriend")
-    public ResultVO<Boolean> agreeFriend(
-                                         @NotNull @RequestParam("validationMessageId") Long validationMessageId,
-                                         @NotNull @RequestParam("fromUserId") Integer fromUserId,
-                                         @NotNull @RequestParam("fromFriendGroupId") Integer fromFriendGroupId,
-                                         @NotNull @RequestParam("toUserId") Integer toUserId,
-                                         @RequestParam("toFriendGroupId") Integer toFriendGroupId,
-                                         @RequestParam("newFriendGroupName") String newFriendGroupName) {
-        return ResultVO.defaultSuccess(securityService.agreeFriend(validationMessageId, fromUserId, fromFriendGroupId, toUserId, toFriendGroupId, newFriendGroupName));
+    public ResultVO<Boolean> agreeFriend(@RequestBody FriendRequest friendRequest) {
+        return ResultVO.defaultSuccess(securityService.agreeFriend(friendRequest));
     }
 
     @RequestMapping("/agreeGroup")
