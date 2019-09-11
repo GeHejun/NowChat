@@ -207,14 +207,7 @@
                                 if (res.code != 0) {
                                     return layer.msg(res.data);
                                 } else {
-                                    parent.layui.layim.addList({
-                                        type: 'friend'
-                                        , avatar: user.avatar //好友头像
-                                        , username: user.username //好友昵称
-                                        , groupid: res.data //所在的分组id
-                                        , id: uid //好友ID
-                                        , sign: user.sign //好友签名
-                                    });
+                                    //TODO 刷新好友群组和好友列表
                                     agreeOrRefuseValidationMessage(uid)
                                 }
 

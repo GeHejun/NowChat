@@ -63,7 +63,8 @@
                         parent.layer.warn(data.data);
                         return;
                     } else {
-                        parent.layer.warn(data.data);
+                        //TODO 刷新群组
+                        parent.layer.success(data.data);
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
                     }
