@@ -292,5 +292,5 @@ public interface RestService {
 
     @RequestMapping("/userGroup/createGroup")
     @ResponseBody
-    Result<Boolean> createGroup(GroupRequest groupRequest);
+    Result<Boolean> createGroup(@RequestBody GroupRequest groupRequest);
 }

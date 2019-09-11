@@ -5,6 +5,7 @@ import com.ghj.common.dto.request.GroupRequest;
 import com.ghj.common.dto.response.UserGroupResponse;
 import com.ghj.rest.service.UserGroupService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,9 +37,9 @@ public class UserGroupController {
     }
 
 
-    @RequestMapping("/userGroup/createGroup")
+    @RequestMapping("/createGroup")
     @ResponseBody
-    public Result<Boolean> createGroup(GroupRequest groupRequest) {
+    public Result<Boolean> createGroup(@RequestBody GroupRequest groupRequest) {
         return Result.defaultSuccess(userGroupService.createGroup(groupRequest));
     }
 
