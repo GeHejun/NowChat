@@ -11,8 +11,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.net.*;
-import java.util.Enumeration;
+import java.net.InetSocketAddress;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -59,10 +58,8 @@ public class Register {
                 }
 
                 //获取本地ip地址
-//                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
-//                String ip = inetSocketAddress.getAddress().getHostAddress();
-                //获取ipv4的ip地址
-                String ip = getIp();
+                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
+                String ip = inetSocketAddress.getAddress().getHostAddress();
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
@@ -81,34 +78,4 @@ public class Register {
         channelFuture.channel().writeAndFlush(registerMessage);
     }
 
-    public static String getIp() {
-        String localip = null;
-        String netip = null;
-        try {
-            Enumeration netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip;
-            boolean finded = false;
-            while (netInterfaces.hasMoreElements() && !finded) {
-                NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
-                Enumeration address = ni.getInetAddresses();
-                while (address.hasMoreElements()) {
-                    ip = (InetAddress) address.nextElement();
-                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
-                        netip = ip.getHostAddress();
-                        finded = true;
-                        break;
-                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
-                        localip = ip.getHostAddress();
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
-        }
-    }
 }
