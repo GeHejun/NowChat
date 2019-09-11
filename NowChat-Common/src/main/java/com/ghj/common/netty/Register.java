@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
+import com.ghj.common.util.CustomSystemUtil;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.Bootstrap;
@@ -58,8 +59,9 @@ public class Register {
                 }
 
                 //获取本地ip地址
-                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
-                String ip = inetSocketAddress.getAddress().getHostAddress();
+//                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
+//                String ip = inetSocketAddress.getAddress().getHostAddress();
+                String ip = CustomSystemUtil.INTERNET_IP;
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
