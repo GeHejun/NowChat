@@ -62,7 +62,7 @@ public class Register {
 //                InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
 //                String ip = inetSocketAddress.getAddress().getHostAddress();
                 //获取ipv4的ip地址
-                String ip = getLocalIpv4Address();
+                String ip = getIp();
                 reRegister(ip, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
@@ -81,28 +81,34 @@ public class Register {
         channelFuture.channel().writeAndFlush(registerMessage);
     }
 
-    public static String getLocalIpv4Address() throws SocketException {
-        Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
-        String siteLocalAddress = null;
-        while (ifaces.hasMoreElements()) {
-            NetworkInterface iface = ifaces.nextElement();
-            Enumeration<InetAddress> addresses = iface.getInetAddresses();
-            while (addresses.hasMoreElements()) {
-                InetAddress addr = addresses.nextElement();
-                String hostAddress = addr.getHostAddress();
-                if (addr instanceof Inet4Address
-                        && !addr.isLoopbackAddress()
-                        && !hostAddress.startsWith("192.168")
-                        && !hostAddress.startsWith("172.")
-                        && !hostAddress.startsWith("169.")) {
-                    if (addr.isSiteLocalAddress()) {
-                        siteLocalAddress = hostAddress;
-                    } else {
-                        return hostAddress;
+    public static String getIp() {
+        String localip = null;
+        String netip = null;
+        try {
+            Enumeration netInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip;
+            boolean finded = false;
+            while (netInterfaces.hasMoreElements() && !finded) {
+                NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
+                Enumeration address = ni.getInetAddresses();
+                while (address.hasMoreElements()) {
+                    ip = (InetAddress) address.nextElement();
+                    if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
+                        netip = ip.getHostAddress();
+                        finded = true;
+                        break;
+                    } else if (ip.isSiteLocalAddress() && !ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {
+                        localip = ip.getHostAddress();
                     }
                 }
             }
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
-        return siteLocalAddress == null ? "" : siteLocalAddress;
+        if (netip != null && !"".equals(netip)) {
+            return netip;
+        } else {
+            return localip;
+        }
     }
 }
