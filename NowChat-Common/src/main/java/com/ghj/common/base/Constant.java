@@ -140,4 +140,6 @@ public class Constant {
 
     public static final String REGISTRY_PORT = "registry.port";
 
+    public static final String PUBLIC_NETWORK_IP = "public.network.ip";
+
 }
