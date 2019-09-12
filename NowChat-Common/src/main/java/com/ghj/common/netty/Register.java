@@ -16,7 +16,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.ghj.common.base.Constant.CODE_KEY;
-import static com.ghj.common.base.Constant.PUBLIC_NETWORK_IP;
 
 /**
  * @author gehj
@@ -61,8 +60,8 @@ public class Register {
                 //获取本地ip地址
                 InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
                 String localNetworkIp = inetSocketAddress.getAddress().getHostAddress();
-                String ip = PropertiesUtil.getInstance().getValue(PUBLIC_NETWORK_IP, localNetworkIp);
-                reRegister(ip, connector, connectType, messageBehavior, channelFuture);
+//                String ip = PropertiesUtil.getInstance().getValue(PUBLIC_NETWORK_IP, localNetworkIp);
+                reRegister(localNetworkIp, connector, connectType, messageBehavior, channelFuture);
             });
         } catch (Exception e) {
             e.printStackTrace();

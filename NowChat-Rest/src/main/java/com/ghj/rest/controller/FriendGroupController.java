@@ -28,6 +28,11 @@ public class FriendGroupController {
     public Result<FriendGroupResponse> queryGroupById(@NotNull @RequestParam("id") Integer id) {
         FriendGroupResponse friendGroupResponse = friendGroupService.queryGroupById(id);
         return Result.defaultSuccess(friendGroupResponse);
+    }
 
+    @RequestMapping("/createNewFriendGroup")
+    @ResponseBody
+    public Result<Integer> createNewFriendGroup(@RequestParam("userId") Integer userId,  @RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return Result.defaultSuccess(friendGroupService.createNewFriendGroup(userId , newFriendGroupName));
     }
 }

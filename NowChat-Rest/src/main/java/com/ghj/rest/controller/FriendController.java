@@ -47,9 +47,5 @@ public class FriendController {
     }
 
 
-    @RequestMapping("/createNewFriendGroup")
-    @ResponseBody
-    public Result<Integer> createNewFriendGroup(@RequestParam("userId") Integer userId,  @RequestParam("newFriendGroupName") String newFriendGroupName) {
-        return Result.defaultSuccess(friendService.createNewFriendGroup(userId , newFriendGroupName));
-    }
+
 }

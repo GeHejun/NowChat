@@ -16,4 +16,7 @@ public interface FriendGroupService {
      * @return
      */
     FriendGroupResponse queryGroupById(Integer id);
+
+
+    Integer createNewFriendGroup(Integer userId, String newFriendGroupName);
 }

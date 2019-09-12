@@ -21,5 +21,4 @@ public interface FriendService {
 
     Boolean refuseFriend(Long validationMessageId);
 
-    Integer createNewFriendGroup(Integer userId, String newFriendGroupName);
 }

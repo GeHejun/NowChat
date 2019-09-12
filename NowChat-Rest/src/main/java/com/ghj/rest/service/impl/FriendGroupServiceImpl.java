@@ -27,4 +27,13 @@ public class FriendGroupServiceImpl implements FriendGroupService {
         BeanUtils.copyProperties(friendGroup, friendGroupResponse);
         return friendGroupResponse;
     }
+
+    @Override
+    public Integer createNewFriendGroup(Integer userId, String newFriendGroupName) {
+        FriendGroup friendGroup = new FriendGroup();
+        friendGroup.setName(newFriendGroupName);
+        friendGroup.setUserId(userId);
+        friendGroupMapper.insertAndGetId(friendGroup);
+        return friendGroup.getId();
+    }
 }

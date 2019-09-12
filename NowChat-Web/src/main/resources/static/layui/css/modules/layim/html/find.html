@@ -63,6 +63,7 @@
             , form = layui.form
             , layim = layui.layim
             , $ = layui.jquery;
+
         //监听提交
         form.on('submit(searchSubmit)', function () {
             if ($("#type").val() == 1) {
@@ -124,6 +125,7 @@
 
     function addFriend(avatar, toUserId, nickName) {
         var validationToUserId = toUserId;
+        var user = JSON.parse(localStorage.getItem('user'));
         parent.layui.layim.add({
             type: 'friend'
             , username: nickName
@@ -133,9 +135,10 @@
                     //新建好友群组
                     $.ajax({
                         url: "/security/createNewFriendGroup",
-                        data: {userId: parent.user.id, newFriendGroupName:newFriendGroupName},
+                        data: {userId: user.id, newFriendGroupName:newFriendGroupName},
                         type: "POST",
                         dataType: "json",
+                        async: false,
                         success: function (data) {
                             group = data.data;
                         },
@@ -143,7 +146,7 @@
                     });
                 }
                 if (group == null) {
-                    parent.layer.warn("请先选择好友分组或创建新的分组");
+                    parent.layer.error("请先选择好友分组或创建新的分组");
                 }
                 parent.layer.msg('好友申请已发送，请等待对方确认', {
                     icon: 1

@@ -41,14 +41,14 @@
 
 <script src="/layui/layui.js"></script>
 <script>
-    var user = JSON.parse(localStorage.getItem('user'));
+
     layui.use(['layim', 'laypage', 'jquery'], function () {
         var layim = layui.layim
             , layer = layui.layer
             , laytpl = layui.laytpl
             , $ = layui.jquery
             , laypage = layui.laypage;
-
+        var user = JSON.parse(localStorage.getItem('user'));
         //聊天记录的分页此处不做演示，你可以采用laypage，不了解的同学见文档：http://www.layui.com/doc/modules/laypage.html
         //执行一个laypage实例
 
