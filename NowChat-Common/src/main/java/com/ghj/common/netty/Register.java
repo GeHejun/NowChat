@@ -58,6 +58,7 @@ public class Register {
                     throw new ServerException();
                 }
 
+
                 //获取本地ip地址
                 InetSocketAddress inetSocketAddress = (InetSocketAddress) channelFuture.channel().localAddress();
                 String localNetworkIp = inetSocketAddress.getAddress().getHostAddress();
