@@ -20,4 +20,6 @@ public interface FriendService {
     Boolean agreeFriend(FriendRequest friendRequest);
 
     Boolean refuseFriend(Long validationMessageId);
+
+    Integer createNewFriendGroup(Integer userId, String newFriendGroupName);
 }

@@ -289,4 +289,8 @@ public interface RestService {
     @RequestMapping("/userGroup/createGroup")
     @ResponseBody
     Result<Boolean> createGroup(@RequestBody GroupRequest groupRequest);
+
+    @RequestMapping("/friendGroup/createNewFriendGroup")
+    @ResponseBody
+    Integer createNewFriendGroup(@RequestParam("userId") Integer userId, @RequestParam("newFriendGroupName") String newFriendGroupName);
 }

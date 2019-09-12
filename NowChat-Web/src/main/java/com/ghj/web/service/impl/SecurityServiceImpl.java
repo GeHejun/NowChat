@@ -111,4 +111,9 @@ public class SecurityServiceImpl implements SecurityService {
     public Boolean createGroup(GroupRequest groupRequest) {
         return restService.createGroup(groupRequest).getData();
     }
+
+    @Override
+    public Integer createNewFriendGroup(Integer userId, String newFriendGroupName) {
+        return restService.createNewFriendGroup(userId, newFriendGroupName);
+    }
 }

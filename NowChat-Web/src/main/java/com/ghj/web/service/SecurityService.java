@@ -57,4 +57,6 @@ public interface SecurityService {
     Integer agreeGroup(Long validationMessageId, Integer fromUserId, Integer toGroupId);
 
     Boolean createGroup(GroupRequest groupRequest);
+
+    Integer createNewFriendGroup(Integer userId, String newFriendGroupName);
 }

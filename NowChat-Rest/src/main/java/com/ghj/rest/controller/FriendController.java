@@ -44,6 +44,12 @@ public class FriendController {
     @ResponseBody
     public Result<Boolean> refuseFriend(@NotNull @RequestParam("validationMessageId") Long validationMessageId) {
         return Result.defaultSuccess(friendService.refuseFriend(validationMessageId));
+    }
 
+
+    @RequestMapping("/createNewFriendGroup")
+    @ResponseBody
+    public Result<Integer> createNewFriendGroup(@RequestParam("userId") Integer userId,  @RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return Result.defaultSuccess(friendService.createNewFriendGroup(userId , newFriendGroupName));
     }
 }

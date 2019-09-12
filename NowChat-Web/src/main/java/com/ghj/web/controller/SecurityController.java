@@ -100,4 +100,9 @@ public class SecurityController {
     public ResultVO<Boolean> createGroup(@RequestBody GroupRequest groupRequest) {
         return ResultVO.defaultSuccess(securityService.createGroup(groupRequest));
     }
+
+    @RequestMapping("/createNewFriendGroup")
+    public ResultVO<Integer> createNewFriendGroup(@NotNull @RequestParam("userId") Integer userId,@RequestParam("newFriendGroupName") String newFriendGroupName) {
+        return ResultVO.defaultSuccess(securityService.createNewFriendGroup(userId, newFriendGroupName));
+    }
 }

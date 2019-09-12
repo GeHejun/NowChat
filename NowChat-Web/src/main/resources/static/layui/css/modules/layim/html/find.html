@@ -128,7 +128,23 @@
             type: 'friend'
             , username: nickName
             , avatar: avatar
-            , submit: function (group, remark, index) {
+            , submit: function (group, remark, index, newFriendGroupName) {
+                if (newFriendGroupName != null) {
+                    //新建好友群组
+                    $.ajax({
+                        url: "/security/createNewFriendGroup",
+                        data: {userId: parent.user.id, newFriendGroupName:newFriendGroupName},
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            group = data.data;
+                        },
+                        error: function (data) {}
+                    });
+                }
+                if (group == null) {
+                    parent.layer.warn("请先选择好友分组或创建新的分组");
+                }
                 parent.layer.msg('好友申请已发送，请等待对方确认', {
                     icon: 1
                     , shade: 0.5
