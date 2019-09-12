@@ -2,11 +2,9 @@ package com.ghj.rest.service.impl;
 
 import com.ghj.common.base.Constant;
 import com.ghj.common.dto.response.GroupToUserResponse;
-import com.ghj.rest.dao.FriendGroupMapper;
 import com.ghj.rest.dao.GroupToUserMapper;
 import com.ghj.rest.dao.SystemMessageMapper;
 import com.ghj.rest.dao.UserMapper;
-import com.ghj.rest.model.FriendGroup;
 import com.ghj.rest.model.GroupToUser;
 import com.ghj.rest.model.SystemMessage;
 import com.ghj.rest.model.User;

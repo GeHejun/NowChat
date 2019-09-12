@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ghj.common.base.Constant;
 import com.ghj.common.exception.ServerException;
-import com.ghj.common.util.CustomSystemUtil;
 import com.ghj.common.util.PropertiesUtil;
 import com.ghj.protocol.MessageProto;
 import io.netty.bootstrap.Bootstrap;
