@@ -146,7 +146,8 @@
                     });
                 }
                 if (group == null) {
-                    parent.layer.error("请先选择好友分组或创建新的分组");
+                    parent.layer.msg("请先选择好友分组或创建新的分组");
+                    return;
                 }
                 parent.layer.msg('好友申请已发送，请等待对方确认', {
                     icon: 1
