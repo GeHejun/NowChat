@@ -289,11 +289,11 @@ public class User implements Serializable {
         this.nationId = nationId;
     }
 
-    public Integer getProviceId() {
+    public Integer getprovinceId() {
         return provinceId;
     }
 
-    public void setProviceId(Integer provinceId) {
+    public void setprovinceId(Integer provinceId) {
         this.provinceId = provinceId;
     }
 
@@ -376,7 +376,7 @@ public class User implements Serializable {
             && (this.getSchoolTag() == null ? other.getSchoolTag() == null : this.getSchoolTag().equals(other.getSchoolTag()))
             && (this.getVocation() == null ? other.getVocation() == null : this.getVocation().equals(other.getVocation()))
             && (this.getNationId() == null ? other.getNationId() == null : this.getNationId().equals(other.getNationId()))
-            && (this.getProviceId() == null ? other.getProviceId() == null : this.getProviceId().equals(other.getProviceId()))
+            && (this.getprovinceId() == null ? other.getprovinceId() == null : this.getprovinceId().equals(other.getprovinceId()))
             && (this.getCityId() == null ? other.getCityId() == null : this.getCityId().equals(other.getCityId()))
             && (this.getUserStateId() == null ? other.getUserStateId() == null : this.getUserStateId().equals(other.getUserStateId()))
             && (this.getFriendshipPolicyId() == null ? other.getFriendshipPolicyId() == null : this.getFriendshipPolicyId().equals(other.getFriendshipPolicyId()))
@@ -408,7 +408,7 @@ public class User implements Serializable {
         result = prime * result + ((getSchoolTag() == null) ? 0 : getSchoolTag().hashCode());
         result = prime * result + ((getVocation() == null) ? 0 : getVocation().hashCode());
         result = prime * result + ((getNationId() == null) ? 0 : getNationId().hashCode());
-        result = prime * result + ((getProviceId() == null) ? 0 : getProviceId().hashCode());
+        result = prime * result + ((getprovinceId() == null) ? 0 : getprovinceId().hashCode());
         result = prime * result + ((getCityId() == null) ? 0 : getCityId().hashCode());
         result = prime * result + ((getUserStateId() == null) ? 0 : getUserStateId().hashCode());
         result = prime * result + ((getFriendshipPolicyId() == null) ? 0 : getFriendshipPolicyId().hashCode());

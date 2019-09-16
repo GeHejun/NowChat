@@ -41,11 +41,11 @@ public class City implements Serializable {
         this.code = code;
     }
 
-    public Integer getProviceId() {
+    public Integer getprovinceId() {
         return provinceId;
     }
 
-    public void setProviceId(Integer provinceId) {
+    public void setprovinceId(Integer provinceId) {
         this.provinceId = provinceId;
     }
 
@@ -64,7 +64,7 @@ public class City implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))
-            && (this.getProviceId() == null ? other.getProviceId() == null : this.getProviceId().equals(other.getProviceId()));
+            && (this.getprovinceId() == null ? other.getprovinceId() == null : this.getprovinceId().equals(other.getprovinceId()));
     }
 
     @Override
@@ -74,7 +74,7 @@ public class City implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
-        result = prime * result + ((getProviceId() == null) ? 0 : getProviceId().hashCode());
+        result = prime * result + ((getprovinceId() == null) ? 0 : getprovinceId().hashCode());
         return result;
     }
 
