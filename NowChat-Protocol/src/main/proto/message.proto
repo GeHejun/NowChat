@@ -8,7 +8,38 @@ option java_outer_classname = "MessageProto";
 
 message Message {
 
-    //所有消息类型都会存在消息ID
+    message Login {
+        int64 id = 1;
+    }
+
+    message Logout {
+        int64 id = 1;
+    }
+
+    message Ping {
+        int64 id = 1;
+    }
+
+    message Ack {
+        int64 id = 1;
+    }
+
+    message Register {
+        int64 id = 1;
+    }
+
+    message Route {
+        int64 id = 1;
+    }
+
+    message validate {
+        int64 id = 1;
+    }
+
+    message Reply {
+        int64 id = 1;
+    }
+
     int64 id = 1;
 
     //消息来源
