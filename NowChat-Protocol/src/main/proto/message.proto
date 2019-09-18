@@ -31,12 +31,23 @@ message Message {
     message Route {
         int64 id = 1;
     }
-
-    message validate {
+    message FriendMessage {
         int64 id = 1;
     }
 
-    message Reply {
+    message GroupMessage {
+        int64 id = 1;
+    }
+
+    message GroupValidate {
+        int64 id = 1;
+    }
+
+    message ReplyFriendValidate {
+        int64 id = 1;
+    }
+
+    message ReplyGroupValidate {
         int64 id = 1;
     }
 
