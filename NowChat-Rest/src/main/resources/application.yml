@@ -5,18 +5,18 @@ spring:
   application:
     name: rest
   redis:
-    host: 127.0.0.1
+    host: 140.143.125.231
     port: 6379
   datasource:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/im?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://140.143.125.231:3306/im?useUnicode=true&characterEncoding=UTF-8
   rabbitmq:
     port: 5672
     username: guest
     password: guest
-    host: 127.0.0.1
+    host: 140.143.125.231
 
 fdfs:
   soTimeout: 1500
@@ -31,7 +31,7 @@ fdfs:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://140.143.125.231:8761/eureka
 
 mybatis:
   mapper-locations: classpath:/mapper/*Mapper.xml
