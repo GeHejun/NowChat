@@ -72,6 +72,31 @@
                     <mainClass>com.ghj.web.NowChatWebApplication</mainClass>
                 </configuration>
             </plugin>
+            <!-- docker的maven插件，官网 https://github.com/spotify/docker-maven-plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <!--<serverId>gehejun-docker-account</serverId>-->
+                    <forceTags>true</forceTags>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    <pushImage>true</pushImage>
+                    <imageName>now-web</imageName>
+                    <baseImage>jdk:8</baseImage>
+                    <entryPoint>["java", "-jar","/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <dockerHost>http://140.143.125.231:2375</dockerHost>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
